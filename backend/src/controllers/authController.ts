@@ -64,6 +64,12 @@ const buildAuthenticatedUserPayload = async (user: {
 
 export const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString()
 
+const getAuthOtpDeliveryMode = () => {
+  const mode = String(process.env.AUTH_OTP_DELIVERY || 'screen').trim().toLowerCase()
+  if (mode === 'email' || mode === 'both' || mode === 'screen') return mode
+  return 'screen'
+}
+
 const sendSmsViaTwilio = async (phone: string, message: string) => {
   await client.messages.create({
     body: message,
@@ -232,10 +238,30 @@ export const requestOtp = async (req: Request, res: Response): Promise<any> => {
       })
     }
 
-    // 2. Send OTP via email
-    await sendVerificationEmail(normalizedEmail, otp)
+    // 2. Deliver OTP. In Railway/demo mode we show the code on screen instead of requiring SMTP.
+    const otpDeliveryMode = getAuthOtpDeliveryMode()
+    if (otpDeliveryMode === 'email' || otpDeliveryMode === 'both') {
+      try {
+        await sendVerificationEmail(normalizedEmail, otp)
+      } catch (emailError) {
+        if (otpDeliveryMode === 'email') throw emailError
+        console.warn('OTP email failed, continuing with on-screen OTP:', emailError)
+      }
+    }
 
-    return res.json({ message: 'OTP sent successfully to your email' })
+    const response: Record<string, string> = {
+      message:
+        otpDeliveryMode === 'email'
+          ? 'OTP sent successfully to your email'
+          : 'OTP generated successfully. Enter the code shown on screen.',
+    }
+
+    if (otpDeliveryMode === 'screen' || otpDeliveryMode === 'both') {
+      response.otp = otp
+      response.devOtp = otp
+    }
+
+    return res.json(response)
   } catch (err) {
     console.error('Error in requestOtp:', err)
     return res.status(500).json({ error: 'Something went wrong while requesting OTP' })
