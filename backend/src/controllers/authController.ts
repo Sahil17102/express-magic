@@ -28,7 +28,7 @@ import { db } from '../models/client'
 import { changeAdminPassword, loginAdmin } from '../models/services/adminAuth.service'
 import { getProfileByUserId } from '../models/services/userProfile.service'
 import { sendAccountActivatedEmail } from '../models/services/eventEmail.service'
-import { employees } from '../schema/schema'
+import { employees, userProfiles, users, wallets } from '../schema/schema'
 import { sendVerificationEmail } from '../utils/emailSender'
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt'
 
@@ -68,6 +68,77 @@ const getAuthOtpDeliveryMode = () => {
   const mode = String(process.env.AUTH_OTP_DELIVERY || 'screen').trim().toLowerCase()
   if (mode === 'email' || mode === 'both' || mode === 'screen') return mode
   return 'screen'
+}
+
+const createOtpLoginUser = async (params: {
+  email: string
+  otp: string
+  otpExpiresAt: Date
+}) => {
+  const [user] = await db
+    .insert(users)
+    .values({
+      email: params.email,
+      otp: params.otp,
+      otpExpiresAt: params.otpExpiresAt,
+      emailVerified: false,
+      phoneVerified: false,
+      accountVerified: false,
+      role: 'customer',
+    })
+    .returning()
+
+  await db
+    .insert(wallets)
+    .values({
+      userId: user.id,
+      balance: '0.00',
+      currency: 'INR',
+    })
+    .onConflictDoNothing()
+    .catch((error) => {
+      console.warn('Default wallet creation skipped during OTP signup:', error?.message || error)
+    })
+
+  await db
+    .insert(userProfiles)
+    .values({
+      userId: user.id,
+      onboardingStep: 0,
+      monthlyOrderCount: '0-100',
+      salesChannels: {},
+      companyInfo: {
+        businessName: '',
+        brandName: '',
+        city: '',
+        companyContactNumber: '',
+        pincode: '',
+        state: '',
+        profilePicture: '',
+        POCEmailVerified: false,
+        POCPhoneVerified: false,
+        companyAddress: '',
+        contactPerson: '',
+        contactNumber: '',
+        contactEmail: params.email,
+        companyEmail: params.email,
+        companyLogoUrl: '',
+        website: '',
+      },
+      domesticKyc: { status: 'pending', updatedAt: null },
+      bankDetails: null,
+      gstDetails: null,
+      businessType: [],
+      approved: false,
+      onboardingComplete: false,
+      profileComplete: false,
+    })
+    .onConflictDoNothing()
+    .catch((error) => {
+      console.warn('Default profile creation skipped during OTP signup:', error?.message || error)
+    })
+
+  return user
 }
 
 const sendSmsViaTwilio = async (phone: string, message: string) => {
@@ -229,12 +300,10 @@ export const requestOtp = async (req: Request, res: Response): Promise<any> => {
     if (user) {
       await updateUserOtpByEmail(normalizedEmail, otp, expiry)
     } else {
-      await createUserWithWallet({
+      await createOtpLoginUser({
         email: normalizedEmail,
         otp,
         otpExpiresAt: expiry,
-        onboardingStep: 0,
-        emailVerified: false,
       })
     }
 
