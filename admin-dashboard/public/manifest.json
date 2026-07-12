@@ -1,0 +1,15 @@
+{
+  "short_name": "Feather Admin",
+  "name": "Feather Global Admin",
+  "icons": [
+    {
+      "src": "feather-global-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#047b85",
+  "background_color": "#ffffff"
+}
