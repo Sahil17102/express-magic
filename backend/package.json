@@ -24,6 +24,7 @@
     "normalize:xpressbees-statuses": "tsx src/scripts/normalizeXpressbeesStatuses.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "drizzle-kit push",
+    "bootstrap:db": "npm run migrate && npm run seed:admin",
     "seed:admin": "tsx src/scripts/ensureAdmin.ts",
     "seed:holidays": "ts-node src/scripts/seedHolidays.ts",
     "seed:holidays:year": "ts-node src/scripts/seedHolidays.ts",

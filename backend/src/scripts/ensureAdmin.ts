@@ -14,6 +14,12 @@ const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 
   .toLowerCase()
 const password = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD || 'Admin@12345!'
 
+const isMissingRelationError = (error: any) =>
+  error?.code === '42P01' ||
+  error?.cause?.code === '42P01' ||
+  String(error?.message || '').includes('relation "users" does not exist') ||
+  String(error?.cause?.message || '').includes('relation "users" does not exist')
+
 async function ensureAdmin() {
   if (!email || !password) {
     throw new Error('ADMIN_SEED_EMAIL and ADMIN_SEED_PASSWORD are required')
@@ -112,6 +118,13 @@ async function ensureAdmin() {
 ensureAdmin()
   .then(() => process.exit(0))
   .catch((error) => {
+    if (isMissingRelationError(error)) {
+      console.warn(
+        'Admin seed skipped: database schema is not initialized yet. Run `npm run bootstrap:db` once, then redeploy/restart.',
+      )
+      process.exit(0)
+    }
+
     console.error('Failed to ensure admin:', error)
     process.exit(1)
   })
