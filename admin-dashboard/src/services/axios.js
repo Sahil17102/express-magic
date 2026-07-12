@@ -8,7 +8,7 @@ const getDefaultApiBaseUrl = () => {
     }
   }
 
-  return 'https://api.fgship.in/api'
+  return 'https://cheerful-fulfillment-production-07ac.up.railway.app/api'
 }
 
 const apiBaseURL = (process.env.REACT_APP_API_BASE_URL || getDefaultApiBaseUrl()).replace(/\/+$/, '')

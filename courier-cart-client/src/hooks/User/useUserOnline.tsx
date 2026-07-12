@@ -1,6 +1,6 @@
 import { io, type Socket } from 'socket.io-client'
 
-const DEFAULT_PRODUCTION_API_URL = 'https://api.fgship.in/api'
+const DEFAULT_PRODUCTION_API_URL = 'https://cheerful-fulfillment-production-07ac.up.railway.app/api'
 
 const resolveApiBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL

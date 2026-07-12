@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios'
 import { clearAuthTokens, getAuthTokens, setAuthTokens } from './tokenVault'
 
-const DEFAULT_PRODUCTION_API_URL = 'https://api.fgship.in/api'
+const DEFAULT_PRODUCTION_API_URL = 'https://cheerful-fulfillment-production-07ac.up.railway.app/api'
 
 const resolveDefaultApiBaseUrl = () => {
   if (typeof window !== 'undefined') {

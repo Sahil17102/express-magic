@@ -13,16 +13,16 @@ const inferLocalHostUrl = (port) => {
 };
 
 const defaultClientAppUrl = import.meta.env.DEV
-  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || "https://client.fgship.in"
-  : "https://client.fgship.in";
+  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || "https://express-magic-production-608b.up.railway.app"
+  : "https://express-magic-production-608b.up.railway.app";
 
 const defaultAdminAppUrl = import.meta.env.DEV
-  ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || "https://admin.fgship.in"
-  : "https://admin.fgship.in";
+  ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || "https://express-magic-production.up.railway.app"
+  : "https://express-magic-production.up.railway.app";
 
 const defaultApiBaseUrl = import.meta.env.DEV
-  ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://api.fgship.in"}/api`
-  : "https://api.fgship.in/api";
+  ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://cheerful-fulfillment-production-07ac.up.railway.app"}/api`
+  : "https://cheerful-fulfillment-production-07ac.up.railway.app/api";
 
 export const CLIENT_APP_URL = stripTrailingSlash(
   import.meta.env.VITE_CLIENT_APP_URL || defaultClientAppUrl,

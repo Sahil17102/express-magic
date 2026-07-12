@@ -45,8 +45,8 @@ echo "🔨 Running build with production environment variables..."
 
 # Set production environment variables
 # Vite uses VITE_ prefix for environment variables
-export VITE_API_URL="${VITE_API_URL:-https://api.fgship.in/api}"
-export VITE_APP_SOCKET_URL="${VITE_APP_SOCKET_URL:-https://api.fgship.in}"
+export VITE_API_URL="${VITE_API_URL:-https://cheerful-fulfillment-production-07ac.up.railway.app/api}"
+export VITE_APP_SOCKET_URL="${VITE_APP_SOCKET_URL:-https://cheerful-fulfillment-production-07ac.up.railway.app}"
 
 # Keep other environment variables from .env if needed (Shopify, Google OAuth, etc.)
 # These can be overridden here if you have different production values
