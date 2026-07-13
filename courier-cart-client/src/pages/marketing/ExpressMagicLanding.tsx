@@ -75,6 +75,9 @@ export default function ExpressMagicLanding() {
     const page = pageRef.current
     if (!page || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior
+    document.documentElement.style.scrollBehavior = 'smooth'
+
     const context = gsap.context(() => {
       gsap.from('.em-hero__eyebrow, .em-hero h1, .em-hero__copy, .em-hero__actions, .em-hero__meta', {
         opacity: 0,
@@ -110,7 +113,10 @@ export default function ExpressMagicLanding() {
       })
     }, page)
 
-    return () => context.revert()
+    return () => {
+      context.revert()
+      document.documentElement.style.scrollBehavior = previousScrollBehavior
+    }
   }, [])
 
   return (
