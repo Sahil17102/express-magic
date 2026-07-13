@@ -21,6 +21,7 @@
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
+    "gsap": "^3.15.0",
     "leaflet": "^1.9.4",
     "lodash.debounce": "^4.0.8",
     "lottie-react": "^2.4.1",
@@ -38,6 +39,7 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.2",
     "socket.io-client": "^4.8.1",
+    "three": "^0.185.1",
     "yarn": "^1.22.22"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@types/react-router-dom": "^5.3.3",
+    "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
