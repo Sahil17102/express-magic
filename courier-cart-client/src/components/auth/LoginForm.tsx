@@ -374,14 +374,10 @@ function ShipmentScene() {
       sx={{
         position: 'relative',
         minHeight: 0,
-        height: { md: 288, lg: 312 },
-        mt: { md: 0.3, lg: 0.6 },
-        mb: { md: 0.7, lg: 0.9 },
+        height: { md: 318, lg: 350 },
+        mt: { md: 0.2, lg: 0.3 },
+        mb: { md: 0.4, lg: 0.5 },
         overflow: 'visible',
-        '@keyframes routeDash': {
-          '0%': { strokeDashoffset: 260 },
-          '100%': { strokeDashoffset: 0 },
-        },
         '@keyframes floatSoft': {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-8px)' },
@@ -405,72 +401,45 @@ function ShipmentScene() {
       }}
     >
       <Box
-        component="svg"
-        viewBox="0 0 640 270"
-        preserveAspectRatio="none"
+        component="img"
+        src="/images/express-magic-login-3d.png"
+        alt=""
+        aria-hidden="true"
         sx={{
           position: 'absolute',
-          inset: { md: '0 5px 35px 0', lg: '0 8px 40px 0' },
-          width: '100%',
-          height: '72%',
-          opacity: 0.7,
-        }}
-      >
-        <defs>
-          <pattern id="auth-map-dots" width="8" height="8" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.2" fill={alpha(teal, 0.55)} />
-          </pattern>
-        </defs>
-        <path
-          fill="url(#auth-map-dots)"
-          d="M53 104c33-38 71-52 117-33 24 10 51 9 76 1 45-15 77-9 113 17 33 23 59 23 94 5 33-17 78-17 109 6 30 22 39 54 20 77-21 25-67 30-108 14-30-12-59-12-94-1-50 16-102 11-143-14-30-18-56-19-92-4-40 17-88 10-107-16-13-18-7-35 15-48Z"
-        />
-        <path
-          fill="url(#auth-map-dots)"
-          d="M405 58c25-20 67-20 99-3 28 15 45 38 34 59-12 24-60 30-96 14-40-18-68-45-37-70ZM141 48c27-19 69-22 92-6 19 13 13 35-14 46-34 14-91 10-103-13-5-9 2-19 25-27Z"
-        />
-      </Box>
-
-      <Box
-        component="svg"
-        viewBox="0 0 640 270"
-        preserveAspectRatio="none"
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
+          left: { md: -86, lg: -112 },
+          right: { md: -86, lg: -112 },
+          bottom: { md: -14, lg: -16 },
+          width: { md: 'calc(100% + 172px)', lg: 'calc(100% + 224px)' },
+          height: { md: 338, lg: 370 },
+          objectFit: 'cover',
+          objectPosition: 'center 60%',
+          filter: 'drop-shadow(0 28px 38px rgba(6, 26, 51, 0.1))',
+          WebkitMaskImage:
+            'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
+          maskImage:
+            'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
           pointerEvents: 'none',
-          '& .route': {
-            fill: 'none',
-            stroke: orange,
-            strokeWidth: 1.7,
-            strokeDasharray: '7 7',
-            animation: 'routeDash 9s linear infinite',
-          },
+          userSelect: 'none',
         }}
-      >
-        <path className="route" d="M40 222 C126 116 240 150 333 205 S489 247 571 157" />
-        <path className="route" d="M270 92 C355 70 398 115 440 190" />
-        <path className="route" d="M470 87 C540 24 623 71 591 151" />
-      </Box>
+      />
 
       <FloatingBadge
         icon={<FiBarChart2 />}
         label="Real-time Tracking"
-        sx={{ left: { md: 118, lg: 136 }, top: { md: 66, lg: 78 }, animationDelay: '-1.3s' }}
+        sx={{ left: { md: 150, lg: 168 }, top: { md: 84, lg: 92 }, animationDelay: '-1.3s' }}
       />
       <FloatingBadge
         icon={<FiMapPin />}
         label="Smart Dispatch"
-        sx={{ right: { md: 10, lg: 4 }, top: { md: 44, lg: 54 }, animationDelay: '-2.2s' }}
+        sx={{ right: { md: 8, lg: 0 }, top: { md: 100, lg: 112 }, animationDelay: '-2.2s' }}
       />
       <FloatingBadge
         icon={<FiUsers />}
         label="27+ Global Couriers"
         sx={{
-          left: { md: 0, lg: 4 },
-          bottom: { md: 76, lg: 92 },
+          left: { md: 8, lg: 12 },
+          bottom: { md: 82, lg: 96 },
           width: 112,
           flexDirection: 'column',
           gap: 0.45,
@@ -479,12 +448,12 @@ function ShipmentScene() {
         }}
       />
 
-      <Pin color={teal} sx={{ right: { md: 72, lg: 74 }, top: { md: 36, lg: 44 } }} />
-      <Pin color={orange} sx={{ right: { md: 128, lg: 134 }, bottom: { md: 108, lg: 118 }, animationDelay: '-1.7s' }} />
-      <Pin color={orange} sx={{ left: { md: 302, lg: 324 }, bottom: { md: 48, lg: 56 }, width: 56, height: 56 }} />
-      <BoxStack />
-      <CargoContainer />
-      <DeliveryTruck />
+      <Pin color={orange} sx={{ right: { md: 100, lg: 112 }, top: { md: 30, lg: 38 } }} />
+      <Box sx={{ display: 'none' }}>
+        <BoxStack />
+        <CargoContainer />
+        <DeliveryTruck />
+      </Box>
     </Box>
   )
 }
@@ -747,8 +716,8 @@ export default function LoginForm() {
               width: '100%',
               boxSizing: 'border-box',
               maxWidth: { xs: 342, sm: 430, md: 560 },
-              height: { xs: 'auto', md: '100%' },
-              maxHeight: { md: 742 },
+              height: 'auto',
+              maxHeight: 'none',
               minHeight: { xs: 'auto', md: 0 },
               display: 'flex',
               flexDirection: 'column',
@@ -762,8 +731,7 @@ export default function LoginForm() {
               backdropFilter: 'blur(18px)',
               px: { xs: 1.5, sm: 3.2, md: 3.6, lg: 4 },
               py: { xs: 2.4, sm: 3, md: 3.2, lg: 3.4 },
-              overflowX: 'hidden',
-              overflowY: { xs: 'visible', md: 'auto' },
+              overflow: 'hidden',
               touchAction: 'pan-y pinch-zoom',
             }}
           >
