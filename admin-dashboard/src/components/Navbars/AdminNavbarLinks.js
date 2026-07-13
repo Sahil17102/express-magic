@@ -28,7 +28,7 @@ import { BRAND } from '../../constants/brand'
 export default function HeaderLinks({ variant, children, fixed, secondary, onOpen, ...rest }) {
   const settingsRef = useRef()
   const { isLoggedIn, logout } = useAuthStore()
-  const inputBg = useColorModeValue('white', 'rgba(17, 17, 19, 0.92)')
+  const inputBg = useColorModeValue('white', 'rgba(4, 26, 56, 0.92)')
   const inputBorder = useColorModeValue('rgba(17, 17, 19, 0.12)', 'rgba(255, 255, 255, 0.1)')
   const hoverBg = useColorModeValue('rgba(6, 42, 91, 0.06)', 'rgba(255, 255, 255, 0.08)')
   const mainTextColor = useColorModeValue('gray.700', 'gray.100')

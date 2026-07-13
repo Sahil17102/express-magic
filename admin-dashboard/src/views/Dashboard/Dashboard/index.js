@@ -35,7 +35,7 @@ import RevenueBarChart from 'components/Charts/RevenueBarChart'
 import { useDashboardStats } from 'hooks/useDashboardStats'
 import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { BRAND } from '../../../constants/brand'
+import { BRAND, brandGradient } from '../../../constants/brand'
 import OpsAnalytics from '../../Ops/OpsAnalytics'
 
 const formatCurrency = (amount) =>
@@ -88,8 +88,8 @@ function MetricInfoTile({ label, value, helper, tone = 'teal', panelBg, borderCo
   const textSecondary = useColorModeValue('gray.600', 'gray.400')
   const accentMap = {
     teal: 'rgba(6,42,91,0.10)',
-    orange: 'rgba(245,124,34,0.10)',
-    blue: 'rgba(31,79,168,0.10)',
+    orange: 'rgba(237,28,36,0.10)',
+    blue: 'rgba(62,106,168,0.12)',
     green: 'rgba(22,163,74,0.10)',
     red: 'rgba(239,68,68,0.10)',
   }
@@ -128,12 +128,12 @@ export default function Dashboard() {
   const { data: statsData, isLoading, error, refetch, isRefetching } = useDashboardStats()
 
   const pageBg = useColorModeValue(
-    'linear-gradient(180deg, #F7F5FF 0%, #FFF8F2 42%, #F4F6FB 100%)',
-    'linear-gradient(180deg, #09111F 0%, #0F172A 46%, #111827 100%)',
+    brandGradient,
+    'radial-gradient(circle at 100% 0%, rgba(237,28,36,0.12), transparent 28%), linear-gradient(180deg, #020D1F 0%, #041A38 48%, #020D1F 100%)',
   )
   const panelBg = useColorModeValue('white', '#101D36')
-  const softPanelBg = useColorModeValue('rgba(244, 251, 252, 0.9)', 'rgba(148,163,184,0.08)')
-  const borderColor = useColorModeValue('rgba(148,163,184,0.28)', 'rgba(148,163,184,0.2)')
+  const softPanelBg = useColorModeValue('rgba(238, 244, 251, 0.72)', 'rgba(134,168,211,0.08)')
+  const borderColor = useColorModeValue('rgba(181,202,232,0.72)', 'rgba(134,168,211,0.2)')
   const textPrimary = useColorModeValue('gray.800', 'gray.100')
   const textSecondary = useColorModeValue('gray.600', 'gray.400')
   const tileBg = useColorModeValue('gray.50', 'rgba(148,163,184,0.1)')
@@ -255,7 +255,7 @@ export default function Dashboard() {
         value: toNum(alerts.weightDiscrepancies),
         note: 'Review reconciliation',
         route: '/admin/weight-reconciliation',
-        colorScheme: 'blue',
+        colorScheme: 'brand',
       },
     ],
     [alerts],
@@ -462,7 +462,7 @@ export default function Dashboard() {
             panelBg={panelBg}
             borderColor={borderColor}
             headerAction={
-              <Badge colorScheme="teal" variant="subtle" borderRadius="full" px={3} py={1}>
+              <Badge colorScheme="brand" variant="subtle" borderRadius="full" px={3} py={1}>
                 <HStack spacing={1}>
                   <IconUsers size={14} />
                   <Text fontSize="xs" fontWeight="700">
@@ -664,7 +664,7 @@ export default function Dashboard() {
                         {item.count} orders
                       </Text>
                     </HStack>
-                    <Progress value={item.share} colorScheme="teal" size="sm" borderRadius="full" />
+                    <Progress value={item.share} colorScheme="brand" size="sm" borderRadius="full" />
                     <Text mt={2} fontSize="xs" color={textSecondary}>
                       {item.share}% of all orders
                     </Text>
@@ -682,7 +682,7 @@ export default function Dashboard() {
             panelBg={panelBg}
             borderColor={borderColor}
             headerAction={
-              <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={3} py={1}>
+              <Badge colorScheme="accent" variant="subtle" borderRadius="full" px={3} py={1}>
                 <HStack spacing={1}>
                   <IconTruck size={14} />
                   <Text fontSize="xs" fontWeight="700">
@@ -752,7 +752,7 @@ export default function Dashboard() {
                       <Text fontSize="sm" fontWeight="700" color={textPrimary}>
                         {label}
                       </Text>
-                      <Badge colorScheme="teal" borderRadius="full">
+                      <Badge colorScheme="brand" borderRadius="full">
                         {status}
                       </Badge>
                     </HStack>
@@ -883,7 +883,7 @@ export default function Dashboard() {
                     bg={tileBg}
                   >
                     <HStack spacing={2}>
-                      <IconMapPin size={16} color="#1F4FA8" />
+                      <IconMapPin size={16} color={BRAND.colors.teal} />
                       <Text color={textPrimary} fontSize="sm">
                         {item.city}
                       </Text>
@@ -918,7 +918,7 @@ export default function Dashboard() {
                     bg={tileBg}
                   >
                     <HStack spacing={2}>
-                      <IconMapPin size={16} color="#F57C22" />
+                      <IconMapPin size={16} color={BRAND.colors.orange} />
                       <Text color={textPrimary} fontSize="sm">
                         {item.city}
                       </Text>

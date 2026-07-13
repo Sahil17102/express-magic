@@ -9,10 +9,10 @@ export const globalStyles = {
   styles: {
     global: (props) => ({
       body: {
-        bg: mode(BRAND.colors.surface, '#111113')(props),
+        bg: mode(BRAND.colors.surface, BRAND.colors.tealDark)(props),
         color: mode(BRAND.colors.text, 'gray.100')(props),
         fontFamily: "'Inter', 'Segoe UI', sans-serif",
-        backgroundImage: mode(brandGradient, 'radial-gradient(circle at 10% 8%, rgba(6,42,91,0.16) 0%, transparent 38%), radial-gradient(circle at 90% 0%, rgba(255,255,255,0.06) 0%, transparent 24%)')(props),
+        backgroundImage: mode(brandGradient, 'radial-gradient(circle at 10% 8%, rgba(237,28,36,0.14) 0%, transparent 34%), linear-gradient(180deg, #020D1F 0%, #041A38 100%)')(props),
       },
       html: {
         fontFamily: "'Inter', 'Segoe UI', sans-serif",

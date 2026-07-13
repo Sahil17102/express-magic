@@ -1,19 +1,16 @@
 import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useColorModeValue } from '@chakra-ui/react'
+import { BRAND } from '../../constants/brand'
 
 const OrdersLineChart = ({ data = [] }) => {
   const textColor = useColorModeValue('gray.700', 'white')
   const textColorSecondary = useColorModeValue('gray.500', 'gray.400')
   const gridColor = useColorModeValue('gray.200', 'gray.700')
-  const bgColor = useColorModeValue('white', 'gray.800')
-
-  // Enhanced gradient colors
-  const gradientColors = ['#3182CE', '#319795', '#805AD5']
   const gradientStops = [
-    { offset: 0, color: '#3182CE', opacity: 0.8 },
-    { offset: 50, color: '#319795', opacity: 0.6 },
-    { offset: 100, color: '#805AD5', opacity: 0.3 },
+    { offset: 0, color: BRAND.colors.teal, opacity: 0.82 },
+    { offset: 58, color: '#3E6AA8', opacity: 0.5 },
+    { offset: 100, color: BRAND.colors.orange, opacity: 0.18 },
   ]
 
   const chartData = [
@@ -57,7 +54,7 @@ const OrdersLineChart = ({ data = [] }) => {
       curve: 'smooth',
       width: 3,
       lineCap: 'round',
-      colors: ['#3182CE'],
+      colors: [BRAND.colors.teal],
     },
     fill: {
       type: 'gradient',
@@ -65,7 +62,7 @@ const OrdersLineChart = ({ data = [] }) => {
         shade: 'dark',
         type: 'vertical',
         shadeIntensity: 0.5,
-        gradientToColors: ['#319795', '#805AD5'],
+        gradientToColors: [BRAND.colors.orange],
         inverseColors: false,
         opacityFrom: 0.8,
         opacityTo: 0.2,
@@ -73,10 +70,10 @@ const OrdersLineChart = ({ data = [] }) => {
         colorStops: gradientStops,
       },
     },
-    colors: ['#3182CE'],
+    colors: [BRAND.colors.teal],
     markers: {
       size: 5,
-      colors: ['#3182CE'],
+      colors: [BRAND.colors.orange],
       strokeColors: '#fff',
       strokeWidth: 2,
       hover: {

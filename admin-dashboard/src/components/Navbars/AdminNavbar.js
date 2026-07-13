@@ -32,9 +32,9 @@ export default function AdminNavbar(props) {
   )
   const fixedNavbarBg = useColorModeValue(
     'rgba(255,255,255,0.94)',
-    'rgba(17,17,19,0.92)',
+    'rgba(4,26,56,0.92)',
   )
-  const fixedNavbarBorder = useColorModeValue('1px solid rgba(215, 238, 241, 0.95)', '1px solid rgba(255, 255, 255, 0.08)')
+  const fixedNavbarBorder = useColorModeValue(BRAND.colors.border, 'rgba(134, 168, 211, 0.18)')
 
   if (fixed === true && scrolled === true) {
     navbarPosition = 'fixed'

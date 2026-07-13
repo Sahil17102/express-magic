@@ -1,14 +1,12 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import { useColorModeValue } from '@chakra-ui/react'
+import { BRAND } from '../../constants/brand'
 
 const RevenueBarChart = ({ data = [] }) => {
   const textColor = useColorModeValue('gray.700', 'white')
   const textColorSecondary = useColorModeValue('gray.500', 'gray.400')
   const gridColor = useColorModeValue('gray.200', 'gray.700')
-
-  // Enhanced gradient colors for revenue
-  const gradientColors = ['#10B981', '#34D399', '#6EE7B7']
 
   const chartData = [
     {
@@ -70,14 +68,14 @@ const RevenueBarChart = ({ data = [] }) => {
         shade: 'light',
         type: 'vertical',
         shadeIntensity: 0.5,
-        gradientToColors: ['#10B981', '#34D399', '#6EE7B7'],
+        gradientToColors: [BRAND.colors.orange],
         inverseColors: false,
         opacityFrom: 1,
         opacityTo: 0.8,
         stops: [0, 50, 100],
       },
     },
-    colors: ['#10B981'],
+    colors: [BRAND.colors.teal],
     xaxis: {
       categories: data.map((item) => formatChartDate(item.date)),
       labels: {

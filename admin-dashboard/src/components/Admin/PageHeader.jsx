@@ -8,8 +8,8 @@ export default function PageHeader({
   actions = null,
   meta = [],
 }) {
-  const panelBg = useColorModeValue('rgba(255,255,255,0.96)', 'rgba(17, 17, 19, 0.92)')
-  const borderColor = useColorModeValue('rgba(215, 238, 241, 0.95)', 'rgba(255, 255, 255, 0.08)')
+  const panelBg = useColorModeValue('rgba(255,255,255,0.96)', 'rgba(4, 26, 56, 0.94)')
+  const borderColor = useColorModeValue(BRAND.colors.border, 'rgba(134, 168, 211, 0.18)')
   const titleColor = useColorModeValue(BRAND.colors.ink, 'white')
   const textColor = useColorModeValue(BRAND.colors.muted, 'gray.300')
   const metaBg = useColorModeValue('rgba(6, 42, 91, 0.06)', 'rgba(255, 255, 255, 0.04)')
@@ -22,7 +22,7 @@ export default function PageHeader({
       borderRadius="14px"
       px={{ base: 5, md: 6 }}
       py={{ base: 5, md: 6 }}
-      boxShadow={useColorModeValue('0 18px 50px rgba(17, 17, 19, 0.08)', '0 22px 60px rgba(2, 6, 23, 0.42)')}
+      boxShadow={useColorModeValue('0 18px 50px rgba(6, 42, 91, 0.09)', '0 22px 60px rgba(2, 6, 23, 0.42)')}
       backdropFilter="blur(14px)"
     >
       <Flex
@@ -40,8 +40,8 @@ export default function PageHeader({
             fontSize="11px"
             letterSpacing="0.12em"
             textTransform="uppercase"
-            bg="brand.50"
-            color="brand.500"
+            bg="accent.50"
+            color="accent.600"
           >
             {eyebrow}
           </Badge>

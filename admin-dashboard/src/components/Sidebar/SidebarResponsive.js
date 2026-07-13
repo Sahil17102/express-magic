@@ -28,9 +28,9 @@ function SidebarResponsive(props) {
 
   const drawerBg = useColorModeValue(
     `linear-gradient(180deg, ${BRAND.colors.paper} 0%, ${BRAND.colors.surface} 100%)`,
-    '#111113',
+    `linear-gradient(180deg, ${BRAND.colors.tealDark} 0%, #020D1F 100%)`,
   )
-  const activeBg = useColorModeValue('rgba(6,42,91,0.12)', 'rgba(217, 4, 22, 0.16)')
+  const activeBg = `linear-gradient(135deg, ${BRAND.colors.teal} 0%, ${BRAND.colors.tealDark} 100%)`
   const hoverBg = useColorModeValue('rgba(6,42,91,0.06)', 'rgba(148, 163, 184, 0.14)')
   const textColor = useColorModeValue(BRAND.colors.text, 'gray.100')
   const iconColor = useColorModeValue(BRAND.colors.muted, 'gray.300')
@@ -69,15 +69,15 @@ function SidebarResponsive(props) {
               borderRadius="10px"
               w="100%"
               border="1px solid"
-              borderColor={isActive ? 'rgba(6,42,91,0.18)' : 'transparent'}
-              _hover={{ bg: hoverBg, transform: 'translateX(2px)' }}
+              borderColor={isActive ? BRAND.colors.teal : 'transparent'}
+              _hover={{ bg: isActive ? activeBg : hoverBg, transform: 'translateX(2px)' }}
               _active={{ bg: 'inherit', transform: 'none' }}
               _focus={{ boxShadow: 'none' }}
               transition="all 0.2s ease"
             >
               <Flex align="center">
                 <IconBox
-                  bg={isActive ? 'rgba(6,42,91,0.16)' : 'rgba(255,255,255,0.06)'}
+                  bg={isActive ? BRAND.colors.orange : 'rgba(6,42,91,0.08)'}
                   color={isActive ? activeTextColor : iconColor}
                   h="30px"
                   w="30px"

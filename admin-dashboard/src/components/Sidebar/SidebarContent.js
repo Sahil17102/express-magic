@@ -11,18 +11,18 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
 
   const sidebarBg = useColorModeValue(
     `linear-gradient(180deg, ${BRAND.colors.paper} 0%, ${BRAND.colors.surface} 100%)`,
-    '#111113',
+    `linear-gradient(180deg, ${BRAND.colors.tealDark} 0%, #020D1F 100%)`,
   )
-  const sidebarBorder = useColorModeValue('rgba(215, 238, 241, 0.95)', 'rgba(255,255,255,0.06)')
-  const sidebarShadow = useColorModeValue('14px 0 32px rgba(7, 25, 35, 0.08)', '14px 0 34px rgba(5, 4, 10, 0.45)')
-  const activeBg = useColorModeValue('rgba(6,42,91,0.08)', 'rgba(255,255,255,0.08)')
+  const sidebarBorder = useColorModeValue(BRAND.colors.border, 'rgba(134,168,211,0.14)')
+  const sidebarShadow = useColorModeValue('14px 0 32px rgba(6, 42, 91, 0.09)', '14px 0 34px rgba(2, 13, 31, 0.5)')
+  const activeBg = `linear-gradient(135deg, ${BRAND.colors.teal} 0%, ${BRAND.colors.tealDark} 100%)`
   const hoverBg = useColorModeValue('rgba(6,42,91,0.05)', 'rgba(255,255,255,0.05)')
-  const activeBorder = useColorModeValue('rgba(6,42,91,0.18)', 'rgba(255,255,255,0.12)')
+  const activeBorder = useColorModeValue(BRAND.colors.teal, 'rgba(134,168,211,0.32)')
   const hoverBorder = useColorModeValue('rgba(6,42,91,0.12)', 'rgba(255,255,255,0.08)')
   const iconBg = useColorModeValue('rgba(6,42,91,0.08)', 'rgba(255,255,255,0.06)')
-  const iconActiveBg = useColorModeValue('rgba(6,42,91,0.16)', 'rgba(217,4,22,0.18)')
+  const iconActiveBg = BRAND.colors.orange
   const textColor = useColorModeValue(BRAND.colors.text, 'rgba(255,255,255,0.8)')
-  const activeTextColor = useColorModeValue(BRAND.colors.tealDark, 'white')
+  const activeTextColor = 'white'
   const iconColor = useColorModeValue(BRAND.colors.muted, 'rgba(255,255,255,0.56)')
   const dividerColor = useColorModeValue(BRAND.colors.border, 'rgba(255,255,255,0.08)')
   const thumbColor = useColorModeValue('rgba(6,42,91,0.22)', 'rgba(255,255,255,0.18)')
@@ -66,11 +66,11 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
       py="10px"
       h="auto"
       border="1px solid"
-      borderColor={isActive ? 'rgba(6,42,91,0.18)' : 'transparent'}
+      borderColor={isActive ? activeBorder : 'transparent'}
       _hover={{
-        bg: hoverBg,
+        bg: isActive ? activeBg : hoverBg,
         transform: 'translateX(2px)',
-        borderColor: hoverBorder,
+        borderColor: isActive ? activeBorder : hoverBorder,
       }}
       _active={{ transform: 'scale(0.98)' }}
       transition="all 0.2s ease"
@@ -125,8 +125,9 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
                 border="1px solid"
                 borderColor={isChildActive ? activeBorder : 'transparent'}
                 _hover={{
-                  bg: hoverBg,
+                  bg: isChildActive ? activeBg : hoverBg,
                   transform: 'translateX(2px)',
+                  borderColor: isChildActive ? activeBorder : hoverBorder,
                 }}
                 transition="all 0.2s ease"
               >
