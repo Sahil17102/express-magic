@@ -67,7 +67,7 @@ export default function OrderTrackingForm() {
     borderRadius: { xs: 3, md: 4 },
     border: `1px solid ${alpha('#07142F', 0.12)}`,
     boxShadow: '0 24px 70px rgba(7, 20, 47, 0.1)',
-    background: 'rgba(255, 253, 248, 0.9)',
+    background: 'rgba(255, 255, 255, 0.92)',
     backdropFilter: 'blur(18px)',
   }
 
@@ -232,7 +232,7 @@ export default function OrderTrackingForm() {
       sx={{
         minHeight: '100vh',
         background:
-          'radial-gradient(circle at 82% 12%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 24%, rgba(8,127,140,0.12), transparent 28%), linear-gradient(180deg, #F6F1E8 0%, #FBF8F2 45%, #F6F1E8 100%)',
+          'radial-gradient(circle at 82% 12%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 24%, rgba(6,42,91,0.12), transparent 28%), linear-gradient(180deg, #ffffff 0%, #F5F8FC 45%, #EEF4FB 100%)',
         px: { xs: 1.8, md: isClientTrackingRoute ? 0 : 4 },
         py: { xs: 2, md: isClientTrackingRoute ? 1.5 : 6 },
       }}
@@ -258,11 +258,11 @@ export default function OrderTrackingForm() {
               position: 'relative',
               overflow: 'hidden',
               minHeight: { xs: 380, md: 560 },
-              borderRadius: { xs: 4, md: 5 },
-              border: `1px solid ${alpha('#07142F', 0.13)}`,
-              p: { xs: 3, md: 5 },
-              background:
-                'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFDF8',
+                borderRadius: { xs: 4, md: 5 },
+                border: `1px solid ${alpha('#07142F', 0.13)}`,
+                p: { xs: 3, md: 5 },
+                background:
+                'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFFFF',
               backgroundSize: '44px 44px',
               boxShadow: '0 30px 90px rgba(7,20,47,0.12)',
             }}
@@ -291,7 +291,7 @@ export default function OrderTrackingForm() {
               }}
             >
               Track every move.
-              <Box component="span" sx={{ display: 'block', color: '#087F8C' }}>
+              <Box component="span" sx={{ display: 'block', color: BRAND_PRIMARY }}>
                 Know every handoff.
               </Box>
             </Typography>
@@ -371,8 +371,8 @@ export default function OrderTrackingForm() {
                   width: 18,
                   height: 18,
                   borderRadius: '50%',
-                  bgcolor: '#087F8C',
-                  boxShadow: `0 0 0 10px ${alpha('#087F8C', 0.12)}`,
+                  bgcolor: BRAND_PRIMARY,
+                  boxShadow: `0 0 0 10px ${alpha(BRAND_PRIMARY, 0.12)}`,
                 }}
               />
             </Box>
@@ -571,7 +571,7 @@ export default function OrderTrackingForm() {
                 sx={{
                   border: `1px solid ${alpha('#07142F', 0.12)}`,
                   borderRadius: 4,
-                  bgcolor: 'rgba(255,253,248,0.88)',
+                  bgcolor: 'rgba(255,255,255,0.9)',
                   p: { xs: 2.4, md: 3 },
                   boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
                 }}
