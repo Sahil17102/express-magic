@@ -23,7 +23,7 @@ import { toast } from '../UI/Toast'
 import EmailVerificationForm from './EmailVerificationForm'
 import PasswordResetDialog from './PasswordResetDialog'
 
-const { teal, tealDark, ink, muted, paper, tealSoft } = BRAND.colors
+const { teal, tealDark, orange, ink, muted, paper, tealSoft } = BRAND.colors
 
 const fieldSx = {
   '& .MuiOutlinedInput-root': {
@@ -335,14 +335,14 @@ export default function PasswordLoginForm({ setStep, step, setOpenTerms }: IPass
               fontSize: 15.5,
               fontWeight: 900,
               gap: 1.1,
-              background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 100%)`,
+              background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 70%, ${orange} 100%)`,
               boxShadow: `0 16px 26px ${alpha(teal, 0.18)}`,
               '&:hover': {
-                background: `linear-gradient(135deg, ${tealDark} 0%, ${teal} 100%)`,
+                background: `linear-gradient(135deg, ${tealDark} 0%, ${teal} 72%, ${orange} 100%)`,
               },
               '&:disabled': {
                 color: paper,
-                background: '#94b8bd',
+                background: '#9ca9ba',
                 boxShadow: 'none',
               },
             }}

@@ -22,7 +22,7 @@ import { toast } from '../UI/Toast'
 import OtpForm from './OtpForm'
 import PasswordLoginForm from './PasswordLoginForm'
 
-const { teal, tealDark, ink, paper, tealSoft } = BRAND.colors
+const { teal, tealDark, orange, ink, paper, tealSoft } = BRAND.colors
 
 type RequestOtpResponse = {
   devOtp?: string
@@ -68,11 +68,17 @@ const fieldSx = {
 
 const tabButtonSx = {
   minHeight: 52,
+  minWidth: 0,
   borderRadius: 1,
   textTransform: 'none',
   fontWeight: 900,
-  fontSize: 15,
-  gap: 1,
+  fontSize: { xs: 13, sm: 15 },
+  gap: { xs: 0.65, sm: 1 },
+  px: { xs: 0.75, sm: 1.4 },
+  whiteSpace: 'nowrap',
+  '& svg': {
+    flexShrink: 0,
+  },
 }
 
 export default function PhoneForm() {
@@ -187,20 +193,23 @@ export default function PhoneForm() {
   }
 
   return (
-    <Stack spacing={{ xs: 1.35, md: 1.45 }} alignItems="stretch">
+    <Stack spacing={{ xs: 1.35, md: 1.45 }} alignItems="stretch" sx={{ minWidth: 0 }}>
       <Box
         sx={{
           width: 'fit-content',
           maxWidth: '100%',
+          alignSelf: 'center',
+          textAlign: 'center',
           display: 'inline-flex',
           alignItems: 'center',
           gap: 1,
           px: 1.55,
           py: 0.9,
           borderRadius: 1,
-          color: '#ff6200',
-          background: 'linear-gradient(135deg, rgba(237,28,36,0.12), rgba(253,231,234,0.26))',
-          fontSize: 14,
+          color: orange,
+          border: `1px solid ${alpha(orange, 0.14)}`,
+          background: 'linear-gradient(135deg, rgba(237,28,36,0.12), rgba(255,255,255,0.66))',
+          fontSize: { xs: 13, sm: 14 },
           fontWeight: 900,
         }}
       >
@@ -211,7 +220,8 @@ export default function PhoneForm() {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
+          minWidth: 0,
           gap: 0.65,
           p: 0.3,
           borderRadius: 1.35,
@@ -251,7 +261,12 @@ export default function PhoneForm() {
           }}
         >
           <FiLock size={19} />
-          Email + Password
+          <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+            Email + Password
+          </Box>
+          <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+            Password
+          </Box>
         </Button>
       </Box>
 
@@ -312,14 +327,14 @@ export default function PhoneForm() {
                 fontSize: 15.5,
                 fontWeight: 900,
                 gap: 1.1,
-                background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 100%)`,
+                background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 70%, ${orange} 100%)`,
                 boxShadow: `0 16px 26px ${alpha(teal, 0.18)}`,
                 '&:hover': {
-                  background: `linear-gradient(135deg, ${tealDark} 0%, ${teal} 100%)`,
+                  background: `linear-gradient(135deg, ${tealDark} 0%, ${teal} 72%, ${orange} 100%)`,
                 },
                 '&:disabled': {
                   color: paper,
-                  background: '#94b8bd',
+                  background: '#9ca9ba',
                   boxShadow: 'none',
                 },
               }}
