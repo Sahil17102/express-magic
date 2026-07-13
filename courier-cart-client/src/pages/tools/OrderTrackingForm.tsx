@@ -36,6 +36,7 @@ import type { TrackingHistory } from '../../api/tracking.service'
 import AWBLink from '../../components/UI/AWBLink'
 import CustomInput from '../../components/UI/inputs/CustomInput'
 import { DelhiveryLifecycleAdapter } from '../../components/tracking/DelhiveryLifecycleAdapter'
+import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import { SmartTabs } from '../../components/UI/tab/Tabs'
 import { useTracking } from '../../hooks/Orders/useTracking'
 import {
@@ -260,23 +261,25 @@ export default function OrderTrackingForm() {
         minHeight: '100vh',
         background:
           'radial-gradient(circle at 82% 12%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 24%, rgba(6,42,91,0.12), transparent 28%), linear-gradient(180deg, #ffffff 0%, #F5F8FC 45%, #EEF4FB 100%)',
-        px: { xs: 1.8, md: isClientTrackingRoute ? 0 : 4 },
-        py: { xs: 2, md: isClientTrackingRoute ? 1.5 : 6 },
       }}
     >
+      {!isClientTrackingRoute && <PublicToolsHeader />}
       <Stack
+        component="main"
         sx={{
           width: '100%',
-          maxWidth: isClientTrackingRoute ? '100%' : 1220,
+          maxWidth: isClientTrackingRoute ? '100%' : 1580,
           mx: 'auto',
+          px: { xs: 1.5, sm: 2.5, md: isClientTrackingRoute ? 0 : 4 },
+          py: { xs: 2.5, md: isClientTrackingRoute ? 1.5 : 4 },
         }}
         spacing={{ xs: 2.5, md: 3.5 }}
       >
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.92fr) minmax(360px,1.08fr)' },
-            gap: { xs: 2.4, md: 4 },
+            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.9fr) minmax(640px,1.1fr)' },
+            gap: { xs: 2.4, md: 3.5 },
             alignItems: 'stretch',
           }}
         >
@@ -284,7 +287,7 @@ export default function OrderTrackingForm() {
             sx={{
               position: 'relative',
               overflow: 'hidden',
-              minHeight: { xs: 380, md: 560 },
+              minHeight: { xs: 400, md: 680 },
                 borderRadius: { xs: 4, md: 5 },
                 border: `1px solid ${alpha('#07142F', 0.13)}`,
                 p: { xs: 3, md: 5 },
@@ -311,7 +314,7 @@ export default function OrderTrackingForm() {
                 mt: 2.5,
                 maxWidth: 660,
                 color: '#07142F',
-                fontSize: { xs: '3rem', md: '5.1rem' },
+                fontSize: { xs: '3rem', md: '5.45rem' },
                 fontWeight: 950,
                 letterSpacing: '-0.06em',
                 lineHeight: 0.94,
@@ -410,7 +413,7 @@ export default function OrderTrackingForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{
               alignSelf: 'center',
-              p: { xs: 2.4, md: 3.2 },
+              p: { xs: 2.4, md: 4 },
               ...shellCardStyles,
             }}
           >

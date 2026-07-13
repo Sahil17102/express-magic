@@ -13,9 +13,11 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { BiRupee } from 'react-icons/bi'
+import { useLocation } from 'react-router-dom'
 import CourierRateCards from '../../components/CourierRateCard'
 import B2BRateCalculator from '../../components/tools/B2BRateCalculator'
 import B2CRateCalculator from '../../components/tools/B2CRateCalculator'
+import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import CustomIconLoadingButton from '../../components/UI/button/CustomLoadingButton'
 import CustomInput from '../../components/UI/inputs/CustomInput'
 import { SmartTabs } from '../../components/UI/tab/Tabs'
@@ -70,9 +72,9 @@ export const cardStyles = {
   boxShadow: '0 18px 46px rgba(1, 63, 73, 0.08)',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-
 export function RateCalculator() {
+  const location = useLocation()
+  const isPublicRoute = location.pathname.startsWith('/rate-calculator')
   const { mutateAsync, isPending, isError, error } = useAvailableCouriersMutation()
   const couriersRef = useRef<HTMLDivElement | null>(null)
   const [shipmentType, setShipmentType] = useState<ShipmentType>('b2c')
@@ -197,11 +199,20 @@ export function RateCalculator() {
         minHeight: '100vh',
         background:
           'radial-gradient(circle at 82% 10%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 22%, rgba(6,42,91,0.12), transparent 30%), linear-gradient(180deg, #FFFFFF 0%, #F5F8FC 48%, #EEF4FB 100%)',
-        px: { xs: 1.8, md: 4 },
-        py: { xs: 2.5, md: 6 },
       }}
     >
-      <Stack sx={{ width: '100%', maxWidth: 1280, mx: 'auto' }} spacing={3}>
+      {isPublicRoute && <PublicToolsHeader />}
+      <Stack
+        component="main"
+        sx={{
+          width: '100%',
+          maxWidth: 1580,
+          mx: 'auto',
+          px: { xs: 1.5, sm: 2.5, md: isPublicRoute ? 4 : 0 },
+          py: { xs: 2.5, md: isPublicRoute ? 4 : 1.5 },
+        }}
+        spacing={3}
+      >
         <Box
           sx={{
             display: 'grid',

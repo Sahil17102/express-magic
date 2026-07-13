@@ -2,6 +2,7 @@ import { alpha, Box, CardContent, Grid, MenuItem, Stack, TextField, Typography }
 import { useMemo, useState } from 'react'
 import { FiBox, FiCheckCircle } from 'react-icons/fi'
 import { TbRulerMeasure, TbScale } from 'react-icons/tb'
+import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import { BRAND } from '../../config/brand'
 
 const { teal, tealDark, orange, muted, border } = BRAND.colors
@@ -76,16 +77,25 @@ export default function WeightCalculator() {
         minHeight: '100vh',
         background:
           'radial-gradient(circle at 86% 10%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 24%, rgba(6,42,91,0.12), transparent 30%), linear-gradient(180deg, #FFFFFF 0%, #F5F8FC 48%, #EEF4FB 100%)',
-        px: { xs: 1.8, md: 4 },
-        py: { xs: 2.5, md: 6 },
       }}
     >
-      <Stack sx={{ width: '100%', maxWidth: 1220, mx: 'auto' }} spacing={3}>
+      <PublicToolsHeader />
+      <Stack
+        component="main"
+        sx={{
+          width: '100%',
+          maxWidth: 1580,
+          mx: 'auto',
+          px: { xs: 1.5, sm: 2.5, md: 4 },
+          py: { xs: 2.5, md: 4 },
+        }}
+        spacing={3}
+      >
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: '0.92fr 1.08fr' },
-            gap: { xs: 2.4, md: 4 },
+            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.9fr) minmax(620px,1.1fr)' },
+            gap: { xs: 2.4, md: 3.5 },
             alignItems: 'stretch',
           }}
         >
@@ -96,7 +106,7 @@ export default function WeightCalculator() {
               borderRadius: { xs: 4, md: 5 },
               border: `1px solid ${alpha('#07142F', 0.13)}`,
               p: { xs: 3, md: 5 },
-              minHeight: { xs: 420, md: 620 },
+              minHeight: { xs: 440, md: 700 },
               background:
                 'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFFFF',
               backgroundSize: '44px 44px',
@@ -119,7 +129,7 @@ export default function WeightCalculator() {
               sx={{
                 mt: 2.5,
                 color: '#07142F',
-                fontSize: { xs: '3rem', md: '5rem' },
+                fontSize: { xs: '3rem', md: '5.45rem' },
                 fontWeight: 950,
                 letterSpacing: '-0.06em',
                 lineHeight: 0.94,
@@ -148,10 +158,10 @@ export default function WeightCalculator() {
               aria-hidden="true"
               sx={{
                 position: 'absolute',
-                right: { xs: -72, md: 16 },
-                bottom: { xs: -78, md: -54 },
-                width: { xs: 240, md: 300 },
-                height: { xs: 240, md: 300 },
+                right: { xs: -72, md: 20 },
+                bottom: { xs: -78, md: -42 },
+                width: { xs: 240, md: 330 },
+                height: { xs: 240, md: 330 },
                 borderRadius: '50%',
                 border: `1px dashed ${alpha(teal, 0.25)}`,
               }}
@@ -207,7 +217,7 @@ export default function WeightCalculator() {
               boxShadow: '0 24px 70px rgba(7, 20, 47, 0.1)',
               background: 'rgba(255, 255, 255, 0.94)',
               backdropFilter: 'blur(18px)',
-              p: { xs: 2.4, md: 3.2 },
+              p: { xs: 2.4, md: 4 },
             }}
           >
             <Typography
