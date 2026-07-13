@@ -1040,6 +1040,30 @@
   color: var(--white);
 }
 
+.em-hero h1,
+.em-section-heading h2,
+.em-command h2,
+.em-insight h2,
+.em-footer h2,
+.em-network__stats strong,
+.em-route-rail__item strong,
+.em-console__summary strong,
+.em-mode h3,
+.em-mode__metric strong,
+.em-journey__line article > span,
+.em-journey h3,
+.em-insight__metrics strong,
+.em-faq summary {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.em-hero h1 em {
+  font-style: normal;
+  font-weight: 850;
+}
+
 @media (max-width: 1100px) {
   .em-nav {
     grid-template-columns: 1fr 1fr;

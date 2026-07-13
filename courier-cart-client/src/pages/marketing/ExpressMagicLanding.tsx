@@ -151,7 +151,7 @@ export default function ExpressMagicLanding() {
         <div className="em-grid-overlay" />
         <div className="em-hero__content">
           <p className="em-hero__eyebrow"><span /> Mission control for modern commerce</p>
-          <h1>Every shipment.<br /><em>Moving as one.</em></h1>
+          <h1>From warehouse.<br /><em>To every doorstep.</em></h1>
           <p className="em-hero__copy">
             One intelligent logistics network for rates, dispatch, tracking, exceptions and
             delivery performance across every carrier.
