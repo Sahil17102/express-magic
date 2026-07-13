@@ -13,10 +13,12 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { BiRupee } from 'react-icons/bi'
+import { FiBarChart2, FiCheckCircle, FiMapPin, FiPackage, FiShield, FiZap } from 'react-icons/fi'
 import { useLocation } from 'react-router-dom'
 import CourierRateCards from '../../components/CourierRateCard'
 import B2BRateCalculator from '../../components/tools/B2BRateCalculator'
 import B2CRateCalculator from '../../components/tools/B2CRateCalculator'
+import PublicToolStorySections from '../../components/tools/PublicToolStorySections'
 import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import CustomIconLoadingButton from '../../components/UI/button/CustomLoadingButton'
 import CustomInput from '../../components/UI/inputs/CustomInput'
@@ -216,7 +218,7 @@ export function RateCalculator() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' },
+            gridTemplateColumns: { xs: '1fr', lg: '0.9fr 1.1fr' },
             gap: { xs: 2.4, md: 3 },
             alignItems: 'stretch',
           }}
@@ -312,62 +314,45 @@ export function RateCalculator() {
               overflow: 'hidden',
               borderRadius: { xs: 4, md: 5 },
               border: `1px solid ${alpha(teal, 0.13)}`,
-              background: `linear-gradient(145deg, ${tealDark}, ${teal} 64%, ${orange})`,
-              color: '#FFFFFF',
-              p: { xs: 3, md: 3.4 },
-              boxShadow: '0 30px 90px rgba(6,42,91,0.18)',
-              minHeight: { xs: 300, lg: 'auto' },
+              bgcolor: '#FFFFFF',
+              boxShadow: '0 30px 90px rgba(6,42,91,0.12)',
+              minHeight: { xs: 360, lg: 520 },
             }}
           >
             <Box
+              component="img"
+              src="/images/rate-tool-3d.png"
+              alt="Courier rate calculator with invoice and parcels"
               sx={{
-                position: 'absolute',
-                right: -70,
-                top: -70,
-                width: 220,
-                height: 220,
-                borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.22)',
+                width: '100%',
+                height: '100%',
+                minHeight: { xs: 360, lg: 520 },
+                objectFit: 'contain',
+                objectPosition: 'center',
               }}
             />
-            <Typography sx={{ color: 'rgba(255,255,255,0.78)', fontSize: '0.82rem', fontWeight: 850 }}>
-              Estimated route price
-            </Typography>
-            <Stack direction="row" alignItems="center" spacing={0.6} sx={{ mt: 2 }}>
-              <BiRupee size={42} />
-              <Typography sx={{ color: '#FFFFFF', fontSize: { xs: '3.4rem', md: '4.6rem' }, fontWeight: 950, lineHeight: 1 }}>
-                84
-              </Typography>
-            </Stack>
-            <Typography sx={{ mt: 1, color: 'rgba(255,255,255,0.82)', fontWeight: 750 }}>
-              Final price appears after you calculate with live courier availability.
-            </Typography>
             <Box
               sx={{
-                mt: 4,
-                display: 'grid',
-                gap: 1.3,
+                position: 'absolute',
+                left: { xs: 16, md: 24 },
+                bottom: { xs: 16, md: 24 },
+                minWidth: { xs: 180, md: 220 },
+                border: `1px solid ${alpha(teal, 0.12)}`,
+                borderRadius: 1,
+                bgcolor: 'rgba(255,255,255,0.94)',
+                backdropFilter: 'blur(14px)',
+                p: 2,
+                boxShadow: '0 18px 44px rgba(7,20,47,0.12)',
               }}
             >
-              {['Base freight', 'COD / prepaid logic', 'Weight slab'].map((label, index) => (
-                <Box
-                  key={label}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    borderRadius: 2.5,
-                    bgcolor: 'rgba(255,255,255,0.12)',
-                    px: 1.6,
-                    py: 1.25,
-                  }}
-                >
-                  <Typography sx={{ color: '#FFFFFF', fontSize: '0.82rem', fontWeight: 800 }}>{label}</Typography>
-                  <Typography sx={{ color: '#FFFFFF', fontSize: '0.82rem', fontWeight: 950 }}>
-                    {index === 0 ? 'Route' : index === 1 ? 'Mode' : 'Kg'}
-                  </Typography>
-                </Box>
-              ))}
+              <Typography sx={{ color: muted, fontSize: '0.72rem', fontWeight: 850 }}>LIVE PRICE COMPARISON</Typography>
+              <Stack direction="row" alignItems="center" spacing={0.3} sx={{ mt: 0.8, color: teal }}>
+                <BiRupee size={25} />
+                <Typography sx={{ fontSize: '2rem', lineHeight: 1, fontWeight: 950 }}>Best fit</Typography>
+              </Stack>
+              <Typography sx={{ mt: 0.7, color: muted, fontSize: '0.74rem', fontWeight: 700 }}>
+                Route, weight and payment mode together.
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -636,6 +621,7 @@ export function RateCalculator() {
       <Divider />
       <CardContent
         sx={{
+          order: isPublicRoute ? 2 : 0,
           mt: 3,
           backgroundColor: 'rgba(255,255,255,0.94)',
           border: `1px solid ${alpha('#07142F', 0.12)}`,
@@ -687,6 +673,33 @@ export function RateCalculator() {
           })}
         </Stack>
       </CardContent>
+      {isPublicRoute && (
+        <Box sx={{ order: 1 }}>
+          <PublicToolStorySections
+            eyebrow="How rate comparison works"
+            title="One shipment. Multiple courier possibilities."
+            description="Enter the lane and parcel details once, then compare suitable courier pricing in one consistent view."
+            steps={[
+              { icon: <FiMapPin />, title: 'Set the route', description: 'Add valid pickup and delivery pincodes for the shipment lane.' },
+              { icon: <FiPackage />, title: 'Describe the parcel', description: 'Enter dimensions, weight, value and shipment type.' },
+              { icon: <FiBarChart2 />, title: 'Compare options', description: 'Review available courier rates and service fit together.' },
+              { icon: <FiCheckCircle />, title: 'Choose confidently', description: 'Pick the option that balances price and delivery needs.' },
+            ]}
+            features={[
+              { icon: <BiRupee />, title: 'Live pricing', description: 'Calculate from current courier options.' },
+              { icon: <FiPackage />, title: 'B2C and B2B', description: 'Use the right form for each shipment.' },
+              { icon: <FiShield />, title: 'Clear inputs', description: 'Keep route and parcel details organized.' },
+              { icon: <FiZap />, title: 'Faster decisions', description: 'Compare without repeated data entry.' },
+            ]}
+            ctaTitle="Found the right rate? Put the shipment in motion."
+            ctaDescription="Sign in to book the selected courier, generate shipment details and manage every order from one dashboard."
+            primaryLabel="Login to book shipment"
+            primaryPath="/login"
+            secondaryLabel="Check parcel weight"
+            secondaryPath="/weight-calculator"
+          />
+        </Box>
+      )}
       </Stack>
     </Box>
   )

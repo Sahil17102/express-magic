@@ -36,6 +36,7 @@ import type { TrackingHistory } from '../../api/tracking.service'
 import AWBLink from '../../components/UI/AWBLink'
 import CustomInput from '../../components/UI/inputs/CustomInput'
 import { DelhiveryLifecycleAdapter } from '../../components/tracking/DelhiveryLifecycleAdapter'
+import PublicToolStorySections from '../../components/tools/PublicToolStorySections'
 import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import { SmartTabs } from '../../components/UI/tab/Tabs'
 import { useTracking } from '../../hooks/Orders/useTracking'
@@ -211,23 +212,6 @@ export default function OrderTrackingForm() {
   }
 
   const hasTrackingQuery = Boolean(activeAwb || (activeOrder && activeContact))
-  const supportCards = [
-    {
-      title: 'Live courier events',
-      description: 'See scan updates, location activity, and delivery movement in one view.',
-      icon: <MdLocationOn />,
-    },
-    {
-      title: 'AWB or order lookup',
-      description: 'Search by AWB instantly, or use order reference with customer contact.',
-      icon: <FaReceipt />,
-    },
-    {
-      title: 'Clear delivery context',
-      description: 'Review courier, payment type, estimated date, and current shipment state.',
-      icon: <FaBoxOpen />,
-    },
-  ]
   const recentTracks = [
     {
       awb: 'EM1234567890',
@@ -287,7 +271,7 @@ export default function OrderTrackingForm() {
             sx={{
               position: 'relative',
               overflow: 'hidden',
-              minHeight: { xs: 400, md: 680 },
+              minHeight: { xs: 560, md: 760 },
                 borderRadius: { xs: 4, md: 5 },
                 border: `1px solid ${alpha('#07142F', 0.13)}`,
                 p: { xs: 3, md: 5 },
@@ -340,7 +324,7 @@ export default function OrderTrackingForm() {
             </Typography>
             <Box
               sx={{
-                display: 'grid',
+                display: 'none',
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
                 gap: 1.4,
                 mt: 4,
@@ -373,21 +357,25 @@ export default function OrderTrackingForm() {
               aria-hidden="true"
               sx={{
                 position: 'absolute',
-                right: { xs: -60, md: 34 },
-                bottom: { xs: -58, md: 34 },
-                width: { xs: 210, md: 280 },
-                height: { xs: 210, md: 280 },
-                border: `1px dashed ${alpha(BRAND_PRIMARY, 0.24)}`,
-                borderRadius: '50%',
+                left: { xs: -42, md: -28 },
+                right: { xs: -42, md: -28 },
+                bottom: { xs: -4, md: -12 },
+                height: { xs: 270, md: 365 },
               }}
             >
+              <Box
+                component="img"
+                src="/images/tracking-tool-3d.png"
+                alt=""
+                sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center bottom' }}
+              />
               <Box
                 sx={{
                   position: 'absolute',
                   top: '15%',
                   right: '24%',
-                  width: 18,
-                  height: 18,
+                  width: 14,
+                  height: 14,
                   borderRadius: '50%',
                   bgcolor: BRAND_ACCENT,
                   boxShadow: `0 0 0 10px ${alpha(BRAND_ACCENT, 0.12)}`,
@@ -398,8 +386,8 @@ export default function OrderTrackingForm() {
                   position: 'absolute',
                   left: '17%',
                   bottom: '28%',
-                  width: 18,
-                  height: 18,
+                  width: 14,
+                  height: 14,
                   borderRadius: '50%',
                   bgcolor: BRAND_PRIMARY,
                   boxShadow: `0 0 0 10px ${alpha(BRAND_PRIMARY, 0.12)}`,
@@ -693,35 +681,30 @@ export default function OrderTrackingForm() {
           </Box>
         </Box>
 
-        {!hasTrackingQuery && (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
-              gap: 2,
-            }}
-          >
-            {supportCards.map((card) => (
-              <Box
-                key={card.title}
-                sx={{
-                  border: `1px solid ${alpha('#07142F', 0.12)}`,
-                  borderRadius: 4,
-                  bgcolor: 'rgba(255,255,255,0.9)',
-                  p: { xs: 2.4, md: 3 },
-                  boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
-                }}
-              >
-                <Box sx={{ color: BRAND_ACCENT, fontSize: 28, display: 'flex' }}>{card.icon}</Box>
-                <Typography sx={{ mt: 2, color: '#07142F', fontSize: '1.08rem', fontWeight: 950 }}>
-                  {card.title}
-                </Typography>
-                <Typography sx={{ mt: 1, color: '#546178', fontSize: '0.9rem', lineHeight: 1.7, fontWeight: 600 }}>
-                  {card.description}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+        {!isClientTrackingRoute && !hasTrackingQuery && (
+          <PublicToolStorySections
+            eyebrow="Shipment journey"
+            title="Every handoff, in one clear timeline"
+            description="Track the shipment from order confirmation to final delivery without switching between courier websites."
+            steps={[
+              { icon: <FaReceipt />, title: 'Order confirmed', description: 'Shipment details and AWB are recorded for tracking.' },
+              { icon: <FaBoxOpen />, title: 'Picked and in transit', description: 'Courier scans show movement through the network.' },
+              { icon: <MdLocationOn />, title: 'Out for delivery', description: 'See the latest location context before arrival.' },
+              { icon: <FaShieldAlt />, title: 'Delivered', description: 'The final delivery event completes the journey.' },
+            ]}
+            features={[
+              { icon: <MdLocationOn />, title: 'Real-time events', description: 'Get live courier scan context.' },
+              { icon: <FaReceipt />, title: 'All-in-one lookup', description: 'Search by AWB or order details.' },
+              { icon: <MdSchedule />, title: 'Accurate timeline', description: 'Review every milestone in order.' },
+              { icon: <FaShieldAlt />, title: 'Secure and private', description: 'Tracking data stays protected.' },
+            ]}
+            ctaTitle="Know where it is. Ready for the next shipment?"
+            ctaDescription="Sign in to book, manage and track every courier from one Express Magic dashboard."
+            primaryLabel="Login to dashboard"
+            primaryPath="/login"
+            secondaryLabel="Calculate shipment rate"
+            secondaryPath="/rate-calculator"
+          />
         )}
 
       {isSuccess && tracking && (activeAwb || (activeOrder && activeContact)) && (

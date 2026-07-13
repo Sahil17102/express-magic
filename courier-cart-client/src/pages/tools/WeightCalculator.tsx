@@ -1,7 +1,8 @@
 import { alpha, Box, CardContent, Grid, MenuItem, Stack, TextField, Typography } from '@mui/material'
 import { useMemo, useState } from 'react'
-import { FiBox, FiCheckCircle } from 'react-icons/fi'
+import { FiCheckCircle, FiDollarSign, FiPackage, FiShield, FiZap } from 'react-icons/fi'
 import { TbRulerMeasure, TbScale } from 'react-icons/tb'
+import PublicToolStorySections from '../../components/tools/PublicToolStorySections'
 import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import { BRAND } from '../../config/brand'
 
@@ -158,52 +159,21 @@ export default function WeightCalculator() {
               aria-hidden="true"
               sx={{
                 position: 'absolute',
-                right: { xs: -72, md: 20 },
-                bottom: { xs: -78, md: -42 },
-                width: { xs: 240, md: 330 },
-                height: { xs: 240, md: 330 },
-                borderRadius: '50%',
-                border: `1px dashed ${alpha(teal, 0.25)}`,
+                left: { xs: -42, md: -24 },
+                right: { xs: -42, md: -24 },
+                bottom: { xs: -8, md: -12 },
+                height: { xs: 250, md: 350 },
               }}
             >
               <Box
+                component="img"
+                src="/images/weight-tool-3d.png"
+                alt=""
                 sx={{
-                  position: 'absolute',
-                  inset: '18%',
-                  borderRadius: 6,
-                  display: 'grid',
-                  placeItems: 'center',
-                  color: '#FFFFFF',
-                  bgcolor: teal,
-                  boxShadow: '0 26px 70px rgba(6,42,91,0.24)',
-                  transform: 'rotate(-7deg)',
-                  fontSize: { xs: 78, md: 104 },
-                }}
-              >
-                <FiBox />
-              </Box>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: '12%',
-                  top: '18%',
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  bgcolor: orange,
-                  boxShadow: `0 0 0 12px ${alpha(orange, 0.12)}`,
-                }}
-              />
-              <Box
-                sx={{
-                  position: 'absolute',
-                  left: '15%',
-                  bottom: '20%',
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  bgcolor: teal,
-                  boxShadow: `0 0 0 12px ${alpha(teal, 0.12)}`,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  objectPosition: 'center bottom',
                 }}
               />
             </Box>
@@ -319,6 +289,87 @@ export default function WeightCalculator() {
             </Box>
           </CardContent>
         </Box>
+
+        <Box
+          component="section"
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: '0.9fr 1.1fr' },
+            gap: { xs: 2.5, md: 5 },
+            alignItems: 'center',
+            py: { xs: 3, md: 5 },
+            borderTop: `1px solid ${alpha(teal, 0.1)}`,
+            borderBottom: `1px solid ${alpha(teal, 0.1)}`,
+          }}
+        >
+          <Box>
+            <Typography sx={{ color: orange, fontSize: '0.76rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+              Volumetric formula
+            </Typography>
+            <Typography component="h2" sx={{ mt: 1.2, color: '#07142F', fontSize: { xs: '2rem', md: '3rem' }, fontWeight: 950, lineHeight: 1.05 }}>
+              Dimensions can weigh more than kilograms.
+            </Typography>
+            <Typography sx={{ mt: 1.5, color: muted, lineHeight: 1.75, fontWeight: 650 }}>
+              Couriers reserve vehicle space by volume. That is why a light but large parcel can
+              have a higher billable weight than its actual scale reading.
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              borderRadius: 1,
+              border: `1px solid ${alpha(teal, 0.12)}`,
+              bgcolor: '#FFFFFF',
+              px: { xs: 2.5, md: 4 },
+              py: { xs: 3, md: 4 },
+              boxShadow: '0 18px 44px rgba(7,20,47,0.06)',
+            }}
+          >
+            <Typography sx={{ color: muted, fontSize: '0.78rem', fontWeight: 850 }}>
+              STANDARD COURIER FORMULA
+            </Typography>
+            <Typography sx={{ mt: 1.4, color: teal, fontSize: { xs: '1.25rem', md: '1.8rem' }, fontWeight: 950 }}>
+              Length x Breadth x Height / {divisor}
+            </Typography>
+            <Box sx={{ mt: 2.2, height: 1, bgcolor: alpha(teal, 0.12) }} />
+            <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" gap={2} sx={{ mt: 2.2 }}>
+              <Box>
+                <Typography sx={{ color: muted, fontSize: '0.75rem', fontWeight: 800 }}>Calculated volume</Typography>
+                <Typography sx={{ mt: 0.4, color: '#07142F', fontSize: '1.3rem', fontWeight: 950 }}>
+                  {calculation.volume.toLocaleString('en-IN')} cm3
+                </Typography>
+              </Box>
+              <Box>
+                <Typography sx={{ color: muted, fontSize: '0.75rem', fontWeight: 800 }}>Billable result</Typography>
+                <Typography sx={{ mt: 0.4, color: orange, fontSize: '1.3rem', fontWeight: 950 }}>
+                  {calculation.chargeable.toFixed(2)} kg
+                </Typography>
+              </Box>
+            </Stack>
+          </Box>
+        </Box>
+
+        <PublicToolStorySections
+          eyebrow="How weight calculation works"
+          title="From parcel size to the right billing slab"
+          description="A clear three-step workflow helps you enter dimensions correctly and understand which weight the courier will use."
+          steps={[
+            { icon: <TbRulerMeasure />, title: 'Measure the parcel', description: 'Use the outermost length, breadth and height after final packaging.' },
+            { icon: <TbScale />, title: 'Add actual weight', description: 'Place the packed shipment on a scale and enter the kilogram reading.' },
+            { icon: <FiCheckCircle />, title: 'Use the higher value', description: 'The calculator compares actual and volumetric weight automatically.' },
+          ]}
+          features={[
+            { icon: <FiPackage />, title: 'Accurate slabs', description: 'Reduce avoidable weight adjustments.' },
+            { icon: <FiDollarSign />, title: 'Better estimates', description: 'Know the likely billing basis early.' },
+            { icon: <FiShield />, title: 'Fewer disputes', description: 'Declare parcel details with confidence.' },
+            { icon: <FiZap />, title: 'Instant result', description: 'See chargeable weight as you type.' },
+          ]}
+          ctaTitle="Weight checked. Ready to compare rates?"
+          ctaDescription="Move straight to the rate calculator with your parcel dimensions ready, or sign in to book and manage shipments."
+          primaryLabel="Compare courier rates"
+          primaryPath="/rate-calculator"
+          secondaryLabel="Login to ship"
+          secondaryPath="/login"
+        />
       </Stack>
     </Box>
   )
