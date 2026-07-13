@@ -64,11 +64,11 @@ export default function OrderTrackingForm() {
   const BRAND_PRIMARY = '#062A5B'
   const BRAND_ACCENT = '#ED1C24'
   const shellCardStyles = {
-    borderRadius: 2.5,
-    border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
-    boxShadow: '0 12px 26px rgba(20, 20, 20, 0.07)',
-    background:
-      'radial-gradient(circle at top right, rgba(232,85,0,0.09) 0%, transparent 24%), linear-gradient(180deg, #FFFFFF 0%, #FBF7F4 100%)',
+    borderRadius: { xs: 3, md: 4 },
+    border: `1px solid ${alpha('#07142F', 0.12)}`,
+    boxShadow: '0 24px 70px rgba(7, 20, 47, 0.1)',
+    background: 'rgba(255, 253, 248, 0.9)',
+    backdropFilter: 'blur(18px)',
   }
 
   const navigate = useNavigate()
@@ -208,66 +208,196 @@ export default function OrderTrackingForm() {
     setSearchParams({})
   }
 
+  const hasTrackingQuery = Boolean(activeAwb || (activeOrder && activeContact))
+  const supportCards = [
+    {
+      title: 'Live courier events',
+      description: 'See scan updates, location activity, and delivery movement in one view.',
+      icon: <MdLocationOn />,
+    },
+    {
+      title: 'AWB or order lookup',
+      description: 'Search by AWB instantly, or use order reference with customer contact.',
+      icon: <FaReceipt />,
+    },
+    {
+      title: 'Clear delivery context',
+      description: 'Review courier, payment type, estimated date, and current shipment state.',
+      icon: <FaBoxOpen />,
+    },
+  ]
+
   return (
-    <Stack sx={{ py: { xs: 1, md: 1.4 } }} spacing={{ xs: 1.25, md: 1.5 }}>
-      <Box
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background:
+          'radial-gradient(circle at 82% 12%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 24%, rgba(8,127,140,0.12), transparent 28%), linear-gradient(180deg, #F6F1E8 0%, #FBF8F2 45%, #F6F1E8 100%)',
+        px: { xs: 1.8, md: isClientTrackingRoute ? 0 : 4 },
+        py: { xs: 2, md: isClientTrackingRoute ? 1.5 : 6 },
+      }}
+    >
+      <Stack
         sx={{
-          p: { xs: 1.6, md: 2 },
-          borderRadius: 2.5,
-          border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
-          boxShadow: '0 10px 24px rgba(20, 20, 20, 0.07)',
-          background:
-            'radial-gradient(circle at top right, rgba(26,117,0,0.08) 0%, transparent 26%), linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,245,0.98) 100%)',
+          width: '100%',
+          maxWidth: isClientTrackingRoute ? '100%' : 1220,
+          mx: 'auto',
         }}
+        spacing={{ xs: 2.5, md: 3.5 }}
       >
-        <Typography
+        <Box
           sx={{
-            fontSize: { xs: '1.2rem', md: '1.45rem' },
-            fontWeight: 800,
-            color: '#17171A',
-            lineHeight: 1.12,
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.92fr) minmax(360px,1.08fr)' },
+            gap: { xs: 2.4, md: 4 },
+            alignItems: 'stretch',
           }}
         >
-          Shipment tracking
-        </Typography>
-        <Typography sx={{ mt: 0.5, maxWidth: 760, color: '#6E6763', fontSize: '0.88rem' }}>
-          Track every Express Magic shipment from a single clean workspace using either AWB details or
-          your order reference with customer contact.
-        </Typography>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={0.8} mt={1.1}>
-          {[
-            'Live courier event timeline',
-            'Search by AWB or order reference',
-            'Clear shipment overview and delivery ETA',
-          ].map((item) => (
-            <Chip
-              key={item}
-              label={item}
+          <Box
+            sx={{
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: { xs: 380, md: 560 },
+              borderRadius: { xs: 4, md: 5 },
+              border: `1px solid ${alpha('#07142F', 0.13)}`,
+              p: { xs: 3, md: 5 },
+              background:
+                'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFDF8',
+              backgroundSize: '44px 44px',
+              boxShadow: '0 30px 90px rgba(7,20,47,0.12)',
+            }}
+          >
+            <Typography
               sx={{
-                alignSelf: 'flex-start',
-                bgcolor: alpha(BRAND_PRIMARY, 0.08),
-                color: BRAND_PRIMARY,
-                borderRadius: '999px',
-                fontWeight: 700,
-                height: 26,
-                fontSize: '0.74rem',
+                color: BRAND_ACCENT,
+                fontSize: '0.78rem',
+                fontWeight: 900,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
               }}
-            />
-          ))}
-        </Stack>
-      </Box>
+            >
+              Shipment visibility
+            </Typography>
+            <Typography
+              component="h1"
+              sx={{
+                mt: 2.5,
+                maxWidth: 660,
+                color: '#07142F',
+                fontSize: { xs: '3rem', md: '5.1rem' },
+                fontWeight: 950,
+                letterSpacing: '-0.06em',
+                lineHeight: 0.94,
+              }}
+            >
+              Track every move.
+              <Box component="span" sx={{ display: 'block', color: '#087F8C' }}>
+                Know every handoff.
+              </Box>
+            </Typography>
+            <Typography
+              sx={{
+                mt: 3,
+                maxWidth: 570,
+                color: '#31415B',
+                fontSize: { xs: '1rem', md: '1.12rem' },
+                fontWeight: 600,
+                lineHeight: 1.8,
+              }}
+            >
+              Search by AWB or order reference and get a clean Express Magic delivery view with
+              courier status, key milestones, and event history.
+            </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+                gap: 1.4,
+                mt: 4,
+              }}
+            >
+              {[
+                ['Live events', 'Courier scans'],
+                ['Order lookup', 'AWB or contact'],
+                ['ETA context', 'Delivery view'],
+              ].map(([value, label]) => (
+                <Box
+                  key={value}
+                  sx={{
+                    border: `1px solid ${alpha('#07142F', 0.12)}`,
+                    borderRadius: 3,
+                    bgcolor: 'rgba(255,255,255,0.76)',
+                    p: 2,
+                  }}
+                >
+                  <Typography sx={{ color: '#07142F', fontSize: '1.25rem', fontWeight: 900 }}>
+                    {value}
+                  </Typography>
+                  <Typography sx={{ mt: 0.4, color: '#64748B', fontSize: '0.78rem', fontWeight: 800 }}>
+                    {label}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                right: { xs: -60, md: 34 },
+                bottom: { xs: -58, md: 34 },
+                width: { xs: 210, md: 280 },
+                height: { xs: 210, md: 280 },
+                border: `1px dashed ${alpha(BRAND_PRIMARY, 0.24)}`,
+                borderRadius: '50%',
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '15%',
+                  right: '24%',
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  bgcolor: BRAND_ACCENT,
+                  boxShadow: `0 0 0 10px ${alpha(BRAND_ACCENT, 0.12)}`,
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: '17%',
+                  bottom: '28%',
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  bgcolor: '#087F8C',
+                  boxShadow: `0 0 0 10px ${alpha('#087F8C', 0.12)}`,
+                }}
+              />
+            </Box>
+          </Box>
 
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        sx={{ p: { xs: 1.6, md: 2.2 }, ...shellCardStyles }}
-      >
-        <Typography sx={{ fontSize: '1.05rem', fontWeight: 800, color: '#17171A', mb: 0.25 }}>
-          Find a shipment
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#6E6763', mb: 1.4, fontSize: '0.84rem' }}>
-          Enter the strongest identifier you have and we&apos;ll pull the latest tracking activity.
-        </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              alignSelf: 'center',
+              p: { xs: 2.4, md: 3.2 },
+              ...shellCardStyles,
+            }}
+          >
+            <Typography
+              sx={{ color: BRAND_ACCENT, fontSize: '0.76rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+            >
+              Tracking console
+            </Typography>
+            <Typography sx={{ mt: 1.2, fontSize: { xs: '1.7rem', md: '2.35rem' }, fontWeight: 950, letterSpacing: '-0.04em', color: '#07142F', lineHeight: 1 }}>
+              Find a shipment
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#4B5870', mt: 1.4, mb: 2.3, fontSize: '0.94rem', lineHeight: 1.7 }}>
+              Enter the strongest identifier you have and we&apos;ll pull the latest tracking activity.
+            </Typography>
 
         <SmartTabs
           onChange={(value) => {
@@ -386,14 +516,15 @@ export default function OrderTrackingForm() {
             startIcon={trackingLoading ? <CircularProgress size={18} /> : <FaSearch />}
             disabled={!canSubmit || trackingLoading}
             sx={{
-              borderRadius: '8px',
-              minHeight: 38,
-              px: 2,
-              py: 0.8,
-              bgcolor: BRAND_PRIMARY,
+              borderRadius: 2.5,
+              minHeight: 50,
+              px: 3,
+              py: 1.1,
+              bgcolor: '#07142F',
               textTransform: 'none',
-              fontWeight: 700,
-              '&:hover': { bgcolor: '#591AA4' },
+              fontWeight: 900,
+              boxShadow: '0 16px 34px rgba(7,20,47,0.18)',
+              '&:hover': { bgcolor: BRAND_PRIMARY },
             }}
           >
             {trackingLoading ? 'Tracking...' : 'Track Order'}
@@ -414,16 +545,48 @@ export default function OrderTrackingForm() {
               }
             }}
             sx={{
-              borderRadius: '8px',
-              color: '#6E6763',
+              borderRadius: 2.5,
+              color: '#4B5870',
               textTransform: 'none',
-              fontWeight: 700,
+              fontWeight: 900,
             }}
           >
             Reset
           </Button>
         </Box>
-      </Box>
+          </Box>
+        </Box>
+
+        {!hasTrackingQuery && (
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+              gap: 2,
+            }}
+          >
+            {supportCards.map((card) => (
+              <Box
+                key={card.title}
+                sx={{
+                  border: `1px solid ${alpha('#07142F', 0.12)}`,
+                  borderRadius: 4,
+                  bgcolor: 'rgba(255,253,248,0.88)',
+                  p: { xs: 2.4, md: 3 },
+                  boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
+                }}
+              >
+                <Box sx={{ color: BRAND_ACCENT, fontSize: 28, display: 'flex' }}>{card.icon}</Box>
+                <Typography sx={{ mt: 2, color: '#07142F', fontSize: '1.08rem', fontWeight: 950 }}>
+                  {card.title}
+                </Typography>
+                <Typography sx={{ mt: 1, color: '#546178', fontSize: '0.9rem', lineHeight: 1.7, fontWeight: 600 }}>
+                  {card.description}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        )}
 
       {isSuccess && tracking && (activeAwb || (activeOrder && activeContact)) && (
         <Stack spacing={1.5} mt={1.5}>
@@ -590,5 +753,6 @@ export default function OrderTrackingForm() {
         </Stack>
       )}
     </Stack>
+    </Box>
   )
 }
