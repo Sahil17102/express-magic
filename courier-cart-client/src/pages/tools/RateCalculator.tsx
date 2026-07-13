@@ -1,4 +1,5 @@
 import {
+  alpha,
   Box,
   CardContent,
   CircularProgress,
@@ -191,22 +192,212 @@ export function RateCalculator() {
   }, [paymentOptions, methods])
 
   return (
-    <Stack>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background:
+          'radial-gradient(circle at 82% 10%, rgba(237,28,36,0.13), transparent 28%), radial-gradient(circle at 12% 22%, rgba(6,42,91,0.12), transparent 30%), linear-gradient(180deg, #FFFFFF 0%, #F5F8FC 48%, #EEF4FB 100%)',
+        px: { xs: 1.8, md: 4 },
+        py: { xs: 2.5, md: 6 },
+      }}
+    >
+      <Stack sx={{ width: '100%', maxWidth: 1280, mx: 'auto' }} spacing={3}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' },
+            gap: { xs: 2.4, md: 3 },
+            alignItems: 'stretch',
+          }}
+        >
+          <Box
+            sx={{
+              overflow: 'hidden',
+              borderRadius: { xs: 4, md: 5 },
+              border: `1px solid ${alpha('#07142F', 0.12)}`,
+              p: { xs: 3, md: 4.5 },
+              background:
+                'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFFFF',
+              backgroundSize: '44px 44px',
+              boxShadow: '0 30px 90px rgba(7,20,47,0.1)',
+            }}
+          >
+            <Typography
+              sx={{
+                color: orange,
+                fontSize: '0.78rem',
+                fontWeight: 900,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Price intelligence
+            </Typography>
+            <Typography
+              component="h1"
+              sx={{
+                mt: 2,
+                color: '#07142F',
+                fontSize: { xs: '3rem', md: '4.8rem' },
+                fontWeight: 950,
+                letterSpacing: '-0.06em',
+                lineHeight: 0.96,
+              }}
+            >
+              Compare rates.
+              <Box component="span" sx={{ display: 'block', color: teal }}>
+                Choose smarter.
+              </Box>
+            </Typography>
+            <Typography
+              sx={{
+                mt: 2.5,
+                maxWidth: 700,
+                color: '#31415B',
+                fontSize: { xs: '1rem', md: '1.12rem' },
+                fontWeight: 650,
+                lineHeight: 1.8,
+              }}
+            >
+              Enter pickup, delivery, parcel and payment details to compare courier pricing in one
+              clear Express Magic view.
+            </Typography>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+                gap: 1.4,
+              }}
+            >
+              {[
+                ['B2C + B2B', 'Shipment modes'],
+                ['Live lanes', 'Pincode lookup'],
+                ['COD ready', 'Payment pricing'],
+              ].map(([value, label]) => (
+                <Box
+                  key={value}
+                  sx={{
+                    border: `1px solid ${alpha('#07142F', 0.1)}`,
+                    borderRadius: 3,
+                    bgcolor: 'rgba(255,255,255,0.78)',
+                    p: 1.8,
+                  }}
+                >
+                  <Typography sx={{ color: '#07142F', fontSize: '1.15rem', fontWeight: 950 }}>
+                    {value}
+                  </Typography>
+                  <Typography sx={{ mt: 0.35, color: muted, fontSize: '0.76rem', fontWeight: 800 }}>
+                    {label}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              position: 'relative',
+              overflow: 'hidden',
+              borderRadius: { xs: 4, md: 5 },
+              border: `1px solid ${alpha(teal, 0.13)}`,
+              background: `linear-gradient(145deg, ${tealDark}, ${teal} 64%, ${orange})`,
+              color: '#FFFFFF',
+              p: { xs: 3, md: 3.4 },
+              boxShadow: '0 30px 90px rgba(6,42,91,0.18)',
+              minHeight: { xs: 300, lg: 'auto' },
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                right: -70,
+                top: -70,
+                width: 220,
+                height: 220,
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.22)',
+              }}
+            />
+            <Typography sx={{ color: 'rgba(255,255,255,0.78)', fontSize: '0.82rem', fontWeight: 850 }}>
+              Estimated route price
+            </Typography>
+            <Stack direction="row" alignItems="center" spacing={0.6} sx={{ mt: 2 }}>
+              <BiRupee size={42} />
+              <Typography sx={{ color: '#FFFFFF', fontSize: { xs: '3.4rem', md: '4.6rem' }, fontWeight: 950, lineHeight: 1 }}>
+                84
+              </Typography>
+            </Stack>
+            <Typography sx={{ mt: 1, color: 'rgba(255,255,255,0.82)', fontWeight: 750 }}>
+              Final price appears after you calculate with live courier availability.
+            </Typography>
+            <Box
+              sx={{
+                mt: 4,
+                display: 'grid',
+                gap: 1.3,
+              }}
+            >
+              {['Base freight', 'COD / prepaid logic', 'Weight slab'].map((label, index) => (
+                <Box
+                  key={label}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderRadius: 2.5,
+                    bgcolor: 'rgba(255,255,255,0.12)',
+                    px: 1.6,
+                    py: 1.25,
+                  }}
+                >
+                  <Typography sx={{ color: '#FFFFFF', fontSize: '0.82rem', fontWeight: 800 }}>{label}</Typography>
+                  <Typography sx={{ color: '#FFFFFF', fontSize: '0.82rem', fontWeight: 950 }}>
+                    {index === 0 ? 'Route' : index === 1 ? 'Mode' : 'Kg'}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+
       <FormProvider {...methods}>
         <CardContent
           sx={{
             position: 'relative',
             width: '100%',
             overflow: 'hidden',
-            background: BRAND.colors.paper,
-            border: `1px solid ${border}`,
-            borderRadius: 3,
-            boxShadow: '0 18px 46px rgba(1, 63, 73, 0.08)',
-            p: 3,
+            background: 'rgba(255,255,255,0.94)',
+            border: `1px solid ${alpha('#07142F', 0.12)}`,
+            borderRadius: { xs: 3, md: 4 },
+            boxShadow: '0 24px 70px rgba(7,20,47,0.1)',
+            backdropFilter: 'blur(18px)',
+            p: { xs: 2.4, md: 3.2 },
           }}
         >
-          <Typography variant="h5" gutterBottom sx={{ fontWeight: 700 }}>
-            Rate Calculator
+          <Typography
+            sx={{
+              color: orange,
+              fontSize: '0.76rem',
+              fontWeight: 900,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Rate calculator
+          </Typography>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              mt: 1,
+              color: '#07142F',
+              fontSize: { xs: '1.75rem', md: '2.45rem' },
+              fontWeight: 950,
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Calculate courier price
           </Typography>
 
           {/* Tabs */}
@@ -435,10 +626,10 @@ export function RateCalculator() {
       <CardContent
         sx={{
           mt: 3,
-          backgroundColor: BRAND.colors.paper,
-          border: `1px solid ${border}`,
-          borderRadius: 3,
-          boxShadow: '0 18px 46px rgba(1, 63, 73, 0.08)',
+          backgroundColor: 'rgba(255,255,255,0.94)',
+          border: `1px solid ${alpha('#07142F', 0.12)}`,
+          borderRadius: { xs: 3, md: 4 },
+          boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
           p: 3,
         }}
       >
@@ -485,6 +676,7 @@ export function RateCalculator() {
           })}
         </Stack>
       </CardContent>
-    </Stack>
+      </Stack>
+    </Box>
   )
 }

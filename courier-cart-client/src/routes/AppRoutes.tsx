@@ -67,6 +67,7 @@ const RateCalculator = lazy(() =>
   import('../pages/tools/RateCalculator').then((m) => ({ default: m.RateCalculator })),
 )
 const OrderTrackingForm = lazy(() => import('../pages/tools/OrderTrackingForm'))
+const WeightCalculator = lazy(() => import('../pages/tools/WeightCalculator'))
 
 // Support
 const SupportTicketsPage = lazy(() =>
@@ -131,6 +132,8 @@ export default function AppRoutes() {
           <Route path="/login" element={<Login />} />
           <Route path="/tracking" element={<PublicTrackingRoute />} />
           <Route path="/tracking/:awb" element={<PublicTrackingRoute />} />
+          <Route path="/weight-calculator" element={<WeightCalculator />} />
+          <Route path="/rate-calculator" element={<RateCalculator />} />
           {/* onboarding */}
           <Route
             path="/onboarding-questions"

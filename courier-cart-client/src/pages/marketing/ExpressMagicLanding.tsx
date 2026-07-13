@@ -78,11 +78,9 @@ export default function ExpressMagicLanding() {
         </a>
 
         <nav className="em-nav__links" aria-label="Primary navigation">
-          <a href="#solutions">Solutions</a>
-          <a href="#services">Services</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#resources">Resources</a>
-          <a href="#about">About Us</a>
+          <a href="/tracking">Tracking</a>
+          <a href="/weight-calculator">Weight Calculator</a>
+          <a href="/rate-calculator">Rate Calculator</a>
         </nav>
 
         <div className="em-nav__actions">
