@@ -11,7 +11,7 @@ import { courierLogos, defaultLogo } from '../../utils/constants'
 import type { Box as B2BBox, B2BFormData } from './b2b/B2BOrderForm'
 import type { B2CFormData } from './b2c/B2COrderForm'
 
-const ACCENT = '#047b85'
+const ACCENT = '#062A5B'
 const TEXT_PRIMARY = '#17171A'
 const TEXT_SECONDARY = '#4C6185'
 const SURFACE = '#F6F8FC'
@@ -276,7 +276,7 @@ export const SelectCourierForm = ({ shipment_type }: { shipment_type: 'b2b' | 'b
                 py: 1.15,
                 color: '#fff',
                 background:
-                  'linear-gradient(135deg, #047b85 0%, #047b85 55%, #c6e7ff 100%)',
+                  'linear-gradient(135deg, #062A5B 0%, #062A5B 55%, #D9E6F7 100%)',
               }}
             >
                 <Typography sx={{ fontSize: 10, letterSpacing: '0.08em', opacity: 0.88, color: '#fff' }}>

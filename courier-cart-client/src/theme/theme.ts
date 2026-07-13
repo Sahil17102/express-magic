@@ -144,7 +144,7 @@ const theme = createTheme({
           background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 100%)`,
           color: '#ffffff',
           '&:hover': {
-            background: `linear-gradient(135deg, ${tealDark} 0%, #056c76 100%)`,
+            background: `linear-gradient(135deg, ${tealDark} 0%, #123763 100%)`,
             boxShadow: `0 14px 30px ${alpha(teal, 0.24)}`,
           },
         },
@@ -152,7 +152,7 @@ const theme = createTheme({
           background: `linear-gradient(135deg, ${orange} 0%, ${orangeDark} 100%)`,
           color: '#ffffff',
           '&:hover': {
-            background: `linear-gradient(135deg, ${orangeDark} 0%, #b84c00 100%)`,
+            background: `linear-gradient(135deg, ${orangeDark} 0%, #9F0D17 100%)`,
             boxShadow: `0 14px 30px ${alpha(orange, 0.26)}`,
           },
         },

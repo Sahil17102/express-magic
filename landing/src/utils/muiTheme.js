@@ -7,18 +7,18 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#D97943",
+      main: "#ED1C24",
     },
     secondary: {
-      main: "#171310",
+      main: "#061A33",
     },
     background: {
-      default: "#f7efe6",
+      default: "#F5F8FC",
       paper: "#ffffff",
     },
     text: {
-      primary: "#171310",
-      secondary: "#6c625b",
+      primary: "#061A33",
+      secondary: "#64748B",
     },
   },
   typography: {
@@ -26,19 +26,19 @@ const theme = createTheme({
     h1: {
       fontFamily: headingFont,
       fontWeight: 800,
-      letterSpacing: "-0.072em",
+      letterSpacing: 0,
       lineHeight: 0.92,
     },
     h2: {
       fontFamily: headingFont,
       fontWeight: 800,
-      letterSpacing: "-0.06em",
+      letterSpacing: 0,
       lineHeight: 0.98,
     },
     h3: {
       fontFamily: headingFont,
       fontWeight: 800,
-      letterSpacing: "-0.04em",
+      letterSpacing: 0,
       lineHeight: 1.05,
     },
     h4: {

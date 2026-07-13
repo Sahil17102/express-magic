@@ -20,7 +20,7 @@ interface GlassDrawerProps {
   children: React.ReactNode
 }
 
-const BRAND = '#047b85'
+const BRAND = '#062A5B'
 const TEXT = '#141414'
 
 const CustomDrawer: React.FC<GlassDrawerProps> = ({

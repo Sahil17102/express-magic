@@ -37,7 +37,7 @@ function PartnerVectorMark({ partner, sizeClass = "h-8 w-8" }) {
     <svg className={sizeClass} viewBox="0 0 48 48" role="img" aria-label={`${partner.name} logo`}>
       <rect x="5" y="5" width="38" height="38" rx="9" fill={partner.brandColor} />
       <path d="M8 33 33 8h10v10L18 43H8V33Z" fill={partner.markAccent} opacity="0.96" />
-      <circle cx="35.5" cy="12.5" r="3.5" fill={darkText ? "#047b85" : "#ffffff"} opacity="0.92" />
+      <circle cx="35.5" cy="12.5" r="3.5" fill={darkText ? "#062A5B" : "#ffffff"} opacity="0.92" />
       <text
         x="24"
         y="29"
@@ -45,7 +45,7 @@ function PartnerVectorMark({ partner, sizeClass = "h-8 w-8" }) {
         fontFamily="Inter, Arial, sans-serif"
         fontSize={partner.mark.length > 1 ? 13 : 18}
         fontWeight="900"
-        fill={darkText ? "#047b85" : "#ffffff"}
+        fill={darkText ? "#062A5B" : "#ffffff"}
       >
         {partner.mark}
       </text>
@@ -109,7 +109,7 @@ export default function CommerceSections() {
                   <div className="surface-panel rounded-[26px] p-5">
                     <Typography
                       className="text-[0.72rem] font-semibold uppercase tracking-[0.2em]"
-                      sx={{ color: "#D97943" }}
+                      sx={{ color: "#ED1C24" }}
                     >
                       Courier switchboard
                     </Typography>

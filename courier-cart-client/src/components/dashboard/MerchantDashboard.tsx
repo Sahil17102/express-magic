@@ -11,7 +11,7 @@ import {
   FiTrendingUp,
 } from 'react-icons/fi'
 
-const BRAND_ORANGE = '#047b85'
+const BRAND_ORANGE = '#062A5B'
 const BRAND_DARK = '#0f172a'
 const BG_LIGHT = '#f8fafc'
 
@@ -81,7 +81,7 @@ export default function MerchantDashboard() {
                 letterSpacing: '-0.5px',
               }}
             >
-              ⬡ Feather Global
+              ⬡ Express Magic
             </Box>
           </Box>
 

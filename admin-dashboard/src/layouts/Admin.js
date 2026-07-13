@@ -176,7 +176,7 @@ export default function Dashboard(props) {
           w="6px"
           cursor="col-resize"
           zIndex="1400"
-          _hover={{ bg: useColorModeValue('rgba(4, 123, 133, 0.14)', 'rgba(4, 123, 133, 0.24)') }}
+          _hover={{ bg: useColorModeValue('rgba(6, 42, 91, 0.14)', 'rgba(6, 42, 91, 0.24)') }}
           onMouseDown={() => setIsResizing(true)}
         />
       </ChakraProvider>

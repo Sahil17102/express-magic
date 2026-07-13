@@ -22,8 +22,8 @@ export default function LandingHeader({
             <a href="#top" className="flex min-w-0 items-center gap-3">
               <Box
                 component="img"
-                src="/feather-global-logo.svg"
-                alt="Feather Global"
+                src="/express-magic-logo.jpeg"
+                alt="Express Magic"
                 sx={{ width: { xs: 142, sm: 172 }, height: "auto", flexShrink: 0 }}
               />
               <div className="hidden min-w-0 sm:block">
@@ -32,7 +32,7 @@ export default function LandingHeader({
                   className="brand-heading text-lg"
                   sx={{ fontFamily: '"Poppins", sans-serif' }}
                 >
-                  Feather Global
+                  Express Magic
                 </Typography>
                 <Typography className="text-sm" sx={{ color: "#6d6157" }}>
                   One landing front door. Three clean product paths.
@@ -45,7 +45,7 @@ export default function LandingHeader({
                 <a
                   key={item.href}
                   href={item.href}
-                  className="rounded-full px-3 py-2 text-sm font-semibold text-[#4c4148] transition-colors hover:bg-white/70 hover:text-[#D97943]"
+                  className="rounded-full px-3 py-2 text-sm font-semibold text-[#4c4148] transition-colors hover:bg-white/70 hover:text-[#ED1C24]"
                 >
                   {item.label}
                 </a>
@@ -59,7 +59,7 @@ export default function LandingHeader({
                   variant="outlined"
                   sx={{
                     borderColor: "rgba(217, 121, 67, 0.22)",
-                    color: "#181318",
+                    color: "#061A33",
                     borderRadius: "999px",
                     px: 2.2,
                   }}
@@ -71,7 +71,7 @@ export default function LandingHeader({
                   variant="outlined"
                   sx={{
                     borderColor: "rgba(23, 19, 16, 0.12)",
-                    color: "#181318",
+                    color: "#061A33",
                     borderRadius: "999px",
                     px: 2.2,
                   }}
@@ -85,8 +85,8 @@ export default function LandingHeader({
                 sx={{
                   borderRadius: "999px",
                   px: 2.6,
-                  backgroundColor: "#171310",
-                  "&:hover": { backgroundColor: "#30262e" },
+                  backgroundColor: "#061A33",
+                  "&:hover": { backgroundColor: "#123763" },
                 }}
               >
                 Merchant Login
@@ -130,15 +130,15 @@ export default function LandingHeader({
                       mt: 1,
                       borderRadius: "999px",
                       backgroundColor:
-                        item.label === "Merchant Login" ? "#171310" : "transparent",
-                      color: item.label === "Merchant Login" ? "#ffffff" : "#181318",
+                        item.label === "Merchant Login" ? "#061A33" : "transparent",
+                      color: item.label === "Merchant Login" ? "#ffffff" : "#061A33",
                       borderColor:
                         item.label === "Merchant Login"
-                          ? "#171310"
+                          ? "#061A33"
                           : "rgba(217, 121, 67, 0.22)",
                       "&:hover": {
                         backgroundColor:
-                          item.label === "Merchant Login" ? "#30262e" : "#f9efe4",
+                          item.label === "Merchant Login" ? "#123763" : "#f9efe4",
                       },
                     }}
                   >

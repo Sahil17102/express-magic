@@ -807,7 +807,7 @@ export function TrackingPanel() {
             </button>
           </div>
 
-          <div className="mt-6 rounded-[1.75rem] bg-[linear-gradient(135deg,rgba(198,231,255,0.92),rgba(255,221,174,0.88))] px-5 py-5 text-slate-900 shadow-sm">
+          <div className="mt-6 rounded-[1.75rem] bg-[linear-gradient(135deg,rgba(217,230,247,0.92),rgba(253,231,234,0.88))] px-5 py-5 text-slate-900 shadow-sm">
             <p className="text-sm text-slate-600">Latest lookup</p>
             <p className="mt-2 break-all font-display text-2xl sm:text-3xl">{searched}</p>
             <p className="mt-1 text-xs uppercase tracking-[0.22em] text-slate-500">{mode}</p>

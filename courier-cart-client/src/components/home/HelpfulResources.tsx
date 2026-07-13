@@ -14,7 +14,7 @@ const HelpfulResources = () => {
       title: 'Explore Our Blog',
       description: 'Get insights, product updates, and how-to guides to stay̦ ahead.',
       buttonText: 'Read Blogs',
-      onClick: () => window.open('https://featherglobal.in/blogs', '_blank'),
+      onClick: () => window.open('https://expressmagic.in/blogs', '_blank'),
     },
     {
       image: '/images/keyboard.png',
@@ -43,7 +43,7 @@ const HelpfulResources = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                color: '#047b85',
+                color: '#062A5B',
                 height: '100%',
                 border: '1px solid #3DD598',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
@@ -51,7 +51,7 @@ const HelpfulResources = () => {
                 '&:hover': {
                   transform: 'translateY(-4px)',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                  border: '1px solid #047b85',
+                  border: '1px solid #062A5B',
                 },
               }}
             >
@@ -110,14 +110,14 @@ const HelpfulResources = () => {
               </Box>
 
               {/* Title */}
-              <Typography fontWeight={600} fontSize="16px" sx={{ color: '#047b85' }}>
+              <Typography fontWeight={600} fontSize="16px" sx={{ color: '#062A5B' }}>
                 {card.title}
               </Typography>
 
               {/* Description */}
               <Typography
                 variant="body2"
-                sx={{ color: '#047b85', fontSize: '13px', lineHeight: 1.6, opacity: 0.8 }}
+                sx={{ color: '#062A5B', fontSize: '13px', lineHeight: 1.6, opacity: 0.8 }}
               >
                 {card.description}
               </Typography>
@@ -129,7 +129,7 @@ const HelpfulResources = () => {
                 sx={{
                   mt: 'auto',
                   alignSelf: isMobile ? 'center' : 'flex-start',
-                  bgcolor: '#047b85',
+                  bgcolor: '#062A5B',
                   color: '#FFFFFF',
                   fontWeight: 600,
                   '&:hover': {

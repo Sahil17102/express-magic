@@ -25,13 +25,13 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
               <div className="flex items-center gap-3">
                 <Box
                   component="img"
-                  src="/feather-global-logo.svg"
-                  alt="Feather Global"
+                  src="/express-magic-logo.jpeg"
+                  alt="Express Magic"
                   sx={{ width: { xs: 148, sm: 176 }, height: "auto" }}
                 />
                 <div>
                   <Typography variant="h6" className="brand-heading text-xl">
-                    Feather Global
+                    Express Magic
                   </Typography>
                   <Typography className="text-sm" sx={{ color: "#6d6157" }}>
                     Har parcel tezi se manzil tak
@@ -43,7 +43,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                 className="mt-6 max-w-md text-sm leading-8 sm:text-base"
                 sx={{ color: "#625b63" }}
               >
-                Feather Global turns one public brand link into a polished entry point for merchants,
+                Express Magic turns one public brand link into a polished entry point for merchants,
                 clients, and admins. Share the landing page widely, then launch the right product
                 surface in a fresh tab when the user is ready.
               </Typography>
@@ -58,8 +58,8 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                     borderRadius: "999px",
                     px: 3,
                     py: 1.25,
-                    backgroundColor: "#171310",
-                    "&:hover": { backgroundColor: "#30262e" },
+                    backgroundColor: "#061A33",
+                    "&:hover": { backgroundColor: "#123763" },
                   }}
                 >
                   Open Merchant Login
@@ -73,7 +73,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                     px: 3,
                     py: 1.25,
                     borderColor: "rgba(217, 121, 67, 0.32)",
-                    color: "#181318",
+                    color: "#061A33",
                   }}
                 >
                   Open Client App
@@ -84,7 +84,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                 <div className="rounded-[24px] border border-[#ead8de] bg-[#fff7f8] p-4">
                   <Typography
                     className="text-xs font-semibold uppercase tracking-[0.2em]"
-                    sx={{ color: "#D97943" }}
+                    sx={{ color: "#ED1C24" }}
                   >
                     Head Office
                   </Typography>
@@ -95,7 +95,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                 <div className="rounded-[24px] border border-[#ead8de] bg-[#fffaf4] p-4">
                   <Typography
                     className="text-xs font-semibold uppercase tracking-[0.2em]"
-                    sx={{ color: "#D97943" }}
+                    sx={{ color: "#ED1C24" }}
                   >
                     Support
                   </Typography>
@@ -115,7 +115,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                     <div>
                       <Typography
                         className="text-[0.72rem] font-semibold uppercase tracking-[0.2em]"
-                        sx={{ color: "#D97943" }}
+                        sx={{ color: "#ED1C24" }}
                       >
                         {item.label}
                       </Typography>
@@ -132,7 +132,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
                       sx={{
                         minWidth: "auto",
                         borderRadius: "999px",
-                        color: "#171310",
+                        color: "#061A33",
                         px: 1,
                       }}
                     >
@@ -180,7 +180,7 @@ export default function LandingFooter({ footerGroups, footerMeta }) {
 
           <div className="flex flex-col gap-3 text-sm text-[#6b6068] sm:flex-row sm:items-center sm:justify-between">
             <Typography className="text-sm text-[#6b6068]">
-              Feather Global (c) {currentYear}. All rights reserved.
+              Express Magic (c) {currentYear}. All rights reserved.
             </Typography>
             <Typography className="text-sm text-[#6b6068]">
               Built for ecommerce teams who want faster shipping decisions and clearer delivery

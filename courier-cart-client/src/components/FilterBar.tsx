@@ -62,8 +62,8 @@ interface GlassFilterBarProps<T extends Record<string, any>> {
   buttonIcon?: React.ReactNode
 }
 
-const BRAND_ORANGE = '#047b85'
-const BRAND_WINE = '#ff821c'
+const BRAND_ORANGE = '#062A5B'
+const BRAND_WINE = '#ED1C24'
 const BRAND_INK = '#17171A'
 const BRAND_MUTED = '#6E6763'
 

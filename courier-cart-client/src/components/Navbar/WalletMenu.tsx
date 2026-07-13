@@ -7,7 +7,7 @@ import useEmployeePermissions from '../../hooks/User/useEmployeePermissions'
 import { useWalletBalance } from '../../hooks/useWalletBalance'
 import AddMoneyDialog from '../AddMoneyDialog'
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const BRAND_DARK = '#17171A'
 
 interface WalletMenuProps {

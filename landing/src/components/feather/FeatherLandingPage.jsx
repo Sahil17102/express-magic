@@ -13,7 +13,7 @@ const MotionImg = motion.img;
 const MotionSpan = motion.span;
 
 const primaryButtonClass =
-  "inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#047b85] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(4,123,133,0.18)] transition hover:-translate-y-0.5 hover:bg-[#056c76] sm:w-auto";
+  "inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto";
 
 const courierPartners = [
   {
@@ -110,9 +110,9 @@ const featureShowcaseItems = [
     lineA: "M8 126 L54 102 L96 102 L140 54 L184 86 L228 74 L272 78 L316 58 L360 68 L404 34 L448 54 L492 36",
     lineB: "M8 142 L54 126 L96 114 L140 88 L184 108 L228 94 L272 88 L316 96 L360 94 L404 78 L448 90 L492 72",
     status: [
-      { label: "Delivered", value: "46%", color: "#047b85" },
+      { label: "Delivered", value: "46%", color: "#062A5B" },
       { label: "In Transit", value: "30%", color: "#0f9aa4" },
-      { label: "Pending", value: "10%", color: "#ff821c" },
+      { label: "Pending", value: "10%", color: "#ED1C24" },
       { label: "Exception", value: "14%", color: "#ef4b3f" },
     ],
   },
@@ -138,9 +138,9 @@ const featureShowcaseItems = [
     lineA: "M8 116 L54 96 L96 84 L140 78 L184 60 L228 54 L272 48 L316 42 L360 36 L404 30 L448 28 L492 24",
     lineB: "M8 136 L54 130 L96 116 L140 104 L184 96 L228 82 L272 74 L316 70 L360 62 L404 52 L448 48 L492 42",
     status: [
-      { label: "Express", value: "38%", color: "#047b85" },
+      { label: "Express", value: "38%", color: "#062A5B" },
       { label: "Standard", value: "34%", color: "#0f9aa4" },
-      { label: "Economy", value: "18%", color: "#ff821c" },
+      { label: "Economy", value: "18%", color: "#ED1C24" },
       { label: "Special", value: "10%", color: "#ef4b3f" },
     ],
   },
@@ -166,9 +166,9 @@ const featureShowcaseItems = [
     lineA: "M8 132 L54 120 L96 94 L140 102 L184 70 L228 72 L272 56 L316 64 L360 48 L404 42 L448 44 L492 28",
     lineB: "M8 144 L54 132 L96 126 L140 112 L184 104 L228 96 L272 90 L316 82 L360 78 L404 70 L448 64 L492 56",
     status: [
-      { label: "Delivered", value: "51%", color: "#047b85" },
+      { label: "Delivered", value: "51%", color: "#062A5B" },
       { label: "Moving", value: "29%", color: "#0f9aa4" },
-      { label: "Pending", value: "12%", color: "#ff821c" },
+      { label: "Pending", value: "12%", color: "#ED1C24" },
       { label: "NDR", value: "8%", color: "#ef4b3f" },
     ],
   },
@@ -194,9 +194,9 @@ const featureShowcaseItems = [
     lineA: "M8 118 L54 100 L96 92 L140 76 L184 82 L228 62 L272 58 L316 44 L360 42 L404 32 L448 30 L492 22",
     lineB: "M8 142 L54 132 L96 120 L140 112 L184 104 L228 92 L272 86 L316 78 L360 70 L404 64 L448 58 L492 50",
     status: [
-      { label: "Auto Labels", value: "42%", color: "#047b85" },
+      { label: "Auto Labels", value: "42%", color: "#062A5B" },
       { label: "Rules", value: "28%", color: "#0f9aa4" },
-      { label: "Alerts", value: "18%", color: "#ff821c" },
+      { label: "Alerts", value: "18%", color: "#ED1C24" },
       { label: "Manual", value: "12%", color: "#ef4b3f" },
     ],
   },
@@ -222,9 +222,9 @@ const featureShowcaseItems = [
     lineA: "M8 134 L54 112 L96 118 L140 82 L184 74 L228 90 L272 62 L316 66 L360 44 L404 50 L448 36 L492 24",
     lineB: "M8 146 L54 138 L96 126 L140 116 L184 108 L228 98 L272 92 L316 86 L360 76 L404 72 L448 66 L492 58",
     status: [
-      { label: "Profitable", value: "44%", color: "#047b85" },
+      { label: "Profitable", value: "44%", color: "#062A5B" },
       { label: "Stable", value: "31%", color: "#0f9aa4" },
-      { label: "Watch", value: "15%", color: "#ff821c" },
+      { label: "Watch", value: "15%", color: "#ED1C24" },
       { label: "Risk", value: "10%", color: "#ef4b3f" },
     ],
   },
@@ -257,7 +257,7 @@ const testimonialSlides = [
   [
     {
       quote:
-        "Feather Global has completely transformed our shipping operations. One integration, multiple carriers, and real-time tracking - everything just works.",
+        "Express Magic has completely transformed our shipping operations. One integration, multiple carriers, and real-time tracking - everything just works.",
       name: "James Carter",
       role: "Operations Manager, TrendyMart",
       brand: "TrendyMart",
@@ -275,7 +275,7 @@ const testimonialSlides = [
     },
     {
       quote:
-        "From API integration to everyday shipments, Feather Global makes global shipping simple and scalable. Highly recommended!",
+        "From API integration to everyday shipments, Express Magic makes global shipping simple and scalable. Highly recommended!",
       name: "Michael Brown",
       role: "Co-founder, GearUp",
       brand: "GearUp",
@@ -295,7 +295,7 @@ const testimonialSlides = [
     },
     {
       quote:
-        "Feather Global helped us bring order volume, carrier performance, and cost visibility into one place. The workflow feels built for scaling brands.",
+        "Express Magic helped us bring order volume, carrier performance, and cost visibility into one place. The workflow feels built for scaling brands.",
       name: "Ravi Kapoor",
       role: "Founder, QuickCart",
       brand: "QuickCart",
@@ -315,7 +315,7 @@ const testimonialSlides = [
   [
     {
       quote:
-        "We needed a shipping platform that could grow with us. Feather Global gave us carrier access, tracking visibility, and a reliable operating rhythm.",
+        "We needed a shipping platform that could grow with us. Express Magic gave us carrier access, tracking visibility, and a reliable operating rhythm.",
       name: "Daniel Evans",
       role: "COO, CraftLane",
       brand: "CraftLane",
@@ -333,7 +333,7 @@ const testimonialSlides = [
     },
     {
       quote:
-        "Feather Global makes shipping decisions clearer. The analytics helped us understand which lanes, couriers, and service levels work best.",
+        "Express Magic makes shipping decisions clearer. The analytics helped us understand which lanes, couriers, and service levels work best.",
       name: "Omar Khan",
       role: "Growth Manager, ModeHaus",
       brand: "ModeHaus",
@@ -368,14 +368,14 @@ const testimonialStats = [
 
 const faqItems = [
   {
-    question: "What is Feather Global?",
+    question: "What is Express Magic?",
     answer:
-      "Feather Global is an all-in-one shipping platform that connects you with multiple courier partners through a single integration. It helps businesses simplify shipping, save time and money, and deliver a better customer experience.",
+      "Express Magic is an all-in-one shipping platform that connects you with multiple courier partners through a single integration. It helps businesses simplify shipping, save time and money, and deliver a better customer experience.",
   },
   {
-    question: "Which couriers are integrated with Feather Global?",
+    question: "Which couriers are integrated with Express Magic?",
     answer:
-      "Feather Global supports leading courier partners including Delhivery, Blue Dart, DTDC, XpressBees, Ecom Express, Shadowfax, and other trusted networks for domestic and international delivery.",
+      "Express Magic supports leading courier partners including Delhivery, Blue Dart, DTDC, XpressBees, Ecom Express, Shadowfax, and other trusted networks for domestic and international delivery.",
   },
   {
     question: "How does the pricing work?",
@@ -388,14 +388,14 @@ const faqItems = [
       "Plans can be tailored based on shipment volume and integration needs. The goal is to keep onboarding simple, transparent, and aligned with how your business ships.",
   },
   {
-    question: "How secure is my data with Feather Global?",
+    question: "How secure is my data with Express Magic?",
     answer:
-      "Feather Global is built with secure access patterns and operational safeguards so shipment, customer, and business data remain protected across the workflow.",
+      "Express Magic is built with secure access patterns and operational safeguards so shipment, customer, and business data remain protected across the workflow.",
   },
   {
-    question: "Can I integrate Feather Global with my existing platform?",
+    question: "Can I integrate Express Magic with my existing platform?",
     answer:
-      "Yes. Feather Global can connect with ecommerce stores, marketplaces, internal tools, and custom systems using API-ready shipping workflows.",
+      "Yes. Express Magic can connect with ecommerce stores, marketplaces, internal tools, and custom systems using API-ready shipping workflows.",
   },
   {
     question: "What kind of support do you provide?",
@@ -411,7 +411,7 @@ const valueCards = [
       "Connect Shopify, WooCommerce, Amazon, Flipkart and more so every selling channel lives in one place.",
     icon: "globe",
     shell:
-      "bg-[linear-gradient(135deg,rgba(198,231,255,0.5),rgba(255,255,255,0.95))]",
+      "bg-[linear-gradient(135deg,rgba(217,230,247,0.5),rgba(255,255,255,0.95))]",
   },
   {
     title: "27+ Courier Partners",
@@ -419,7 +419,7 @@ const valueCards = [
       "Work with Blue Dart, Delhivery, XpressBees, FedEx and more from one shipping workspace.",
     icon: "truck",
     shell:
-      "bg-[linear-gradient(135deg,rgba(255,221,174,0.42),rgba(255,255,255,0.95))]",
+      "bg-[linear-gradient(135deg,rgba(253,231,234,0.42),rgba(255,255,255,0.95))]",
   },
   {
     title: "Auto Order Sync",
@@ -427,7 +427,7 @@ const valueCards = [
       "Orders from all channels flow into the dashboard automatically so your team can ship faster.",
     icon: "refresh",
     shell:
-      "bg-[linear-gradient(135deg,rgba(212,246,255,0.58),rgba(255,255,255,0.95))]",
+      "bg-[linear-gradient(135deg,rgba(217,230,247,0.58),rgba(255,255,255,0.95))]",
   },
   {
     title: "Automated Label Generation",
@@ -435,7 +435,7 @@ const valueCards = [
       "Labels are prepared using your preferred courier logic so operators spend less time repeating manual tasks.",
     icon: "package",
     shell:
-      "bg-[linear-gradient(135deg,rgba(198,231,255,0.46),rgba(255,255,255,0.95))]",
+      "bg-[linear-gradient(135deg,rgba(217,230,247,0.46),rgba(255,255,255,0.95))]",
   },
   {
     title: "Unified Dashboard",
@@ -443,7 +443,7 @@ const valueCards = [
       "Manage orders, shipments, analytics, and delivery updates from a single operational view.",
     icon: "chart",
     shell:
-      "bg-[linear-gradient(135deg,rgba(255,221,174,0.34),rgba(255,255,255,0.95))]",
+      "bg-[linear-gradient(135deg,rgba(253,231,234,0.34),rgba(255,255,255,0.95))]",
   },
 ];
 
@@ -635,10 +635,10 @@ function HeroProofStrip() {
             <Icon name={item.icon} className="h-4 w-4" />
           </span>
           <span>
-            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#f47d21]">
+            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#ED1C24]">
               {item.label}
             </span>
-            <span className="mt-1 block text-sm font-semibold leading-snug text-[#071923]">
+            <span className="mt-1 block text-sm font-semibold leading-snug text-[#061A33]">
               {item.value}
             </span>
           </span>
@@ -650,13 +650,13 @@ function HeroProofStrip() {
 
 function AlignedPanelSection({ children, shellClassName = "", innerClassName = "", sectionNumber }) {
   return (
-    <section className="section-transition bg-[#047b85]">
+    <section className="section-transition bg-[#062A5B]">
       <div
-        className={`relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#f3fbff] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16 ${shellClassName}`}
+        className={`relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16 ${shellClassName}`}
       >
-        <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(4,123,133,0.32),rgba(255,130,28,0.24),transparent)]" />
+        <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(6,42,91,0.32),rgba(237,28,36,0.24),transparent)]" />
         {sectionNumber ? (
-          <span className="pointer-events-none absolute right-6 top-6 hidden font-display text-[4.8rem] font-extrabold leading-none text-[#047b85]/[0.07] lg:block">
+          <span className="pointer-events-none absolute right-6 top-6 hidden font-display text-[4.8rem] font-extrabold leading-none text-[#062A5B]/[0.07] lg:block">
             {sectionNumber}
           </span>
         ) : null}
@@ -669,13 +669,13 @@ function AlignedPanelSection({ children, shellClassName = "", innerClassName = "
 function AlignedSectionHeading({ eyebrow, title, description, className = "" }) {
   return (
     <div className={className}>
-      <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#f47d21]">
+      <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
         {eyebrow}
       </p>
-      <h2 className="mt-4 max-w-[44rem] font-display text-[2rem] font-extrabold leading-[1.16] text-[#071923] sm:text-[2.55rem]">
+      <h2 className="mt-4 max-w-[44rem] font-display text-[2rem] font-extrabold leading-[1.16] text-[#061A33] sm:text-[2.55rem]">
         {title}
       </h2>
-      <p className="mt-5 max-w-[36rem] text-sm font-medium leading-[1.75] text-[#17242d] sm:text-base">
+      <p className="mt-5 max-w-[36rem] text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
         {description}
       </p>
     </div>
@@ -692,7 +692,7 @@ function HeroSection() {
       <div className="mx-auto grid max-w-[1440px] min-w-0 grid-cols-1 gap-8 px-5 pb-10 sm:px-8 lg:grid-cols-[0.45fr_0.55fr] lg:items-center lg:px-16 lg:pb-4">
         <Reveal className="min-w-0" delay={0.04}>
           <div className="relative z-10 min-w-0 max-w-[40rem] lg:pb-4">
-            <span className="text-[0.95rem] font-extrabold uppercase tracking-[0.12em] text-[#f47d21] sm:text-[1.12rem]">
+            <span className="text-[0.95rem] font-extrabold uppercase tracking-[0.12em] text-[#ED1C24] sm:text-[1.12rem]">
               One Platform. All Couriers.
             </span>
             <h1 className="mt-6 max-w-full break-words font-display text-[2.18rem] font-extrabold leading-[1.12] text-[#061a27] sm:text-[4.05rem] sm:leading-[1.08] lg:text-[3.55rem] xl:text-[3.75rem]">
@@ -700,20 +700,20 @@ function HeroSection() {
               <span className="mt-1 block text-[#087f8c]">Scale Globally.</span>
             </h1>
             <p className="mt-7 max-w-[21.5rem] text-[1rem] leading-[1.85] text-[#0d1720] sm:max-w-[31rem] sm:text-[1.2rem]">
-              Feather Global connects you with multiple courier partners through a single
+              Express Magic connects you with multiple courier partners through a single
               integration, saving you time, money, and effort.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
               <ActionAnchor
                 href={AUTH_APP_URL}
-                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg bg-[#037c87] px-7 py-4 text-base font-bold text-white shadow-[0_14px_28px_rgba(3,124,135,0.18)] transition hover:-translate-y-0.5 hover:bg-[#056c76] sm:w-auto"
+                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg bg-[#037c87] px-7 py-4 text-base font-bold text-white shadow-[0_14px_28px_rgba(3,124,135,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto"
                 style={{ color: "#ffffff" }}
               >
                 Get Started
               </ActionAnchor>
               <a
                 href="#site-footer"
-                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg border border-[#b9e0e5] bg-white px-7 py-4 text-base font-bold text-[#047b85] shadow-[0_12px_26px_rgba(4,123,133,0.06)] transition hover:-translate-y-0.5 hover:bg-[#eef9fb] sm:w-auto"
+                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg border border-[#C7D6EA] bg-white px-7 py-4 text-base font-bold text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.06)] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto"
               >
                 Talk to Us
               </a>
@@ -757,7 +757,7 @@ function CourierPartnerLogo({ partner }) {
       <svg className="h-full w-full" viewBox="0 0 48 48" role="img" aria-label={`${partner.name} mark`}>
         <rect x="5" y="5" width="38" height="38" rx="9" fill={partner.bg} />
         <path d="M8 33 33 8h10v10L18 43H8V33Z" fill={partner.accent} opacity="0.96" />
-        <circle cx="35.5" cy="12.5" r="3.5" fill={darkText ? "#047b85" : "#ffffff"} opacity="0.92" />
+        <circle cx="35.5" cy="12.5" r="3.5" fill={darkText ? "#062A5B" : "#ffffff"} opacity="0.92" />
         <text
           x="24"
           y="29"
@@ -766,7 +766,7 @@ function CourierPartnerLogo({ partner }) {
           fontSize={partner.mark.length > 1 ? 13 : 18}
           fontWeight="900"
           letterSpacing={partner.mark.length > 1 ? 0.4 : 0}
-          fill={darkText ? "#047b85" : "#ffffff"}
+          fill={darkText ? "#062A5B" : "#ffffff"}
         >
           {partner.mark}
         </text>
@@ -777,7 +777,7 @@ function CourierPartnerLogo({ partner }) {
 
 function PlatformsSection() {
   return (
-    <section className="section-transition relative overflow-hidden bg-[#047b85] pb-9 pt-[3.45rem] text-white sm:pb-10">
+    <section className="section-transition relative overflow-hidden bg-[#062A5B] pb-9 pt-[3.45rem] text-white sm:pb-10">
       <div className="pointer-events-none absolute -top-[4.8rem] left-1/2 h-[7.8rem] w-full -translate-x-1/2 rounded-b-[50%] bg-[#fbfefe] sm:w-[112%]" />
       <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <MotionDiv
@@ -814,22 +814,19 @@ function PlatformsSection() {
 
 function FeatherMark({ compact = false }) {
   return (
-    <div
-      className={`grid ${compact ? "h-16 w-16" : "h-[5.6rem] w-[5.6rem]"} grid-cols-2 grid-rows-2 gap-1 rounded-xl border border-[#dceef2] bg-white p-3 shadow-[0_14px_34px_rgba(4,62,69,0.08)]`}
+    <img
+      src="/express-magic-logo.jpeg"
+      alt=""
+      className={`${compact ? "h-16" : "h-[5.6rem]"} w-auto rounded-xl border border-[#D6E1EF] bg-white object-contain p-1 shadow-[0_14px_34px_rgba(6,26,51,0.08)]`}
       aria-hidden="true"
-    >
-      <div className="grid place-items-center bg-[#047b85] text-sm font-bold text-white">F</div>
-      <div className="bg-[#ff821c]" />
-      <div className="bg-[#ff821c]" />
-      <div className="grid place-items-center bg-[#047b85] text-sm font-bold text-white">G</div>
-    </div>
+    />
   );
 }
 
 function ConnectorDot({ className = "" }) {
   return (
     <span
-      className={`absolute left-1/2 -bottom-[0.62rem] z-20 grid h-5 w-5 -translate-x-1/2 place-items-center rounded-full bg-[#047b85] text-white shadow-[0_6px_14px_rgba(4,123,133,0.2)] ${className}`}
+      className={`absolute left-1/2 -bottom-[0.62rem] z-20 grid h-5 w-5 -translate-x-1/2 place-items-center rounded-full bg-[#062A5B] text-white shadow-[0_6px_14px_rgba(6,42,91,0.2)] ${className}`}
       aria-hidden="true"
     >
       <span className="h-1.5 w-1.5 rounded-full bg-white" />
@@ -839,26 +836,26 @@ function ConnectorDot({ className = "" }) {
 
 function WhyChooseSection() {
   return (
-    <section className="section-transition bg-[#047b85]">
-      <div className="mx-auto max-w-[1518px] rounded-t-[5.5rem] bg-[#f1fbff] px-5 pb-9 pt-11 sm:px-8 sm:pb-12 sm:pt-12 lg:px-24">
+    <section className="section-transition bg-[#062A5B]">
+      <div className="mx-auto max-w-[1518px] rounded-t-[5.5rem] bg-[#F5F8FC] px-5 pb-9 pt-11 sm:px-8 sm:pb-12 sm:pt-12 lg:px-24">
         <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr] lg:items-start">
           <Reveal>
             <div className="max-w-[28rem]">
-              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#f47d21]">
-                Why Choose Feather Global?
+              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
+                Why Choose Express Magic?
               </p>
-              <h2 className="mt-4 font-display text-[1.72rem] font-extrabold leading-[1.24] text-[#071923] sm:text-[2.15rem] lg:text-[2.1rem]">
+              <h2 className="mt-4 font-display text-[1.72rem] font-extrabold leading-[1.24] text-[#061A33] sm:text-[2.15rem] lg:text-[2.1rem]">
                 Everything You Need,
                 <br />
                 In One Powerful Platform
               </h2>
-              <p className="mt-5 text-base leading-[1.62] text-[#17242d] sm:text-[1rem]">
-                Feather Global simplifies shipping so you can focus on growing your business.
+              <p className="mt-5 text-base leading-[1.62] text-[#183153] sm:text-[1rem]">
+                Express Magic simplifies shipping so you can focus on growing your business.
                 One integration. Endless possibilities.
               </p>
               <ActionAnchor
                 href={AUTH_APP_URL}
-                className="mt-6 inline-flex min-h-12 items-center justify-center gap-5 rounded-lg bg-[#047b85] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(4,123,133,0.18)] transition hover:-translate-y-0.5 hover:bg-[#056c76] sm:min-w-[12.4rem]"
+                className="mt-6 inline-flex min-h-12 items-center justify-center gap-5 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:min-w-[12.4rem]"
                 style={{ color: "#ffffff" }}
               >
                 <span>Get Started Today</span>
@@ -876,33 +873,33 @@ function WhyChooseSection() {
             >
               <path
                 d="M92 8 C135 76 240 78 313 58"
-                stroke="#047b85"
+                stroke="#062A5B"
                 strokeDasharray="5 7"
                 strokeLinecap="round"
                 strokeWidth="1.8"
               />
               <path
                 d="M313 58 L302 52 M313 58 L303 65"
-                stroke="#047b85"
+                stroke="#062A5B"
                 strokeLinecap="round"
                 strokeWidth="1.8"
               />
               <path
                 d="M526 58 C602 80 692 72 748 8"
-                stroke="#047b85"
+                stroke="#062A5B"
                 strokeDasharray="5 7"
                 strokeLinecap="round"
                 strokeWidth="1.8"
               />
               <path
                 d="M526 58 L537 52 M526 58 L536 65"
-                stroke="#047b85"
+                stroke="#062A5B"
                 strokeLinecap="round"
                 strokeWidth="1.8"
               />
               <path
                 d="M748 8 C790 82 842 72 866 8"
-                stroke="#047b85"
+                stroke="#062A5B"
                 strokeDasharray="5 7"
                 strokeLinecap="round"
                 strokeWidth="1.8"
@@ -925,7 +922,7 @@ function WhyChooseSection() {
                   >
                     <div
                       className={`mx-auto grid h-16 w-16 place-items-center rounded-full text-white shadow-[0_10px_22px_rgba(4,82,89,0.16)] ${
-                        isOrange ? "bg-[#ff821c]" : "bg-[#047b85]"
+                        isOrange ? "bg-[#ED1C24]" : "bg-[#062A5B]"
                       }`}
                     >
                       <Icon name={card.icon} className="h-7 w-7" />
@@ -963,16 +960,16 @@ function FeatureMapBackdrop() {
     <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-[14rem] overflow-hidden md:block" aria-hidden="true">
       <div className="absolute left-0 top-8 hidden h-28 w-[29rem] opacity-35 [clip-path:polygon(0_24%,18%_8%,45%_20%,62%_4%,92%_24%,86%_62%,66%_70%,54%_58%,34%_76%,13%_62%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px] md:block" />
       <div className="absolute right-2 top-8 hidden h-28 w-[29rem] opacity-35 [clip-path:polygon(4%_28%,25%_10%,44%_22%,64%_8%,96%_30%,86%_68%,62%_60%,47%_78%,25%_66%,10%_76%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px] md:block" />
-      <svg className="absolute left-[13%] top-[4.8rem] hidden h-28 w-80 text-[#047b85] opacity-60 md:block" viewBox="0 0 320 112" fill="none">
+      <svg className="absolute left-[13%] top-[4.8rem] hidden h-28 w-80 text-[#062A5B] opacity-60 md:block" viewBox="0 0 320 112" fill="none">
         <path d="M34 40 C90 104 162 18 262 62" stroke="currentColor" strokeDasharray="4 7" strokeWidth="1.5" />
         <path d="M34 30v30" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-        <circle cx="34" cy="30" r="11" fill="#047b85" />
+        <circle cx="34" cy="30" r="11" fill="#062A5B" />
         <circle cx="34" cy="30" r="4" fill="white" />
       </svg>
-      <svg className="absolute right-[7%] top-[5rem] hidden h-28 w-80 text-[#ff821c] opacity-70 md:block" viewBox="0 0 320 112" fill="none">
-        <path d="M54 64 C126 112 226 92 278 30" stroke="#047b85" strokeDasharray="4 7" strokeWidth="1.5" />
+      <svg className="absolute right-[7%] top-[5rem] hidden h-28 w-80 text-[#ED1C24] opacity-70 md:block" viewBox="0 0 320 112" fill="none">
+        <path d="M54 64 C126 112 226 92 278 30" stroke="#062A5B" strokeDasharray="4 7" strokeWidth="1.5" />
         <path d="M278 21v30" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-        <circle cx="278" cy="21" r="11" fill="#ff821c" />
+        <circle cx="278" cy="21" r="11" fill="#ED1C24" />
         <circle cx="278" cy="21" r="4" fill="white" />
       </svg>
     </div>
@@ -994,7 +991,7 @@ function getDonutGradient(status) {
 function FeatureTrendChart({ feature }) {
   return (
     <div className="rounded-xl border border-[#e7f0f2] bg-white px-4 pb-3 pt-4">
-      <p className="text-[0.76rem] font-bold text-[#071923]">Shipment Activity</p>
+      <p className="text-[0.76rem] font-bold text-[#061A33]">Shipment Activity</p>
       <div className="mt-3 grid grid-cols-[2.1rem_1fr] gap-2">
         <div className="grid h-36 grid-rows-4 text-right text-[0.64rem] leading-none text-[#5e6b75]">
           <span>1,000</span>
@@ -1007,19 +1004,19 @@ function FeatureTrendChart({ feature }) {
             {[28, 62, 96, 130].map((y) => (
               <path key={y} d={`M0 ${y}H500`} stroke="#dfe8eb" strokeWidth="1" />
             ))}
-            <path d={feature.lineB} stroke="#ff821c" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-            <path d={feature.lineA} stroke="#047b85" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d={feature.lineB} stroke="#ED1C24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d={feature.lineA} stroke="#062A5B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
             {feature.lineA
               .match(/\d+ \d+/g)
               ?.map((point) => {
                 const [cx, cy] = point.split(" ");
-                return <circle key={`${feature.title}-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="#047b85" stroke="white" strokeWidth="2" />;
+                return <circle key={`${feature.title}-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="#062A5B" stroke="white" strokeWidth="2" />;
               })}
             {feature.lineB
               .match(/\d+ \d+/g)
               ?.map((point) => {
                 const [cx, cy] = point.split(" ");
-                return <circle key={`${feature.title}-orange-${cx}-${cy}`} cx={cx} cy={cy} r="3.8" fill="#ff821c" stroke="white" strokeWidth="2" />;
+                return <circle key={`${feature.title}-orange-${cx}-${cy}`} cx={cx} cy={cy} r="3.8" fill="#ED1C24" stroke="white" strokeWidth="2" />;
               })}
           </svg>
           <div className="grid grid-cols-7 text-center text-[0.64rem] text-[#5e6b75]">
@@ -1036,7 +1033,7 @@ function FeatureTrendChart({ feature }) {
 function FeatureStatusDonut({ feature }) {
   return (
     <div className="rounded-xl border border-[#e7f0f2] bg-white p-4">
-      <p className="text-[0.76rem] font-bold text-[#071923]">Shipments by Status</p>
+      <p className="text-[0.76rem] font-bold text-[#061A33]">Shipments by Status</p>
       <div className="mt-5 grid grid-cols-[6.5rem_1fr] items-center gap-4">
         <div
           className="relative h-[6.5rem] w-[6.5rem] rounded-full"
@@ -1076,13 +1073,13 @@ function FeatureDashboardPreview({ feature }) {
           return (
             <div key={metric.label} className="rounded-xl border border-[#e7f0f2] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(7,25,35,0.025)]">
               <div className="flex items-center gap-3">
-                <span className={`grid h-10 w-10 place-items-center rounded-lg ${isOrange ? "bg-[#fff0e5] text-[#ef6f1a]" : "bg-[#e8f7f9] text-[#047b85]"}`}>
+                <span className={`grid h-10 w-10 place-items-center rounded-lg ${isOrange ? "bg-[#FDE7EA] text-[#ED1C24]" : "bg-[#EEF4FB] text-[#062A5B]"}`}>
                   <Icon name={metric.icon} className="h-5 w-5" />
                 </span>
                 <span className="text-[0.68rem] font-medium text-[#57636d]">{metric.label}</span>
               </div>
-              <p className="mt-3 text-xl font-extrabold text-[#071923]">{metric.value}</p>
-              <p className={`mt-1 text-[0.68rem] font-bold ${metric.change.startsWith("-") ? "text-[#e45043]" : "text-[#047b85]"}`}>
+              <p className="mt-3 text-xl font-extrabold text-[#061A33]">{metric.value}</p>
+              <p className={`mt-1 text-[0.68rem] font-bold ${metric.change.startsWith("-") ? "text-[#e45043]" : "text-[#062A5B]"}`}>
                 {metric.change}
               </p>
             </div>
@@ -1097,7 +1094,7 @@ function FeatureDashboardPreview({ feature }) {
 
       <a
         href={AUTH_APP_URL}
-        className="mt-5 inline-flex w-full items-center justify-end gap-3 text-sm font-semibold text-[#047b85] transition hover:text-[#035f67]"
+        className="mt-5 inline-flex w-full items-center justify-end gap-3 text-sm font-semibold text-[#062A5B] transition hover:text-[#035f67]"
       >
         <span>View Dashboard</span>
         <Icon name="chevronRight" className="h-5 w-5" />
@@ -1111,21 +1108,21 @@ function FeaturesShowcaseSection() {
   const activeFeature = featureShowcaseItems[activeIndex];
 
   return (
-    <section className="section-transition bg-[#047b85] pt-0">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#f3fbff] px-5 pb-10 pt-10 sm:px-8 sm:pb-12 sm:pt-12 lg:px-16">
+    <section className="section-transition bg-[#062A5B] pt-0">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-10 sm:px-8 sm:pb-12 sm:pt-12 lg:px-16">
         <FeatureMapBackdrop />
 
         <Reveal className="relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#f47d21]">
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
               Features
             </p>
-            <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#071923] sm:text-[2.8rem]">
+            <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#061A33] sm:text-[2.8rem]">
               Powerful Features.
               <br />
-              Built for <span className="text-[#047b85]">Global Shipping.</span>
+              Built for <span className="text-[#062A5B]">Global Shipping.</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#17242d] sm:text-base">
+            <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
               Everything you need to ship smarter, scale faster, and deliver an exceptional
               customer experience.
             </p>
@@ -1145,23 +1142,23 @@ function FeaturesShowcaseSection() {
                     whileHover={{ x: isActive ? 0 : 4 }}
                     transition={{ duration: 0.2 }}
                     className={`grid w-full grid-cols-[3.8rem_1fr_auto] items-center gap-3 border-b border-[#e8f2f4] px-4 py-4 text-left last:border-b-0 ${
-                      isActive ? "border-l-[0.45rem] border-l-[#047b85] bg-[#eaf8fb]" : "border-l-[0.45rem] border-l-transparent bg-white hover:bg-[#f6fcfe]"
+                      isActive ? "border-l-[0.45rem] border-l-[#062A5B] bg-[#eaf8fb]" : "border-l-[0.45rem] border-l-transparent bg-white hover:bg-[#f6fcfe]"
                     }`}
                     onClick={() => setActiveIndex(index)}
                     aria-pressed={isActive}
                   >
-                    <span className={`grid h-[3.25rem] w-[3.25rem] place-items-center rounded-xl ${isActive ? "bg-[#047b85] text-white" : "bg-[#ecfbff] text-[#047b85]"}`}>
+                    <span className={`grid h-[3.25rem] w-[3.25rem] place-items-center rounded-xl ${isActive ? "bg-[#062A5B] text-white" : "bg-[#ecfbff] text-[#062A5B]"}`}>
                       <Icon name={item.icon} className="h-6 w-6" />
                     </span>
                     <span className="min-w-0">
-                      <span className={`block text-sm font-extrabold ${isActive ? "text-[#047b85]" : "text-[#071923]"}`}>
+                      <span className={`block text-sm font-extrabold ${isActive ? "text-[#062A5B]" : "text-[#061A33]"}`}>
                         {item.title}
                       </span>
                       <span className="mt-1 block text-[0.8rem] leading-[1.5] text-[#33414b]">
                         {item.tabDescription}
                       </span>
                     </span>
-                    <Icon name="chevronRight" className={`h-5 w-5 ${isActive ? "text-[#047b85]" : "text-[#80909a]"}`} />
+                    <Icon name="chevronRight" className={`h-5 w-5 ${isActive ? "text-[#062A5B]" : "text-[#80909a]"}`} />
                   </MotionButton>
                 );
               })}
@@ -1179,10 +1176,10 @@ function FeaturesShowcaseSection() {
                 className="h-full rounded-xl border border-[#e5f1f3] bg-white px-6 py-8 shadow-[0_16px_40px_rgba(7,25,35,0.04)] sm:px-8"
               >
                 <div className="flex items-center gap-4">
-                  <span className="grid h-12 w-12 place-items-center rounded-lg bg-[#047b85] text-lg font-extrabold text-white">
+                  <span className="grid h-12 w-12 place-items-center rounded-lg bg-[#062A5B] text-lg font-extrabold text-white">
                     {activeFeature.number}
                   </span>
-                  <h3 className="font-display text-[1.32rem] font-extrabold leading-tight text-[#071923]">
+                  <h3 className="font-display text-[1.32rem] font-extrabold leading-tight text-[#061A33]">
                     {activeFeature.title}
                   </h3>
                 </div>
@@ -1192,8 +1189,8 @@ function FeaturesShowcaseSection() {
 
                 <ul className="mt-8 grid gap-5">
                   {activeFeature.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-3 text-[0.86rem] leading-[1.55] text-[#17242d]">
-                      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#047b85] text-white">
+                    <li key={bullet} className="flex items-start gap-3 text-[0.86rem] leading-[1.55] text-[#183153]">
+                      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#062A5B] text-white">
                         <Icon name="checkCircle" className="h-3.5 w-3.5" />
                       </span>
                       <span>{bullet}</span>
@@ -1203,7 +1200,7 @@ function FeaturesShowcaseSection() {
 
                 <ActionAnchor
                   href={AUTH_APP_URL}
-                  className="mt-9 inline-flex min-h-11 items-center justify-center gap-4 rounded-lg bg-[#047b85] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(4,123,133,0.16)] transition hover:-translate-y-0.5 hover:bg-[#056c76]"
+                  className="mt-9 inline-flex min-h-11 items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(6,42,91,0.16)] transition hover:-translate-y-0.5 hover:bg-[#123763]"
                   style={{ color: "#ffffff" }}
                 >
                   <span>Get Started</span>
@@ -1235,11 +1232,11 @@ function FeaturesShowcaseSection() {
                 key={item.title}
                 className={`flex items-center gap-5 border-[#d5e6ea] px-6 py-5 ${mobileBorder} ${tabletBorder} ${desktopBorder}`}
               >
-                <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#047b85]">
+                <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#062A5B]">
                   <Icon name={item.icon} className="h-9 w-9" />
                 </span>
                 <span>
-                  <span className="block text-sm font-extrabold text-[#071923]">{item.title}</span>
+                  <span className="block text-sm font-extrabold text-[#061A33]">{item.title}</span>
                   <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">
                     {item.description}
                   </span>
@@ -1259,16 +1256,16 @@ function TestimonialMapBackdrop() {
     <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-[18rem] overflow-hidden md:block" aria-hidden="true">
       <div className="absolute left-12 top-10 h-44 w-[31rem] opacity-30 [clip-path:polygon(0_18%,18%_6%,38%_14%,55%_4%,82%_16%,100%_34%,88%_62%,70%_58%,54%_76%,34%_66%,18%_82%,4%_58%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px]" />
       <div className="absolute right-10 top-10 h-44 w-[32rem] opacity-30 [clip-path:polygon(4%_20%,28%_8%,44%_16%,62%_6%,90%_18%,100%_42%,86%_72%,64%_62%,48%_78%,26%_66%,8%_74%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px]" />
-      <svg className="absolute left-[8%] top-[7.5rem] h-36 w-[24rem] text-[#047b85] opacity-55" viewBox="0 0 380 144" fill="none">
+      <svg className="absolute left-[8%] top-[7.5rem] h-36 w-[24rem] text-[#062A5B] opacity-55" viewBox="0 0 380 144" fill="none">
         <path d="M48 118 C12 64 88 34 124 82 C158 126 222 24 320 58" stroke="currentColor" strokeDasharray="4 7" strokeWidth="1.5" />
         <path d="M124 56v35" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-        <circle cx="124" cy="56" r="12" fill="#047b85" />
+        <circle cx="124" cy="56" r="12" fill="#062A5B" />
         <circle cx="124" cy="56" r="4" fill="white" />
       </svg>
-      <svg className="absolute right-[7%] top-[7.5rem] h-36 w-[24rem] text-[#ff821c] opacity-65" viewBox="0 0 380 144" fill="none">
-        <path d="M42 90 C96 118 168 122 228 78 C266 50 306 74 332 110" stroke="#047b85" strokeDasharray="4 7" strokeWidth="1.5" />
+      <svg className="absolute right-[7%] top-[7.5rem] h-36 w-[24rem] text-[#ED1C24] opacity-65" viewBox="0 0 380 144" fill="none">
+        <path d="M42 90 C96 118 168 122 228 78 C266 50 306 74 332 110" stroke="#062A5B" strokeDasharray="4 7" strokeWidth="1.5" />
         <path d="M306 54v35" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-        <circle cx="306" cy="54" r="12" fill="#ff821c" />
+        <circle cx="306" cy="54" r="12" fill="#ED1C24" />
         <circle cx="306" cy="54" r="4" fill="white" />
       </svg>
     </div>
@@ -1285,12 +1282,12 @@ function TestimonialCard({ testimonial, index }) {
       className="flex min-h-[23.5rem] flex-col overflow-hidden rounded-xl border border-[#e6f1f3] bg-white shadow-[0_20px_50px_rgba(7,25,35,0.06)]"
     >
       <div className="flex flex-1 flex-col px-6 pb-5 pt-6 sm:px-7">
-        <span className="text-[3.1rem] font-extrabold leading-none text-[#047b85]">"</span>
-        <p className="mt-3 min-h-[8.6rem] text-[0.96rem] font-medium leading-[1.7] text-[#071923]">
+        <span className="text-[3.1rem] font-extrabold leading-none text-[#062A5B]">"</span>
+        <p className="mt-3 min-h-[8.6rem] text-[0.96rem] font-medium leading-[1.7] text-[#061A33]">
           {testimonial.quote}
         </p>
 
-        <div className="mt-5 flex gap-1 text-[#ff821c]" aria-label="5 star rating">
+        <div className="mt-5 flex gap-1 text-[#ED1C24]" aria-label="5 star rating">
           {Array.from({ length: 5 }).map((_, starIndex) => (
             <Icon key={starIndex} name="star" className="h-4 w-4 fill-current" />
           ))}
@@ -1305,13 +1302,13 @@ function TestimonialCard({ testimonial, index }) {
             className="h-12 w-12 rounded-full object-cover shadow-[0_8px_20px_rgba(7,25,35,0.12)]"
           />
           <div>
-            <h3 className="text-sm font-extrabold text-[#071923]">{testimonial.name}</h3>
+            <h3 className="text-sm font-extrabold text-[#061A33]">{testimonial.name}</h3>
             <p className="mt-1 text-xs font-medium text-[#6a7780]">{testimonial.role}</p>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 border-t border-[#eaf2f4] bg-[#f7fbfd] px-6 py-4 text-[#047b85] sm:px-7">
+      <div className="flex items-center gap-4 border-t border-[#eaf2f4] bg-[#f7fbfd] px-6 py-4 text-[#062A5B] sm:px-7">
         <Icon name={testimonial.brandIcon} className="h-6 w-6" />
         <span className="text-sm font-extrabold">{testimonial.brand}</span>
       </div>
@@ -1341,23 +1338,23 @@ function TestimonialsSection() {
   };
 
   return (
-    <section className="section-transition bg-[#047b85]">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#f3fbff] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
+    <section className="section-transition bg-[#062A5B]">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <TestimonialMapBackdrop />
 
         <Reveal className="relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#f47d21]">
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
               Testimonials
             </p>
-            <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#071923] sm:text-[2.8rem]">
+            <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#061A33] sm:text-[2.8rem]">
               Trusted by Businesses
               <br />
-              <span className="text-[#047b85]">Worldwide.</span>
+              <span className="text-[#062A5B]">Worldwide.</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#17242d] sm:text-base">
+            <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
               See how businesses of all sizes are simplifying shipping, saving time, and growing
-              with Feather Global.
+              with Express Magic.
             </p>
           </div>
         </Reveal>
@@ -1367,7 +1364,7 @@ function TestimonialsSection() {
             type="button"
             aria-label="Previous testimonials"
             onClick={() => goToSlide("previous")}
-            className="absolute left-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#047b85] shadow-[0_18px_34px_rgba(7,25,35,0.08)] transition hover:-translate-x-0.5 hover:bg-[#f7fcfd] lg:flex"
+            className="absolute left-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#062A5B] shadow-[0_18px_34px_rgba(7,25,35,0.08)] transition hover:-translate-x-0.5 hover:bg-[#F5F8FC] lg:flex"
           >
             <Icon name="chevronLeft" className="h-6 w-6" />
           </button>
@@ -1393,7 +1390,7 @@ function TestimonialsSection() {
             type="button"
             aria-label="Next testimonials"
             onClick={() => goToSlide("next")}
-            className="absolute right-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#047b85] shadow-[0_18px_34px_rgba(7,25,35,0.08)] transition hover:translate-x-0.5 hover:bg-[#f7fcfd] lg:flex"
+            className="absolute right-2 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#062A5B] shadow-[0_18px_34px_rgba(7,25,35,0.08)] transition hover:translate-x-0.5 hover:bg-[#F5F8FC] lg:flex"
           >
             <Icon name="chevronRight" className="h-6 w-6" />
           </button>
@@ -1403,7 +1400,7 @@ function TestimonialsSection() {
               type="button"
               aria-label="Previous testimonials"
               onClick={() => goToSlide("previous")}
-              className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#047b85] shadow-[0_14px_26px_rgba(7,25,35,0.08)]"
+              className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#062A5B] shadow-[0_14px_26px_rgba(7,25,35,0.08)]"
             >
               <Icon name="chevronLeft" className="h-5 w-5" />
             </button>
@@ -1411,7 +1408,7 @@ function TestimonialsSection() {
               type="button"
               aria-label="Next testimonials"
               onClick={() => goToSlide("next")}
-              className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#047b85] shadow-[0_14px_26px_rgba(7,25,35,0.08)]"
+              className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#062A5B] shadow-[0_14px_26px_rgba(7,25,35,0.08)]"
             >
               <Icon name="chevronRight" className="h-5 w-5" />
             </button>
@@ -1425,7 +1422,7 @@ function TestimonialsSection() {
                 aria-label={`Show testimonial set ${index + 1}`}
                 onClick={() => setActiveSlide(index)}
                 className={`h-3 w-3 rounded-full transition ${
-                  index === activeSlide ? "bg-[#047b85]" : "bg-[#d8e7eb] hover:bg-[#b7d5dc]"
+                  index === activeSlide ? "bg-[#062A5B]" : "bg-[#d8e7eb] hover:bg-[#b7d5dc]"
                 }`}
               />
             ))}
@@ -1447,11 +1444,11 @@ function TestimonialsSection() {
                   key={stat.label}
                   className={`flex items-center gap-6 border-[#d5e6ea] px-7 py-7 ${mobileBorder} ${tabletBorder} ${desktopBorder}`}
                 >
-                  <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#047b85]">
+                  <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#062A5B]">
                     <Icon name={stat.icon} className="h-9 w-9" />
                   </span>
                   <span>
-                    <span className="block text-[1.75rem] font-extrabold leading-tight text-[#047b85]">
+                    <span className="block text-[1.75rem] font-extrabold leading-tight text-[#062A5B]">
                       {stat.value}
                     </span>
                     <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">
@@ -1496,11 +1493,11 @@ function WhatYouGetSection() {
                 }`}
               >
                 <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-[#047b85] shadow-sm">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-[#062A5B] shadow-sm">
                     <Icon name={item.icon} />
                   </span>
                   <div>
-                    <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#071923]">
+                    <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                       {item.title}
                     </h3>
                     <p className="mt-3 text-sm leading-7 text-[#33414b]">{item.description}</p>
@@ -1522,16 +1519,16 @@ function FaqRouteMap() {
       <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 440 180" fill="none">
         <path
           d="M124 88 C156 138 210 134 252 108 C294 82 338 76 382 84"
-          stroke="#047b85"
+          stroke="#062A5B"
           strokeDasharray="5 8"
           strokeLinecap="round"
           strokeWidth="1.6"
         />
-        <path d="M124 78v34" stroke="#047b85" strokeLinecap="round" strokeWidth="8" />
-        <circle cx="124" cy="78" r="13" fill="#047b85" />
+        <path d="M124 78v34" stroke="#062A5B" strokeLinecap="round" strokeWidth="8" />
+        <circle cx="124" cy="78" r="13" fill="#062A5B" />
         <circle cx="124" cy="78" r="4" fill="white" />
-        <path d="M382 72v36" stroke="#ff821c" strokeLinecap="round" strokeWidth="8" />
-        <circle cx="382" cy="72" r="13" fill="#ff821c" />
+        <path d="M382 72v36" stroke="#ED1C24" strokeLinecap="round" strokeWidth="8" />
+        <circle cx="382" cy="72" r="13" fill="#ED1C24" />
         <circle cx="382" cy="72" r="4" fill="white" />
       </svg>
     </div>
@@ -1547,18 +1544,18 @@ function FaqSupportIllustration() {
       <div className="absolute left-14 top-10 h-1.5 w-1.5 rounded-full bg-[#16323c]" />
       <div className="absolute left-[4.4rem] top-10 h-1.5 w-1.5 rounded-full bg-[#16323c]" />
       <div className="absolute left-[3.55rem] top-[3.35rem] h-4 w-8 rounded-b-full border-b-2 border-[#9d5f4a]" />
-      <div className="absolute left-3 top-9 h-10 w-6 rounded-full border-4 border-[#047b85] bg-white" />
-      <div className="absolute left-[5.9rem] top-9 h-10 w-6 rounded-full border-4 border-[#047b85] bg-white" />
-      <div className="absolute left-[5.4rem] top-[4.2rem] h-1.5 w-7 rounded-full bg-[#047b85]" />
-      <div className="absolute bottom-2 left-2 h-20 w-28 rounded-t-[3rem] bg-[#047b85]" />
+      <div className="absolute left-3 top-9 h-10 w-6 rounded-full border-4 border-[#062A5B] bg-white" />
+      <div className="absolute left-[5.9rem] top-9 h-10 w-6 rounded-full border-4 border-[#062A5B] bg-white" />
+      <div className="absolute left-[5.4rem] top-[4.2rem] h-1.5 w-7 rounded-full bg-[#062A5B]" />
+      <div className="absolute bottom-2 left-2 h-20 w-28 rounded-t-[3rem] bg-[#062A5B]" />
       <div className="absolute bottom-0 left-10 h-14 w-28 rounded-lg bg-[#d9f2f6] shadow-[0_8px_18px_rgba(7,25,35,0.08)]">
-        <span className="absolute left-12 top-5 text-xs font-bold text-[#047b85]">FG</span>
+        <span className="absolute left-12 top-5 text-xs font-bold text-[#062A5B]">FG</span>
       </div>
-      <div className="absolute right-0 top-6 rounded-2xl bg-[#047b85] px-3 py-2 text-white shadow-sm">
+      <div className="absolute right-0 top-6 rounded-2xl bg-[#062A5B] px-3 py-2 text-white shadow-sm">
         <span className="block h-1.5 w-6 rounded-full bg-white" />
         <span className="mt-1.5 block h-1.5 w-4 rounded-full bg-white/70" />
       </div>
-      <div className="absolute right-3 top-[4.9rem] rounded-2xl bg-[#e8f7f9] px-3 py-2">
+      <div className="absolute right-3 top-[4.9rem] rounded-2xl bg-[#EEF4FB] px-3 py-2">
         <span className="block h-1.5 w-5 rounded-full bg-[#b5dce3]" />
         <span className="mt-1.5 block h-1.5 w-3 rounded-full bg-[#cfe9ee]" />
       </div>
@@ -1569,19 +1566,19 @@ function FaqSupportIllustration() {
 function FaqPackageIllustration() {
   return (
     <div className="relative hidden h-24 w-28 shrink-0 sm:block" aria-hidden="true">
-      <div className="absolute right-3 top-0 h-20 w-20 rounded-full border-2 border-[#047b85] bg-[#cdeef4]" />
+      <div className="absolute right-3 top-0 h-20 w-20 rounded-full border-2 border-[#062A5B] bg-[#cdeef4]" />
       <svg className="absolute right-4 top-1 h-[4.8rem] w-[4.8rem]" viewBox="0 0 92 92" fill="none">
-        <circle cx="46" cy="46" r="41" fill="#cdeef4" stroke="#047b85" strokeWidth="2" />
+        <circle cx="46" cy="46" r="41" fill="#cdeef4" stroke="#062A5B" strokeWidth="2" />
         <path d="M18 44h56M46 7c14 15 14 62 0 78M46 7c-14 15-14 62 0 78" stroke="#72b9c4" strokeWidth="2" />
         <path d="M26 20c12 8 28 8 40 0M26 72c12-8 28-8 40 0" stroke="#72b9c4" strokeWidth="2" />
       </svg>
       <div className="absolute bottom-1 left-5 h-9 w-9 rounded-sm bg-[#d99658] shadow-sm" />
       <div className="absolute bottom-1 left-14 h-10 w-10 rounded-sm bg-[#c98747] shadow-sm" />
       <div className="absolute bottom-8 left-10 h-9 w-9 rounded-sm bg-[#e5aa6c] shadow-sm" />
-      <div className="absolute left-8 top-6 h-5 w-4 rounded-full border-2 border-[#ff821c]" />
-      <div className="absolute left-10 top-10 h-4 w-1 rounded-full bg-[#ff821c]" />
-      <div className="absolute right-0 top-7 h-5 w-4 rounded-full border-2 border-[#ff821c]" />
-      <div className="absolute right-1 top-11 h-4 w-1 rounded-full bg-[#ff821c]" />
+      <div className="absolute left-8 top-6 h-5 w-4 rounded-full border-2 border-[#ED1C24]" />
+      <div className="absolute left-10 top-10 h-4 w-1 rounded-full bg-[#ED1C24]" />
+      <div className="absolute right-0 top-7 h-5 w-4 rounded-full border-2 border-[#ED1C24]" />
+      <div className="absolute right-1 top-11 h-4 w-1 rounded-full bg-[#ED1C24]" />
     </div>
   );
 }
@@ -1601,13 +1598,13 @@ function FaqAccordionItem({ item, index, activeIndex, setActiveIndex }) {
         onClick={() => setActiveIndex(isOpen ? null : index)}
         aria-expanded={isOpen}
       >
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-[#047b85] text-white shadow-[0_8px_18px_rgba(4,123,133,0.16)]">
+        <span className="grid h-8 w-8 place-items-center rounded-full bg-[#062A5B] text-white shadow-[0_8px_18px_rgba(6,42,91,0.16)]">
           <Icon name={isOpen ? "minus" : "plus"} className="h-4 w-4" />
         </span>
-        <span className="text-[0.98rem] font-extrabold text-[#071923] sm:text-[1.05rem]">
+        <span className="text-[0.98rem] font-extrabold text-[#061A33] sm:text-[1.05rem]">
           {item.question}
         </span>
-        <Icon name="chevronDown" className={`h-5 w-5 text-[#047b85] transition ${isOpen ? "rotate-180" : ""}`} />
+        <Icon name="chevronDown" className={`h-5 w-5 text-[#062A5B] transition ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence initial={false}>
@@ -1620,7 +1617,7 @@ function FaqAccordionItem({ item, index, activeIndex, setActiveIndex }) {
             className="overflow-hidden"
           >
             <div className="grid gap-5 px-5 pb-8 pl-[4.55rem] pr-5 sm:grid-cols-[1fr_auto] sm:px-8 sm:pl-[5.55rem]">
-              <p className="max-w-[43rem] text-sm font-medium leading-[1.75] text-[#17242d]">
+              <p className="max-w-[43rem] text-sm font-medium leading-[1.75] text-[#183153]">
                 {item.answer}
               </p>
               {index === 0 ? <FaqPackageIllustration /> : null}
@@ -1636,21 +1633,21 @@ function FaqSection() {
   const [activeFaq, setActiveFaq] = useState(0);
 
   return (
-    <section className="section-transition bg-[#047b85]">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#f3fbff] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
+    <section className="section-transition bg-[#062A5B]">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
           <Reveal>
             <div className="relative z-10">
-              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#f47d21]">
+              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
                 FAQ
               </p>
-              <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.16] text-[#071923] sm:text-[2.55rem]">
+              <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.16] text-[#061A33] sm:text-[2.55rem]">
                 Frequently Asked
                 <br />
-                <span className="text-[#047b85]">Questions.</span>
+                <span className="text-[#062A5B]">Questions.</span>
               </h2>
-              <p className="mt-5 max-w-[25rem] text-sm font-medium leading-[1.75] text-[#17242d] sm:text-base">
-                Everything you need to know about Feather Global and how it can simplify your
+              <p className="mt-5 max-w-[25rem] text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
+                Everything you need to know about Express Magic and how it can simplify your
                 shipping operations.
               </p>
 
@@ -1660,17 +1657,17 @@ function FaqSection() {
                 <div className="grid gap-5 sm:grid-cols-[auto_1fr] sm:items-center">
                   <FaqSupportIllustration />
                   <div>
-                    <h3 className="text-[1.12rem] font-extrabold leading-tight text-[#071923]">
+                    <h3 className="text-[1.12rem] font-extrabold leading-tight text-[#061A33]">
                       Still have questions?
                       <br />
-                      <span className="text-[#047b85]">We're here to help!</span>
+                      <span className="text-[#062A5B]">We're here to help!</span>
                     </h3>
-                    <p className="mt-4 text-sm font-medium leading-[1.7] text-[#17242d]">
+                    <p className="mt-4 text-sm font-medium leading-[1.7] text-[#183153]">
                       Our support team is ready to assist you with anything you need.
                     </p>
                     <a
                       href={`mailto:${companyProfile.email}`}
-                      className="mt-6 inline-flex min-h-11 items-center justify-center gap-3 rounded-lg bg-[#047b85] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(4,123,133,0.16)] transition hover:-translate-y-0.5 hover:bg-[#056c76]"
+                      className="mt-6 inline-flex min-h-11 items-center justify-center gap-3 rounded-lg bg-[#062A5B] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(6,42,91,0.16)] transition hover:-translate-y-0.5 hover:bg-[#123763]"
                       style={{ color: "#ffffff" }}
                     >
                       <span>Contact Support</span>
@@ -1703,11 +1700,11 @@ function FaqSection() {
         <Reveal delay={0.12}>
           <div className="mt-10 grid overflow-hidden rounded-xl border border-[#dfeff2] bg-[#f5fcfe] shadow-[0_16px_42px_rgba(7,25,35,0.04)] lg:grid-cols-[1.25fr_0.8fr_0.8fr_0.8fr]">
             <div className="flex items-center gap-5 border-b border-[#d5e6ea] px-7 py-7 lg:border-b-0 lg:border-r">
-              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#047b85]">
+              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#062A5B]">
                 <Icon name="messages" className="h-9 w-9" />
               </span>
               <span>
-                <span className="block text-[1.05rem] font-extrabold text-[#071923]">
+                <span className="block text-[1.05rem] font-extrabold text-[#061A33]">
                   Can't find what you're looking for?
                 </span>
                 <span className="mt-2 block text-sm font-medium text-[#33414b]">
@@ -1727,9 +1724,9 @@ function FaqSection() {
                   index < 2 ? "lg:border-r" : ""
                 }`}
               >
-                <Icon name={item.icon} className="h-9 w-9 shrink-0 text-[#047b85]" />
+                <Icon name={item.icon} className="h-9 w-9 shrink-0 text-[#062A5B]" />
                 <span>
-                  <span className="block text-sm font-extrabold text-[#071923]">{item.title}</span>
+                  <span className="block text-sm font-extrabold text-[#061A33]">{item.title}</span>
                   <span className="mt-1 block text-sm font-medium text-[#33414b]">{item.detail}</span>
                 </span>
               </a>
@@ -1762,7 +1759,7 @@ function AnalyticsDashboard() {
           ["18%", "Lower RTO drift"],
           ["24/7", "Courier visibility"],
         ].map(([value, label]) => (
-          <div key={label} className="rounded-xl border border-[#e7f0f2] bg-[#f7fcfd] p-4 shadow-sm">
+          <div key={label} className="rounded-xl border border-[#e7f0f2] bg-[#F5F8FC] p-4 shadow-sm">
             <p className="font-display text-3xl text-slate-950">{value}</p>
             <p className="mt-2 text-sm text-slate-600">{label}</p>
           </div>
@@ -1809,11 +1806,11 @@ function InsightsSection() {
                 <Reveal key={card.title} delay={0.05 * index}>
                   <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_16px_40px_rgba(7,25,35,0.04)]">
                     <div className="flex items-start gap-3 sm:gap-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#e8f7f9] text-[#047b85]">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#EEF4FB] text-[#062A5B]">
                         <Icon name={card.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#071923]">
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                           {card.title}
                         </h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
@@ -1842,7 +1839,7 @@ function CommercePanel() {
   return (
     <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_20px_56px_rgba(7,25,35,0.05)] sm:p-7">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-[#e7f0f2] bg-[#f7fcfd] p-5">
+        <div className="rounded-xl border border-[#e7f0f2] bg-[#F5F8FC] p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
             Store connections
           </p>
@@ -1940,11 +1937,11 @@ function EcommerceSection() {
                 <Reveal key={item.title} delay={0.05 * index}>
                   <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_16px_40px_rgba(7,25,35,0.04)]">
                     <div className="flex items-start gap-3 sm:gap-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#fff1df] text-[#ff821c]">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#fff1df] text-[#ED1C24]">
                         <Icon name={item.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#071923]">
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                           {item.title}
                         </h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{item.description}</p>
@@ -1974,14 +1971,14 @@ function RateComparisonPreview() {
     <div className="relative overflow-hidden rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_20px_56px_rgba(7,25,35,0.05)] sm:p-7">
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ff821c]">
+          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">
             Rate engine
           </p>
-          <h3 className="mt-3 font-display text-3xl font-extrabold text-[#071923]">
+          <h3 className="mt-3 font-display text-3xl font-extrabold text-[#061A33]">
             Best carrier, visible cost.
           </h3>
         </div>
-        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e4f7fb] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#047b85]">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e4f7fb] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#062A5B]">
           <Icon name="spark" className="h-4 w-4" />
           Smart match
         </span>
@@ -1996,25 +1993,25 @@ function RateComparisonPreview() {
             viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -4, scale: 1.01 }}
-            className="rounded-xl border border-[#dceef2] bg-white p-4 shadow-sm"
+            className="rounded-xl border border-[#D6E1EF] bg-white p-4 shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-[#047b85] text-sm font-extrabold text-white">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-[#062A5B] text-sm font-extrabold text-white">
                   {row.courier.slice(0, 2)}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-extrabold text-[#071923]">{row.courier}</p>
+                  <p className="truncate text-sm font-extrabold text-[#061A33]">{row.courier}</p>
                   <p className="mt-1 text-xs font-semibold text-[#66747e]">{row.lane} - {row.eta}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-extrabold text-[#047b85]">{row.price}</p>
-                <p className="text-xs font-semibold text-[#ff821c]">{row.fit}</p>
+                <p className="text-xl font-extrabold text-[#062A5B]">{row.price}</p>
+                <p className="text-xs font-semibold text-[#ED1C24]">{row.fit}</p>
               </div>
             </div>
             <div className="mt-4 h-2 rounded-full bg-[#e8f4f6]">
-              <div className={`h-full rounded-full bg-[linear-gradient(90deg,#047b85,#ff821c)] ${row.width}`} />
+              <div className={`h-full rounded-full bg-[linear-gradient(90deg,#062A5B,#ED1C24)] ${row.width}`} />
             </div>
           </MotionArticle>
         ))}
@@ -2022,9 +2019,9 @@ function RateComparisonPreview() {
 
       <div className="relative mt-5 grid gap-3 sm:grid-cols-3">
         {["Rate", "SLA", "Risk"].map((label, index) => (
-          <div key={label} className="rounded-lg border border-[#dceef2] bg-[#f7fcfd] px-4 py-3">
+          <div key={label} className="rounded-lg border border-[#D6E1EF] bg-[#F5F8FC] px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#66747e]">{label}</p>
-            <p className="mt-2 text-sm font-extrabold text-[#071923]">
+            <p className="mt-2 text-sm font-extrabold text-[#061A33]">
               {index === 0 ? "Compared" : index === 1 ? "Checked" : "Scored"}
             </p>
           </div>
@@ -2050,18 +2047,18 @@ function RateConfidenceSection() {
                 <Reveal key={card.title} delay={index * 0.05}>
                   <MotionArticle
                     whileHover={{ x: 6 }}
-                    className="rounded-xl border border-[#dceef2] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
+                    className="rounded-xl border border-[#D6E1EF] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
                   >
                     <div className="flex items-start gap-4">
-                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[#047b85] text-white shadow-[0_12px_24px_rgba(4,123,133,0.18)]">
+                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[#062A5B] text-white shadow-[0_12px_24px_rgba(6,42,91,0.18)]">
                         <Icon name={card.icon} />
                       </span>
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-start justify-between gap-3">
-                          <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#071923]">
+                          <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                             {card.title}
                           </h3>
-                          <span className="rounded-full bg-[#fff1df] px-3 py-1 text-xs font-extrabold text-[#ff821c]">
+                          <span className="rounded-full bg-[#fff1df] px-3 py-1 text-xs font-extrabold text-[#ED1C24]">
                             {card.metric} {card.label}
                           </span>
                         </div>
@@ -2076,7 +2073,7 @@ function RateConfidenceSection() {
               <ActionAnchor href={AUTH_APP_URL} className={primaryButtonClass}>
                 Get Started
               </ActionAnchor>
-              <ActionAnchor href="/rate-calculator" className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#047b85] bg-white px-6 py-3 text-sm font-semibold text-[#047b85] transition hover:-translate-y-0.5 hover:bg-[#eef9fb] sm:w-auto">
+              <ActionAnchor href="/rate-calculator" className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto">
                 Rate Calculator
               </ActionAnchor>
             </div>
@@ -2118,7 +2115,7 @@ function LaunchTimelineVisual() {
               <span className="absolute left-[2.35rem] top-[4.9rem] h-8 w-px bg-white/18" aria-hidden="true" />
             ) : null}
             <div className="flex gap-4">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-white text-[#047b85]">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-white text-[#062A5B]">
                 <Icon name={step.icon} />
               </span>
               <div>
@@ -2133,15 +2130,15 @@ function LaunchTimelineVisual() {
         ))}
       </div>
 
-      <div className="relative mt-6 rounded-xl bg-white p-5 text-[#071923]">
+      <div className="relative mt-6 rounded-xl bg-white p-5 text-[#061A33]">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#ff821c]">
+            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#ED1C24]">
               Dedicated help
             </p>
             <p className="mt-2 text-lg font-extrabold">Support ready before your first label.</p>
           </div>
-          <a href={`mailto:${companyProfile.email}`} className="inline-flex items-center justify-center rounded-lg bg-[#047b85] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#056c76]">
+          <a href={`mailto:${companyProfile.email}`} className="inline-flex items-center justify-center rounded-lg bg-[#062A5B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#123763]">
             Contact Support
           </a>
         </div>
@@ -2163,21 +2160,21 @@ function LaunchSupportSection() {
             <AlignedSectionHeading
               eyebrow="Launch With Confidence"
               title="A shipping platform is only useful when your team can run it daily."
-              description="Feather Global pairs clean software with practical setup support, so teams can move from fragmented courier workflows into a reliable operating rhythm."
+              description="Express Magic pairs clean software with practical setup support, so teams can move from fragmented courier workflows into a reliable operating rhythm."
             />
             <div className="mt-8 grid gap-4">
               {supportCards.map((card, index) => (
                 <Reveal key={card.title} delay={index * 0.05}>
                   <MotionArticle
                     whileHover={{ y: -5, scale: 1.01 }}
-                    className="rounded-xl border border-[#dceef2] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
+                    className="rounded-xl border border-[#D6E1EF] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
                   >
                     <div className="flex items-start gap-4">
-                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[#fff1df] text-[#ff821c]">
+                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[#fff1df] text-[#ED1C24]">
                         <Icon name={card.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#071923]">
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                           {card.title}
                         </h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
@@ -2188,12 +2185,12 @@ function LaunchSupportSection() {
               ))}
             </div>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <a href={`tel:${companyProfile.mobile}`} className="flex items-center gap-4 rounded-xl border border-[#dceef2] bg-[#f7fcfd] p-4 text-sm font-semibold text-[#071923] transition hover:-translate-y-0.5 hover:bg-white">
-                <Icon name="phone" className="h-6 w-6 text-[#047b85]" />
+              <a href={`tel:${companyProfile.mobile}`} className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white">
+                <Icon name="phone" className="h-6 w-6 text-[#062A5B]" />
                 <span>{companyProfile.mobile}</span>
               </a>
-              <a href={`mailto:${companyProfile.email}`} className="flex items-center gap-4 rounded-xl border border-[#dceef2] bg-[#f7fcfd] p-4 text-sm font-semibold text-[#071923] transition hover:-translate-y-0.5 hover:bg-white">
-                <Icon name="mail" className="h-6 w-6 text-[#047b85]" />
+              <a href={`mailto:${companyProfile.email}`} className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white">
+                <Icon name="mail" className="h-6 w-6 text-[#062A5B]" />
                 <span>{companyProfile.email}</span>
               </a>
             </div>
@@ -2206,7 +2203,7 @@ function LaunchSupportSection() {
 
 function FeatherLandingPage() {
   return (
-    <main id="home" className="overflow-hidden bg-[#047b85]">
+    <main id="home" className="overflow-hidden bg-[#062A5B]">
       <HeroSection />
       <PlatformsSection />
       <WhyChooseSection />

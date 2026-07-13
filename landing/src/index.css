@@ -8,12 +8,12 @@
 
 :root {
   color-scheme: light;
-  --color-primary: #c6e7ff;
+  --color-primary: #D9E6F7;
   --color-secondary: #d4f6ff;
   --color-background: #fbfbfb;
-  --color-accent: #ffddae;
+  --color-accent: #FDE7EA;
   --color-ink: #10324a;
-  --color-muted: #5f7a8f;
+  --color-muted: #64748B;
   --shadow-soft: 0 24px 70px rgba(15, 44, 67, 0.08);
 }
 
@@ -30,9 +30,9 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at top left, rgba(249, 239, 202, 0.82), transparent 28%),
-    radial-gradient(circle at top right, rgba(212, 246, 255, 0.62), transparent 28%),
-    linear-gradient(180deg, #f7f1df 0%, #fbfbfb 28%, #f5fbff 62%, #fbfbfb 100%);
+    radial-gradient(circle at top left, rgba(253, 231, 234, 0.82), transparent 28%),
+    radial-gradient(circle at top right, rgba(217, 230, 247, 0.62), transparent 28%),
+    linear-gradient(180deg, #F5F8FC 0%, #fbfbfb 28%, #F5F8FC 62%, #fbfbfb 100%);
   color: var(--color-ink);
   font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }
@@ -45,8 +45,8 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(circle at 14% 14%, rgba(255, 230, 160, 0.24), transparent 24%),
-    radial-gradient(circle at 86% 18%, rgba(255, 221, 174, 0.3), transparent 20%),
-    radial-gradient(circle at 74% 76%, rgba(198, 231, 255, 0.26), transparent 22%);
+    radial-gradient(circle at 86% 18%, rgba(253, 231, 234, 0.3), transparent 20%),
+    radial-gradient(circle at 74% 76%, rgba(217, 230, 247, 0.26), transparent 22%);
 }
 
 #root {
@@ -94,15 +94,15 @@ svg {
 }
 
 ::selection {
-  background: rgba(198, 231, 255, 0.92);
+  background: rgba(217, 230, 247, 0.92);
   color: #0b2232;
 }
 
 .hero-section {
   background:
-    linear-gradient(90deg, rgba(4, 123, 133, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(4, 123, 133, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, #fbfefe 0%, #f6fbfc 100%);
+    linear-gradient(90deg, rgba(6, 42, 91, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(6, 42, 91, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfefe 0%, #F7FAFC 100%);
   background-size: 64px 64px, 64px 64px, auto;
 }
 
@@ -111,7 +111,7 @@ svg {
   position: absolute;
   inset: auto 4% 6% 4%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(4, 123, 133, 0.26), transparent);
+  background: linear-gradient(90deg, transparent, rgba(6, 42, 91, 0.26), transparent);
   pointer-events: none;
 }
 
@@ -119,7 +119,7 @@ svg {
   position: absolute;
   inset: 4% 0 8% 0;
   pointer-events: none;
-  color: rgba(4, 123, 133, 0.78);
+  color: rgba(6, 42, 91, 0.78);
 }
 
 .hero-route-overlay__line {
@@ -127,7 +127,7 @@ svg {
   inset: 0;
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 8px 18px rgba(4, 123, 133, 0.12));
+  filter: drop-shadow(0 8px 18px rgba(6, 42, 91, 0.12));
 }
 
 .hero-route-overlay__pin {
@@ -140,7 +140,7 @@ svg {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 32px rgba(7, 25, 35, 0.1);
-  color: #047b85;
+  color: #062A5B;
   font-size: 0.68rem;
   font-weight: 800;
   padding: 0.38rem 0.55rem;
@@ -154,8 +154,8 @@ svg {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: #ff821c;
-  box-shadow: 0 0 0 5px rgba(255, 130, 28, 0.14);
+  background: #ED1C24;
+  box-shadow: 0 0 0 5px rgba(237, 28, 36, 0.14);
   transform: translateX(-50%);
 }
 
@@ -184,8 +184,8 @@ svg {
   height: 2.25rem;
   place-items: center;
   border-radius: 8px;
-  background: #e8f7f9;
-  color: #047b85;
+  background: #EEF4FB;
+  color: #062A5B;
 }
 
 @keyframes proof-card-enter {
@@ -222,7 +222,7 @@ svg {
 
 .section-transition article:hover,
 .hero-proof-strip__item:hover {
-  border-color: rgba(4, 123, 133, 0.22);
+  border-color: rgba(6, 42, 91, 0.22);
   box-shadow: 0 20px 48px rgba(7, 25, 35, 0.08);
 }
 
@@ -243,7 +243,7 @@ svg {
   inset-inline: 0;
   bottom: -1px;
   height: 120px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(198, 231, 255, 0.08));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(217, 230, 247, 0.08));
   pointer-events: none;
   z-index: -1;
 }
@@ -264,14 +264,14 @@ svg {
   width: 140px;
   height: 140px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(198, 231, 255, 0.55) 0%, rgba(198, 231, 255, 0) 72%);
+  background: radial-gradient(circle, rgba(217, 230, 247, 0.55) 0%, rgba(217, 230, 247, 0) 72%);
   pointer-events: none;
 }
 
 .hero-visual {
   background:
-    radial-gradient(circle at top right, rgba(255, 221, 174, 0.42), transparent 25%),
-    linear-gradient(135deg, rgba(198, 231, 255, 0.92), rgba(255, 255, 255, 0.88) 46%, rgba(255, 221, 174, 0.44));
+    radial-gradient(circle at top right, rgba(253, 231, 234, 0.42), transparent 25%),
+    linear-gradient(135deg, rgba(217, 230, 247, 0.92), rgba(255, 255, 255, 0.88) 46%, rgba(253, 231, 234, 0.44));
   border: 1px solid rgba(255, 255, 255, 0.76);
   box-shadow: var(--shadow-soft);
 }

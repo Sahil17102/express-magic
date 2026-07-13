@@ -67,8 +67,8 @@ export default function CalculatorSection({ estimate, shippingForm, onFieldChang
                   borderRadius: "999px",
                   px: 3,
                   py: 1.25,
-                  backgroundColor: "#171310",
-                  "&:hover": { backgroundColor: "#30262e" },
+                  backgroundColor: "#061A33",
+                  "&:hover": { backgroundColor: "#123763" },
                 }}
               >
                 Continue In Client App

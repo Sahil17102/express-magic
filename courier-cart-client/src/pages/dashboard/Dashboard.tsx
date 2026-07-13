@@ -49,7 +49,7 @@ const widgetComponents: Record<string, React.ComponentType<any>> = {
   opsAnalytics: OpsAnalyticsSection,
 }
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const BRAND_TEXT = '#17171A'
 const TEXT_MUTED = '#6B7280'
 const CARD_BORDER = 'rgba(17, 24, 39, 0.08)'
@@ -504,8 +504,8 @@ export default function Dashboard() {
                   to right,
                   transparent 0,
                   transparent calc((100% / 12) - 1px),
-                  ${alpha('#047b85', 0.08)} calc((100% / 12) - 1px),
-                  ${alpha('#047b85', 0.08)} calc(100% / 12)
+                  ${alpha('#062A5B', 0.08)} calc((100% / 12) - 1px),
+                  ${alpha('#062A5B', 0.08)} calc(100% / 12)
                 )
               `,
             }}

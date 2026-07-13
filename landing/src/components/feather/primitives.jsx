@@ -83,7 +83,7 @@ export function MetricBars() {
 
 export function ModulePreview({ title }) {
   return (
-    <div className="grid-pattern rounded-[1.75rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(212,246,255,0.52))] p-4 shadow-inner">
+    <div className="grid-pattern rounded-[1.75rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(217,230,247,0.52))] p-4 shadow-inner">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Preview</p>

@@ -131,7 +131,7 @@ export default function Layout() {
               width: '100%',
               px: { xs: 0.6, md: 0.2 },
               pt: 0.4,
-              borderTop: '1px solid rgba(4, 123, 133, 0.12)',
+              borderTop: '1px solid rgba(6, 42, 91, 0.12)',
             }}
           >
             <Box

@@ -290,7 +290,7 @@ export const AddBankAccountDialog: React.FC<DialogProps> = ({
                         control={
                           <Radio
                             sx={{
-                              color: '#047b85',
+                              color: '#062A5B',
                               '&.Mui-checked': {
                                 color: '#3DD598',
                               },
@@ -308,7 +308,7 @@ export const AddBankAccountDialog: React.FC<DialogProps> = ({
                         control={
                           <Radio
                             sx={{
-                              color: '#047b85',
+                              color: '#062A5B',
                               '&.Mui-checked': {
                                 color: '#3DD598',
                               },

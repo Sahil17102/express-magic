@@ -211,7 +211,7 @@ export default function UserOnboarding() {
           sx={{
             borderRadius: { xs: 2, md: 3 },
             overflow: 'hidden',
-            border: '1px solid rgba(4,123,133,0.14)',
+            border: '1px solid rgba(6,42,91,0.14)',
             background: 'rgba(255,255,255,0.82)',
             backdropFilter: 'blur(18px)',
             boxShadow: '0 30px 80px rgba(17, 17, 19, 0.12)',
@@ -378,7 +378,7 @@ export default function UserOnboarding() {
                   sx={{
                     p: { xs: 2, md: 2.4 },
                     borderRadius: 2,
-                    border: '1px solid rgba(4,123,133,0.14)',
+                    border: '1px solid rgba(6,42,91,0.14)',
                     background: `radial-gradient(circle at top right, ${alpha(BRAND_TEAL, 0.12)} 0%, transparent 24%), linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(244,251,252,0.98) 100%)`,
                   }}
                 >
@@ -440,7 +440,7 @@ export default function UserOnboarding() {
                     minWidth: 0,
                     p: { xs: 1.2, md: 1.6 },
                     borderRadius: 2,
-                    border: '1px solid rgba(4,123,133,0.12)',
+                    border: '1px solid rgba(6,42,91,0.12)',
                     background:
                       'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,246,243,0.98) 100%)',
                     boxShadow: '0 20px 42px rgba(17, 17, 19, 0.05)',
@@ -485,7 +485,7 @@ export default function UserOnboarding() {
                   sx={{
                     p: { xs: 1.4, md: 1.6 },
                     borderRadius: 2,
-                    border: '1px solid rgba(4,123,133,0.12)',
+                    border: '1px solid rgba(6,42,91,0.12)',
                     background: 'rgba(255,255,255,0.88)',
                   }}
                 >

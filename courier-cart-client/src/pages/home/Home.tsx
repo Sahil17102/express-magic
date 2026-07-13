@@ -33,7 +33,7 @@ import { useAuth } from '../../context/auth/AuthContext'
 import { useMerchantDashboardStats } from '../../hooks/useDashboard'
 import OpsAnalyticsSection from '../../components/dashboard/OpsAnalyticsSection'
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const BRAND_TEXT = '#111827'
 const TEXT_MUTED = '#6B7280'
 
@@ -418,7 +418,7 @@ const Home = () => {
           ...CARD_STYLE,
           p: { xs: 2, md: 2.5 },
           background:
-            'linear-gradient(180deg, rgba(4, 123, 133, 0.04) 0%, rgba(255,255,255,0.98) 100%)',
+            'linear-gradient(180deg, rgba(6, 42, 91, 0.04) 0%, rgba(255,255,255,0.98) 100%)',
         }}
       >
         <Stack spacing={0.8} sx={{ mb: 2 }}>

@@ -182,7 +182,7 @@ function CargoContainer() {
         zIndex: 3,
         borderRadius: 1,
         background:
-          'linear-gradient(90deg, #0797a1 0%, #0aa4ad 42%, #047b85 75%, #045b65 100%)',
+          'linear-gradient(90deg, #0797a1 0%, #0aa4ad 42%, #062A5B 75%, #045b65 100%)',
         border: `1px solid ${alpha('#003d45', 0.22)}`,
         boxShadow: '0 26px 38px rgba(6, 46, 55, 0.18)',
         overflow: 'hidden',
@@ -507,7 +507,7 @@ export default function LoginForm() {
         background:
           `linear-gradient(90deg, ${alpha(teal, 0.05)} 1px, transparent 1px) 0 0 / 52px 52px, ` +
           `linear-gradient(${alpha(teal, 0.045)} 1px, transparent 1px) 0 0 / 52px 52px, ` +
-          'linear-gradient(180deg, #ffffff 0%, #fbfdfe 55%, #f6fbfc 100%)',
+          'linear-gradient(180deg, #ffffff 0%, #fbfdfe 55%, #F7FAFC 100%)',
       }}
     >
       <Box

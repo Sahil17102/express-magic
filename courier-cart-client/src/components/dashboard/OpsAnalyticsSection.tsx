@@ -48,7 +48,7 @@ const formatPercent = (value?: number | null) => `${Number(value || 0).toFixed(1
 const formatDays = (value?: number | null) => `${Number(value || 0).toFixed(1)} days`
 const formatNumber = (value?: number | null) => Number(value || 0).toLocaleString('en-IN')
 
-const chartColors = ['#047b85', '#ff821c', '#1E88E5', '#8E24AA', '#E53935', '#43A047']
+const chartColors = ['#062A5B', '#ED1C24', '#1E88E5', '#8E24AA', '#E53935', '#43A047']
 
 export default function OpsAnalyticsSection() {
   const theme = useTheme()
@@ -1090,7 +1090,7 @@ function buildAreaOptions(theme: Theme, labels: string[]) {
       toolbar: { show: false },
       animations: { enabled: true, speed: 700 },
     },
-    colors: ['#047b85', '#ff821c'],
+    colors: ['#062A5B', '#ED1C24'],
     stroke: {
       curve: 'smooth' as const,
       width: 3,

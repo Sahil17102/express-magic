@@ -89,7 +89,7 @@ export function SectionHeader({ eyebrow, title, description, align = "left" }) {
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}>
       <Typography
         className="mb-3 text-[0.74rem] font-semibold uppercase tracking-[0.28em]"
-        sx={{ color: "#D97943" }}
+        sx={{ color: "#ED1C24" }}
       >
         {eyebrow}
       </Typography>
@@ -130,7 +130,7 @@ export function LiteralVisual({ title, compact = false }) {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
         className="absolute left-0 top-5 grid place-items-center rounded-[24px] border border-white/70 bg-white/90 shadow-[0_16px_34px_rgba(42,26,34,0.12)]"
-        style={{ width: primarySize, height: primarySize, color: "#D97943" }}
+        style={{ width: primarySize, height: primarySize, color: "#ED1C24" }}
       >
         <PrimaryIcon sx={{ fontSize: compact ? 28 : 34 }} />
       </MotionDiv>
@@ -140,7 +140,7 @@ export function LiteralVisual({ title, compact = false }) {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.42, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         className="absolute bottom-0 right-0 grid place-items-center rounded-full border border-[#f0d2db] bg-[#f8e7ed] shadow-[0_10px_30px_rgba(155,49,80,0.18)]"
-        style={{ width: secondarySize, height: secondarySize, color: "#181318" }}
+        style={{ width: secondarySize, height: secondarySize, color: "#061A33" }}
       >
         <SecondaryIcon sx={{ fontSize: compact ? 20 : 24 }} />
       </MotionDiv>

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/feather/MainLayout";
 
-const logoImage = "/feather-global-logo.svg";
+const logoImage = "/express-magic-logo.jpeg";
 
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
@@ -22,9 +22,9 @@ function LoadingScreen() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
-      className="fixed inset-0 z-[9999] flex min-h-screen items-center justify-center bg-[#f4fbfc] px-6"
+      className="fixed inset-0 z-[9999] flex min-h-screen items-center justify-center bg-[#F5F8FC] px-6"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(4,123,133,0.12),transparent_24%),radial-gradient(circle_at_78%_28%,rgba(255,130,28,0.16),transparent_24%),linear-gradient(180deg,#ffffff_0%,#eef9fb_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(6,42,91,0.12),transparent_24%),radial-gradient(circle_at_78%_28%,rgba(237,28,36,0.16),transparent_24%),linear-gradient(180deg,#ffffff_0%,#F5F8FC_100%)]" />
       <MotionDiv
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -33,13 +33,13 @@ function LoadingScreen() {
       >
         <MotionImg
           src={logoImage}
-          alt="Feather Global"
+          alt="Express Magic"
           className="mx-auto h-36 w-auto object-contain sm:h-44"
           animate={{ opacity: [1, 0.72, 1], y: [0, -4, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         />
         <MotionP
-          className="mt-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#047b85]"
+          className="mt-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#062A5B]"
           animate={{ opacity: [0.42, 1, 0.42] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         >

@@ -10,7 +10,7 @@ export default function BrandMark({
 }) {
   const titleColor = useColorModeValue(BRAND.colors.ink, 'white')
   const subtitleColor = useColorModeValue(BRAND.colors.muted, 'gray.400')
-  const pillBg = useColorModeValue('rgba(4, 123, 133, 0.08)', 'rgba(255, 255, 255, 0.08)')
+  const pillBg = useColorModeValue('rgba(6, 42, 91, 0.08)', 'rgba(255, 255, 255, 0.08)')
 
   if (markOnly) {
     return (

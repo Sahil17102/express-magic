@@ -19,8 +19,8 @@ import { toast } from './UI/Toast'
 import CustomIconLoadingButton from './UI/button/CustomLoadingButton'
 import CustomDialog from './UI/modal/CustomModal'
 
-const BRAND_ORANGE = '#047b85'
-const BRAND_ORANGE_DARK = '#013f49'
+const BRAND_ORANGE = '#062A5B'
+const BRAND_ORANGE_DARK = '#041A38'
 const BRAND_SURFACE = '#FCF8F7'
 
 interface AddMoneyDialogProps {
@@ -69,7 +69,7 @@ const AddMoneyDialog: React.FC<AddMoneyDialogProps> = ({ open, setOpen, currentB
     user?.companyInfo?.brandName ||
     profile?.companyInfo?.contactPerson ||
     user?.companyInfo?.contactPerson ||
-    'Feather Global Customer'
+    'Express Magic Customer'
   const resolvedEmail =
     profile?.companyInfo?.contactEmail ||
     user?.companyInfo?.contactEmail ||
@@ -312,7 +312,7 @@ const AddMoneyDialog: React.FC<AddMoneyDialogProps> = ({ open, setOpen, currentB
             color: '#FFFFFF',
             borderRadius: 3.5,
             '&:hover': {
-              background: `linear-gradient(135deg, ${BRAND_ORANGE_DARK} 0%, #013f49 100%)`,
+              background: `linear-gradient(135deg, ${BRAND_ORANGE_DARK} 0%, #041A38 100%)`,
             },
           }}
         />

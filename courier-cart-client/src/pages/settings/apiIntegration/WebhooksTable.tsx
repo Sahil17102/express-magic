@@ -83,7 +83,7 @@ export const WebhooksTable = ({
             size="small"
             onClick={() => onRegenerateSecret(row.id)}
             title="Regenerate Secret"
-            sx={{ color: '#047b85' }}
+            sx={{ color: '#062A5B' }}
           >
             <MdRefresh size={18} />
           </IconButton>

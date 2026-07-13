@@ -1,15 +1,15 @@
 {
-  "short_name": "Feather Admin",
-  "name": "Feather Global Admin",
+  "short_name": "Express Magic",
+  "name": "Express Magic Admin",
   "icons": [
     {
-      "src": "feather-global-mark.svg",
+      "src": "express-magic-logo.jpeg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/jpeg"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#047b85",
+  "theme_color": "#062A5B",
   "background_color": "#ffffff"
 }

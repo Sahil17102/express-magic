@@ -127,7 +127,7 @@ export function HeroSection() {
                   Unlock the full potential of your shipping operations.
                 </h1>
                 <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-                  Feather Global connects courier operations, pricing visibility, shipment tracking, and delivery follow-up into one cleaner logistics experience from booking to doorstep.
+                  Express Magic connects courier operations, pricing visibility, shipment tracking, and delivery follow-up into one cleaner logistics experience from booking to doorstep.
                 </p>
 
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -215,7 +215,7 @@ export function OperationsSection() {
           />
         </Reveal>
 
-        <div className="mt-10 rounded-[2.5rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(198,231,255,0.24))] p-5 shadow-[0_24px_70px_rgba(15,44,67,0.08)] sm:p-8">
+        <div className="mt-10 rounded-[2.5rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(217,230,247,0.24))] p-5 shadow-[0_24px_70px_rgba(15,44,67,0.08)] sm:p-8">
           <div className="mb-6 hidden h-px bg-gradient-to-r from-transparent via-sky-300 to-transparent lg:block" />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {operations.map((stage, index) => (

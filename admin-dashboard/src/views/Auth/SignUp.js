@@ -25,7 +25,7 @@ function SignUp() {
   const titleColor = useColorModeValue(BRAND.colors.ink, 'white')
   const textColor = useColorModeValue(BRAND.colors.muted, 'rgba(255,255,255,0.72)')
   const inputBg = useColorModeValue('white', 'rgba(255,255,255,0.04)')
-  const inputBorder = useColorModeValue('rgba(4,123,133,0.12)', 'rgba(255,255,255,0.12)')
+  const inputBorder = useColorModeValue('rgba(6,42,91,0.12)', 'rgba(255,255,255,0.12)')
 
   React.useEffect(() => {
     document.title = `${BRAND.name} Admin | Create account`
@@ -46,8 +46,8 @@ function SignUp() {
         position="absolute"
         inset="0"
         bgImage={useColorModeValue(
-          'radial-gradient(circle at 12% 10%, rgba(4,123,133,0.08) 0%, transparent 36%), radial-gradient(circle at 90% 14%, rgba(255,130,28,0.08) 0%, transparent 30%)',
-          'radial-gradient(circle at 12% 10%, rgba(4,123,133,0.16) 0%, transparent 36%), radial-gradient(circle at 90% 14%, rgba(255,255,255,0.08) 0%, transparent 30%)',
+          'radial-gradient(circle at 12% 10%, rgba(6,42,91,0.08) 0%, transparent 36%), radial-gradient(circle at 90% 14%, rgba(237,28,36,0.08) 0%, transparent 30%)',
+          'radial-gradient(circle at 12% 10%, rgba(6,42,91,0.16) 0%, transparent 36%), radial-gradient(circle at 90% 14%, rgba(255,255,255,0.08) 0%, transparent 30%)',
         )}
       />
 

@@ -40,15 +40,15 @@ function SignIn() {
   const shellBg = useColorModeValue('white', '#18181B')
   const shellBorder = useColorModeValue('rgba(215,238,241,0.95)', 'rgba(255,255,255,0.08)')
   const leftBg = useColorModeValue(
-    'linear-gradient(145deg, #013f49 0%, #047b85 52%, #0d4f66 100%)',
+    'linear-gradient(145deg, #041A38 0%, #062A5B 52%, #0d4f66 100%)',
     '#111113',
   )
   const leftBorder = useColorModeValue('rgba(255,255,255,0.12)', 'rgba(255,255,255,0.08)')
   const textPrimary = useColorModeValue(BRAND.colors.ink, 'white')
   const textSecondary = useColorModeValue('rgba(255,255,255,0.88)', 'rgba(255,255,255,0.72)')
   const inputBg = useColorModeValue('#F8FCFD', 'rgba(255,255,255,0.04)')
-  const inputBorder = useColorModeValue('rgba(4,123,133,0.12)', 'rgba(255,255,255,0.1)')
-  const iconHoverBg = useColorModeValue('rgba(4,123,133,0.08)', 'rgba(255,255,255,0.08)')
+  const inputBorder = useColorModeValue('rgba(6,42,91,0.12)', 'rgba(255,255,255,0.1)')
+  const iconHoverBg = useColorModeValue('rgba(6,42,91,0.08)', 'rgba(255,255,255,0.08)')
 
   const [email, setEmail] = useState(BRAND.adminEmail)
   const [password, setPassword] = useState('')
@@ -115,8 +115,8 @@ function SignIn() {
         position="absolute"
         inset="0"
         bgImage={useColorModeValue(
-          'radial-gradient(circle at 10% 10%, rgba(4,123,133,0.08) 0%, transparent 42%), radial-gradient(circle at 92% 0%, rgba(255,130,28,0.08) 0%, transparent 34%)',
-          'radial-gradient(circle at 10% 10%, rgba(4,123,133,0.16) 0%, transparent 42%), radial-gradient(circle at 92% 0%, rgba(255,255,255,0.06) 0%, transparent 34%)',
+          'radial-gradient(circle at 10% 10%, rgba(6,42,91,0.08) 0%, transparent 42%), radial-gradient(circle at 92% 0%, rgba(237,28,36,0.08) 0%, transparent 34%)',
+          'radial-gradient(circle at 10% 10%, rgba(6,42,91,0.16) 0%, transparent 42%), radial-gradient(circle at 92% 0%, rgba(255,255,255,0.06) 0%, transparent 34%)',
         )}
       />
 
@@ -241,7 +241,7 @@ function SignIn() {
                     _hover={{ borderColor: 'brand.400' }}
                     _focus={{
                       borderColor: 'brand.500',
-                      boxShadow: '0 0 0 3px rgba(4,123,133,0.12)',
+                      boxShadow: '0 0 0 3px rgba(6,42,91,0.12)',
                     }}
                   />
                 </FormControl>
@@ -264,7 +264,7 @@ function SignIn() {
                       _hover={{ borderColor: 'brand.400' }}
                       _focus={{
                         borderColor: 'brand.500',
-                        boxShadow: '0 0 0 3px rgba(4,123,133,0.12)',
+                        boxShadow: '0 0 0 3px rgba(6,42,91,0.12)',
                       }}
                     />
                     <InputRightElement h="50px" pr="8px">

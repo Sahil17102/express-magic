@@ -6,7 +6,7 @@ import { FaTicket } from 'react-icons/fa6'
 import { TbTruckDelivery } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const BRAND_INK = '#17171A'
 
 interface QuickActionsProps {

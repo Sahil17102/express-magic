@@ -87,7 +87,7 @@ function MetricInfoTile({ label, value, helper, tone = 'teal', panelBg, borderCo
   const textPrimary = useColorModeValue('gray.800', 'gray.100')
   const textSecondary = useColorModeValue('gray.600', 'gray.400')
   const accentMap = {
-    teal: 'rgba(4,123,133,0.10)',
+    teal: 'rgba(6,42,91,0.10)',
     orange: 'rgba(245,124,34,0.10)',
     blue: 'rgba(31,79,168,0.10)',
     green: 'rgba(22,163,74,0.10)',

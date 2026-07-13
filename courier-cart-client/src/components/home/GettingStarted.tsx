@@ -3,8 +3,8 @@ import { MdOutlineFactCheck, MdVerifiedUser } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth/AuthContext'
 
-const BRAND_PRIMARY = '#047b85'
-const BRAND_ACCENT = '#ff821c'
+const BRAND_PRIMARY = '#062A5B'
+const BRAND_ACCENT = '#ED1C24'
 const INK = '#111827'
 const MUTED = '#6B7280'
 

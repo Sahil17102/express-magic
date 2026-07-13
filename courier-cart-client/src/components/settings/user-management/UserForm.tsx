@@ -264,8 +264,8 @@ const UserForm: React.FC<UserFormProps> = ({ open, onClose, defaultValues }) => 
                 sx={{
                   p: 1.5,
                   borderRadius: 2,
-                  background: alpha('#047b85', 0.04),
-                  border: `1px solid ${alpha('#047b85', 0.12)}`,
+                  background: alpha('#062A5B', 0.04),
+                  border: `1px solid ${alpha('#062A5B', 0.12)}`,
                 }}
               >
                 <FormControlLabel
@@ -354,9 +354,9 @@ const UserForm: React.FC<UserFormProps> = ({ open, onClose, defaultValues }) => 
                                 sx={{
                                   p: 1.25,
                                   borderRadius: 2,
-                                  borderColor: field.value ? alpha('#047b85', 0.35) : 'rgba(17, 17, 19, 0.10)',
+                                  borderColor: field.value ? alpha('#062A5B', 0.35) : 'rgba(17, 17, 19, 0.10)',
                                   background: field.value
-                                    ? alpha('#047b85', 0.05)
+                                    ? alpha('#062A5B', 0.05)
                                     : 'rgba(255,255,255,0.86)',
                                 }}
                               >

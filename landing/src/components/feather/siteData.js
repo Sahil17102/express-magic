@@ -6,13 +6,13 @@ export const siteNavigation = [
 ];
 
 export const companyProfile = {
-  name: "Feather Global",
+  name: "Express Magic",
   tagline: "Smart shipping for smarter sellers",
   shortPitch:
-    "A brighter Feather Global shipping experience designed to unify store operations, courier decisions, tracking visibility, and delivery performance.",
+    "A brighter Express Magic shipping experience designed to unify store operations, courier decisions, tracking visibility, and delivery performance.",
   mobile: "9217553934",
   phone: "92175 53934",
-  email: "support@featherglobal.in",
+  email: "support@expressmagic.in",
   address:
     "A-1/4, Khodiyar Nagar Society near takshashila complex, Khodiyar Nagar road, Varachha, Surat - 395006",
 };

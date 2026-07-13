@@ -12,7 +12,7 @@ export default function PageHeader({
   const borderColor = useColorModeValue('rgba(215, 238, 241, 0.95)', 'rgba(255, 255, 255, 0.08)')
   const titleColor = useColorModeValue(BRAND.colors.ink, 'white')
   const textColor = useColorModeValue(BRAND.colors.muted, 'gray.300')
-  const metaBg = useColorModeValue('rgba(4, 123, 133, 0.06)', 'rgba(255, 255, 255, 0.04)')
+  const metaBg = useColorModeValue('rgba(6, 42, 91, 0.06)', 'rgba(255, 255, 255, 0.04)')
 
   return (
     <Box

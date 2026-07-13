@@ -322,7 +322,7 @@ export default function Sidebar({
         background: BRAND_SURFACE,
         color: BRAND_INK,
         borderRight: `1px solid ${BRAND_BORDER}`,
-        boxShadow: '10px 0 30px rgba(4, 62, 69, 0.06)',
+        boxShadow: '10px 0 30px rgba(6, 26, 51, 0.06)',
         zIndex: 1200,
         overflowY: 'auto',
         overflowX: 'hidden',

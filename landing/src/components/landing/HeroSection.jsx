@@ -49,8 +49,8 @@ export default function HeroSection() {
                   borderRadius: "999px",
                   px: 3.1,
                   py: 1.35,
-                  backgroundColor: "#171310",
-                  "&:hover": { backgroundColor: "#30262e" },
+                  backgroundColor: "#061A33",
+                  "&:hover": { backgroundColor: "#123763" },
                   width: { xs: "100%", sm: "auto" },
                 }}
               >
@@ -65,7 +65,7 @@ export default function HeroSection() {
                   px: 3.1,
                   py: 1.35,
                   borderColor: "rgba(217, 121, 67, 0.32)",
-                  color: "#181318",
+                  color: "#061A33",
                   width: { xs: "100%", sm: "auto" },
                 }}
               >
@@ -99,7 +99,7 @@ export default function HeroSection() {
                 >
                   <Typography
                     className="text-[0.72rem] font-semibold uppercase tracking-[0.2em]"
-                    sx={{ color: "#D97943" }}
+                    sx={{ color: "#ED1C24" }}
                   >
                     {item.label}
                   </Typography>
@@ -118,7 +118,7 @@ export default function HeroSection() {
                   className="tool-card surface-panel rounded-[26px] p-4"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f8e8db] text-[#D97943]">
+                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#FDE7EA] text-[#ED1C24]">
                       <ToolIcon icon={tool.icon} size={24} />
                     </div>
                     <Chip
@@ -153,7 +153,7 @@ export default function HeroSection() {
                   <div className="surface-panel rounded-[26px] p-5">
                     <Typography
                       className="text-[0.72rem] font-semibold uppercase tracking-[0.2em]"
-                      sx={{ color: "#D97943" }}
+                      sx={{ color: "#ED1C24" }}
                     >
                       Main link experience
                     </Typography>

@@ -43,7 +43,7 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
           borderRadius: 0,
           backgroundColor: alpha(BRAND_SURFACE, 0.98),
           border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
-          boxShadow: '0 10px 30px rgba(4, 62, 69, 0.06)',
+          boxShadow: '0 10px 30px rgba(6, 26, 51, 0.06)',
           minHeight: { xs: 44, sm: 46, md: 48, lg: 52 },
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',

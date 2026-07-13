@@ -29,7 +29,7 @@ export function FeaturesSection() {
                 transition={{ duration: 0.25 }}
                 className="surface-card h-full rounded-[1.85rem] p-6"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(198,231,255,0.9),rgba(255,221,174,0.82))] text-slate-900 shadow-sm">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(217,230,247,0.9),rgba(253,231,234,0.82))] text-slate-900 shadow-sm">
                   <Icon name={feature.icon} />
                 </span>
                 <h3 className="mt-5 font-display text-2xl text-slate-900">{feature.title}</h3>
@@ -47,7 +47,7 @@ export function ToolsSection() {
   return (
     <section id="shipping-tools" className="section-transition mt-20 sm:mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[2.5rem] border border-white/70 bg-[linear-gradient(135deg,rgba(198,231,255,0.3),rgba(255,255,255,0.88),rgba(212,246,255,0.4))] p-6 shadow-[0_30px_80px_rgba(15,44,67,0.08)] sm:p-8 lg:p-10">
+        <div className="rounded-[2.5rem] border border-white/70 bg-[linear-gradient(135deg,rgba(217,230,247,0.3),rgba(255,255,255,0.88),rgba(217,230,247,0.4))] p-6 shadow-[0_30px_80px_rgba(15,44,67,0.08)] sm:p-8 lg:p-10">
           <Reveal>
             <SectionHeading
               eyebrow="Shipping Tools"
@@ -69,7 +69,7 @@ export function SnapshotSection() {
   return (
     <section id="snapshot" className="section-transition mt-20 sm:mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.86),rgba(198,231,255,0.48),rgba(255,221,174,0.36))] px-6 py-8 shadow-[0_28px_80px_rgba(10,30,46,0.12)] sm:px-8 lg:px-10 lg:py-10">
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.86),rgba(217,230,247,0.48),rgba(253,231,234,0.36))] px-6 py-8 shadow-[0_28px_80px_rgba(10,30,46,0.12)] sm:px-8 lg:px-10 lg:py-10">
           <Reveal>
             <SectionHeading
               eyebrow="Platform Snapshot"

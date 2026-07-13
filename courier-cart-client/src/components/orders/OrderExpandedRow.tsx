@@ -22,7 +22,7 @@ interface OrderExpandedRowProps {
 
 export const OrderExpandedRow = ({ row, type = 'b2c' }: OrderExpandedRowProps) => {
   const [downloadingKey, setDownloadingKey] = useState<string | null>(null)
-  const ACCENT = '#047b85'
+  const ACCENT = '#062A5B'
   const sortCodeValue = String(row?.sort_code || '').trim()
   const { canExportOrders, canViewCustomerDetails } = useEmployeePermissions()
 

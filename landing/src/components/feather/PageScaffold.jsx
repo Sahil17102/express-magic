@@ -37,7 +37,7 @@ function DefaultHeroVisual({ visualTitle }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-700">
-            Feather Global
+            Express Magic
           </p>
           <h2 className="mt-2 font-display text-2xl text-slate-900">{visualTitle}</h2>
         </div>
@@ -60,7 +60,7 @@ function DefaultHeroVisual({ visualTitle }) {
             <p className="mt-2 text-lg font-semibold text-slate-900">Framer-powered</p>
           </div>
         </div>
-        <div className="rounded-[1.75rem] border border-slate-100 bg-[linear-gradient(180deg,rgba(198,231,255,0.45),rgba(255,255,255,0.95))] p-4">
+        <div className="rounded-[1.75rem] border border-slate-100 bg-[linear-gradient(180deg,rgba(217,230,247,0.45),rgba(255,255,255,0.95))] p-4">
           <div className="flex items-center justify-between text-sm text-slate-500">
             <span>Page canvas</span>
             <span>Placeholder visual</span>
@@ -91,7 +91,7 @@ function HeroMediaVisual({ visualAnimationData, visualImage, visualAlt, visualTi
 
   return (
     <div className="relative flex min-h-[18rem] items-center justify-center overflow-hidden rounded-[1.6rem] border border-white/75 bg-white/[0.58] p-4 shadow-sm sm:min-h-[26rem] sm:rounded-[2rem] sm:p-5 lg:min-h-[30rem]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,221,174,0.42),transparent_26%),radial-gradient(circle_at_78%_22%,rgba(198,231,255,0.48),transparent_24%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(253,231,234,0.42),transparent_26%),radial-gradient(circle_at_78%_22%,rgba(217,230,247,0.48),transparent_24%)]" />
       {visualAnimationData ? (
         <Lottie
           animationData={visualAnimationData}
@@ -163,7 +163,7 @@ export function PageHero({
         </Reveal>
 
         <Reveal className="min-w-0" delay={0.12}>
-          <div className="hero-visual relative min-w-0 overflow-hidden rounded-[1.6rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.88),rgba(198,231,255,0.5),rgba(255,221,174,0.38))] p-3 shadow-[0_26px_70px_rgba(15,23,42,0.08)] sm:rounded-[2.5rem] sm:p-6 lg:p-7">
+          <div className="hero-visual relative min-w-0 overflow-hidden rounded-[1.6rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.88),rgba(217,230,247,0.5),rgba(253,231,234,0.38))] p-3 shadow-[0_26px_70px_rgba(15,23,42,0.08)] sm:rounded-[2.5rem] sm:p-6 lg:p-7">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:24px_24px]" />
             <div className="absolute right-4 top-4 rounded-full border border-white/80 bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-500 sm:right-6 sm:top-6 sm:px-4 sm:text-xs">
               {visualLabel}

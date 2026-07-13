@@ -61,8 +61,8 @@ const formatTrackingEventTime = (value: string) =>
   })
 
 export default function OrderTrackingForm() {
-  const BRAND_PRIMARY = '#047b85'
-  const BRAND_ACCENT = '#ff821c'
+  const BRAND_PRIMARY = '#062A5B'
+  const BRAND_ACCENT = '#ED1C24'
   const shellCardStyles = {
     borderRadius: 2.5,
     border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
@@ -231,7 +231,7 @@ export default function OrderTrackingForm() {
           Shipment tracking
         </Typography>
         <Typography sx={{ mt: 0.5, maxWidth: 760, color: '#6E6763', fontSize: '0.88rem' }}>
-          Track every Feather Global shipment from a single clean workspace using either AWB details or
+          Track every Express Magic shipment from a single clean workspace using either AWB details or
           your order reference with customer contact.
         </Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={0.8} mt={1.1}>
@@ -539,7 +539,7 @@ export default function OrderTrackingForm() {
                       <ListItem alignItems="flex-start" sx={{ px: 0 }}>
                         <ListItemIcon sx={{ minWidth: 36 }}>
                           {idx === 0 ? (
-                            <FaBoxOpen color="#047b85" size={20} />
+                            <FaBoxOpen color="#062A5B" size={20} />
                           ) : (
                             <MdLocationOn color="#6B7280" size={20} />
                           )}

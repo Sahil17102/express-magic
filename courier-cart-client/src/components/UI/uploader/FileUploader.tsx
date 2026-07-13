@@ -68,7 +68,7 @@ const GlassDropZone = styled(Paper, {
   shouldForwardProp: (prop) => prop !== 'active' && prop !== 'dragging',
 })<{ active: boolean; dragging: boolean }>(({ active, dragging }) => ({
   background: active || dragging ? 'rgba(217, 4, 22, 0.04)' : '#FFFFFF',
-  border: `1px dashed ${active || dragging ? '#047b85' : 'rgba(17, 24, 39, 0.18)'}`,
+  border: `1px dashed ${active || dragging ? '#062A5B' : 'rgba(17, 24, 39, 0.18)'}`,
   borderRadius: 0,
   padding: '24px',
   width: '100%',
@@ -76,12 +76,12 @@ const GlassDropZone = styled(Paper, {
   cursor: 'pointer',
   transition: 'all .3s ease',
   '&:hover': {
-    borderColor: '#047b85',
+    borderColor: '#062A5B',
     background: 'rgba(217, 4, 22, 0.03)',
   },
   ...(dragging && {
     background: 'rgba(217, 4, 22, 0.05)',
-    borderColor: '#047b85',
+    borderColor: '#062A5B',
   }),
 }))
 
@@ -100,11 +100,11 @@ const GlassButton = styled(Button, {
   textTransform: 'none',
   fontWeight: 700,
   fontSize: '0.875rem',
-  color: error ? '#E74C3C' : '#047b85',
+  color: error ? '#E74C3C' : '#062A5B',
   [theme.breakpoints.down('sm')]: { width: '100%' },
   '&:hover': {
     background: error ? 'rgba(231, 76, 60, 0.06)' : 'rgba(217, 4, 22, 0.04)',
-    borderColor: error ? '#E74C3C' : '#047b85',
+    borderColor: error ? '#E74C3C' : '#062A5B',
   },
   transition: 'all 0.3s ease',
 }))
@@ -357,7 +357,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
               border: '1px solid rgba(17, 24, 39, 0.12)',
               ...(uploading && {
                 animation: `${pulse} 1.6s ease-in-out infinite`,
-                borderColor: '#047b85',
+                borderColor: '#062A5B',
               }),
             }}
           >
@@ -435,7 +435,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
               right: 27,
               transform: 'translate(50%, 50%)',
               zIndex: 2,
-              bgcolor: '#047b85',
+              bgcolor: '#062A5B',
               color: '#FFFFFF',
               width: 28,
               height: 28,
@@ -488,7 +488,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
             </Stack>
           ) : (
             <Stack alignItems="center" spacing={2}>
-              <IoCloudUploadOutline size={46} color="#047b85" />
+              <IoCloudUploadOutline size={46} color="#062A5B" />
               <Typography variant="subtitle1" fontWeight={600} color="#1A1A1A">
                 Drag files here or click to upload
               </Typography>{' '}

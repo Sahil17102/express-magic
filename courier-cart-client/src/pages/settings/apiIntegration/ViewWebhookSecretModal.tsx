@@ -34,7 +34,7 @@ export const ViewWebhookSecretModal = ({
       '-',
     )}-${timestamp.split('T')[0]}.txt`
     const fileContent = `
-Feather Global Webhook Secret
+Express Magic Webhook Secret
 Generated: ${timestamp}
 Webhook Name: ${webhook.name || 'Unnamed'}
 Webhook URL: ${webhook.url}
@@ -67,10 +67,10 @@ This file contains sensitive credentials. Store it securely and never commit it 
             startIcon={<MdDownload />}
             fullWidth
             sx={{
-              borderColor: '#047b85',
-              color: '#047b85',
+              borderColor: '#062A5B',
+              color: '#062A5B',
               '&:hover': {
-                borderColor: '#047b85',
+                borderColor: '#062A5B',
                 bgcolor: 'rgba(51, 51, 105, 0.08)',
               },
             }}
@@ -105,7 +105,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
           <Typography
             sx={{
               fontSize: '13px',
-              color: '#047b85',
+              color: '#062A5B',
               fontWeight: 500,
               mb: 0.5,
             }}
@@ -121,7 +121,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
                 onClick={() => onCopy(webhook.secret, 'secret')}
                 size="small"
                 sx={{
-                  color: copiedSecret === 'secret' ? '#4CAF50' : '#047b85',
+                  color: copiedSecret === 'secret' ? '#4CAF50' : '#062A5B',
                   '&:hover': { bgcolor: 'rgba(51, 51, 105, 0.08)' },
                 }}
               >
@@ -134,7 +134,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
           <Typography
             sx={{
               fontSize: '13px',
-              color: '#047b85',
+              color: '#062A5B',
               fontWeight: 500,
               mb: 0.5,
             }}

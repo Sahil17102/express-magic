@@ -4,8 +4,8 @@ import type React from 'react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
-const BRAND_GREEN = '#047b85'
-const BRAND_ORANGE = '#ff821c'
+const BRAND_GREEN = '#062A5B'
+const BRAND_ORANGE = '#ED1C24'
 
 interface ISocialLoginOptions {
   onSelect: (method: 'phone' | 'whatsapp' | 'google' | 'shopify') => void

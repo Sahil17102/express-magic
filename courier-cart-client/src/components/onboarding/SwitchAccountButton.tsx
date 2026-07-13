@@ -33,8 +33,8 @@ export default function SwitchAccountButton() {
     navigate('/')
   }
 
-  const BRAND_GREEN = '#047b85'
-  const BRAND_ORANGE = '#ff821c'
+  const BRAND_GREEN = '#062A5B'
+  const BRAND_ORANGE = '#ED1C24'
 
   /* ---------- styles (glass) ----- */
   const glass = {

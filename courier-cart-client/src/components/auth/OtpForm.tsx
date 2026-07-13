@@ -15,8 +15,8 @@ const BRAND_TEAL = BRAND.colors.teal
 const primaryButtonStyles = {
   width: '100%',
   borderRadius: 1,
-  background: `linear-gradient(135deg, ${BRAND_TEAL} 0%, #013f49 100%)`,
-  boxShadow: '0 16px 26px rgba(4, 123, 133, 0.18)',
+  background: `linear-gradient(135deg, ${BRAND_TEAL} 0%, #041A38 100%)`,
+  boxShadow: '0 16px 26px rgba(6, 42, 91, 0.18)',
   minHeight: 52,
 }
 
@@ -180,7 +180,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
           p: 1.65,
           borderRadius: 1.25,
           background: 'linear-gradient(135deg, rgba(228,246,248,0.76), rgba(255,255,255,0.92))',
-          border: '1px solid rgba(4,123,133,0.12)',
+          border: '1px solid rgba(6,42,91,0.12)',
         }}
       >
         <Typography variant="body2" sx={{ color: '#5F5A57', lineHeight: 1.7 }}>
@@ -208,8 +208,8 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
             p: 1.35,
             borderRadius: 1.25,
             textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(4,123,133,0.1), rgba(255,130,28,0.12))',
-            border: '1px solid rgba(4,123,133,0.2)',
+            background: 'linear-gradient(135deg, rgba(6,42,91,0.1), rgba(237,28,36,0.12))',
+            border: '1px solid rgba(6,42,91,0.2)',
           }}
         >
           <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_TEAL, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
@@ -260,7 +260,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
                 backgroundColor: '#f8fcfd',
                 color: BRAND_DARK,
                 '& fieldset': {
-                  borderColor: 'rgba(4, 123, 133, 0.18)',
+                  borderColor: 'rgba(6, 42, 91, 0.18)',
                 },
                 '&:hover fieldset': {
                   borderColor: BRAND_TEAL,

@@ -329,7 +329,7 @@ export default function OperationsSections() {
                   key={stage.title}
                   className="relative grid items-center gap-5 pl-10 md:grid-cols-[1fr_40px_1fr] md:pl-0"
                 >
-                  <div className="absolute left-[10px] top-8 z-10 h-4 w-4 rounded-full border-4 border-[#f7efe6] bg-[#56c0a5] shadow-[0_0_0_6px_rgba(86,192,165,0.12)] md:hidden" />
+                  <div className="absolute left-[10px] top-8 z-10 h-4 w-4 rounded-full border-4 border-[#F5F8FC] bg-[#56c0a5] shadow-[0_0_0_6px_rgba(86,192,165,0.12)] md:hidden" />
                   <div
                     className={`${onLeft ? "md:col-start-1" : "md:col-start-3 md:order-3"}`}
                   >
@@ -371,7 +371,7 @@ export default function OperationsSections() {
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true, amount: 0.4 }}
                       transition={{ duration: 0.4, delay: index * 0.05 + 0.12 }}
-                      className="z-10 h-4 w-4 rounded-full border-4 border-[#f7efe6] bg-[#56c0a5] shadow-[0_0_0_6px_rgba(86,192,165,0.12)]"
+                      className="z-10 h-4 w-4 rounded-full border-4 border-[#F5F8FC] bg-[#56c0a5] shadow-[0_0_0_6px_rgba(86,192,165,0.12)]"
                     />
                   </div>
                 </div>

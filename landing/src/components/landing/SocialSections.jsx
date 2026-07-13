@@ -25,7 +25,7 @@ export default function SocialSections() {
             <SectionHeader
               eyebrow="Testimonials"
               title="Trusted By Fast-Moving Shipping Teams"
-              description="Teams use Feather Global to simplify courier decisions, improve visibility, and make shipping operations easier to manage."
+              description="Teams use Express Magic to simplify courier decisions, improve visibility, and make shipping operations easier to manage."
               align="center"
             />
           </MotionDiv>
@@ -46,7 +46,7 @@ export default function SocialSections() {
                   </Typography>
                   <Typography
                     className="mt-5 text-sm font-semibold uppercase tracking-[0.18em]"
-                    sx={{ color: "#D97943" }}
+                    sx={{ color: "#ED1C24" }}
                   >
                     {item.author}
                   </Typography>
@@ -133,7 +133,7 @@ export default function SocialSections() {
                       px: 3.2,
                       py: 1.35,
                       backgroundColor: "#ffffff",
-                      color: "#181318",
+                      color: "#061A33",
                       "&:hover": { backgroundColor: "#f6edf1" },
                     }}
                   >

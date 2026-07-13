@@ -25,7 +25,7 @@ export const ViewApiKeyModal = ({
   if (!apiKey) return null
 
   const handleDownloadCredentials = () => {
-    const content = `Feather Global API Credentials
+    const content = `Express Magic API Credentials
 Generated: ${new Date().toISOString()}
 Key Name: ${apiKey.key_name}
 
@@ -97,7 +97,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
           <Typography
             sx={{
               fontSize: '13px',
-              color: '#047b85',
+              color: '#062A5B',
               fontWeight: 500,
               mb: 0.5,
             }}
@@ -113,7 +113,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
                 onClick={() => onCopy(apiKey.api_key, 'key')}
                 size="small"
                 sx={{
-                  color: copiedKey === 'key' ? '#4CAF50' : '#047b85',
+                  color: copiedKey === 'key' ? '#4CAF50' : '#062A5B',
                   '&:hover': { bgcolor: 'rgba(51, 51, 105, 0.08)' },
                 }}
               >
@@ -126,7 +126,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
           <Typography
             sx={{
               fontSize: '13px',
-              color: '#047b85',
+              color: '#062A5B',
               fontWeight: 500,
               mb: 0.5,
             }}
@@ -142,7 +142,7 @@ This file contains sensitive credentials. Store it securely and never commit it 
                 onClick={() => onCopy(apiKey.api_secret, 'secret')}
                 size="small"
                 sx={{
-                  color: copiedKey === 'secret' ? '#4CAF50' : '#047b85',
+                  color: copiedKey === 'secret' ? '#4CAF50' : '#062A5B',
                   '&:hover': { bgcolor: 'rgba(51, 51, 105, 0.08)' },
                 }}
               >

@@ -31,7 +31,7 @@ interface AdminPageShellProps {
 }
 
 export default function AdminPageShell({
-  eyebrow = 'Feather Global Admin',
+  eyebrow = 'Express Magic Admin',
   title,
   description,
   badge,

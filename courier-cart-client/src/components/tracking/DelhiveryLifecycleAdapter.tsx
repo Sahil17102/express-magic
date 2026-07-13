@@ -86,10 +86,10 @@ export function DelhiveryLifecycleAdapter({
     <Card
       sx={{
         borderRadius: 3,
-        border: '1px solid rgba(4, 123, 133, 0.12)',
+        border: '1px solid rgba(6, 42, 91, 0.12)',
         boxShadow: '0 12px 26px rgba(20, 20, 20, 0.07)',
         background:
-          'radial-gradient(circle at top right, rgba(4,123,133,0.08) 0%, transparent 26%), linear-gradient(180deg, #FFFFFF 0%, #FBF7F4 100%)',
+          'radial-gradient(circle at top right, rgba(6,42,91,0.08) 0%, transparent 26%), linear-gradient(180deg, #FFFFFF 0%, #FBF7F4 100%)',
       }}
     >
       <CardContent>
@@ -100,8 +100,8 @@ export function DelhiveryLifecycleAdapter({
               size="small"
               sx={{
                 borderRadius: '999px',
-                bgcolor: alpha('#047b85', 0.12),
-                color: '#047b85',
+                bgcolor: alpha('#062A5B', 0.12),
+                color: '#062A5B',
                 fontWeight: 800,
               }}
             />
@@ -111,7 +111,7 @@ export function DelhiveryLifecycleAdapter({
               variant="outlined"
               sx={{
                 borderRadius: '999px',
-                borderColor: alpha('#047b85', 0.22),
+                borderColor: alpha('#062A5B', 0.22),
                 color: '#6E6763',
                 fontWeight: 700,
               }}
@@ -132,11 +132,11 @@ export function DelhiveryLifecycleAdapter({
               sx={{
                 p: 1.5,
                 borderRadius: 2.5,
-                border: '1px solid rgba(4, 123, 133, 0.12)',
-                bgcolor: 'rgba(4, 123, 133, 0.04)',
+                border: '1px solid rgba(6, 42, 91, 0.12)',
+                bgcolor: 'rgba(6, 42, 91, 0.04)',
               }}
             >
-              <Typography variant="subtitle2" fontWeight={800} color="#047b85" gutterBottom>
+              <Typography variant="subtitle2" fontWeight={800} color="#062A5B" gutterBottom>
                 Internal shared workflow
               </Typography>
               <Stack direction="row" flexWrap="wrap" alignItems="center" gap={0.8}>
@@ -148,8 +148,8 @@ export function DelhiveryLifecycleAdapter({
                       sx={{
                         borderRadius: '999px',
                         fontWeight: 700,
-                        bgcolor: alpha('#047b85', 0.1),
-                        color: '#047b85',
+                        bgcolor: alpha('#062A5B', 0.1),
+                        color: '#062A5B',
                       }}
                     />
                     {index < unifiedWorkflow.length - 1 && (
@@ -166,7 +166,7 @@ export function DelhiveryLifecycleAdapter({
               title="Forward shipment"
               description="Delhivery forward lifecycle mapped from pickup to final delivery."
               stages={forwardLifecycle}
-              accent="#047b85"
+              accent="#062A5B"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>

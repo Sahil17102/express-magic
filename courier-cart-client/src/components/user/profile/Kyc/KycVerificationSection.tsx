@@ -179,7 +179,7 @@ const KYCVerificationStep: React.FC<{
               p: { xs: 2, md: 3 },
               borderRadius: 2,
               bgcolor: '#FFFFFF',
-              border: '1px solid rgba(4, 123, 133, 0.14)',
+              border: '1px solid rgba(6, 42, 91, 0.14)',
               boxShadow: '0 18px 42px rgba(7, 25, 35, 0.06)',
               position: 'relative',
               '&::before': {
@@ -200,12 +200,12 @@ const KYCVerificationStep: React.FC<{
                 startIcon={<IoChevronBack />}
                 disabled={activeStep === 0}
                 sx={{
-                  borderColor: 'rgba(4, 123, 133, 0.2)',
+                  borderColor: 'rgba(6, 42, 91, 0.2)',
                   color: ink,
                   fontWeight: 600,
                   '&:hover': {
-                    bgcolor: 'rgba(4, 123, 133, 0.06)',
-                    borderColor: 'rgba(4, 123, 133, 0.28)',
+                    bgcolor: 'rgba(6, 42, 91, 0.06)',
+                    borderColor: 'rgba(6, 42, 91, 0.28)',
                   },
                 }}
               >
@@ -262,7 +262,7 @@ const KYCVerificationStep: React.FC<{
               p: { xs: 2, md: 3 },
               borderRadius: 2,
               bgcolor: '#FFFFFF',
-              border: '1px solid rgba(4, 123, 133, 0.14)',
+              border: '1px solid rgba(6, 42, 91, 0.14)',
               boxShadow: '0 18px 42px rgba(7, 25, 35, 0.06)',
               position: 'sticky',
               top: 24,

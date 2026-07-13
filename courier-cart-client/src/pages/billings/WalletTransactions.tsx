@@ -305,7 +305,7 @@ const WalletTransactions = () => {
           {isLoading ? (
             <Skeleton variant="text" width={150} height={32} />
           ) : (
-            <Typography sx={{ fontSize: '1.8rem', fontWeight: 900, color: '#047b85' }}>
+            <Typography sx={{ fontSize: '1.8rem', fontWeight: 900, color: '#062A5B' }}>
               {formatCurrency(balance)}
             </Typography>
           )}
@@ -551,7 +551,7 @@ const WalletTransactions = () => {
                         sx={{
                           fontSize: '0.84rem',
                           fontWeight: 800,
-                          color: line.kind === 'tax' ? '#047b85' : '#17171A',
+                          color: line.kind === 'tax' ? '#062A5B' : '#17171A',
                         }}
                       >
                         {formatCurrency(line.amount, selectedTransaction.currency)}

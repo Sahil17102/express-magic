@@ -3,7 +3,7 @@ import { MdAccessTime, MdLocationPin, MdLocalShipping } from 'react-icons/md'
 import type { Pickup } from '../../api/dashboard.api'
 import StatusChip from '../UI/chip/StatusChip'
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const INK = '#111827'
 const MUTED = '#6B7280'
 

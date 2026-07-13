@@ -594,10 +594,10 @@ export default function BulkOrderCourierDrawer({
                     cursor: booking ? "default" : "pointer",
                     borderRadius: 2,
                     border: selected
-                      ? "2px solid #047b85"
+                      ? "2px solid #062A5B"
                       : "1px solid rgba(17, 24, 39, 0.12)",
-                    bgcolor: selected ? alpha("#047b85", 0.05) : "#fff",
-                    "&:hover": { borderColor: "#047b85" },
+                    bgcolor: selected ? alpha("#062A5B", 0.05) : "#fff",
+                    "&:hover": { borderColor: "#062A5B" },
                   }}
                 >
                   <Stack direction="row" alignItems="center" spacing={1.25}>

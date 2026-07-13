@@ -20,8 +20,8 @@ import {
 } from '../../hooks/useCodRemittance'
 
 const BRAND_SURFACE = '#16181D'
-const BRAND_PRIMARY = '#047b85'
-const BRAND_ORANGE = '#ff821c'
+const BRAND_PRIMARY = '#062A5B'
+const BRAND_ORANGE = '#ED1C24'
 
 interface SummaryCardProps {
   title: string

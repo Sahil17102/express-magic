@@ -22,7 +22,7 @@ import { useAuth } from '../../context/auth/AuthContext'
 import { usePresignedDownloadUrls } from '../../hooks/Uploads/usePresignedDownloadUrls'
 import WalletMenu from './WalletMenu'
 
-const BRAND_PRIMARY = '#047b85'
+const BRAND_PRIMARY = '#062A5B'
 const BRAND_INK = '#17171A'
 const BRAND_MUTED = '#6E6763'
 
