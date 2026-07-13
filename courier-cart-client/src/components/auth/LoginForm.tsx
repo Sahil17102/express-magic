@@ -409,7 +409,7 @@ function ShipmentScene() {
           position: 'absolute',
           left: { md: -86, lg: -112 },
           right: { md: -86, lg: -112 },
-          bottom: { md: -14, lg: -16 },
+          bottom: { md: -30, lg: -34 },
           width: { md: 'calc(100% + 172px)', lg: 'calc(100% + 224px)' },
           height: { md: 338, lg: 370 },
           objectFit: 'cover',
@@ -427,19 +427,19 @@ function ShipmentScene() {
       <FloatingBadge
         icon={<FiBarChart2 />}
         label="Real-time Tracking"
-        sx={{ left: { md: 150, lg: 168 }, top: { md: 84, lg: 92 }, animationDelay: '-1.3s' }}
+        sx={{ left: { md: 150, lg: 168 }, top: { md: 98, lg: 106 }, animationDelay: '-1.3s' }}
       />
       <FloatingBadge
         icon={<FiMapPin />}
         label="Smart Dispatch"
-        sx={{ right: { md: 8, lg: 0 }, top: { md: 100, lg: 112 }, animationDelay: '-2.2s' }}
+        sx={{ right: { md: 8, lg: 0 }, top: { md: 114, lg: 126 }, animationDelay: '-2.2s' }}
       />
       <FloatingBadge
         icon={<FiUsers />}
         label="27+ Global Couriers"
         sx={{
           left: { md: 8, lg: 12 },
-          bottom: { md: 82, lg: 96 },
+          bottom: { md: 68, lg: 82 },
           width: 112,
           flexDirection: 'column',
           gap: 0.45,
@@ -448,7 +448,7 @@ function ShipmentScene() {
         }}
       />
 
-      <Pin color={orange} sx={{ right: { md: 100, lg: 112 }, top: { md: 30, lg: 38 } }} />
+      <Pin color={orange} sx={{ right: { md: 100, lg: 112 }, top: { md: 44, lg: 52 } }} />
       <Box sx={{ display: 'none' }}>
         <BoxStack />
         <CargoContainer />

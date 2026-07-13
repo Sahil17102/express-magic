@@ -25,6 +25,8 @@ interface QuickStatsCardsProps {
 }
 
 const BRAND_PRIMARY = '#062A5B'
+const BRAND_ACCENT = '#ED1C24'
+const BRAND_DARK = '#041A38'
 
 export default function QuickStatsCards({
   todayOps,
@@ -48,7 +50,7 @@ export default function QuickStatsCards({
       value: todayOps.inTransit?.toLocaleString() || '0',
       subtitle: `${todayOps.pending || 0} pending`,
       icon: <MdLocalShipping size={20} />,
-      color: '#6A1E25',
+      color: BRAND_ACCENT,
       onClick: () => navigate('/orders/list'),
     },
     {
@@ -56,7 +58,7 @@ export default function QuickStatsCards({
       value: formatCurrency(financial.codRemittanceDue || 0),
       subtitle: 'Pending remittance',
       icon: <MdAccountBalance size={20} />,
-      color: '#3A3A40',
+      color: BRAND_DARK,
       onClick: () => navigate('/cod-remittance'),
     },
   ]
@@ -69,10 +71,10 @@ export default function QuickStatsCards({
             onClick={stat.onClick}
             sx={{
               borderRadius: 4,
-              border: `1px solid ${alpha('#111113', 0.08)}`,
+              border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
               background:
-                'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,242,239,0.98) 100%)',
-              boxShadow: '0 18px 34px rgba(17, 17, 19, 0.06)',
+                'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(238,244,251,0.98) 100%)',
+              boxShadow: '0 18px 34px rgba(6, 26, 51, 0.07)',
               cursor: 'pointer',
               transition: 'all .2s ease',
               '&:hover': {
@@ -103,12 +105,12 @@ export default function QuickStatsCards({
                   </Box>
                 </Stack>
 
-                <Typography sx={{ fontSize: '1.22rem', fontWeight: 800, color: '#161618', lineHeight: 1.2 }}>
+                <Typography sx={{ fontSize: '1.22rem', fontWeight: 800, color: BRAND_DARK, lineHeight: 1.2 }}>
                   {stat.value}
                 </Typography>
 
                 <Stack direction="row" justifyContent="space-between" alignItems="center">
-                  <Typography sx={{ fontSize: '12px', color: '#706766', fontWeight: 600 }}>{stat.subtitle}</Typography>
+                  <Typography sx={{ fontSize: '12px', color: '#64748B', fontWeight: 600 }}>{stat.subtitle}</Typography>
                   {index === 0 && trends.ordersGrowth !== 0 && (
                     <Stack direction="row" spacing={0.3} alignItems="center" sx={{ color: trends.ordersGrowth > 0 ? BRAND_PRIMARY : '#b42318' }}>
                       {trends.ordersGrowth > 0 ? <MdTrendingUp size={13} /> : <MdTrendingDown size={13} />}

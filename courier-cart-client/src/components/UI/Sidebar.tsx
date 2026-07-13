@@ -419,9 +419,11 @@ export default function Sidebar({
                     mb: 0.5,
                     borderRadius: 1.5,
                     justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
-                    background: isActive_ ? alpha(BRAND_ORANGE, 0.1) : 'transparent',
+                    background: isActive_
+                      ? `linear-gradient(135deg, ${alpha(BRAND_ORANGE, 0.12)} 0%, ${alpha(BRAND_ACCENT, 0.06)} 100%)`
+                      : 'transparent',
                     border: `1px solid ${isActive_ ? alpha(BRAND_ORANGE, 0.3) : alpha(BRAND_INK, 0.08)}`,
-                    color: isActive_ ? BRAND_ORANGE : '#999999',
+                    color: isActive_ ? BRAND_ORANGE : '#64748B',
                     transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
                     overflow: 'hidden',
@@ -436,9 +438,9 @@ export default function Sidebar({
                       transition: 'opacity 200ms ease',
                     },
                     '&:hover': {
-                      background: isActive_ ? alpha(BRAND_ORANGE, 0.15) : alpha(BRAND_INK, 0.04),
+                      background: isActive_ ? alpha(BRAND_ORANGE, 0.15) : alpha(BRAND_ORANGE, 0.05),
                       borderColor: isActive_ ? alpha(BRAND_ORANGE, 0.4) : alpha(BRAND_INK, 0.15),
-                      color: isActive_ ? BRAND_ORANGE : '#666666',
+                      color: isActive_ ? BRAND_ORANGE : BRAND_INK,
                       transform: 'translateY(-1px)',
                       boxShadow: `0 4px 12px ${alpha(BRAND_INK, 0.08)}`,
                       '&::before': {
@@ -452,7 +454,7 @@ export default function Sidebar({
                       minWidth: shouldShowExpanded ? 40 : 0,
                       display: 'flex',
                       justifyContent: 'center',
-                      color: '#1A1A1A',
+                      color: isActive_ ? BRAND_ORANGE : BRAND_INK,
                       fontSize: '1.5rem',
                     }}
                   >
@@ -489,7 +491,7 @@ export default function Sidebar({
                             px: 1.5,
                             mb: 0.25,
                             borderRadius: 1,
-                            color: childIsActive ? BRAND_ORANGE : '#999999',
+                            color: childIsActive ? BRAND_ORANGE : '#64748B',
                             background: childIsActive ? alpha(BRAND_ORANGE, 0.08) : 'transparent',
                             border: `1px solid ${childIsActive ? alpha(BRAND_ORANGE, 0.2) : alpha(BRAND_INK, 0.08)}`,
                             fontSize: '0.85rem',
@@ -497,18 +499,18 @@ export default function Sidebar({
                             '&:hover': {
                               background: childIsActive
                                 ? alpha(BRAND_ORANGE, 0.12)
-                                : alpha(BRAND_INK, 0.04),
+                                : alpha(BRAND_ORANGE, 0.05),
                               borderColor: childIsActive
                                 ? alpha(BRAND_ORANGE, 0.3)
                                 : alpha(BRAND_INK, 0.12),
-                              color: childIsActive ? BRAND_ORANGE : '#666666',
+                              color: childIsActive ? BRAND_ORANGE : BRAND_INK,
                             },
                           }}
                         >
                           <ListItemIcon
                             sx={{
                               minWidth: 32,
-                              color: '#1A1A1A',
+                              color: childIsActive ? BRAND_ORANGE : BRAND_INK,
                               fontSize: '1rem',
                             }}
                           >

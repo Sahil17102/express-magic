@@ -31,7 +31,7 @@ const theme = createTheme({
     mode: 'light',
     primary: {
       main: teal,
-      light: '#41aeb6',
+      light: '#1F5C9E',
       dark: tealDark,
       contrastText: '#ffffff',
     },
@@ -52,7 +52,8 @@ const theme = createTheme({
     },
     divider: border,
     error: {
-      main: '#c2410c',
+      main: orange,
+      dark: orangeDark,
     },
     warning: {
       main: orange,
@@ -61,7 +62,7 @@ const theme = createTheme({
       main: teal,
     },
     success: {
-      main: '#0f9f8f',
+      main: '#0F5A8A',
     },
   },
   shape: {
@@ -114,7 +115,7 @@ const theme = createTheme({
           borderRadius: 8,
           backgroundColor: alpha(paper, 0.96),
           border: `1px solid ${alpha(teal, 0.14)}`,
-          boxShadow: '0 18px 48px rgba(7, 25, 35, 0.08)',
+          boxShadow: '0 18px 48px rgba(6, 26, 51, 0.08)',
         },
       },
     },
@@ -141,10 +142,10 @@ const theme = createTheme({
           },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 100%)`,
+          background: `linear-gradient(135deg, ${teal} 0%, ${tealDark} 72%, ${orange} 100%)`,
           color: '#ffffff',
           '&:hover': {
-            background: `linear-gradient(135deg, ${tealDark} 0%, #123763 100%)`,
+            background: `linear-gradient(135deg, ${tealDark} 0%, ${teal} 72%, ${orangeDark} 100%)`,
             boxShadow: `0 14px 30px ${alpha(teal, 0.24)}`,
           },
         },

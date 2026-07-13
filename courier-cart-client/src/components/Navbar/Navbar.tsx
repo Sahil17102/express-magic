@@ -20,6 +20,7 @@ interface NavbarProps {
 const BRAND_SURFACE = BRAND.colors.paper
 const BRAND_TEXT = BRAND.colors.ink
 const BRAND_PRIMARY = BRAND.colors.teal
+const BRAND_ACCENT = BRAND.colors.orange
 
 export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange }: NavbarProps) {
   const theme = useTheme()
@@ -41,7 +42,8 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
           px: { xs: 0.5, sm: 0.8, md: 1.2, lg: 1.5 },
           py: { xs: 0.4, sm: 0.45, md: 0.5, lg: 0.6 },
           borderRadius: 0,
-          backgroundColor: alpha(BRAND_SURFACE, 0.98),
+          background:
+            `linear-gradient(180deg, ${alpha(BRAND_SURFACE, 0.98)} 0%, ${alpha(BRAND.colors.tealSoft, 0.82)} 100%)`,
           border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
           boxShadow: '0 10px 30px rgba(6, 26, 51, 0.06)',
           minHeight: { xs: 44, sm: 46, md: 48, lg: 52 },
@@ -74,9 +76,9 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
                 justifyContent: 'center',
                 padding: 0,
                 '&:hover': {
-                  bgcolor: alpha(BRAND_PRIMARY, 0.09),
-                  borderColor: alpha(BRAND_PRIMARY, 0.25),
-                  color: BRAND_PRIMARY,
+                  bgcolor: alpha(BRAND_ACCENT, 0.08),
+                  borderColor: alpha(BRAND_ACCENT, 0.25),
+                  color: BRAND_ACCENT,
                   boxShadow: `0 4px 12px ${alpha(BRAND_PRIMARY, 0.12)}, inset 0 1px 0 rgba(255, 255, 255, 0.5)`,
                   transform: 'translateY(-1px)',
                 },
@@ -98,8 +100,8 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
                   transition: 'all 200ms ease',
                   padding: 0,
                   '&:hover': {
-                    color: BRAND_PRIMARY,
-                    background: alpha(BRAND_PRIMARY, 0.08),
+                    color: BRAND_ACCENT,
+                    background: alpha(BRAND_ACCENT, 0.08),
                   },
                 }}
               >

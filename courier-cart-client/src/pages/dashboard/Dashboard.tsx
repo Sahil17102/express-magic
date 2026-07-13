@@ -50,10 +50,13 @@ const widgetComponents: Record<string, React.ComponentType<any>> = {
 }
 
 const BRAND_PRIMARY = '#062A5B'
+const BRAND_DARK = '#041A38'
+const BRAND_ACCENT = '#ED1C24'
+const BRAND_SURFACE = '#F5F8FC'
 const BRAND_TEXT = '#17171A'
 const TEXT_MUTED = '#6B7280'
-const CARD_BORDER = 'rgba(17, 24, 39, 0.08)'
-const CARD_SHADOW = '0 2px 12px rgba(15, 23, 42, 0.06)'
+const CARD_BORDER = 'rgba(6, 42, 91, 0.12)'
+const CARD_SHADOW = '0 18px 42px rgba(6, 26, 51, 0.07)'
 
 export default function Dashboard() {
   const { data: stats, isLoading, error, refetch, isRefetching } = useMerchantDashboardStats()
@@ -353,7 +356,7 @@ export default function Dashboard() {
             sx={{
               mt: 1.2,
               bgcolor: BRAND_PRIMARY,
-              '&:hover': { bgcolor: '#B8040E' },
+              '&:hover': { bgcolor: BRAND_DARK },
             }}
           >
             Retry
@@ -366,9 +369,28 @@ export default function Dashboard() {
   const showGridLines = preferences?.layout?.showGridLines || false
 
   return (
-    <Box sx={{ minHeight: '100%', pb: 3, bgcolor: '#fafafa' }}>
+    <Box
+      sx={{
+        minHeight: '100%',
+        pb: 3,
+        bgcolor: BRAND_SURFACE,
+        background:
+          `linear-gradient(90deg, ${alpha(BRAND_PRIMARY, 0.045)} 1px, transparent 1px) 0 0 / 44px 44px, ` +
+          `linear-gradient(${alpha(BRAND_PRIMARY, 0.04)} 1px, transparent 1px) 0 0 / 44px 44px, ` +
+          `linear-gradient(135deg, ${alpha(BRAND_ACCENT, 0.035)} 0%, transparent 26%, ${alpha(BRAND_PRIMARY, 0.045)} 100%)`,
+      }}
+    >
       {/* Header Section */}
-      <Box sx={{ mb: 3 }}>
+      <Box
+        sx={{
+          mb: 3,
+          p: { xs: 2, md: 2.5 },
+          borderRadius: 2.5,
+          border: `1px solid ${CARD_BORDER}`,
+          background: `linear-gradient(135deg, ${alpha('#ffffff', 0.96)} 0%, ${alpha('#EEF4FB', 0.9)} 100%)`,
+          boxShadow: CARD_SHADOW,
+        }}
+      >
         <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', md: 'center' }} gap={2}>
           <Box>
             <Typography
@@ -409,7 +431,7 @@ export default function Dashboard() {
                 borderRadius: 1.5,
                 fontWeight: 600,
                 bgcolor: BRAND_PRIMARY,
-                '&:hover': { bgcolor: '#B8040E' },
+                '&:hover': { bgcolor: BRAND_DARK },
               }}
             >
               Customize
@@ -440,15 +462,15 @@ export default function Dashboard() {
                 sx={{
                   p: 1.5,
                   borderRadius: 2,
-                  bgcolor: item.priority === 'high' ? alpha('#EF4444', 0.05) : alpha('#3B82F6', 0.05),
-                  border: `1px solid ${item.priority === 'high' ? alpha('#EF4444', 0.2) : alpha('#3B82F6', 0.2)}`,
+                  bgcolor: item.priority === 'high' ? alpha(BRAND_ACCENT, 0.06) : alpha(BRAND_PRIMARY, 0.06),
+                  border: `1px solid ${item.priority === 'high' ? alpha(BRAND_ACCENT, 0.22) : alpha(BRAND_PRIMARY, 0.18)}`,
                   transition: 'all 200ms ease',
                   '&:hover': {
-                    boxShadow: `0 4px 12px ${alpha(item.priority === 'high' ? '#EF4444' : '#3B82F6', 0.1)}`,
+                    boxShadow: `0 4px 12px ${alpha(item.priority === 'high' ? BRAND_ACCENT : BRAND_PRIMARY, 0.12)}`,
                   },
                 }}
               >
-                <Typography sx={{ fontWeight: 700, fontSize: '0.9rem', color: item.priority === 'high' ? '#EF4444' : '#3B82F6', mb: 0.2 }}>
+                <Typography sx={{ fontWeight: 700, fontSize: '0.9rem', color: item.priority === 'high' ? BRAND_ACCENT : BRAND_PRIMARY, mb: 0.2 }}>
                   {item.action}
                 </Typography>
                 <Typography sx={{ color: TEXT_MUTED, fontSize: '0.8rem', lineHeight: 1.4 }}>
@@ -471,6 +493,17 @@ export default function Dashboard() {
                 bgcolor: '#ffffff',
                 border: `1px solid ${CARD_BORDER}`,
                 boxShadow: CARD_SHADOW,
+                position: 'relative',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 3,
+                  background: `linear-gradient(90deg, ${BRAND_PRIMARY}, ${BRAND_ACCENT})`,
+                },
               }}
             >
               <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: TEXT_MUTED, textTransform: 'uppercase', letterSpacing: '0.05em', mb: 0.8 }}>
