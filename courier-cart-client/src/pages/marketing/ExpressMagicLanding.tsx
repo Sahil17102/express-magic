@@ -28,6 +28,13 @@ const networkStats = [
   { value: '< 90 sec', label: 'Average label flow' },
 ]
 
+const liveRoutes = [
+  { lane: 'DEL → BLR', mode: 'AIR 04', status: 'ON TIME' },
+  { lane: 'MUM → HYD', mode: 'ROAD 18', status: 'MOVING' },
+  { lane: 'SUR → DEL', mode: 'EXPRESS 09', status: 'SCANNED' },
+  { lane: 'MAA → BOM', mode: 'CARGO 12', status: 'CLEARED' },
+]
+
 const shipmentModes = [
   {
     code: '01 / GROUND',
@@ -144,7 +151,7 @@ export default function ExpressMagicLanding() {
         <div className="em-grid-overlay" />
         <div className="em-hero__content">
           <p className="em-hero__eyebrow"><span /> Mission control for modern commerce</p>
-          <h1>Every shipment.<br /><em>In perfect orbit.</em></h1>
+          <h1>Every shipment.<br /><em>Moving as one.</em></h1>
           <p className="em-hero__copy">
             One intelligent logistics network for rates, dispatch, tracking, exceptions and
             delivery performance across every carrier.
@@ -168,11 +175,18 @@ export default function ExpressMagicLanding() {
         </div>
       </section>
 
-      <section className="em-ticker" aria-label="Shipping services">
-        <div>
-          <span>GROUND EXPRESS</span><i>+</i><span>AIR CARGO</span><i>+</i><span>GLOBAL NETWORK</span><i>+</i><span>REAL-TIME TRACKING</span><i>+</i><span>SMARTER ROUTES</span><i>+</i>
-          <span>GROUND EXPRESS</span><i>+</i><span>AIR CARGO</span><i>+</i><span>GLOBAL NETWORK</span><i>+</i><span>REAL-TIME TRACKING</span><i>+</i><span>SMARTER ROUTES</span><i>+</i>
+      <section className="em-route-rail" aria-label="Live shipment routes">
+        <div className="em-route-rail__label"><span /> LIVE ROUTE PULSE</div>
+        <div className="em-route-rail__viewport">
+          <div className="em-route-rail__track">
+            {[...liveRoutes, ...liveRoutes].map((route, index) => (
+              <div className="em-route-rail__item" key={`${route.lane}-${index}`}>
+                <strong>{route.lane}</strong><span>{route.mode}</span><i>{route.status}</i>
+              </div>
+            ))}
+          </div>
         </div>
+        <div className="em-route-rail__updated">UPDATED NOW</div>
       </section>
 
       <section className="em-network" id="network">

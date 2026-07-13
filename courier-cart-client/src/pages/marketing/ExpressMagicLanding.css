@@ -290,38 +290,95 @@
   box-shadow: 0 0 15px var(--acid);
 }
 
-.em-ticker {
+.em-route-rail {
+  display: grid;
+  min-height: 78px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: stretch;
   overflow: hidden;
   border-bottom: 1px solid var(--ink);
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
-  padding: 18px 0;
 }
 
-.em-ticker div {
+.em-route-rail__label,
+.em-route-rail__updated {
+  position: relative;
+  z-index: 2;
   display: flex;
-  width: max-content;
+  min-width: 190px;
   align-items: center;
-  animation: em-marquee 28s linear infinite;
-}
-
-.em-ticker span,
-.em-ticker i {
-  font-size: 12px;
-  font-style: normal;
+  justify-content: center;
+  gap: 9px;
+  border-right: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+  font-size: 9px;
   font-weight: 900;
   white-space: nowrap;
 }
 
-.em-ticker span {
-  margin: 0 36px;
+.em-route-rail__label span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 14px var(--signal);
 }
 
-.em-ticker i {
-  font-size: 20px;
+.em-route-rail__updated {
+  min-width: 130px;
+  border-right: 0;
+  border-left: 1px solid var(--ink);
+  background: var(--signal);
 }
 
-@keyframes em-marquee {
+.em-route-rail__viewport {
+  overflow: hidden;
+}
+
+.em-route-rail__track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: stretch;
+  animation: em-route-pulse 34s linear infinite;
+}
+
+.em-route-rail__item {
+  display: grid;
+  min-width: 330px;
+  grid-template-columns: 1fr auto;
+  align-content: center;
+  column-gap: 24px;
+  border-right: 1px solid var(--line);
+  padding: 12px 28px;
+}
+
+.em-route-rail__item strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.em-route-rail__item span,
+.em-route-rail__item i {
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.em-route-rail__item span {
+  color: #64748b;
+}
+
+.em-route-rail__item i {
+  grid-column: 1 / -1;
+  margin-top: 5px;
+  color: var(--signal);
+}
+
+@keyframes em-route-pulse {
   to { transform: translateX(-50%); }
 }
 
@@ -1077,6 +1134,15 @@
     padding: 88px 0;
   }
 
+  .em-route-rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .em-route-rail__label,
+  .em-route-rail__updated {
+    display: none;
+  }
+
   .em-section-heading,
   .em-section-heading--light,
   .em-journey .em-section-heading {
@@ -1287,7 +1353,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .em-ticker div {
+  .em-route-rail__track {
     animation: none;
   }
 

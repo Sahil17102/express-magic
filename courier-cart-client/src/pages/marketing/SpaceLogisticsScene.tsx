@@ -1,102 +1,149 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
-type RouteAsset = {
+type MovingAsset = {
   curve: THREE.CatmullRomCurve3
-  parcel: THREE.Mesh
+  object: THREE.Group
   offset: number
+  speed: number
+  lift?: number
 }
 
 const BRAND_NAVY = 0x082b5c
 const BRAND_RED = 0xe91d2b
 const BRAND_WHITE = 0xf8fbff
 
+const materials = {
+  navy: new THREE.MeshStandardMaterial({ color: BRAND_NAVY, roughness: 0.4, metalness: 0.24 }),
+  red: new THREE.MeshStandardMaterial({ color: BRAND_RED, roughness: 0.4, metalness: 0.08 }),
+  white: new THREE.MeshStandardMaterial({ color: BRAND_WHITE, roughness: 0.52 }),
+  dark: new THREE.MeshStandardMaterial({ color: 0x020712, roughness: 0.84 }),
+  glass: new THREE.MeshStandardMaterial({ color: 0x7ea2cb, roughness: 0.16, metalness: 0.62 }),
+}
+
 function createTruck() {
   const truck = new THREE.Group()
-  const navy = new THREE.MeshStandardMaterial({ color: BRAND_NAVY, roughness: 0.38, metalness: 0.3 })
-  const red = new THREE.MeshStandardMaterial({ color: BRAND_RED, roughness: 0.42 })
-  const white = new THREE.MeshStandardMaterial({ color: BRAND_WHITE, roughness: 0.5 })
-  const wheel = new THREE.MeshStandardMaterial({ color: 0x02050a, roughness: 0.8 })
-
-  const cargo = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.78, 0.74), white)
-  cargo.position.x = -0.28
+  const cargo = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.9, 0.88), materials.white)
+  cargo.position.set(-0.38, 0.12, 0)
   truck.add(cargo)
 
-  const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.48, 0.12, 0.76), red)
-  stripe.position.set(-0.28, 0.08, 0)
+  const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.74, 0.16, 0.9), materials.red)
+  stripe.position.set(-0.38, 0.13, 0)
   truck.add(stripe)
 
-  const cab = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.66, 0.72), navy)
-  cab.position.set(0.76, -0.06, 0)
+  const cab = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.76, 0.86), materials.navy)
+  cab.position.set(0.9, 0.01, 0)
   truck.add(cab)
 
-  ;[-0.68, 0.62].forEach((x) => {
-    ;[-0.4, 0.4].forEach((z) => {
-      const tyre = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.1, 16), wheel)
-      tyre.position.set(x, -0.47, z)
+  const windscreen = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.3, 0.62), materials.glass)
+  windscreen.position.set(1.3, 0.12, 0)
+  truck.add(windscreen)
+
+  ;[-0.84, 0.78].forEach((x) => {
+    ;[-0.48, 0.48].forEach((z) => {
+      const tyre = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.12, 18), materials.dark)
+      tyre.position.set(x, -0.46, z)
       tyre.rotation.x = Math.PI / 2
       truck.add(tyre)
     })
   })
 
-  truck.scale.setScalar(0.38)
+  truck.scale.setScalar(0.55)
   return truck
 }
 
 function createPlane() {
   const plane = new THREE.Group()
-  const white = new THREE.MeshStandardMaterial({ color: BRAND_WHITE, roughness: 0.32, metalness: 0.18 })
-  const red = new THREE.MeshStandardMaterial({ color: BRAND_RED, roughness: 0.38 })
-
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.18, 1.7, 18), white)
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.2, 2.2, 20), materials.white)
   body.rotation.z = Math.PI / 2
   plane.add(body)
 
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.42, 18), red)
-  nose.position.x = 1.04
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.48, 20), materials.red)
+  nose.position.x = 1.32
   nose.rotation.z = -Math.PI / 2
   plane.add(nose)
 
-  const wings = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.06, 1.42), red)
-  wings.rotation.y = -0.12
+  const wings = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.07, 1.85), materials.red)
+  wings.rotation.y = -0.08
   plane.add(wings)
 
-  const tail = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.48, 0.06), red)
-  tail.position.set(-0.7, 0.22, 0)
-  tail.rotation.z = -0.28
+  const tail = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.58, 0.08), materials.navy)
+  tail.position.set(-0.94, 0.28, 0)
+  tail.rotation.z = -0.3
   plane.add(tail)
 
-  plane.scale.setScalar(0.46)
+  plane.scale.setScalar(0.5)
   return plane
 }
 
 function createShip() {
   const ship = new THREE.Group()
-  const navy = new THREE.MeshStandardMaterial({ color: BRAND_NAVY, roughness: 0.4, metalness: 0.25 })
-  const red = new THREE.MeshStandardMaterial({ color: BRAND_RED, roughness: 0.5 })
-  const white = new THREE.MeshStandardMaterial({ color: BRAND_WHITE, roughness: 0.5 })
-
-  const hull = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.34, 0.66), navy)
+  const hull = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.34, 0.76), materials.navy)
   ship.add(hull)
-  const bow = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.58, 4), navy)
-  bow.position.x = 1.12
+
+  const bow = new THREE.Mesh(new THREE.ConeGeometry(0.4, 0.68, 4), materials.navy)
+  bow.position.x = 1.38
   bow.rotation.z = -Math.PI / 2
   bow.rotation.y = Math.PI / 4
   ship.add(bow)
 
-  const containers = [
-    [-0.52, red],
-    [-0.12, white],
-    [0.28, red],
-  ] as const
-  containers.forEach(([x, material]) => {
-    const container = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.34, 0.54), material)
-    container.position.set(x, 0.34, 0)
+  ;[-0.65, -0.2, 0.25, 0.7].forEach((x, index) => {
+    const container = new THREE.Mesh(
+      new THREE.BoxGeometry(0.38, 0.4, 0.62),
+      index % 2 === 0 ? materials.red : materials.white,
+    )
+    container.position.set(x, 0.36, 0)
     ship.add(container)
   })
 
-  ship.scale.setScalar(0.38)
+  ship.scale.setScalar(0.46)
   return ship
+}
+
+function createHub() {
+  const hub = new THREE.Group()
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.35, 1.55, 0.3, 8), materials.navy)
+  hub.add(base)
+
+  const warehouse = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.1, 1.5), materials.white)
+  warehouse.position.y = 0.68
+  hub.add(warehouse)
+
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(2.34, 0.16, 1.64), materials.red)
+  roof.position.y = 1.3
+  hub.add(roof)
+
+  const door = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.72, 0.08), materials.navy)
+  door.position.set(0, 0.56, 0.79)
+  hub.add(door)
+
+  ;[-0.72, 0.72].forEach((x) => {
+    const window = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.3, 0.08), materials.glass)
+    window.position.set(x, 0.82, 0.79)
+    hub.add(window)
+  })
+
+  const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 12), materials.red)
+  beacon.position.set(0, 1.52, 0)
+  hub.add(beacon)
+  return hub
+}
+
+function createParcelStack() {
+  const stack = new THREE.Group()
+  const positions = [
+    [-0.42, 0.18, 0],
+    [0, 0.18, 0],
+    [0.42, 0.18, 0],
+    [-0.2, 0.55, 0],
+    [0.22, 0.55, 0],
+  ]
+  positions.forEach(([x, y, z], index) => {
+    const parcel = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.34, 0.34), index % 3 === 0 ? materials.red : materials.white)
+    parcel.position.set(x, y, z)
+    stack.add(parcel)
+  })
+  return stack
 }
 
 export default function SpaceLogisticsScene() {
@@ -107,110 +154,127 @@ export default function SpaceLogisticsScene() {
     if (!mount) return
 
     const scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x030b18, 0.055)
+    scene.fog = new THREE.FogExp2(0x030b18, 0.045)
 
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
-    camera.position.set(0, 0.25, 11)
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100)
+    camera.position.set(0, 3.4, 12)
+    camera.lookAt(1.6, -0.35, 0)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
     renderer.setClearColor(0x030b18, 0)
     renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
     mount.appendChild(renderer.domElement)
 
-    const world = new THREE.Group()
-    world.position.set(2.35, -0.15, 0)
-    scene.add(world)
+    const diorama = new THREE.Group()
+    diorama.position.set(2.65, -0.65, 0)
+    diorama.rotation.x = -0.08
+    scene.add(diorama)
 
-    const globe = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.45, 5),
-      new THREE.MeshStandardMaterial({
-        color: BRAND_NAVY,
-        roughness: 0.74,
-        metalness: 0.18,
-      }),
+    const platform = new THREE.Mesh(
+      new THREE.CylinderGeometry(4.25, 4.5, 0.35, 72),
+      new THREE.MeshStandardMaterial({ color: 0x071a38, roughness: 0.72, metalness: 0.2 }),
     )
-    world.add(globe)
+    platform.position.y = -0.45
+    platform.receiveShadow = true
+    diorama.add(platform)
 
-    const grid = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.49, 3),
-      new THREE.MeshBasicMaterial({
-        color: 0x7f9fc7,
-        transparent: true,
-        opacity: 0.22,
-        wireframe: true,
-      }),
+    const platformRing = new THREE.Mesh(
+      new THREE.TorusGeometry(3.55, 0.035, 8, 180),
+      new THREE.MeshBasicMaterial({ color: BRAND_RED, transparent: true, opacity: 0.72 }),
     )
-    world.add(grid)
+    platformRing.rotation.x = Math.PI / 2
+    platformRing.position.y = -0.25
+    diorama.add(platformRing)
 
-    const pointGeometry = new THREE.SphereGeometry(0.045, 8, 8)
-    const pointMaterial = new THREE.MeshBasicMaterial({ color: BRAND_WHITE })
-    const networkPoints = [
-      [1.3, 1.8, 1.15],
-      [-1.7, 1.1, 1.35],
-      [2.1, -0.65, 1.05],
-      [-0.7, -2.1, 1.1],
-      [0.1, 0.35, 2.45],
-      [-2.2, -0.4, 0.85],
-    ]
-    networkPoints.forEach(([x, y, z]) => {
-      const dot = new THREE.Mesh(pointGeometry, pointMaterial)
-      dot.position.set(x, y, z)
-      world.add(dot)
-    })
+    const grid = new THREE.GridHelper(7.3, 18, 0x31527b, 0x18375c)
+    grid.position.y = -0.24
+    diorama.add(grid)
 
-    const routeMaterial = new THREE.MeshBasicMaterial({
-      color: BRAND_RED,
-      transparent: true,
-      opacity: 0.78,
+    const hub = createHub()
+    hub.position.set(0.3, -0.08, -0.35)
+    hub.scale.setScalar(0.86)
+    hub.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.castShadow = true
+        object.receiveShadow = true
+      }
     })
-    const parcelMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf4f2eb,
-      roughness: 0.4,
-      metalness: 0.08,
-    })
-    const routes: RouteAsset[] = []
-    const routePoints = [
-      [new THREE.Vector3(-2.1, 0.65, 1.45), new THREE.Vector3(-0.2, 3.7, 2.1), new THREE.Vector3(2.25, -0.25, 1.35)],
-      [new THREE.Vector3(-1.45, -1.65, 1.35), new THREE.Vector3(0.4, 2.65, 3.3), new THREE.Vector3(1.65, 1.35, 1.45)],
-      [new THREE.Vector3(-2.35, -0.45, 0.9), new THREE.Vector3(0.1, -3.8, 2.6), new THREE.Vector3(2.15, -0.8, 1.2)],
-    ]
+    diorama.add(hub)
 
-    routePoints.forEach((points, index) => {
-      const curve = new THREE.CatmullRomCurve3(points)
-      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 80, 0.012, 6, false), routeMaterial)
-      world.add(tube)
+    const parcelStack = createParcelStack()
+    parcelStack.position.set(-1.75, -0.2, 0.82)
+    parcelStack.rotation.y = -0.22
+    diorama.add(parcelStack)
 
-      const parcel = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.13, 0.13), parcelMaterial)
-      parcel.rotation.set(0.25, 0.5, 0.1)
-      world.add(parcel)
-      routes.push({ curve, parcel, offset: index * 0.31 })
-    })
+    const routeMaterial = new THREE.MeshBasicMaterial({ color: BRAND_RED, transparent: true, opacity: 0.9 })
+    const truckRoute = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(-3.15, -0.12, 1.45),
+        new THREE.Vector3(-2.8, -0.12, -2.15),
+        new THREE.Vector3(0.55, -0.12, -3.05),
+        new THREE.Vector3(3.15, -0.12, -1.25),
+        new THREE.Vector3(2.75, -0.12, 2.15),
+        new THREE.Vector3(-0.4, -0.12, 3.0),
+      ],
+      true,
+    )
+    const road = new THREE.Mesh(new THREE.TubeGeometry(truckRoute, 150, 0.11, 8, true), materials.dark)
+    diorama.add(road)
+    const roadSignal = new THREE.Mesh(new THREE.TubeGeometry(truckRoute, 150, 0.018, 6, true), routeMaterial)
+    roadSignal.position.y = 0.01
+    diorama.add(roadSignal)
+
+    const planeRoute = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(-4.8, 2.7, -0.8),
+        new THREE.Vector3(-1.2, 4.15, -1.7),
+        new THREE.Vector3(2.8, 3.45, 0.1),
+        new THREE.Vector3(5.2, 2.5, 1.3),
+      ],
+      true,
+    )
+    const airRoute = new THREE.Mesh(
+      new THREE.TubeGeometry(planeRoute, 120, 0.012, 5, true),
+      new THREE.MeshBasicMaterial({ color: BRAND_WHITE, transparent: true, opacity: 0.35 }),
+    )
+    diorama.add(airRoute)
+
+    const shipRoute = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(-4.4, 0.05, 3.5),
+        new THREE.Vector3(-1.4, 0.05, 4.15),
+        new THREE.Vector3(1.8, 0.05, 4.0),
+        new THREE.Vector3(4.7, 0.05, 3.2),
+      ],
+      true,
+    )
 
     const truck = createTruck()
-    truck.position.set(-3.2, -1.4, 1.7)
-    truck.rotation.set(-0.12, 0.3, 0.1)
-    world.add(truck)
-
     const plane = createPlane()
-    plane.position.set(2.55, 2.15, 1.7)
-    plane.rotation.set(0.1, -0.38, -0.18)
-    world.add(plane)
-
     const ship = createShip()
-    ship.position.set(2.8, -1.45, 1.65)
-    ship.rotation.set(-0.08, -0.42, 0.06)
-    world.add(ship)
+    diorama.add(truck, plane, ship)
 
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(3.25, 0.012, 8, 180),
-      new THREE.MeshBasicMaterial({ color: 0x8da1b9, transparent: true, opacity: 0.35 }),
-    )
-    ring.rotation.set(1.12, 0.22, 0.4)
-    world.add(ring)
+    const movingAssets: MovingAsset[] = [
+      { curve: truckRoute, object: truck, offset: 0.08, speed: 0.035, lift: 0.32 },
+      { curve: planeRoute, object: plane, offset: 0.3, speed: 0.022 },
+      { curve: shipRoute, object: ship, offset: 0.62, speed: 0.018 },
+    ]
+
+    const hubRoutes = [
+      [new THREE.Vector3(0.3, 1.45, -0.35), new THREE.Vector3(-2.2, 2.3, -1.1), new THREE.Vector3(-3.5, 0.3, -2.6)],
+      [new THREE.Vector3(0.3, 1.45, -0.35), new THREE.Vector3(2.5, 2.55, 0.2), new THREE.Vector3(3.35, 0.1, 2.4)],
+      [new THREE.Vector3(0.3, 1.45, -0.35), new THREE.Vector3(-1.1, 2.15, 1.8), new THREE.Vector3(-2.8, 0.15, 2.75)],
+    ]
+    hubRoutes.forEach((points) => {
+      const curve = new THREE.CatmullRomCurve3(points)
+      diorama.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 64, 0.012, 5, false), routeMaterial))
+    })
 
     const starsGeometry = new THREE.BufferGeometry()
-    const positions = new Float32Array(900 * 3)
+    const positions = new Float32Array(700 * 3)
     for (let i = 0; i < positions.length; i += 3) {
       positions[i] = (Math.random() - 0.5) * 30
       positions[i + 1] = (Math.random() - 0.5) * 18
@@ -219,22 +283,23 @@ export default function SpaceLogisticsScene() {
     starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     const stars = new THREE.Points(
       starsGeometry,
-      new THREE.PointsMaterial({ color: 0xcbd5e1, size: 0.018, transparent: true, opacity: 0.55 }),
+      new THREE.PointsMaterial({ color: 0xb9cbe1, size: 0.018, transparent: true, opacity: 0.45 }),
     )
     scene.add(stars)
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.4))
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.4)
-    keyLight.position.set(-4, 5, 7)
+    scene.add(new THREE.HemisphereLight(0xdceaff, 0x06142e, 2.3))
+    const keyLight = new THREE.DirectionalLight(0xffffff, 4.6)
+    keyLight.position.set(-5, 8, 7)
+    keyLight.castShadow = true
     scene.add(keyLight)
-    const rimLight = new THREE.PointLight(0x275fa0, 24, 18)
-    rimLight.position.set(5, -2, 4)
-    scene.add(rimLight)
+    const redLight = new THREE.PointLight(BRAND_RED, 34, 16)
+    redLight.position.set(4, 1.5, 4)
+    scene.add(redLight)
 
     const pointer = new THREE.Vector2()
     const onPointerMove = (event: PointerEvent) => {
-      pointer.x = (event.clientX / window.innerWidth - 0.5) * 0.7
-      pointer.y = (event.clientY / window.innerHeight - 0.5) * 0.45
+      pointer.x = event.clientX / window.innerWidth - 0.5
+      pointer.y = event.clientY / window.innerHeight - 0.5
     }
     window.addEventListener('pointermove', onPointerMove, { passive: true })
 
@@ -243,31 +308,32 @@ export default function SpaceLogisticsScene() {
       renderer.setSize(clientWidth, clientHeight, false)
       camera.aspect = clientWidth / Math.max(clientHeight, 1)
       camera.updateProjectionMatrix()
-      world.position.x = clientWidth < 820 ? 0.7 : 2.35
-      world.position.y = clientWidth < 820 ? -1.7 : -0.15
-      world.scale.setScalar(clientWidth < 540 ? 0.72 : clientWidth < 820 ? 0.88 : 1)
+      diorama.position.x = clientWidth < 820 ? 0.4 : 2.65
+      diorama.position.y = clientWidth < 820 ? -2.15 : -0.65
+      diorama.scale.setScalar(clientWidth < 540 ? 0.64 : clientWidth < 820 ? 0.78 : 1)
     }
     resize()
     const resizeObserver = new ResizeObserver(resize)
     resizeObserver.observe(mount)
 
     const clock = new THREE.Clock()
-    let animationFrame = 0
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let animationFrame = 0
     const animate = () => {
       const elapsed = clock.getElapsedTime()
-      world.rotation.y += reducedMotion ? 0 : 0.0011
-      world.rotation.x += (pointer.y * 0.2 - world.rotation.x) * 0.025
-      world.rotation.z += (pointer.x * 0.16 - world.rotation.z) * 0.025
-      stars.rotation.y = elapsed * 0.006
-      truck.position.y = -1.4 + Math.sin(elapsed * 1.4) * 0.06
-      plane.position.y = 2.15 + Math.sin(elapsed * 1.1) * 0.09
-      plane.rotation.z = -0.18 + Math.sin(elapsed * 0.8) * 0.04
-      ship.position.y = -1.45 + Math.sin(elapsed * 0.9) * 0.05
+      diorama.rotation.y += (pointer.x * 0.16 - diorama.rotation.y) * 0.025
+      diorama.rotation.x += (-0.08 + pointer.y * 0.08 - diorama.rotation.x) * 0.025
+      stars.rotation.y = elapsed * 0.004
+      redLight.intensity = 31 + Math.sin(elapsed * 1.8) * 5
 
-      routes.forEach(({ curve, parcel, offset }) => {
-        const progress = reducedMotion ? offset : (elapsed * 0.065 + offset) % 1
-        parcel.position.copy(curve.getPointAt(progress))
+      movingAssets.forEach(({ curve, object, offset, speed, lift = 0 }) => {
+        const progress = reducedMotion ? offset : (elapsed * speed + offset) % 1
+        const point = curve.getPointAt(progress)
+        const nextPoint = curve.getPointAt((progress + 0.002) % 1)
+        object.position.copy(point)
+        object.position.y += lift
+        const tangent = nextPoint.sub(point)
+        object.rotation.y = -Math.atan2(tangent.z, tangent.x)
       })
 
       renderer.render(scene, camera)
