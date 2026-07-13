@@ -580,6 +580,42 @@ const supportCards = [
   },
 ];
 
+const stackCards = [
+  {
+    title: "Order capture",
+    description: "Bring store, marketplace, and manual orders into one dispatch-ready queue.",
+    icon: "inbox",
+  },
+  {
+    title: "Courier decisioning",
+    description: "Compare rate, lane, COD, serviceability, and delivery promise before booking.",
+    icon: "route",
+  },
+  {
+    title: "Customer updates",
+    description: "Keep buyers informed with AWB, tracking, exception, and delivery notifications.",
+    icon: "bell",
+  },
+  {
+    title: "Recovery workflow",
+    description: "Give teams clear NDR and RTO actions so fewer shipments drift unresolved.",
+    icon: "refresh",
+  },
+];
+
+const stackMetrics = [
+  { label: "Connected channels", value: "6+" },
+  { label: "Courier partners", value: "27+" },
+  { label: "Pin code reach", value: "29K+" },
+];
+
+const stackRows = [
+  ["Shopify", "Orders synced", "Live"],
+  ["WooCommerce", "AWB writeback", "Ready"],
+  ["Marketplace", "Bulk labels", "Queued"],
+  ["Manual", "Pickup manifest", "Ready"],
+];
+
 function ActionAnchor({ href, children, className, style }) {
   return (
     <a className={className} href={href} style={style}>
@@ -650,11 +686,11 @@ function HeroProofStrip() {
 
 function AlignedPanelSection({ children, shellClassName = "", innerClassName = "", sectionNumber }) {
   return (
-    <section className="section-transition bg-[#062A5B]">
+    <section className="section-transition bg-[#f7f9fb]">
       <div
-        className={`relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16 ${shellClassName}`}
+        className={`relative mx-auto max-w-[1518px] overflow-hidden border-t border-[#E2E8F0] bg-[#f7f9fb] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16 ${shellClassName}`}
       >
-        <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(6,42,91,0.32),rgba(237,28,36,0.24),transparent)]" />
+        <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[#D6E1EF]" />
         {sectionNumber ? (
           <span className="pointer-events-none absolute right-6 top-6 hidden font-display text-[4.8rem] font-extrabold leading-none text-[#062A5B]/[0.07] lg:block">
             {sectionNumber}
@@ -688,34 +724,34 @@ function HeroSection() {
   const visualScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.975]);
 
   return (
-    <section className="hero-section section-transition overflow-hidden bg-[#fbfefe] pt-12 sm:pt-16 lg:pt-18">
+    <section className="hero-section section-transition overflow-hidden bg-[#f7f9fb] pt-12 sm:pt-16 lg:pt-18">
       <div className="mx-auto grid max-w-[1440px] min-w-0 grid-cols-1 gap-8 px-5 pb-10 sm:px-8 lg:grid-cols-[0.45fr_0.55fr] lg:items-center lg:px-16 lg:pb-4">
         <Reveal className="min-w-0" delay={0.04}>
           <div className="relative z-10 min-w-0 max-w-[40rem] lg:pb-4">
-            <span className="text-[0.95rem] font-extrabold uppercase tracking-[0.12em] text-[#ED1C24] sm:text-[1.12rem]">
-              One Platform. All Couriers.
+            <span className="text-[0.82rem] font-extrabold uppercase tracking-[0.22em] text-[#ED1C24] sm:text-[0.92rem]">
+              Shipping OS for growing sellers
             </span>
-            <h1 className="mt-6 max-w-full break-words font-display text-[2.18rem] font-extrabold leading-[1.12] text-[#061a27] sm:text-[4.05rem] sm:leading-[1.08] lg:text-[3.55rem] xl:text-[3.75rem]">
-              <span className="block sm:whitespace-nowrap">Simplify Shipping.</span>
-              <span className="mt-1 block text-[#087f8c]">Scale Globally.</span>
+            <h1 className="mt-6 max-w-full break-words font-display text-[2.35rem] font-extrabold leading-[1.08] text-[#061a27] sm:text-[4.1rem] sm:leading-[1.03] lg:text-[3.7rem] xl:text-[4.2rem]">
+              <span className="block">Ship faster across every channel.</span>
+              <span className="mt-1 block text-[#087f8c]">Control every delivery.</span>
             </h1>
-            <p className="mt-7 max-w-[21.5rem] text-[1rem] leading-[1.85] text-[#0d1720] sm:max-w-[31rem] sm:text-[1.2rem]">
-              Express Magic connects you with multiple courier partners through a single
-              integration, saving you time, money, and effort.
+            <p className="mt-7 max-w-[21.5rem] text-[1rem] leading-[1.85] text-[#334155] sm:max-w-[33rem] sm:text-[1.15rem]">
+              Express Magic brings orders, courier selection, labels, tracking, and exception
+              recovery into one calm workspace built for everyday shipping teams.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
               <ActionAnchor
                 href={AUTH_APP_URL}
-                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg bg-[#037c87] px-7 py-4 text-base font-bold text-white shadow-[0_14px_28px_rgba(3,124,135,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto"
+                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg bg-[#061A33] px-7 py-4 text-base font-bold text-white shadow-[0_14px_28px_rgba(6,26,51,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto"
                 style={{ color: "#ffffff" }}
               >
-                Get Started
+                Start Shipping
               </ActionAnchor>
               <a
-                href="#site-footer"
+                href="/rate-calculator"
                 className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg border border-[#C7D6EA] bg-white px-7 py-4 text-base font-bold text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.06)] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto"
               >
-                Talk to Us
+                Check Rates
               </a>
             </div>
             <HeroProofStrip />
@@ -2088,6 +2124,117 @@ function RateConfidenceSection() {
   );
 }
 
+function StackPreviewPanel() {
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-[#D6E1EF] bg-white p-5 shadow-[0_24px_66px_rgba(7,25,35,0.06)] sm:p-7">
+      <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#062A5B,#0f9aa4,#ED1C24)]" />
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">
+            Live workspace
+          </p>
+          <h3 className="mt-3 font-display text-3xl font-extrabold leading-tight text-[#061A33]">
+            One queue from order sync to delivery action.
+          </h3>
+        </div>
+        <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-[#EEF4FB] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#062A5B]">
+          <Icon name="bolt" className="h-4 w-4" />
+          Active
+        </span>
+      </div>
+
+      <div className="mt-7 grid gap-3">
+        {stackRows.map(([channel, action, status], index) => (
+          <MotionArticle
+            key={channel}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-lg border border-[#E1ECF4] bg-[#F8FBFE] p-4"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white text-[#062A5B] shadow-sm">
+                  <Icon name={index === 0 ? "shoppingBag" : index === 1 ? "store" : index === 2 ? "globe" : "package"} className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-sm font-extrabold text-[#061A33]">{channel}</p>
+                  <p className="mt-1 text-xs font-semibold text-[#66747e]">{action}</p>
+                </div>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#0f7f86] shadow-sm">
+                {status}
+              </span>
+            </div>
+          </MotionArticle>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        {stackMetrics.map((metric) => (
+          <div key={metric.label} className="rounded-lg border border-[#D6E1EF] bg-white p-4">
+            <p className="text-2xl font-extrabold text-[#062A5B]">{metric.value}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#66747e]">
+              {metric.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ShippingStackSection() {
+  return (
+    <AlignedPanelSection sectionNumber="11">
+      <div className="grid gap-10 lg:grid-cols-[0.48fr_0.52fr] lg:items-center">
+        <Reveal>
+          <div>
+            <AlignedSectionHeading
+              eyebrow="Complete Landing Flow"
+              title="Give sellers a clear path from first order to repeatable delivery control."
+              description="The landing page now frames Express Magic as a practical operating layer: connect channels, choose couriers with confidence, automate updates, and recover delivery exceptions from one workspace."
+            />
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {stackCards.map((card, index) => (
+                <Reveal key={card.title} delay={index * 0.05}>
+                  <MotionArticle
+                    whileHover={{ y: -5, scale: 1.01 }}
+                    className="h-full rounded-xl border border-[#D6E1EF] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
+                  >
+                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[#fff1df] text-[#ED1C24]">
+                      <Icon name={card.icon} />
+                    </span>
+                    <h3 className="mt-4 font-display text-[1.18rem] font-extrabold leading-tight text-[#061A33]">
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
+                  </MotionArticle>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <ActionAnchor href={AUTH_APP_URL} className={primaryButtonClass}>
+                Start Shipping
+              </ActionAnchor>
+              <ActionAnchor href={`mailto:${companyProfile.email}`} className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto">
+                Talk to Sales
+              </ActionAnchor>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.14}>
+          <StackPreviewPanel />
+        </Reveal>
+      </div>
+    </AlignedPanelSection>
+  );
+}
+
 function LaunchTimelineVisual() {
   return (
     <div className="relative overflow-hidden rounded-xl border border-white/12 bg-[#014b55] p-5 text-white shadow-[0_30px_90px_rgba(0,45,53,0.18)] sm:p-7">
@@ -2149,7 +2296,7 @@ function LaunchTimelineVisual() {
 
 function LaunchSupportSection() {
   return (
-    <AlignedPanelSection sectionNumber="11" shellClassName="pb-12 sm:pb-14 lg:pb-16">
+    <AlignedPanelSection sectionNumber="12" shellClassName="pb-12 sm:pb-14 lg:pb-16">
       <div className="grid gap-10 lg:grid-cols-[0.54fr_0.46fr] lg:items-center">
         <Reveal>
           <LaunchTimelineVisual />
@@ -2203,7 +2350,7 @@ function LaunchSupportSection() {
 
 function FeatherLandingPage() {
   return (
-    <main id="home" className="overflow-hidden bg-[#062A5B]">
+    <main id="home" className="modern-landing overflow-hidden bg-[#f7f9fb]">
       <HeroSection />
       <PlatformsSection />
       <WhyChooseSection />
@@ -2214,6 +2361,7 @@ function FeatherLandingPage() {
       <InsightsSection />
       <EcommerceSection />
       <RateConfidenceSection />
+      <ShippingStackSection />
       <LaunchSupportSection />
     </main>
   );

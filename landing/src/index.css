@@ -29,24 +29,13 @@ body {
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(253, 231, 234, 0.82), transparent 28%),
-    radial-gradient(circle at top right, rgba(217, 230, 247, 0.62), transparent 28%),
-    linear-gradient(180deg, #F5F8FC 0%, #fbfbfb 28%, #F5F8FC 62%, #fbfbfb 100%);
+  background: #f7f9fb;
   color: var(--color-ink);
   font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 14% 14%, rgba(255, 230, 160, 0.24), transparent 24%),
-    radial-gradient(circle at 86% 18%, rgba(253, 231, 234, 0.3), transparent 20%),
-    radial-gradient(circle at 74% 76%, rgba(217, 230, 247, 0.26), transparent 22%);
+  content: none;
 }
 
 #root {
@@ -100,9 +89,9 @@ svg {
 
 .hero-section {
   background:
-    linear-gradient(90deg, rgba(6, 42, 91, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(6, 42, 91, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, #fbfefe 0%, #F7FAFC 100%);
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
   background-size: 64px 64px, 64px 64px, auto;
 }
 
@@ -238,81 +227,68 @@ svg {
 }
 
 .section-transition::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: -1px;
-  height: 120px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(217, 230, 247, 0.08));
-  pointer-events: none;
-  z-index: -1;
+  content: none;
 }
 
 .surface-card {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
+  border: 1px solid #dfe7ef;
+  background: #ffffff;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.06);
+  backdrop-filter: none;
 }
 
 .surface-card::before {
-  content: "";
-  position: absolute;
-  top: -48px;
-  right: -30px;
-  width: 140px;
-  height: 140px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(217, 230, 247, 0.55) 0%, rgba(217, 230, 247, 0) 72%);
-  pointer-events: none;
+  content: none;
 }
 
 .hero-visual {
-  background:
-    radial-gradient(circle at top right, rgba(253, 231, 234, 0.42), transparent 25%),
-    linear-gradient(135deg, rgba(217, 230, 247, 0.92), rgba(255, 255, 255, 0.88) 46%, rgba(253, 231, 234, 0.44));
-  border: 1px solid rgba(255, 255, 255, 0.76);
-  box-shadow: var(--shadow-soft);
+  background: #ffffff;
+  border: 1px solid #dfe7ef;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
 }
 
 .hero-stage-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.86), transparent 18%),
-    linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(255, 255, 255, 0.98));
+  border: 1px solid #dfe7ef;
+  background: #ffffff;
 }
 
 .hero-stage-shell::before {
-  content: "";
-  position: absolute;
-  inset: auto auto -80px -80px;
-  width: 260px;
-  height: 260px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(243, 217, 113, 0.22) 0%, rgba(243, 217, 113, 0) 72%);
-  pointer-events: none;
+  content: none;
 }
 
 .hero-track-card {
-  border: 1px solid rgba(237, 230, 210, 0.92);
-  background: linear-gradient(180deg, rgba(251, 249, 240, 0.96), rgba(250, 247, 237, 0.98));
-  box-shadow: 0 20px 36px rgba(79, 66, 34, 0.07);
+  border: 1px solid #dfe7ef;
+  background: #ffffff;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.06);
 }
 
 .hero-animation-panel {
-  border: 1px solid rgba(255, 255, 255, 0.82);
-  background:
-    radial-gradient(circle at top right, rgba(255, 226, 146, 0.46), transparent 26%),
-    linear-gradient(180deg, rgba(200, 219, 233, 0.95), rgba(255, 248, 234, 0.86));
-  box-shadow: 0 30px 62px rgba(70, 62, 32, 0.12);
+  border: 1px solid #dfe7ef;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
 }
 
 .hero-animation-glow {
-  background: radial-gradient(circle, rgba(255, 224, 124, 0.62) 0%, rgba(255, 224, 124, 0) 70%);
-  filter: blur(20px);
+  display: none;
+}
+
+.modern-landing section.bg-\[\#062A5B\]:not(.text-white) {
+  background-color: #f7f9fb;
+}
+
+.modern-landing section.bg-\[\#062A5B\]:not(.text-white) > div {
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0;
+  background-color: #f7f9fb;
+  box-shadow: none;
+}
+
+.modern-landing section.bg-\[\#062A5B\]:not(.text-white) > div::before,
+.modern-landing section.bg-\[\#062A5B\]:not(.text-white) > div::after {
+  content: none;
 }
 
 .grid-pattern {
