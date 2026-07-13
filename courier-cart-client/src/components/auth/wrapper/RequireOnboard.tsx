@@ -17,7 +17,7 @@ export default function RequireOnboard({
 
   /* 2️⃣  Not logged in at all → kick back to login */
   if (!isAuthenticated) {
-    return <Navigate to="/" replace state={{ from: location }} />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   /* 3️⃣  Logged-in BUT NOT onboarded → let them see onboarding page */

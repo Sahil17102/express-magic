@@ -11,7 +11,7 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
   if (loading) return <FullScreenLoader />; // or global spinner
   if (!isAuthenticated) {
     // bounce user to login, keep the page they wanted
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return children;
 }

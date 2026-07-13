@@ -10,6 +10,7 @@ import FullScreenLoader from '../components/UI/loader/FullScreenLoader'
 import CreateOrderWrapper from '../components/orders/CreateOrderWrapper'
 import { useAuth } from '../context/auth/AuthContext'
 import Login from '../pages/auth/Login'
+import ExpressMagicLanding from '../pages/marketing/ExpressMagicLanding'
 import { normalizeAwb } from '../utils/awb'
 import GlobalRedirectHandler from './WalletRedirectHandler'
 
@@ -126,7 +127,8 @@ export default function AppRoutes() {
       <Suspense fallback={<FullScreenLoader />}>
         <Routes>
           {/* public */}
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<ExpressMagicLanding />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/tracking" element={<PublicTrackingRoute />} />
           <Route path="/tracking/:awb" element={<PublicTrackingRoute />} />
           {/* onboarding */}
@@ -227,7 +229,7 @@ export default function AppRoutes() {
             <Route path="/ops/rto" element={<RtoList />} />
           </Route>
           {/* fallback */}
-          <Route path="*" element={<Login />} />
+          <Route path="*" element={<ExpressMagicLanding />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
