@@ -28,6 +28,7 @@ import {
   FaPhoneAlt,
   FaReceipt,
   FaSearch,
+  FaShieldAlt,
 } from 'react-icons/fa'
 import { MdLocationOn, MdSchedule } from 'react-icons/md'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -226,6 +227,32 @@ export default function OrderTrackingForm() {
       icon: <FaBoxOpen />,
     },
   ]
+  const recentTracks = [
+    {
+      awb: 'EM1234567890',
+      route: 'Bengaluru, KA -> Mumbai, MH',
+      status: 'In Transit',
+      time: 'May 14, 02:15 PM',
+      color: BRAND_PRIMARY,
+      bg: alpha(BRAND_PRIMARY, 0.08),
+    },
+    {
+      awb: 'EM9876543210',
+      route: 'Delhi, DL -> Hyderabad, TG',
+      status: 'Delivered',
+      time: 'May 12, 11:20 AM',
+      color: '#0F7A5A',
+      bg: alpha('#0F7A5A', 0.09),
+    },
+    {
+      awb: 'EM1122334455',
+      route: 'Chennai, TN -> Coimbatore, TN',
+      status: 'Picked Up',
+      time: 'May 13, 09:15 AM',
+      color: BRAND_ACCENT,
+      bg: alpha(BRAND_ACCENT, 0.08),
+    },
+  ]
 
   return (
     <Box
@@ -393,10 +420,10 @@ export default function OrderTrackingForm() {
               Tracking console
             </Typography>
             <Typography sx={{ mt: 1.2, fontSize: { xs: '1.7rem', md: '2.35rem' }, fontWeight: 950, letterSpacing: '-0.04em', color: '#07142F', lineHeight: 1 }}>
-              Find a shipment
+              Track your shipment
             </Typography>
             <Typography variant="body2" sx={{ color: '#4B5870', mt: 1.4, mb: 2.3, fontSize: '0.94rem', lineHeight: 1.7 }}>
-              Enter the strongest identifier you have and we&apos;ll pull the latest tracking activity.
+              Enter your AWB number or Order ID to get real-time updates.
             </Typography>
 
         <SmartTabs
@@ -527,7 +554,7 @@ export default function OrderTrackingForm() {
               '&:hover': { bgcolor: BRAND_PRIMARY },
             }}
           >
-            {trackingLoading ? 'Tracking...' : 'Track Order'}
+            {trackingLoading ? 'Tracking...' : 'Track Shipment'}
           </Button>
           <Button
             type="button"
@@ -554,6 +581,112 @@ export default function OrderTrackingForm() {
             Reset
           </Button>
         </Box>
+
+            {!hasTrackingQuery && (
+              <>
+                <Box
+                  sx={{
+                    mt: 2.4,
+                    display: 'grid',
+                    gridTemplateColumns: '38px 1fr',
+                    gap: 1.35,
+                    alignItems: 'center',
+                    border: `1px solid ${alpha(BRAND_PRIMARY, 0.12)}`,
+                    borderRadius: 3,
+                    background: `linear-gradient(135deg, ${alpha(BRAND_PRIMARY, 0.055)}, ${alpha(
+                      BRAND_ACCENT,
+                      0.055,
+                    )})`,
+                    p: 1.7,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: 2.4,
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: BRAND_PRIMARY,
+                      bgcolor: alpha(BRAND_PRIMARY, 0.08),
+                      fontSize: 18,
+                    }}
+                  >
+                    <FaShieldAlt />
+                  </Box>
+                  <Box>
+                    <Typography sx={{ color: '#07142F', fontSize: '0.86rem', fontWeight: 950 }}>
+                      100% Secure & Private
+                    </Typography>
+                    <Typography sx={{ mt: 0.25, color: '#64748B', fontSize: '0.76rem', fontWeight: 700 }}>
+                      We never share your tracking information.
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ mt: 2.6 }}>
+                  <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
+                    <Typography sx={{ color: '#07142F', fontSize: '0.92rem', fontWeight: 950 }}>
+                      Recent Tracks
+                    </Typography>
+                    <Button
+                      type="button"
+                      size="small"
+                      onClick={() => navigate('/tracking')}
+                      sx={{
+                        color: BRAND_PRIMARY,
+                        textTransform: 'none',
+                        fontWeight: 950,
+                        minWidth: 'auto',
+                        px: 0,
+                      }}
+                    >
+                      View all
+                    </Button>
+                  </Stack>
+                  <Stack sx={{ mt: 0.8 }}>
+                    {recentTracks.map((track) => (
+                      <Box
+                        key={track.awb}
+                        sx={{
+                          display: 'grid',
+                          gridTemplateColumns: { xs: '1fr', sm: '1fr auto auto' },
+                          gap: { xs: 0.5, sm: 1.4 },
+                          alignItems: 'center',
+                          borderTop: `1px solid ${alpha('#07142F', 0.08)}`,
+                          py: 1.35,
+                        }}
+                      >
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography sx={{ color: '#07142F', fontSize: '0.78rem', fontWeight: 950 }}>
+                            {track.awb}
+                          </Typography>
+                          <Typography sx={{ color: '#64748B', fontSize: '0.72rem', fontWeight: 700 }}>
+                            {track.route}
+                          </Typography>
+                        </Box>
+                        <Chip
+                          label={track.status}
+                          size="small"
+                          sx={{
+                            justifySelf: { xs: 'start', sm: 'end' },
+                            height: 22,
+                            borderRadius: 999,
+                            color: track.color,
+                            bgcolor: track.bg,
+                            fontSize: '0.66rem',
+                            fontWeight: 950,
+                          }}
+                        />
+                        <Typography sx={{ color: '#64748B', fontSize: '0.72rem', fontWeight: 750 }}>
+                          {track.time}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
 

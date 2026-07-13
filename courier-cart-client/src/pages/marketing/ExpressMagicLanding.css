@@ -128,7 +128,7 @@
 
 .em-hero {
   position: relative;
-  min-height: 895px;
+  min-height: 835px;
   overflow: hidden;
   background: #f7fbff;
 }
@@ -148,17 +148,6 @@
   width: min(1320px, calc(100% - 80px));
   margin-inline: auto;
   padding-top: 86px;
-}
-
-.em-hero__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(410px, 0.6fr);
-  gap: clamp(42px, 5vw, 86px);
-  align-items: start;
-}
-
-.em-hero__copyblock {
-  min-width: 0;
 }
 
 .em-hero__eyebrow {
@@ -207,282 +196,6 @@
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 34px;
-}
-
-.em-tracking-console {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(214, 225, 239, 0.92);
-  border-radius: 14px;
-  background:
-    radial-gradient(circle at 88% 0%, rgba(237, 28, 36, 0.08), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.9));
-  padding: 28px;
-  box-shadow: 0 30px 80px rgba(6, 26, 51, 0.14);
-  backdrop-filter: blur(18px);
-}
-
-.em-tracking-console__label {
-  margin: 0;
-  color: var(--red);
-  font-size: 11px;
-  font-weight: 950;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.em-tracking-console h2 {
-  margin: 14px 0 0;
-  color: var(--ink);
-  font-size: 32px;
-  font-weight: 950;
-  line-height: 1.08;
-}
-
-.em-tracking-console__copy {
-  margin: 10px 0 0;
-  color: #536174;
-  font-size: 14px;
-  font-weight: 650;
-  line-height: 1.65;
-}
-
-.em-tracking-tabs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.em-tracking-tabs button {
-  display: inline-flex;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  border: 1px solid #dbe7f5;
-  border-radius: 8px;
-  background: #fff;
-  color: #314256;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.em-tracking-tabs button.is-active {
-  border-color: rgba(6, 42, 91, 0.42);
-  background: #eef4fb;
-  color: var(--blue);
-  box-shadow: 0 14px 26px rgba(6, 42, 91, 0.1);
-}
-
-.em-tracking-field {
-  display: block;
-  margin-top: 18px;
-}
-
-.em-tracking-field > span {
-  display: block;
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 900;
-  margin-bottom: 8px;
-}
-
-.em-tracking-field div {
-  display: flex;
-  min-height: 50px;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid #cfdcee;
-  border-radius: 8px;
-  background: #fff;
-  padding: 0 14px;
-  color: var(--blue);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.em-tracking-field input {
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--ink);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.em-tracking-field input::placeholder {
-  color: #8ba0bc;
-}
-
-.em-tracking-field small {
-  display: block;
-  margin-top: 8px;
-  color: #71829b;
-  font-size: 11px;
-  font-weight: 750;
-}
-
-.em-tracking-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.em-tracking-submit {
-  display: inline-flex;
-  min-height: 50px;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--blue), #041a38 72%, var(--red));
-  padding: 0 24px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 950;
-  box-shadow: 0 18px 34px rgba(6, 42, 91, 0.22);
-}
-
-.em-tracking-submit,
-.em-tracking-submit * {
-  color: #fff !important;
-  stroke: currentColor;
-}
-
-.em-tracking-reset {
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 950;
-}
-
-.em-tracking-secure {
-  display: grid;
-  grid-template-columns: 34px 1fr 42px;
-  gap: 12px;
-  align-items: center;
-  border: 1px solid #e1eaf5;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f8fbff, #fff1f2);
-  margin-top: 22px;
-  padding: 16px;
-  color: var(--blue);
-}
-
-.em-tracking-secure strong,
-.em-tracking-secure span {
-  display: block;
-}
-
-.em-tracking-secure strong {
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 950;
-}
-
-.em-tracking-secure span {
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 11px;
-  font-weight: 750;
-}
-
-.em-tracking-secure > svg:last-child {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(6, 42, 91, 0.08);
-  padding: 10px;
-  color: var(--blue);
-}
-
-.em-recent-tracks {
-  margin-top: 24px;
-}
-
-.em-recent-tracks__top,
-.em-recent-track {
-  display: flex;
-  align-items: center;
-}
-
-.em-recent-tracks__top {
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 10px;
-}
-
-.em-recent-tracks__top h3 {
-  margin: 0;
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 950;
-}
-
-.em-recent-tracks__top a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: 950;
-}
-
-.em-recent-track {
-  min-height: 58px;
-  gap: 12px;
-  border-top: 1px solid #edf2f8;
-  color: inherit;
-}
-
-.em-recent-track div {
-  min-width: 0;
-  flex: 1;
-}
-
-.em-recent-track strong,
-.em-recent-track small {
-  display: block;
-}
-
-.em-recent-track strong {
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 950;
-}
-
-.em-recent-track small,
-.em-recent-track time {
-  color: #64748b;
-  font-size: 11px;
-  font-weight: 750;
-}
-
-.em-status {
-  border-radius: 999px;
-  padding: 4px 8px;
-  font-size: 10px;
-  font-weight: 950;
-  white-space: nowrap;
-}
-
-.em-status--in-transit {
-  background: #eef4fb;
-  color: var(--blue);
-}
-
-.em-status--delivered {
-  background: #e8f5ff;
-  color: #0f5a8a;
-}
-
-.em-status--picked-up {
-  background: #fde7ea;
-  color: var(--red);
 }
 
 .em-button {
@@ -962,19 +675,6 @@
 }
 
 @media (max-width: 1100px) {
-  .em-hero {
-    min-height: auto;
-    padding-bottom: 56px;
-  }
-
-  .em-hero__layout {
-    grid-template-columns: 1fr;
-  }
-
-  .em-tracking-console {
-    max-width: 620px;
-  }
-
   .em-nav__links {
     display: none;
   }
@@ -1028,7 +728,7 @@
   }
 
   .em-hero {
-    min-height: auto;
+    min-height: 980px;
   }
 
   .em-hero__media {
@@ -1058,34 +758,6 @@
   .em-hero__actions,
   .em-hero__actions .em-button {
     width: 100%;
-  }
-
-  .em-tracking-console {
-    padding: 20px;
-  }
-
-  .em-tracking-console h2 {
-    font-size: 26px;
-  }
-
-  .em-tracking-tabs,
-  .em-tracking-secure {
-    grid-template-columns: 1fr;
-  }
-
-  .em-tracking-actions,
-  .em-tracking-submit {
-    width: 100%;
-  }
-
-  .em-recent-track {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    padding: 12px 0;
-  }
-
-  .em-recent-track time {
-    grid-column: 1 / -1;
   }
 
   .em-feature-strip {

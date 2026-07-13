@@ -3,13 +3,9 @@ import {
   FiBarChart2,
   FiBox,
   FiCheckCircle,
-  FiChevronRight,
   FiClock,
-  FiHash,
-  FiLock,
   FiMenu,
   FiPackage,
-  FiSearch,
   FiShield,
   FiTruck,
   FiUsers,
@@ -73,12 +69,6 @@ const routeRows = [
   ['EM-10461', 'Surat to Delhi', 'Action needed', '15 Jul'],
 ]
 
-const recentTracks = [
-  ['EM1234567890', 'Bengaluru, KA -> Mumbai, MH', 'In Transit', 'May 14, 02:15 PM'],
-  ['EM9876543210', 'Delhi, DL -> Hyderabad, TG', 'Delivered', 'May 12, 11:20 AM'],
-  ['EM1122334455', 'Chennai, TN -> Coimbatore, TN', 'Picked Up', 'May 13, 09:15 AM'],
-]
-
 export default function ExpressMagicLanding() {
   return (
     <main className="em-landing">
@@ -108,95 +98,29 @@ export default function ExpressMagicLanding() {
       <section className="em-hero" id="solutions">
         <div className="em-hero__media" aria-hidden="true" />
         <div className="em-hero__content">
-          <div className="em-hero__layout">
-            <div className="em-hero__copyblock">
-              <p className="em-hero__eyebrow">
-                <FiCheckCircle /> Mission Control for Modern Commerce
-              </p>
-              <h1>
-                From
-                <br />
-                warehouse.
-                <br />
-                <span>To every</span>
-                <br />
-                <span>doorstep.</span>
-              </h1>
-              <p className="em-hero__copy">
-                One intelligent logistics network for rates, dispatch, tracking, exceptions and
-                delivery performance across every carrier.
-              </p>
-              <div className="em-hero__actions">
-                <a className="em-button em-button--primary" href="/login">
-                  <span>Launch your shipments</span> <FiArrowRight />
-                </a>
-                <a className="em-button em-button--secondary" href="/tracking">
-                  <FiPackage /> Track a package
-                </a>
-              </div>
-            </div>
-
-            <aside className="em-tracking-console" aria-label="Track your shipment">
-              <p className="em-tracking-console__label">Tracking Console</p>
-              <h2>Track your shipment</h2>
-              <p className="em-tracking-console__copy">
-                Enter your AWB number or Order ID to get real-time updates.
-              </p>
-
-              <div className="em-tracking-tabs" role="tablist" aria-label="Tracking method">
-                <button className="is-active" type="button">
-                  <FiPackage /> Track By AWB
-                </button>
-                <button type="button">
-                  <FiHash /> Track By Order ID
-                </button>
-              </div>
-
-              <label className="em-tracking-field">
-                <span>AWB Number</span>
-                <div>
-                  <FiHash />
-                  <input type="text" placeholder="e.g. 1234567890" />
-                </div>
-                <small>Click any AWB in the app to jump here instantly</small>
-              </label>
-
-              <div className="em-tracking-actions">
-                <a className="em-tracking-submit" href="/tracking">
-                  <FiSearch /> Track Shipment
-                </a>
-                <a className="em-tracking-reset" href="/tracking">Reset</a>
-              </div>
-
-              <div className="em-tracking-secure">
-                <FiShield />
-                <div>
-                  <strong>100% Secure & Private</strong>
-                  <span>We never share your tracking information.</span>
-                </div>
-                <FiLock />
-              </div>
-
-              <div className="em-recent-tracks">
-                <div className="em-recent-tracks__top">
-                  <h3>Recent Tracks</h3>
-                  <a href="/tracking">View all <FiArrowRight /></a>
-                </div>
-                {recentTracks.map(([awb, route, status, date]) => (
-                  <a className="em-recent-track" href="/tracking" key={awb}>
-                    <div>
-                      <strong>{awb}</strong>
-                      <small>{route}</small>
-                    </div>
-                    <span className={`em-status em-status--${status.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {status}
-                    </span>
-                    <time>{date}</time>
-                    <FiChevronRight />
-                  </a>
-                ))}
-              </div>
-            </aside>
+          <p className="em-hero__eyebrow">
+            <FiCheckCircle /> Mission Control for Modern Commerce
+          </p>
+          <h1>
+            From
+            <br />
+            warehouse.
+            <br />
+            <span>To every</span>
+            <br />
+            <span>doorstep.</span>
+          </h1>
+          <p className="em-hero__copy">
+            One intelligent logistics network for rates, dispatch, tracking, exceptions and
+            delivery performance across every carrier.
+          </p>
+          <div className="em-hero__actions">
+            <a className="em-button em-button--primary" href="/login">
+              <span>Launch your shipments</span> <FiArrowRight />
+            </a>
+            <a className="em-button em-button--secondary" href="/tracking">
+              <FiPackage /> Track a package
+            </a>
           </div>
         </div>
 
