@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import heroLogisticsVisual from "../../assets/feather-hero-logistics-visual-hd.webp";
+import heroWarehouseVisual from "../../assets/express-magic-warehouse-hero.png";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
 import { companyProfile } from "./siteData";
@@ -9,55 +9,48 @@ import { Reveal } from "./primitives";
 const MotionArticle = motion.article;
 const MotionButton = motion.button;
 const MotionDiv = motion.div;
-const MotionImg = motion.img;
 const MotionSpan = motion.span;
 
 const primaryButtonClass =
   "inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto";
 
-const courierPartners = [
-  {
-    name: "Delhivery",
-    mark: "D",
-    bg: "#0f172a",
-    accent: "#e21b2d",
-  },
-  {
-    name: "Blue Dart",
-    mark: "BD",
-    bg: "#1e6ab3",
-    accent: "#f6c343",
-  },
-  {
-    name: "DTDC",
-    mark: "DT",
-    bg: "#1d7f4f",
-    accent: "#f5c84c",
-  },
-  {
-    name: "XpressBees",
-    mark: "XB",
-    bg: "#111827",
-    accent: "#f59e0b",
-  },
-  {
-    name: "Ecom Express",
-    mark: "EX",
-    bg: "#ffffff",
-    accent: "#ef4444",
-  },
-  {
-    name: "Shadowfax",
-    mark: "SF",
-    bg: "#07966f",
-    accent: "#f7c948",
-  },
-];
-
 const heroProofItems = [
   { label: "Live routing", value: "27+ carriers", icon: "route" },
   { label: "Dispatch ready", value: "labels + manifests", icon: "package" },
   { label: "Ops support", value: "onboarding help", icon: "headset" },
+];
+
+const heroFeatureCards = [
+  {
+    title: "Smart Dispatch",
+    description: "Automate courier choice and reduce manual effort.",
+    icon: "package",
+    shell: "bg-[#FDE7EA] text-[#ED1C24]",
+  },
+  {
+    title: "Real-time Tracking",
+    description: "Track every shipment with live movement clarity.",
+    icon: "mapPin",
+    shell: "bg-[#E7F1FF] text-[#2563EB]",
+  },
+  {
+    title: "Exception Management",
+    description: "Spot issues early and resolve them faster.",
+    icon: "shield",
+    shell: "bg-[#E5FAF3] text-[#0F9F73]",
+  },
+  {
+    title: "Performance Analytics",
+    description: "See courier, cost, and delivery performance at a glance.",
+    icon: "barChart",
+    shell: "bg-[#F1E7FF] text-[#7C3AED]",
+  },
+];
+
+const scaleStats = [
+  { value: "25M+", label: "Shipments Delivered", icon: "package", tone: "text-[#2563EB]", shell: "bg-[#E7F1FF]" },
+  { value: "98.6%", label: "On-time Delivery", icon: "pieChart", tone: "text-[#10B981]", shell: "bg-[#E6FAF2]" },
+  { value: "27K+", label: "Happy Clients", icon: "users", tone: "text-[#F97316]", shell: "bg-[#FFF0E4]" },
 ];
 
 const whyChooseCards = [
@@ -720,129 +713,185 @@ function AlignedSectionHeading({ eyebrow, title, description, className = "" }) 
 
 function HeroSection() {
   const { scrollYProgress } = useScroll();
-  const visualY = useTransform(scrollYProgress, [0, 0.2], [0, -38]);
-  const visualScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.975]);
+  const visualY = useTransform(scrollYProgress, [0, 0.24], [0, -42]);
+  const visualScale = useTransform(scrollYProgress, [0, 0.24], [1, 1.035]);
 
   return (
-    <section className="hero-section section-transition overflow-hidden bg-[#f7f9fb] pt-12 sm:pt-16 lg:pt-18">
-      <div className="mx-auto grid max-w-[1440px] min-w-0 grid-cols-1 gap-8 px-5 pb-10 sm:px-8 lg:grid-cols-[0.45fr_0.55fr] lg:items-center lg:px-16 lg:pb-4">
-        <Reveal className="min-w-0" delay={0.04}>
-          <div className="relative z-10 min-w-0 max-w-[40rem] lg:pb-4">
-            <span className="text-[0.82rem] font-extrabold uppercase tracking-[0.22em] text-[#ED1C24] sm:text-[0.92rem]">
-              Shipping OS for growing sellers
-            </span>
-            <h1 className="mt-6 max-w-full break-words font-display text-[2.35rem] font-extrabold leading-[1.08] text-[#061a27] sm:text-[4.1rem] sm:leading-[1.03] lg:text-[3.7rem] xl:text-[4.2rem]">
-              <span className="block">Ship faster across every channel.</span>
-              <span className="mt-1 block text-[#087f8c]">Control every delivery.</span>
-            </h1>
-            <p className="mt-7 max-w-[21.5rem] text-[1rem] leading-[1.85] text-[#334155] sm:max-w-[33rem] sm:text-[1.15rem]">
-              Express Magic brings orders, courier selection, labels, tracking, and exception
-              recovery into one calm workspace built for everyday shipping teams.
-            </p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <ActionAnchor
-                href={AUTH_APP_URL}
-                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg bg-[#061A33] px-7 py-4 text-base font-bold text-white shadow-[0_14px_28px_rgba(6,26,51,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto"
-                style={{ color: "#ffffff" }}
-              >
-                Start Shipping
-              </ActionAnchor>
-              <a
-                href="/rate-calculator"
-                className="inline-flex min-h-14 w-full max-w-[21.75rem] items-center justify-center rounded-lg border border-[#C7D6EA] bg-white px-7 py-4 text-base font-bold text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.06)] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto"
-              >
-                Check Rates
-              </a>
-            </div>
+    <section className="hero-section section-transition relative overflow-hidden bg-[#f7fbff] pt-6 sm:pt-8">
+      <MotionDiv
+        className="absolute inset-0 z-0"
+        style={{ y: visualY, scale: visualScale }}
+        aria-hidden="true"
+      >
+        <img
+          src={heroWarehouseVisual}
+          alt=""
+          className="h-full w-full object-cover object-[64%_center]"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_30%,rgba(255,255,255,0.62)_52%,rgba(255,255,255,0.08)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,rgba(247,251,255,0),#f7fbff_82%)]" />
+      </MotionDiv>
+
+      <div className="relative z-10 mx-auto max-w-[1440px] px-5 pb-0 pt-10 sm:px-8 sm:pt-14 lg:px-16 lg:pt-16">
+        <Reveal className="max-w-[43rem]" delay={0.04}>
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-white/82 px-4 py-2 text-[0.68rem] font-extrabold uppercase leading-5 tracking-[0.1em] text-[#1F5C9E] shadow-[0_12px_28px_rgba(6,42,91,0.08)] ring-1 ring-[#D9E6F7] sm:text-[0.76rem] sm:tracking-[0.14em]">
+            <Icon name="spark" className="h-4 w-4 text-[#2563EB]" />
+            <span className="min-w-0">Mission Control for Modern Commerce</span>
+          </span>
+
+          <h1 className="mt-7 max-w-[40rem] font-display text-[3rem] font-extrabold leading-[1.05] text-[#061A33] sm:text-[4.55rem] lg:text-[5rem]">
+            <span className="block">From</span>
+            <span className="block">warehouse.</span>
+            <span className="block text-[#ED1C24]">To every</span>
+            <span className="block text-[#ED1C24]">doorstep.</span>
+          </h1>
+
+          <p className="mt-7 max-w-[34rem] text-base font-medium leading-[1.85] text-[#334155] sm:text-lg">
+            One intelligent logistics network for rates, dispatch, tracking, exceptions, and
+            delivery performance across every carrier.
+          </p>
+
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <ActionAnchor
+              href={AUTH_APP_URL}
+              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-7 py-4 text-sm font-extrabold text-white shadow-[0_18px_36px_rgba(237,28,36,0.24)] transition hover:-translate-y-0.5 hover:bg-[#c9171e] sm:w-auto"
+              style={{ color: "#ffffff" }}
+            >
+              <span>Launch your shipments</span>
+              <Icon name="arrowUpRight" className="h-5 w-5" />
+            </ActionAnchor>
+            <a
+              href="/tracking"
+              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-[#C7D6EA] bg-white/86 px-7 py-4 text-sm font-extrabold text-[#061A33] shadow-[0_14px_30px_rgba(6,42,91,0.08)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
+            >
+              <Icon name="package" className="h-5 w-5" />
+              <span>Track a package</span>
+            </a>
+          </div>
+
+          <div className="hidden sm:block">
             <HeroProofStrip />
           </div>
         </Reveal>
 
-        <Reveal className="min-w-0" delay={0.14}>
-          <MotionDiv
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            style={{ y: visualY, scale: visualScale }}
-            className="hero-visual-frame relative min-h-[18rem] min-w-0 overflow-hidden sm:-mx-8 sm:min-h-[25rem] lg:-ml-4 lg:mr-[-1rem] lg:-mt-10 lg:min-h-[31rem]"
-          >
-            <MotionImg
-              src={heroLogisticsVisual}
-              alt="Global courier network with air and road logistics"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="h-full min-h-[18rem] w-full max-w-full object-contain object-center sm:min-h-[25rem] lg:min-h-[31rem]"
-            />
-            <HeroRouteOverlay />
-          </MotionDiv>
+        <Reveal delay={0.18}>
+          <div className="relative z-20 mt-14 grid overflow-hidden rounded-xl border border-white/80 bg-white/92 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-md sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+            {heroFeatureCards.map((card, index) => (
+              <MotionArticle
+                key={card.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -5 }}
+                className={`min-h-[12.5rem] px-6 py-7 ${index < heroFeatureCards.length - 1 ? "border-b border-[#E7EEF7] sm:border-r lg:border-b-0" : ""} ${index === 1 ? "sm:border-r-0 lg:border-r" : ""}`}
+              >
+                <span className={`grid h-16 w-16 place-items-center rounded-xl ${card.shell}`}>
+                  <Icon name={card.icon} className="h-8 w-8" />
+                </span>
+                <h3 className="mt-5 text-base font-extrabold text-[#061A33]">{card.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#475569]">{card.description}</p>
+              </MotionArticle>
+            ))}
+          </div>
         </Reveal>
       </div>
     </section>
   );
 }
 
-function CourierPartnerLogo({ partner }) {
-  const darkText = partner.bg === "#ffffff";
-
-  return (
-    <span
-      className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-white shadow-[0_10px_24px_rgba(0,33,39,0.18)]"
-      aria-hidden="true"
-    >
-      <svg className="h-full w-full" viewBox="0 0 48 48" role="img" aria-label={`${partner.name} mark`}>
-        <rect x="5" y="5" width="38" height="38" rx="9" fill={partner.bg} />
-        <path d="M8 33 33 8h10v10L18 43H8V33Z" fill={partner.accent} opacity="0.96" />
-        <circle cx="35.5" cy="12.5" r="3.5" fill={darkText ? "#062A5B" : "#ffffff"} opacity="0.92" />
-        <text
-          x="24"
-          y="29"
-          textAnchor="middle"
-          fontFamily="Inter, Arial, sans-serif"
-          fontSize={partner.mark.length > 1 ? 13 : 18}
-          fontWeight="900"
-          letterSpacing={partner.mark.length > 1 ? 0.4 : 0}
-          fill={darkText ? "#062A5B" : "#ffffff"}
-        >
-          {partner.mark}
-        </text>
-      </svg>
-    </span>
-  );
-}
-
 function PlatformsSection() {
   return (
-    <section className="section-transition relative overflow-hidden bg-[#062A5B] pb-9 pt-[3.45rem] text-white sm:pb-10">
-      <div className="pointer-events-none absolute -top-[4.8rem] left-1/2 h-[7.8rem] w-full -translate-x-1/2 rounded-b-[50%] bg-[#fbfefe] sm:w-[112%]" />
-      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
-        <MotionDiv
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <p className="mx-auto max-w-[18rem] text-center text-[0.76rem] font-bold uppercase leading-6 tracking-[0.18em] text-white/82 sm:max-w-none sm:text-[0.78rem] sm:tracking-[0.46em]">
-            Trusted Courier Partners Across India
-          </p>
-        </MotionDiv>
+    <section className="section-transition bg-[#f7fbff]">
+      <div className="mx-auto grid max-w-[1440px] gap-10 px-5 pb-12 pt-16 sm:px-8 lg:grid-cols-[0.45fr_0.55fr] lg:items-center lg:px-16 lg:pb-18 lg:pt-20">
+        <Reveal>
+          <div>
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
+              Built for scale
+            </p>
+            <h2 className="mt-5 max-w-[34rem] font-display text-[2.15rem] font-extrabold leading-[1.14] text-[#061A33] sm:text-[3.1rem]">
+              Powering logistics that deliver more.
+            </h2>
+            <p className="mt-6 max-w-[34rem] text-base font-medium leading-[1.85] text-[#475569]">
+              Our platform connects you with a wide network of carriers and tools to simplify
+              operations, reduce delivery guesswork, and delight your customers.
+            </p>
 
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-8">
-          {courierPartners.map((partner, index) => (
-            <MotionArticle
-              key={partner.name}
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -10, scale: 1.05 }}
-              className="group flex min-h-[4.25rem] cursor-pointer items-center justify-center gap-3 rounded-2xl border border-white/12 bg-white/[0.06] px-4 py-3 shadow-[0_18px_30px_rgba(0,44,50,0.14)] backdrop-blur-sm transition-colors hover:bg-white/[0.12]"
+            <div className="mt-10 grid gap-5 sm:grid-cols-3">
+              {scaleStats.map((stat, index) => (
+                <MotionArticle
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className="min-w-0"
+                >
+                  <span className={`grid h-11 w-11 place-items-center rounded-lg ${stat.shell} ${stat.tone}`}>
+                    <Icon name={stat.icon} className="h-6 w-6" />
+                  </span>
+                  <p className="mt-3 text-2xl font-extrabold text-[#062A5B]">{stat.value}</p>
+                  <p className="mt-1 text-xs font-medium leading-5 text-[#64748B]">{stat.label}</p>
+                </MotionArticle>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div className="grid gap-5">
+            <div className="grid gap-5 sm:grid-cols-2">
+              {[
+                ["Shipments Delivered", "24.5M", "+12.5%"],
+                ["On-time Delivery", "98.6%", "+4.3%"],
+              ].map(([label, value, change]) => (
+                <MotionArticle
+                  key={label}
+                  whileHover={{ y: -5 }}
+                  className="rounded-xl border border-[#E1EAF5] bg-white p-6 shadow-[0_20px_55px_rgba(15,23,42,0.06)]"
+                >
+                  <p className="text-sm font-extrabold text-[#061A33]">{label}</p>
+                  <div className="mt-5 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[2rem] font-extrabold leading-none text-[#061A33]">{value}</p>
+                      <p className="mt-3 text-xs font-medium text-[#64748B]">This month</p>
+                    </div>
+                    <span className="text-sm font-extrabold text-[#10B981]">{change}</span>
+                  </div>
+                </MotionArticle>
+              ))}
+            </div>
+
+            <MotionDiv
+              whileHover={{ y: -5 }}
+              className="overflow-hidden rounded-xl border border-[#E1EAF5] bg-white p-6 shadow-[0_22px_62px_rgba(15,23,42,0.08)]"
             >
-              <CourierPartnerLogo partner={partner} />
-              <span className="text-sm font-extrabold tracking-wide text-white sm:text-base">
-                {partner.name}
-              </span>
-            </MotionArticle>
-          ))}
-        </div>
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="text-sm font-extrabold text-[#061A33]">Live Tracking</h3>
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#A7F3D0] bg-[#ECFDF5] px-3 py-1 text-xs font-extrabold text-[#059669]">
+                  <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+                  Live
+                </span>
+              </div>
+              <div className="relative mt-6 h-[15rem] overflow-hidden rounded-lg bg-[#F3F8FF]">
+                <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(30deg,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(120deg,rgba(37,99,235,0.08)_1px,transparent_1px)] [background-size:52px_52px]" />
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 560 240" fill="none" aria-hidden="true">
+                  <path d="M46 165 L98 146 L144 162 L214 118 L286 154 L356 96 L432 106 L504 70" stroke="#2563EB" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  {[46, 144, 214, 356, 432, 504].map((cx, index) => (
+                    <circle key={cx} cx={cx} cy={[165, 162, 118, 96, 106, 70][index]} r="11" fill="#2563EB" stroke="white" strokeWidth="6" />
+                  ))}
+                </svg>
+                <div className="absolute bottom-8 right-7 rounded-lg bg-white px-5 py-4 shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
+                  <p className="text-xs font-extrabold text-[#061A33]">Out for delivery</p>
+                  <p className="mt-1 text-xs font-medium text-[#64748B]">Mumbai, MH</p>
+                </div>
+                <span className="absolute right-24 top-11 grid h-14 w-14 place-items-center rounded-lg bg-[#2563EB] text-white shadow-[0_16px_34px_rgba(37,99,235,0.24)]">
+                  <Icon name="truck" className="h-8 w-8" />
+                </span>
+              </div>
+            </MotionDiv>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

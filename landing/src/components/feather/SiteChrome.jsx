@@ -46,16 +46,27 @@ const socialLinks = [
 ];
 
 function DesktopNavLink({ item }) {
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        className="rounded-full px-4 py-2 text-sm font-semibold text-[#061A33] transition hover:bg-white/72 hover:text-[#062A5B]"
+      >
+        {item.label}
+      </a>
+    );
+  }
+
   return (
     <NavLink
       to={item.to}
       end={item.to === "/"}
       className={({ isActive }) =>
         [
-          "rounded-full px-3 py-2 text-sm font-medium transition",
+          "rounded-full px-4 py-2 text-sm font-semibold transition",
           isActive
-            ? "bg-[#EEF4FB] text-[#062A5B] shadow-[0_8px_18px_rgba(6,42,91,0.12)]"
-            : "text-[#183153] hover:bg-[#F5F8FC] hover:text-[#062A5B]",
+            ? "bg-white/78 text-[#062A5B] shadow-[0_8px_18px_rgba(6,42,91,0.08)]"
+            : "text-[#061A33] hover:bg-white/72 hover:text-[#062A5B]",
         ].join(" ")
       }
     >
@@ -65,6 +76,18 @@ function DesktopNavLink({ item }) {
 }
 
 function MobileNavLink({ item, onClose }) {
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        className="rounded-2xl bg-white px-4 py-3 text-sm font-medium text-[#183153] transition hover:bg-[#F5F8FC] hover:text-[#062A5B]"
+        onClick={onClose}
+      >
+        {item.label}
+      </a>
+    );
+  }
+
   return (
     <NavLink
       to={item.to}
@@ -135,34 +158,36 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
   });
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#D6E1EF] bg-white/92 shadow-[0_10px_30px_rgba(6,26,51,0.06)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/20 bg-white/72 shadow-[0_10px_30px_rgba(6,26,51,0.05)] backdrop-blur-xl">
       <MotionDiv
         className="absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-[linear-gradient(90deg,#062A5B,#ED1C24)]"
         style={{ scaleX: progressScale }}
         aria-hidden="true"
       />
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2 sm:gap-6 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-5 py-3 sm:gap-6 sm:px-8 lg:px-16">
         <Link to="/" className="shrink-0">
-          <img src={logoImage} alt={companyProfile.name} className="h-[4.15rem] w-auto object-contain sm:h-[4.7rem] lg:h-[5.1rem]" />
+          <img src={logoImage} alt={companyProfile.name} className="h-14 w-auto object-contain sm:h-[4.3rem]" />
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-2 lg:flex xl:gap-3">
+        <nav className="hidden flex-1 items-center justify-center gap-3 lg:flex xl:gap-5">
           {siteNavigation.map((item) => (
-            <DesktopNavLink key={item.to} item={item} />
+            <DesktopNavLink key={item.to || item.href} item={item} />
           ))}
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
           <a
             href={AUTH_APP_URL}
-            className="hidden rounded-xl border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] shadow-[0_14px_28px_rgba(6,42,91,0.08)] transition hover:-translate-y-0.5 hover:bg-[#062A5B] hover:text-white lg:inline-flex"
+            className="hidden min-h-12 items-center gap-3 rounded-xl bg-[#061A33] px-6 py-3 text-sm font-extrabold text-white shadow-[0_14px_28px_rgba(6,26,51,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:inline-flex"
+            style={{ color: "#ffffff" }}
           >
-            Login
+            <span>Enter platform</span>
+            <Icon name="chevronRight" className="h-5 w-5" />
           </a>
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#C7D6EA] bg-white text-[#062A5B] transition hover:bg-[#F5F8FC] lg:hidden"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D8E4F2] bg-white text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.08)] transition hover:bg-[#F5F8FC]"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             onClick={onToggleMenu}
           >
@@ -181,7 +206,7 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
           >
             <div className="mx-auto grid max-w-7xl gap-3 px-4 py-4 sm:px-6">
               {siteNavigation.map((item) => (
-                <MobileNavLink key={item.to} item={item} onClose={onCloseMenu} />
+                <MobileNavLink key={item.to || item.href} item={item} onClose={onCloseMenu} />
               ))}
               <a
                 href={AUTH_APP_URL}

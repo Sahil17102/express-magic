@@ -1,8 +1,9 @@
 export const siteNavigation = [
-  { label: "Home", to: "/" },
-  { label: "Weight Calculator", to: "/volumetric-weight-calculator" },
-  { label: "Rate Calculator", to: "/rate-calculator" },
-  { label: "Tracking", to: "/tracking" },
+  { label: "Solutions", to: "/" },
+  { label: "Services", to: "/volumetric-weight-calculator" },
+  { label: "Pricing", to: "/rate-calculator" },
+  { label: "Resources", to: "/tracking" },
+  { label: "About Us", href: "#site-footer" },
 ];
 
 export const companyProfile = {
