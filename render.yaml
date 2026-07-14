@@ -47,7 +47,6 @@ services:
   - type: web
     runtime: docker
     name: express-magic-backend
-    rootDir: backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
     autoDeployTrigger: commit
