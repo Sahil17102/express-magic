@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const RENDER_API_BASE_URL = 'https://express-magic-backend.onrender.com/api'
+
 const getDefaultApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
     const host = window.location.hostname.toLowerCase()
@@ -8,10 +10,40 @@ const getDefaultApiBaseUrl = () => {
     }
   }
 
-  return 'https://express-magic-backend.onrender.com/api'
+  return RENDER_API_BASE_URL
 }
 
-const apiBaseURL = (process.env.REACT_APP_API_BASE_URL || getDefaultApiBaseUrl()).replace(/\/+$/, '')
+const normalizeApiBaseUrl = (configuredUrl) => {
+  const fallback = getDefaultApiBaseUrl()
+  const value = String(configuredUrl || '').trim().replace(/\/+$/, '')
+
+  if (!value || /(^|\.)up\.railway\.app(?=\/|$)/i.test(value.replace(/^https?:\/\//i, ''))) {
+    return fallback
+  }
+
+  try {
+    const url = new URL(value)
+    const hostname = url.hostname.toLowerCase()
+
+    if (
+      !['http:', 'https:'].includes(url.protocol) ||
+      hostname === 'express-magic.onrender.com' ||
+      hostname === 'express-magic-admin.onrender.com'
+    ) {
+      return fallback
+    }
+
+    if (!url.pathname || url.pathname === '/') {
+      url.pathname = '/api'
+    }
+
+    return url.toString().replace(/\/+$/, '')
+  } catch {
+    return fallback
+  }
+}
+
+const apiBaseURL = normalizeApiBaseUrl(process.env.REACT_APP_API_BASE_URL)
 
 const api = axios.create({
   baseURL: apiBaseURL,
@@ -98,5 +130,5 @@ api.interceptors.response.use(
   },
 )
 
-export { apiBaseURL, getDefaultApiBaseUrl }
+export { apiBaseURL, getDefaultApiBaseUrl, normalizeApiBaseUrl }
 export default api
