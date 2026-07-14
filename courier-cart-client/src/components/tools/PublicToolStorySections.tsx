@@ -213,11 +213,16 @@ export default function PublicToolStorySections({
         <Box sx={{ position: 'relative', zIndex: 1, maxWidth: 760 }}>
           <Typography
             component="h2"
-            sx={{ fontSize: { xs: '2rem', md: '3rem' }, lineHeight: 1.05, fontWeight: 950 }}
+            sx={{
+              color: '#FFFFFF',
+              fontSize: { xs: '2rem', md: '3rem' },
+              lineHeight: 1.05,
+              fontWeight: 950,
+            }}
           >
             {ctaTitle}
           </Typography>
-          <Typography sx={{ mt: 1.5, maxWidth: 650, color: 'rgba(255,255,255,0.74)', lineHeight: 1.75, fontWeight: 650 }}>
+          <Typography sx={{ mt: 1.5, maxWidth: 650, color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, fontWeight: 700 }}>
             {ctaDescription}
           </Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.4} sx={{ mt: 3 }}>
@@ -231,6 +236,7 @@ export default function PublicToolStorySections({
                 px: 2.5,
                 borderRadius: 1,
                 bgcolor: BRAND.colors.orange,
+                color: '#FFFFFF',
                 textTransform: 'none',
                 fontWeight: 900,
                 '&:hover': { bgcolor: BRAND.colors.orangeDark },
@@ -246,11 +252,12 @@ export default function PublicToolStorySections({
                 minHeight: 48,
                 px: 2.5,
                 borderRadius: 1,
-                borderColor: 'rgba(255,255,255,0.5)',
-                color: '#FFFFFF',
+                borderColor: '#FFFFFF',
+                color: BRAND.colors.tealDark,
+                backgroundColor: '#FFFFFF',
                 textTransform: 'none',
                 fontWeight: 900,
-                '&:hover': { borderColor: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.07)' },
+                '&:hover': { borderColor: '#FFFFFF', backgroundColor: alpha('#FFFFFF', 0.88) },
               }}
             >
               {secondaryLabel}
