@@ -49,6 +49,10 @@ const formatDays = (value?: number | null) => `${Number(value || 0).toFixed(1)} 
 const formatNumber = (value?: number | null) => Number(value || 0).toLocaleString('en-IN')
 
 const chartColors = ['#062A5B', '#ED1C24', '#1E88E5', '#8E24AA', '#E53935', '#43A047']
+const tableHeaderGradient = `linear-gradient(135deg, ${alpha(BRAND.colors.teal, 0.16)} 0%, ${alpha(
+  BRAND.colors.skySoft,
+  0.82,
+)} 56%, ${alpha(BRAND.colors.orange, 0.1)} 100%)`
 
 export default function OpsAnalyticsSection() {
   const theme = useTheme()
@@ -845,14 +849,22 @@ function AnalyticsCard({
   subtitle?: string
   children: ReactNode
 }) {
-  const theme = useTheme()
   return (
     <Card
       sx={{
+        position: 'relative',
         height: '100%',
         borderRadius: 3,
-        boxShadow: '0 8px 28px rgba(15, 23, 42, 0.06)',
-        border: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
+        overflow: 'hidden',
+        boxShadow: '0 14px 34px rgba(6, 42, 91, 0.08)',
+        border: `1px solid ${alpha(BRAND.colors.teal, 0.14)}`,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: '0 0 auto 0',
+          height: 4,
+          background: `linear-gradient(90deg, ${BRAND.colors.teal}, ${BRAND.colors.orange})`,
+        },
       }}
     >
       <CardContent sx={{ p: { xs: 2, md: 2.5 } }}>
@@ -881,7 +893,11 @@ function ChartPanel({ children, height }: { children: ReactNode; height: number 
         minHeight: height,
         borderRadius: 3,
         p: 1,
-        background: 'linear-gradient(180deg, rgba(247,249,251,0.88) 0%, rgba(255,255,255,0.98) 100%)',
+        border: `1px solid ${alpha(BRAND.colors.teal, 0.08)}`,
+        background: `linear-gradient(180deg, ${alpha(BRAND.colors.tealSoft, 0.74)} 0%, ${alpha(
+          BRAND.colors.paper,
+          0.98,
+        )} 100%)`,
       }}
     >
       {children}
@@ -890,7 +906,6 @@ function ChartPanel({ children, height }: { children: ReactNode; height: number 
 }
 
 function EmptyPanel({ text }: { text: string }) {
-  const theme = useTheme()
   return (
     <Box
       sx={{
@@ -898,12 +913,17 @@ function EmptyPanel({ text }: { text: string }) {
         display: 'grid',
         placeItems: 'center',
         borderRadius: 3,
-        border: `1px dashed ${alpha(theme.palette.divider, 0.3)}`,
-        color: theme.palette.text.secondary,
-        background: alpha(theme.palette.background.paper, 0.72),
+        border: `1px dashed ${alpha(BRAND.colors.teal, 0.18)}`,
+        color: BRAND.colors.text,
+        background: `linear-gradient(135deg, ${alpha(BRAND.colors.tealSoft, 0.8)} 0%, ${alpha(
+          BRAND.colors.paper,
+          0.94,
+        )} 58%, ${alpha(BRAND.colors.amberSoft, 0.48)} 100%)`,
       }}
     >
-      <Typography variant="body2">{text}</Typography>
+      <Typography variant="body2" fontWeight={700}>
+        {text}
+      </Typography>
     </Box>
   )
 }
@@ -919,12 +939,12 @@ function CompactTable<T extends Record<string, unknown>>({
   renderRow: (row: T) => ReactNode
   emptyMessage: string
 }) {
-  const theme = useTheme()
   return (
     <TableContainer
       sx={{
         borderRadius: 2.5,
-        border: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
+        border: `1px solid ${alpha(BRAND.colors.teal, 0.16)}`,
+        boxShadow: `inset 0 0 0 1px ${alpha(BRAND.colors.paper, 0.72)}`,
         overflowX: 'auto',
       }}
     >
@@ -932,7 +952,8 @@ function CompactTable<T extends Record<string, unknown>>({
         <TableHead>
           <TableRow
             sx={{
-              background: alpha(theme.palette.primary.main, 0.04),
+              background: tableHeaderGradient,
+              boxShadow: `inset 0 -2px 0 ${alpha(BRAND.colors.orange, 0.28)}`,
             }}
           >
             {headers.map((header) => (
@@ -941,8 +962,9 @@ function CompactTable<T extends Record<string, unknown>>({
                 sx={{
                   fontWeight: 800,
                   whiteSpace: 'nowrap',
-                  color: theme.palette.text.primary,
-                  borderBottomColor: alpha(theme.palette.divider, 0.16),
+                  color: BRAND.colors.ink,
+                  letterSpacing: '0.08em',
+                  borderBottomColor: alpha(BRAND.colors.orange, 0.2),
                 }}
               >
                 {header}
@@ -950,12 +972,30 @@ function CompactTable<T extends Record<string, unknown>>({
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody
+          sx={{
+            '& .MuiTableRow-root:nth-of-type(even)': {
+              backgroundColor: alpha(BRAND.colors.tealSoft, 0.38),
+            },
+            '& .MuiTableRow-root:hover': {
+              backgroundColor: alpha(BRAND.colors.skySoft, 0.54),
+            },
+          }}
+        >
           {rows.length > 0 ? (
             rows.map((row, index) => <Fragment key={index}>{renderRow(row)}</Fragment>)
           ) : (
             <TableRow>
-              <TableCell colSpan={headers.length} align="center" sx={{ py: 4, color: theme.palette.text.secondary }}>
+              <TableCell
+                colSpan={headers.length}
+                align="center"
+                sx={{
+                  py: 4,
+                  color: BRAND.colors.text,
+                  fontWeight: 700,
+                  background: alpha(BRAND.colors.tealSoft, 0.54),
+                }}
+              >
                 {emptyMessage}
               </TableCell>
             </TableRow>
