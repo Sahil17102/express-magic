@@ -117,13 +117,7 @@ export function RateCalculator() {
   const pickupPincode = watch('pickupPincode')
   const deliveryPincode = watch('deliveryPincode')
   const loadingPickup = usePincodeLookup(pickupPincode, 'pickup', setValue, setError, clearErrors)
-  const loadingDelivery = usePincodeLookup(
-    deliveryPincode,
-    'delivery',
-    setValue,
-    setError,
-    clearErrors,
-  )
+  const loadingDelivery = usePincodeLookup(deliveryPincode, 'delivery', setValue, setError, clearErrors)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (formData: any) => {
     try {
@@ -168,7 +162,10 @@ export function RateCalculator() {
 
   useEffect(() => {
     if (availableCouriers?.length > 0 && couriersRef.current) {
-      couriersRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      couriersRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
     }
   }, [availableCouriers])
 
@@ -272,8 +269,8 @@ export function RateCalculator() {
                 lineHeight: 1.8,
               }}
             >
-              Enter pickup, delivery, parcel and payment details to compare courier pricing in one
-              clear Express Magic view.
+              Enter pickup, delivery, parcel and payment details to compare courier pricing in one clear Express Magic
+              view.
             </Typography>
             <Box
               sx={{
@@ -297,10 +294,23 @@ export function RateCalculator() {
                     p: 1.8,
                   }}
                 >
-                  <Typography sx={{ color: '#07142F', fontSize: '1.15rem', fontWeight: 950 }}>
+                  <Typography
+                    sx={{
+                      color: '#07142F',
+                      fontSize: '1.15rem',
+                      fontWeight: 950,
+                    }}
+                  >
                     {value}
                   </Typography>
-                  <Typography sx={{ mt: 0.35, color: muted, fontSize: '0.76rem', fontWeight: 800 }}>
+                  <Typography
+                    sx={{
+                      mt: 0.35,
+                      color: muted,
+                      fontSize: '0.76rem',
+                      fontWeight: 800,
+                    }}
+                  >
                     {label}
                   </Typography>
                 </Box>
@@ -321,7 +331,9 @@ export function RateCalculator() {
           >
             <Box
               component="img"
-              src="/images/rate-tool-3d.png"
+              src="/images/rate-tool-3d.webp"
+              loading="lazy"
+              decoding="async"
               alt="Courier rate calculator with invoice and parcels"
               sx={{
                 width: '100%',
@@ -350,356 +362,396 @@ export function RateCalculator() {
                 <BiRupee size={25} />
                 <Typography sx={{ fontSize: '2rem', lineHeight: 1, fontWeight: 950 }}>Best fit</Typography>
               </Stack>
-              <Typography sx={{ mt: 0.7, color: muted, fontSize: '0.74rem', fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  mt: 0.7,
+                  color: muted,
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                }}
+              >
                 Route, weight and payment mode together.
               </Typography>
             </Box>
           </Box>
         </Box>
 
-      <FormProvider {...methods}>
+        <FormProvider {...methods}>
+          <CardContent
+            sx={{
+              position: 'relative',
+              width: '100%',
+              overflow: 'hidden',
+              background: 'rgba(255,255,255,0.94)',
+              border: `1px solid ${alpha('#07142F', 0.12)}`,
+              borderRadius: { xs: 3, md: 4 },
+              boxShadow: '0 24px 70px rgba(7,20,47,0.1)',
+              backdropFilter: 'blur(18px)',
+              p: { xs: 2.4, md: 3.2 },
+            }}
+          >
+            <Typography
+              sx={{
+                color: orange,
+                fontSize: '0.76rem',
+                fontWeight: 900,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Rate calculator
+            </Typography>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                mt: 1,
+                color: '#07142F',
+                fontSize: { xs: '1.75rem', md: '2.45rem' },
+                fontWeight: 950,
+                letterSpacing: '-0.04em',
+              }}
+            >
+              Calculate courier price
+            </Typography>
+
+            {/* Tabs */}
+            <SmartTabs
+              value={shipmentType}
+              onChange={(val) => setShipmentType(val)}
+              tabs={[
+                { label: 'B2C', value: 'b2c' },
+                { label: 'B2B', value: 'b2b' },
+              ]}
+            />
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Pickup Section */}
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Pickup Pincode"
+                  {...register('pickupPincode', {
+                    required: 'Pickup pincode is required',
+                    pattern: {
+                      value: /^[1-9][0-9]{5}$/,
+                      message: 'Enter valid 6-digit pincode',
+                    },
+                  })}
+                  error={!!errors.pickupPincode}
+                  helperText={errors.pickupPincode?.message as string}
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Pickup City"
+                  {...register('pickupCity')}
+                  fullWidth
+                  disabled
+                  postfix={loadingPickup ? <CircularProgress size={16} /> : null}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Pickup State"
+                  {...register('pickupState')}
+                  fullWidth
+                  disabled
+                  postfix={loadingPickup ? <CircularProgress size={16} /> : null}
+                />
+              </Grid>
+
+              {/* Delivery Section */}
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Delivery Pincode"
+                  {...register('deliveryPincode', {
+                    required: 'Delivery pincode is required',
+                    pattern: {
+                      value: /^[1-9][0-9]{5}$/,
+                      message: 'Enter valid 6-digit pincode',
+                    },
+                  })}
+                  error={!!errors.deliveryPincode}
+                  helperText={errors.deliveryPincode?.message as string}
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Delivery City"
+                  {...register('deliveryCity')}
+                  fullWidth
+                  disabled
+                  postfix={loadingDelivery ? <CircularProgress size={16} /> : null}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomInput
+                  label="Delivery State"
+                  {...register('deliveryState')}
+                  fullWidth
+                  disabled
+                  postfix={loadingDelivery ? <CircularProgress size={16} /> : null}
+                />
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Conditional Forms */}
+            {shipmentType === 'b2c' ? <B2CRateCalculator /> : <B2BRateCalculator />}
+
+            <Divider sx={{ my: 2 }} />
+            <Controller
+              name="paymentType"
+              control={methods?.control}
+              rules={{ required: 'Please select a payment type' }}
+              render={({ field, fieldState }) => (
+                <Stack mb={3}>
+                  <Typography color={muted} sx={{ fontSize: '15px' }}>
+                    {' '}
+                    Payment Type
+                  </Typography>
+                  <Stack direction={'column'} mt={2}>
+                    <ToggleButtonGroup
+                      value={field.value}
+                      exclusive
+                      onChange={(_, newValue) => {
+                        if (newValue !== null) field.onChange(newValue)
+                      }}
+                    >
+                      {(!paymentOptions || paymentOptions.prepaidEnabled) && (
+                        <ToggleButton
+                          value="prepaid"
+                          sx={{
+                            px: 3,
+                            mx: 1,
+                            py: 1,
+                            borderRadius: '10px !important',
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            fontSize: '0.95rem',
+                            color: muted,
+                            border: `1px solid ${border}`,
+                            transition: 'all 0.25s ease',
+                            '&.Mui-selected': {
+                              background: teal,
+                              color: '#FFFFFF',
+                              transform: 'scale(1.05)',
+                            },
+                            '&:hover': {
+                              borderColor: teal,
+                              color: tealDark,
+                            },
+                          }}
+                        >
+                          Prepaid
+                        </ToggleButton>
+                      )}
+
+                      {(!paymentOptions || paymentOptions.codEnabled) && (
+                        <ToggleButton
+                          value="cod"
+                          sx={{
+                            px: 3,
+                            py: 1,
+                            mx: 1,
+                            borderRadius: '10px !important',
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            fontSize: '0.95rem',
+                            color: muted,
+                            border: `1px solid ${border}`,
+                            transition: 'all 0.25s ease',
+                            '&.Mui-selected': {
+                              background: teal,
+                              color: '#FFFFFF',
+                              transform: 'scale(1.05)',
+                            },
+                            '&:hover': {
+                              borderColor: teal,
+                              color: tealDark,
+                            },
+                          }}
+                        >
+                          COD
+                        </ToggleButton>
+                      )}
+                    </ToggleButtonGroup>
+
+                    {fieldState?.error && <p className="text-red-500 text-sm mt-2">{fieldState.error.message}</p>}
+                  </Stack>
+                </Stack>
+              )}
+            />
+
+            <Divider sx={{ my: 2 }} />
+
+            <Grid size={{ xs: 12, md: 4 }}>
+              <CustomInput
+                label="Order Amount (Shipment Value)"
+                type="number"
+                placeholder="Enter Shipment Value"
+                {...register('orderAmount', {
+                  required: 'Order amount is required',
+                  min: { value: 1, message: 'Order amount must be at least 1' },
+                })}
+                error={!!errors.orderAmount}
+                helperText={errors.orderAmount?.message as string}
+                fullWidth
+                prefix={<BiRupee />}
+              />
+            </Grid>
+            <Divider sx={{ my: 2 }} />
+
+            <CustomIconLoadingButton
+              text="Calculate Rate"
+              loadingText="Calculating Rate.."
+              loading={isPending}
+              onClick={handleSubmit(onSubmit)}
+            ></CustomIconLoadingButton>
+          </CardContent>
+        </FormProvider>
+        {isPending && (
+          <Typography sx={{ color: teal, textAlign: 'center', py: 2 }}>Loading available couriers...</Typography>
+        )}
+
+        {isError ? (
+          <Typography sx={{ color: '#E74C3C', textAlign: 'center', py: 2 }}>
+            Failed to fetch couriers: {error?.message ?? 'Unknown error'}
+          </Typography>
+        ) : (
+          <Box ref={couriersRef}>
+            <CourierRateCards
+              shipmentType={watch('paymentType')}
+              availableCouriers={availableCouriers}
+              defaultLogo={defaultLogo}
+            />
+          </Box>
+        )}
+
+        <Divider />
         <CardContent
           sx={{
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-            background: 'rgba(255,255,255,0.94)',
+            order: isPublicRoute ? 2 : 0,
+            mt: 3,
+            backgroundColor: 'rgba(255,255,255,0.94)',
             border: `1px solid ${alpha('#07142F', 0.12)}`,
             borderRadius: { xs: 3, md: 4 },
-            boxShadow: '0 24px 70px rgba(7,20,47,0.1)',
-            backdropFilter: 'blur(18px)',
-            p: { xs: 2.4, md: 3.2 },
+            boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
+            p: 3,
           }}
         >
-          <Typography
-            sx={{
-              color: orange,
-              fontSize: '0.76rem',
-              fontWeight: 900,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Rate calculator
-          </Typography>
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{
-              mt: 1,
-              color: '#07142F',
-              fontSize: { xs: '1.75rem', md: '2.45rem' },
-              fontWeight: 950,
-              letterSpacing: '-0.04em',
-            }}
-          >
-            Calculate courier price
+          <Typography variant="h6" gutterBottom sx={{ color: tealDark, fontWeight: 700 }}>
+            Terms & Conditions ({shipmentType.toUpperCase()})
           </Typography>
 
-          {/* Tabs */}
-          <SmartTabs
-            value={shipmentType}
-            onChange={(val) => setShipmentType(val)}
-            tabs={[
-              { label: 'B2C', value: 'b2c' },
-              { label: 'B2B', value: 'b2b' },
-            ]}
-          />
+          <Stack spacing={1}>
+            {termsAndConditions[shipmentType].map((term, idx) => {
+              if (typeof term === 'string') {
+                return (
+                  <Typography key={idx} variant="body2" sx={{ color: muted, fontSize: '0.85rem', lineHeight: 1.6 }}>
+                    - {term}
+                  </Typography>
+                )
+              }
 
-          <Divider sx={{ my: 2 }} />
-
-          {/* Pickup Section */}
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Pickup Pincode"
-                {...register('pickupPincode', {
-                  required: 'Pickup pincode is required',
-                  pattern: {
-                    value: /^[1-9][0-9]{5}$/,
-                    message: 'Enter valid 6-digit pincode',
-                  },
-                })}
-                error={!!errors.pickupPincode}
-                helperText={errors.pickupPincode?.message as string}
-                fullWidth
-              />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Pickup City"
-                {...register('pickupCity')}
-                fullWidth
-                disabled
-                postfix={loadingPickup ? <CircularProgress size={16} /> : null}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Pickup State"
-                {...register('pickupState')}
-                fullWidth
-                disabled
-                postfix={loadingPickup ? <CircularProgress size={16} /> : null}
-              />
-            </Grid>
-
-            {/* Delivery Section */}
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Delivery Pincode"
-                {...register('deliveryPincode', {
-                  required: 'Delivery pincode is required',
-                  pattern: {
-                    value: /^[1-9][0-9]{5}$/,
-                    message: 'Enter valid 6-digit pincode',
-                  },
-                })}
-                error={!!errors.deliveryPincode}
-                helperText={errors.deliveryPincode?.message as string}
-                fullWidth
-              />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Delivery City"
-                {...register('deliveryCity')}
-                fullWidth
-                disabled
-                postfix={loadingDelivery ? <CircularProgress size={16} /> : null}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <CustomInput
-                label="Delivery State"
-                {...register('deliveryState')}
-                fullWidth
-                disabled
-                postfix={loadingDelivery ? <CircularProgress size={16} /> : null}
-              />
-            </Grid>
-          </Grid>
-
-          <Divider sx={{ my: 2 }} />
-
-          {/* Conditional Forms */}
-          {shipmentType === 'b2c' ? <B2CRateCalculator /> : <B2BRateCalculator />}
-
-          <Divider sx={{ my: 2 }} />
-          <Controller
-            name="paymentType"
-            control={methods?.control}
-            rules={{ required: 'Please select a payment type' }}
-            render={({ field, fieldState }) => (
-              <Stack mb={3}>
-                <Typography color={muted} sx={{ fontSize: '15px' }}>
-                  {' '}
-                  Payment Type
-                </Typography>
-                <Stack direction={'column'} mt={2}>
-                  <ToggleButtonGroup
-                    value={field.value}
-                    exclusive
-                    onChange={(_, newValue) => {
-                      if (newValue !== null) field.onChange(newValue)
+              // If it's an object with sub-items
+              return (
+                <Stack key={idx} spacing={0.5}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: orange,
+                      fontSize: '0.85rem',
+                      lineHeight: 1.6,
+                      fontWeight: 600,
                     }}
                   >
-                    {(!paymentOptions || paymentOptions.prepaidEnabled) && (
-                      <ToggleButton
-                        value="prepaid"
+                    - {term.text}
+                  </Typography>
+                  <Stack pl={3} spacing={0.3}>
+                    {term.sub.map((subItem, subIdx) => (
+                      <Typography
+                        key={subIdx}
+                        variant="body2"
                         sx={{
-                          px: 3,
-                          mx: 1,
-                          py: 1,
-                          borderRadius: '10px !important',
-                          textTransform: 'none',
-                          fontWeight: 600,
-                          fontSize: '0.95rem',
                           color: muted,
-                          border: `1px solid ${border}`,
-                          transition: 'all 0.25s ease',
-                          '&.Mui-selected': {
-                            background: teal,
-                            color: '#FFFFFF',
-                            transform: 'scale(1.05)',
-                          },
-                          '&:hover': {
-                            borderColor: teal,
-                            color: tealDark,
-                          },
+                          fontSize: '0.8rem',
+                          lineHeight: 1.5,
                         }}
                       >
-                        Prepaid
-                      </ToggleButton>
-                    )}
-
-                    {(!paymentOptions || paymentOptions.codEnabled) && (
-                      <ToggleButton
-                        value="cod"
-                        sx={{
-                          px: 3,
-                          py: 1,
-                          mx: 1,
-                          borderRadius: '10px !important',
-                          textTransform: 'none',
-                          fontWeight: 500,
-                          fontSize: '0.95rem',
-                          color: muted,
-                          border: `1px solid ${border}`,
-                          transition: 'all 0.25s ease',
-                          '&.Mui-selected': {
-                            background: teal,
-                            color: '#FFFFFF',
-                            transform: 'scale(1.05)',
-                          },
-                          '&:hover': {
-                            borderColor: teal,
-                            color: tealDark,
-                          },
-                        }}
-                      >
-                        COD
-                      </ToggleButton>
-                    )}
-                  </ToggleButtonGroup>
-
-                  {fieldState?.error && (
-                    <p className="text-red-500 text-sm mt-2">{fieldState.error.message}</p>
-                  )}
+                        - {subItem}
+                      </Typography>
+                    ))}
+                  </Stack>
                 </Stack>
-              </Stack>
-            )}
-          />
-
-          <Divider sx={{ my: 2 }} />
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <CustomInput
-              label="Order Amount (Shipment Value)"
-              type="number"
-              placeholder="Enter Shipment Value"
-              {...register('orderAmount', {
-                required: 'Order amount is required',
-                min: { value: 1, message: 'Order amount must be at least 1' },
-              })}
-              error={!!errors.orderAmount}
-              helperText={errors.orderAmount?.message as string}
-              fullWidth
-              prefix={<BiRupee />}
-            />
-          </Grid>
-          <Divider sx={{ my: 2 }} />
-
-          <CustomIconLoadingButton
-            text="Calculate Rate"
-            loadingText="Calculating Rate.."
-            loading={isPending}
-            onClick={handleSubmit(onSubmit)}
-          ></CustomIconLoadingButton>
-        </CardContent>
-      </FormProvider>
-      {isPending && (
-        <Typography sx={{ color: teal, textAlign: 'center', py: 2 }}>
-          Loading available couriers...
-        </Typography>
-      )}
-
-      {isError ? (
-        <Typography sx={{ color: '#E74C3C', textAlign: 'center', py: 2 }}>
-          Failed to fetch couriers: {error?.message ?? 'Unknown error'}
-        </Typography>
-      ) : (
-        <Box ref={couriersRef}>
-          <CourierRateCards
-            shipmentType={watch('paymentType')}
-            availableCouriers={availableCouriers}
-            defaultLogo={defaultLogo}
-          />
-        </Box>
-      )}
-
-      <Divider />
-      <CardContent
-        sx={{
-          order: isPublicRoute ? 2 : 0,
-          mt: 3,
-          backgroundColor: 'rgba(255,255,255,0.94)',
-          border: `1px solid ${alpha('#07142F', 0.12)}`,
-          borderRadius: { xs: 3, md: 4 },
-          boxShadow: '0 18px 46px rgba(7,20,47,0.07)',
-          p: 3,
-        }}
-      >
-        <Typography variant="h6" gutterBottom sx={{ color: tealDark, fontWeight: 700 }}>
-          Terms & Conditions ({shipmentType.toUpperCase()})
-        </Typography>
-
-        <Stack spacing={1}>
-          {termsAndConditions[shipmentType].map((term, idx) => {
-            if (typeof term === 'string') {
-              return (
-                <Typography
-                  key={idx}
-                  variant="body2"
-                  sx={{ color: muted, fontSize: '0.85rem', lineHeight: 1.6 }}
-                >
-                  - {term}
-                </Typography>
               )
-            }
-
-            // If it's an object with sub-items
-            return (
-              <Stack key={idx} spacing={0.5}>
-                <Typography
-                  variant="body2"
-                  sx={{ color: orange, fontSize: '0.85rem', lineHeight: 1.6, fontWeight: 600 }}
-                >
-                  - {term.text}
-                </Typography>
-                <Stack pl={3} spacing={0.3}>
-                  {term.sub.map((subItem, subIdx) => (
-                    <Typography
-                      key={subIdx}
-                      variant="body2"
-                      sx={{ color: muted, fontSize: '0.8rem', lineHeight: 1.5 }}
-                    >
-                      - {subItem}
-                    </Typography>
-                  ))}
-                </Stack>
-              </Stack>
-            )
-          })}
-        </Stack>
-      </CardContent>
-      {isPublicRoute && (
-        <Box sx={{ order: 1 }}>
-          <PublicToolStorySections
-            eyebrow="How rate comparison works"
-            title="One shipment. Multiple courier possibilities."
-            description="Enter the lane and parcel details once, then compare suitable courier pricing in one consistent view."
-            steps={[
-              { icon: <FiMapPin />, title: 'Set the route', description: 'Add valid pickup and delivery pincodes for the shipment lane.' },
-              { icon: <FiPackage />, title: 'Describe the parcel', description: 'Enter dimensions, weight, value and shipment type.' },
-              { icon: <FiBarChart2 />, title: 'Compare options', description: 'Review available courier rates and service fit together.' },
-              { icon: <FiCheckCircle />, title: 'Choose confidently', description: 'Pick the option that balances price and delivery needs.' },
-            ]}
-            features={[
-              { icon: <BiRupee />, title: 'Live pricing', description: 'Calculate from current courier options.' },
-              { icon: <FiPackage />, title: 'B2C and B2B', description: 'Use the right form for each shipment.' },
-              { icon: <FiShield />, title: 'Clear inputs', description: 'Keep route and parcel details organized.' },
-              { icon: <FiZap />, title: 'Faster decisions', description: 'Compare without repeated data entry.' },
-            ]}
-            ctaTitle="Found the right rate? Put the shipment in motion."
-            ctaDescription="Sign in to book the selected courier, generate shipment details and manage every order from one dashboard."
-            primaryLabel="Login to book shipment"
-            primaryPath="/login"
-            secondaryLabel="Check parcel weight"
-            secondaryPath="/weight-calculator"
-          />
-        </Box>
-      )}
+            })}
+          </Stack>
+        </CardContent>
+        {isPublicRoute && (
+          <Box sx={{ order: 1 }}>
+            <PublicToolStorySections
+              eyebrow="How rate comparison works"
+              title="One shipment. Multiple courier possibilities."
+              description="Enter the lane and parcel details once, then compare suitable courier pricing in one consistent view."
+              steps={[
+                {
+                  icon: <FiMapPin />,
+                  title: 'Set the route',
+                  description: 'Add valid pickup and delivery pincodes for the shipment lane.',
+                },
+                {
+                  icon: <FiPackage />,
+                  title: 'Describe the parcel',
+                  description: 'Enter dimensions, weight, value and shipment type.',
+                },
+                {
+                  icon: <FiBarChart2 />,
+                  title: 'Compare options',
+                  description: 'Review available courier rates and service fit together.',
+                },
+                {
+                  icon: <FiCheckCircle />,
+                  title: 'Choose confidently',
+                  description: 'Pick the option that balances price and delivery needs.',
+                },
+              ]}
+              features={[
+                {
+                  icon: <BiRupee />,
+                  title: 'Live pricing',
+                  description: 'Calculate from current courier options.',
+                },
+                {
+                  icon: <FiPackage />,
+                  title: 'B2C and B2B',
+                  description: 'Use the right form for each shipment.',
+                },
+                {
+                  icon: <FiShield />,
+                  title: 'Clear inputs',
+                  description: 'Keep route and parcel details organized.',
+                },
+                {
+                  icon: <FiZap />,
+                  title: 'Faster decisions',
+                  description: 'Compare without repeated data entry.',
+                },
+              ]}
+              ctaTitle="Found the right rate? Put the shipment in motion."
+              ctaDescription="Sign in to book the selected courier, generate shipment details and manage every order from one dashboard."
+              primaryLabel="Login to book shipment"
+              primaryPath="/login"
+              secondaryLabel="Check parcel weight"
+              secondaryPath="/weight-calculator"
+            />
+          </Box>
+        )}
       </Stack>
     </Box>
   )

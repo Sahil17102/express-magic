@@ -16,15 +16,24 @@
 
 */
 import { createRoot } from 'react-dom/client'
+import { lazy, Suspense } from 'react'
 
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import AdminLayout from 'layouts/Admin.js'
-import AuthLayout from 'layouts/Auth.js'
-import RTLLayout from 'layouts/RTL.js'
 import './index.css'
+
+const AdminLayout = lazy(() => import('layouts/Admin.js'))
+const AuthLayout = lazy(() => import('layouts/Auth.js'))
+const RTLLayout = lazy(() => import('layouts/RTL.js'))
+const ReactQueryDevtools =
+  process.env.NODE_ENV === 'development'
+    ? lazy(() =>
+        import('@tanstack/react-query-devtools').then((module) => ({
+          default: module.ReactQueryDevtools,
+        }))
+      )
+    : null
 
 const queryClient = new QueryClient()
 
@@ -32,15 +41,21 @@ const root = createRoot(document.getElementById('root'))
 root.render(
   <QueryClientProvider client={queryClient}>
     <HashRouter>
-      <Switch>
-        <Route path={`/auth`} component={AuthLayout} />
-        <Route path={`/admin`} component={AdminLayout} />
-        <Route path={`/rtl`} component={RTLLayout} />
-        <Redirect from={`/`} to="/admin/dashboard" />
-      </Switch>
+      <Suspense fallback={<div className="app-route-loader">Loading Express Magic…</div>}>
+        <Switch>
+          <Route path={`/auth`} component={AuthLayout} />
+          <Route path={`/admin`} component={AdminLayout} />
+          <Route path={`/rtl`} component={RTLLayout} />
+          <Redirect from={`/`} to="/admin/dashboard" />
+        </Switch>
+      </Suspense>
     </HashRouter>
 
     {/* 🛠 Devtools (optional, helpful during development) */}
-    <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>,
+    {ReactQueryDevtools ? (
+      <Suspense fallback={null}>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Suspense>
+    ) : null}
+  </QueryClientProvider>
 )

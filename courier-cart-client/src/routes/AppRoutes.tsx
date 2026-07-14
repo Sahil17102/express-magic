@@ -5,16 +5,17 @@ import RequireAuth from '../components/auth/wrapper/RequireAuth'
 import RequireEmployeePermission from '../components/auth/wrapper/RequireEmployeePermission'
 import RequireMerchantReady from '../components/auth/wrapper/RequireMerchantReady'
 import RequireOnboard from '../components/auth/wrapper/RequireOnboard'
-import Layout from '../components/UI/Layout'
 import FullScreenLoader from '../components/UI/loader/FullScreenLoader'
-import CreateOrderWrapper from '../components/orders/CreateOrderWrapper'
 import { useAuth } from '../context/auth/AuthContext'
-import Login from '../pages/auth/Login'
-import ExpressMagicLanding from '../pages/marketing/ExpressMagicLanding'
 import { normalizeAwb } from '../utils/awb'
 import GlobalRedirectHandler from './WalletRedirectHandler'
 
 /* ---------- Lazy-loaded components ---------- */
+const Layout = lazy(() => import('../components/UI/Layout'))
+const CreateOrderWrapper = lazy(() => import('../components/orders/CreateOrderWrapper'))
+const Login = lazy(() => import('../pages/auth/Login'))
+const ExpressMagicLanding = lazy(() => import('../pages/marketing/ExpressMagicLanding'))
+
 // Onboarding & Dashboard
 const UserOnboarding = lazy(() => import('../pages/onboarding/UserOnboarding'))
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
@@ -30,9 +31,7 @@ const PickupAddresses = lazy(() => import('../pages/pickup-addresses/PickupAddre
 const InvoicePreferences = lazy(() => import('../components/settings/InvoicePreference'))
 const LabelSettingsPage = lazy(() => import('../components/settings/Label/LabelSettings'))
 const UsersManagement = lazy(() => import('../pages/users-management/UsersManagement'))
-const CourierPriorityPage = lazy(
-  () => import('../components/settings/CourierPriority/CourierPriorityPage'),
-)
+const CourierPriorityPage = lazy(() => import('../components/settings/CourierPriority/CourierPriorityPage'))
 
 // Billing
 const WalletTransactions = lazy(() => import('../pages/billings/WalletTransactions'))
@@ -57,24 +56,30 @@ const CompanyInfoForm = lazy(() => import('../components/user/profile/CompanyInf
 const BankAccountsSection = lazy(() =>
   import('../components/user/profile/bankAccounts/BankAccountsSection').then((m) => ({
     default: m.BankAccountsSection,
-  })),
+  }))
 )
 const KycSection = lazy(() => import('../components/user/profile/Kyc/KycSection'))
 
 // Tools
 const RateCard = lazy(() => import('../pages/tools/RateCard'))
 const RateCalculator = lazy(() =>
-  import('../pages/tools/RateCalculator').then((m) => ({ default: m.RateCalculator })),
+  import('../pages/tools/RateCalculator').then((m) => ({
+    default: m.RateCalculator,
+  }))
 )
 const OrderTrackingForm = lazy(() => import('../pages/tools/OrderTrackingForm'))
 const WeightCalculator = lazy(() => import('../pages/tools/WeightCalculator'))
 
 // Support
 const SupportTicketsPage = lazy(() =>
-  import('../pages/support/SupportTicketsPage').then((m) => ({ default: m.SupportTicketsPage })),
+  import('../pages/support/SupportTicketsPage').then((m) => ({
+    default: m.SupportTicketsPage,
+  }))
 )
-const TicketDetailsPage = lazy(
-  () => import('../pages/support/TicketDetailsPage').then((m) => ({ default: m.TicketDetailsPage })),
+const TicketDetailsPage = lazy(() =>
+  import('../pages/support/TicketDetailsPage').then((m) => ({
+    default: m.TicketDetailsPage,
+  }))
 )
 
 // Other
@@ -85,13 +90,9 @@ const KeyboardShortcutsPage = lazy(() => import('../pages/KeyboardShortcutsPage'
 const Reports = lazy(() => import('../pages/reports/Reports'))
 
 // Weight Reconciliation
-const WeightReconciliation = lazy(
-  () => import('../pages/weight-reconciliation/WeightReconciliation'),
-)
+const WeightReconciliation = lazy(() => import('../pages/weight-reconciliation/WeightReconciliation'))
 const DiscrepancyDetails = lazy(() => import('../pages/weight-reconciliation/DiscrepancyDetails'))
-const WeightReconciliationSettings = lazy(
-  () => import('../pages/weight-reconciliation/WeightReconciliationSettings'),
-)
+const WeightReconciliationSettings = lazy(() => import('../pages/weight-reconciliation/WeightReconciliationSettings'))
 // Ops (NDR/RTO)
 const NdrList = lazy(() => import('../pages/ops/NdrList'))
 const RtoList = lazy(() => import('../pages/ops/RtoList'))
@@ -223,10 +224,7 @@ export default function AppRoutes() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/reconciliation/weight" element={<WeightReconciliation />} />
             <Route path="/reconciliation/weight/:id" element={<DiscrepancyDetails />} />
-            <Route
-              path="/reconciliation/weight/settings"
-              element={<WeightReconciliationSettings />}
-            />
+            <Route path="/reconciliation/weight/settings" element={<WeightReconciliationSettings />} />
             {/* Ops */}
             <Route path="/ops/ndr" element={<NdrList />} />
             <Route path="/ops/rto" element={<RtoList />} />

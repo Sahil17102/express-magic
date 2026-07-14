@@ -44,26 +44,14 @@ function FeatureTile({ icon, title, copy }: FeatureTileProps) {
         {icon}
       </Box>
       <Box minWidth={0}>
-        <Typography sx={{ color: ink, fontSize: 14, fontWeight: 900, lineHeight: 1.25 }}>
-          {title}
-        </Typography>
-        <Typography sx={{ mt: 0.55, color: muted, fontSize: 12.5, lineHeight: 1.42 }}>
-          {copy}
-        </Typography>
+        <Typography sx={{ color: ink, fontSize: 14, fontWeight: 900, lineHeight: 1.25 }}>{title}</Typography>
+        <Typography sx={{ mt: 0.55, color: muted, fontSize: 12.5, lineHeight: 1.42 }}>{copy}</Typography>
       </Box>
     </Box>
   )
 }
 
-function FloatingBadge({
-  icon,
-  label,
-  sx,
-}: {
-  icon: ReactNode
-  label: string
-  sx: Record<string, unknown>
-}) {
+function FloatingBadge({ icon, label, sx }: { icon: ReactNode; label: string; sx: Record<string, unknown> }) {
   return (
     <Box
       sx={{
@@ -85,7 +73,16 @@ function FloatingBadge({
         ...sx,
       }}
     >
-      <Box sx={{ color: teal, display: 'grid', placeItems: 'center', fontSize: 18 }}>{icon}</Box>
+      <Box
+        sx={{
+          color: teal,
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: 18,
+        }}
+      >
+        {icon}
+      </Box>
       {label}
     </Box>
   )
@@ -130,7 +127,16 @@ function BoxStack() {
   ]
 
   return (
-    <Box sx={{ position: 'absolute', left: 30, bottom: 34, width: 170, height: 96, zIndex: 4 }}>
+    <Box
+      sx={{
+        position: 'absolute',
+        left: 30,
+        bottom: 34,
+        width: 170,
+        height: 96,
+        zIndex: 4,
+      }}
+    >
       {parcels.map((parcel) => (
         <Box
           key={`${parcel.left}-${parcel.bottom}`}
@@ -181,8 +187,7 @@ function CargoContainer() {
         height: { md: 108, lg: 122 },
         zIndex: 3,
         borderRadius: 1,
-        background:
-          'linear-gradient(90deg, #062A5B 0%, #0B3B7A 46%, #041A38 76%, #ED1C24 100%)',
+        background: 'linear-gradient(90deg, #062A5B 0%, #0B3B7A 46%, #041A38 76%, #ED1C24 100%)',
         border: `1px solid ${alpha(tealDark, 0.22)}`,
         boxShadow: '0 26px 38px rgba(6, 26, 51, 0.18)',
         overflow: 'hidden',
@@ -191,15 +196,13 @@ function CargoContainer() {
           content: '""',
           position: 'absolute',
           inset: 0,
-            background:
-              'repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0 2px, transparent 2px 22px)',
+          background: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0 2px, transparent 2px 22px)',
         },
         '&::after': {
           content: '""',
           position: 'absolute',
           inset: 0,
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.16), transparent 30%, rgba(0,0,0,0.18))',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.16), transparent 30%, rgba(0,0,0,0.18))',
         },
       }}
     >
@@ -402,9 +405,11 @@ function ShipmentScene() {
     >
       <Box
         component="img"
-        src="/images/express-magic-login-3d.png"
+        src="/images/express-magic-login-3d.webp"
         alt=""
         aria-hidden="true"
+        decoding="async"
+        fetchPriority="high"
         sx={{
           position: 'absolute',
           left: { md: -86, lg: -112 },
@@ -415,10 +420,8 @@ function ShipmentScene() {
           objectFit: 'cover',
           objectPosition: 'center 60%',
           filter: 'drop-shadow(0 28px 38px rgba(6, 26, 51, 0.1))',
-          WebkitMaskImage:
-            'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
-          maskImage:
-            'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
+          maskImage: 'radial-gradient(ellipse at center, #000 58%, rgba(0,0,0,0.82) 72%, transparent 100%)',
           pointerEvents: 'none',
           userSelect: 'none',
         }}
@@ -427,12 +430,20 @@ function ShipmentScene() {
       <FloatingBadge
         icon={<FiBarChart2 />}
         label="Real-time Tracking"
-        sx={{ left: { md: 150, lg: 168 }, top: { md: 98, lg: 106 }, animationDelay: '-1.3s' }}
+        sx={{
+          left: { md: 150, lg: 168 },
+          top: { md: 98, lg: 106 },
+          animationDelay: '-1.3s',
+        }}
       />
       <FloatingBadge
         icon={<FiMapPin />}
         label="Smart Dispatch"
-        sx={{ right: { md: 8, lg: 0 }, top: { md: 114, lg: 126 }, animationDelay: '-2.2s' }}
+        sx={{
+          right: { md: 8, lg: 0 },
+          top: { md: 114, lg: 126 },
+          animationDelay: '-2.2s',
+        }}
       />
       <FloatingBadge
         icon={<FiUsers />}
@@ -468,8 +479,12 @@ function ParcelBeacon() {
         mx: 'auto',
         mb: 1.4,
         '@keyframes parcelHover': {
-          '0%, 100%': { transform: 'translateY(0) rotateX(57deg) rotateZ(-35deg)' },
-          '50%': { transform: 'translateY(-8px) rotateX(57deg) rotateZ(-35deg)' },
+          '0%, 100%': {
+            transform: 'translateY(0) rotateX(57deg) rotateZ(-35deg)',
+          },
+          '50%': {
+            transform: 'translateY(-8px) rotateX(57deg) rotateZ(-35deg)',
+          },
         },
         '@keyframes orbitSweep': {
           '0%': { strokeDashoffset: 210 },
@@ -481,11 +496,7 @@ function ParcelBeacon() {
         },
       }}
     >
-      <Box
-        component="svg"
-        viewBox="0 0 150 112"
-        sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-      >
+      <Box component="svg" viewBox="0 0 150 112" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
         <ellipse cx="75" cy="70" rx="61" ry="18" fill={alpha(teal, 0.08)} />
         <path
           d="M22 64C52 20 103 19 130 58"
@@ -606,7 +617,10 @@ export default function LoginForm() {
           height: { xs: 'auto', md: 'calc(100dvh - 72px)' },
           maxHeight: { md: 760, lg: 792 },
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1.05fr) minmax(430px, 0.92fr)' },
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: 'minmax(0, 1.05fr) minmax(430px, 0.92fr)',
+          },
           gap: { xs: 2.5, md: 5.5, lg: 6.5 },
           alignItems: 'stretch',
           minHeight: 0,
@@ -664,8 +678,8 @@ export default function LoginForm() {
                 maxWidth: 550,
               }}
             >
-              Access multiple courier partners, compare rates in real time and ship with confidence
-              - all from a single platform.
+              Access multiple courier partners, compare rates in real time and ship with confidence - all from a single
+              platform.
             </Typography>
           </Box>
 
@@ -688,21 +702,9 @@ export default function LoginForm() {
               zIndex: 2,
             }}
           >
-            <FeatureTile
-              icon={<FiUsers />}
-              title="27+ Couriers"
-              copy="One integration for all your shipments"
-            />
-            <FeatureTile
-              icon={<FiShield />}
-              title="Best Rates"
-              copy="Compare and choose the most reliable rates"
-            />
-            <FeatureTile
-              icon={<FiZap />}
-              title="Faster Deliveries"
-              copy="Optimized routing for on-time deliveries"
-            />
+            <FeatureTile icon={<FiUsers />} title="27+ Couriers" copy="One integration for all your shipments" />
+            <FeatureTile icon={<FiShield />} title="Best Rates" copy="Compare and choose the most reliable rates" />
+            <FeatureTile icon={<FiZap />} title="Faster Deliveries" copy="Optimized routing for on-time deliveries" />
           </Box>
         </Box>
 

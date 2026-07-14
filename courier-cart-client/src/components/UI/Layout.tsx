@@ -7,16 +7,17 @@ import KeyboardShortcuts from './keyboard/KeyboardShortcuts'
 import FullScreenLoader from './loader/FullScreenLoader'
 import Sidebar from './Sidebar'
 import { brandGradient } from '../../config/brand'
+import { useEmployeeSocket } from '../../hooks/useEmployeeSocket'
 
 export default function Layout() {
+  useEmployeeSocket()
   const theme = useTheme()
   const location = useLocation()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [sidebarPinned, setSidebarPinned] = useState(false)
   const { user } = useAuth()
-  const isAdminWorkspace =
-    user.role === 'admin' || user.role === 'employee' || Boolean(user.employeeId)
+  const isAdminWorkspace = user.role === 'admin' || user.role === 'employee' || Boolean(user.employeeId)
   const isOrderCreatePage = location.pathname === '/orders/create'
 
   const handleDrawerToggle = () => {
@@ -67,11 +68,7 @@ export default function Layout() {
           </Box>
         </Drawer>
       ) : (
-        <Sidebar
-          role={isAdminWorkspace ? 'admin' : 'customer'}
-          pinned={sidebarPinned}
-          onPinChange={setSidebarPinned}
-        />
+        <Sidebar role={isAdminWorkspace ? 'admin' : 'customer'} pinned={sidebarPinned} onPinChange={setSidebarPinned} />
       )}
 
       <Stack
@@ -85,11 +82,7 @@ export default function Layout() {
           scrollbarGutter: 'stable',
         }}
       >
-        <Navbar
-          handleDrawerToggle={handleDrawerToggle}
-          pinned={sidebarPinned}
-          onPinChange={setSidebarPinned}
-        />
+        <Navbar handleDrawerToggle={handleDrawerToggle} pinned={sidebarPinned} onPinChange={setSidebarPinned} />
 
         <Box
           component="main"
@@ -108,12 +101,8 @@ export default function Layout() {
               mx: 'auto',
               width: '100%',
               minWidth: 0,
-              px: isOrderCreatePage
-                ? { xs: 0, sm: 0.25, md: 0.4, lg: 0.5 }
-                : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
-              py: isOrderCreatePage
-                ? 0
-                : { xs: 0.6, sm: 1, md: 1.5 },
+              px: isOrderCreatePage ? { xs: 0, sm: 0.25, md: 0.4, lg: 0.5 } : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
+              py: isOrderCreatePage ? 0 : { xs: 0.6, sm: 1, md: 1.5 },
             }}
           >
             <Suspense
@@ -125,7 +114,12 @@ export default function Layout() {
             >
               <Box
                 key={location.pathname}
-                sx={{ width: '100%', minWidth: 0, maxWidth: '100%', minHeight: '300px' }}
+                sx={{
+                  width: '100%',
+                  minWidth: 0,
+                  maxWidth: '100%',
+                  minHeight: '300px',
+                }}
               >
                 <Outlet />
               </Box>

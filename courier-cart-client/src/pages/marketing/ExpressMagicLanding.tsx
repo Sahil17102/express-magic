@@ -46,8 +46,18 @@ const heroFeatures = [
 ]
 
 const scaleStats = [
-  { value: '25M+', label: 'Shipments Delivered', icon: <FiBox />, tone: 'blue' },
-  { value: '98.6%', label: 'On-time Delivery', icon: <FiClock />, tone: 'green' },
+  {
+    value: '25M+',
+    label: 'Shipments Delivered',
+    icon: <FiBox />,
+    tone: 'blue',
+  },
+  {
+    value: '98.6%',
+    label: 'On-time Delivery',
+    icon: <FiClock />,
+    tone: 'green',
+  },
   { value: '27K+', label: 'Happy Clients', icon: <FiUsers />, tone: 'orange' },
 ]
 
@@ -170,8 +180,8 @@ export default function ExpressMagicLanding() {
             <span>doorstep.</span>
           </h1>
           <p className="em-hero__copy">
-            One intelligent logistics network for rates, dispatch, tracking, exceptions and
-            delivery performance across every carrier.
+            One intelligent logistics network for rates, dispatch, tracking, exceptions and delivery performance across
+            every carrier.
           </p>
           <div className="em-hero__actions">
             <a className="em-button em-button--primary" href={loginHref}>
@@ -200,8 +210,8 @@ export default function ExpressMagicLanding() {
             <p className="em-section-label">Built for scale</p>
             <h2>Powering logistics that deliver more.</h2>
             <p>
-              Our platform connects you with a wide network of carriers and tools to simplify
-              operations, reduce delivery guesswork, and delight your customers.
+              Our platform connects you with a wide network of carriers and tools to simplify operations, reduce
+              delivery guesswork, and delight your customers.
             </p>
             <div className="em-scale__stats">
               {scaleStats.map((stat) => (
@@ -276,14 +286,19 @@ export default function ExpressMagicLanding() {
               <p className="em-section-label">Instant shipping tools</p>
               <h2 id="tool-lab-title">Plan the parcel before it leaves your desk.</h2>
               <p>
-                Check chargeable weight here, then move into tracking or live courier pricing
-                without losing your place.
+                Check chargeable weight here, then move into tracking or live courier pricing without losing your place.
               </p>
             </div>
             <div className="em-tool-tabs" aria-label="Express Magic tools">
-              <a href={trackingHref}><FiMapPin /> Tracking</a>
-              <a className="is-active" href={weightCalculatorHref} aria-current="page"><FiSliders /> Weight</a>
-              <a href={rateCalculatorHref}><FiDollarSign /> Rate</a>
+              <a href={trackingHref}>
+                <FiMapPin /> Tracking
+              </a>
+              <a className="is-active" href={weightCalculatorHref} aria-current="page">
+                <FiSliders /> Weight
+              </a>
+              <a href={rateCalculatorHref}>
+                <FiDollarSign /> Rate
+              </a>
             </div>
           </div>
 
@@ -298,20 +313,20 @@ export default function ExpressMagicLanding() {
               </div>
 
               <div className="em-slider-list">
-                {(
-                  [
-                    ['length', 'Length'],
-                    ['breadth', 'Breadth'],
-                    ['height', 'Height'],
-                    ['actualWeight', 'Actual weight'],
-                  ] as const
-                ).map(([field, label]) => {
+                {([
+                  ['length', 'Length'],
+                  ['breadth', 'Breadth'],
+                  ['height', 'Height'],
+                  ['actualWeight', 'Actual weight'],
+                ] as const).map(([field, label]) => {
                   const limits = parcelLimits[field]
                   return (
                     <label className="em-slider-row" key={field}>
                       <span className="em-slider-row__label">
                         <strong>{label}</strong>
-                        <small>{parcel[field]} {limits.unit}</small>
+                        <small>
+                          {parcel[field]} {limits.unit}
+                        </small>
                       </span>
                       <span className="em-slider-row__inputs">
                         <input
@@ -345,7 +360,12 @@ export default function ExpressMagicLanding() {
 
             <div className="em-weight-visual">
               <div className="em-weight-visual__image">
-                <img src="/images/weight-tool-3d.png" alt="Parcel on a digital shipping scale" />
+                <img
+                  src="/images/weight-tool-3d.webp"
+                  alt="Parcel on a digital shipping scale"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="em-weight-results" aria-live="polite">
                 <article>
@@ -376,19 +396,39 @@ export default function ExpressMagicLanding() {
               <p className="em-section-label">Connected courier network</p>
               <h2 id="network-title">One workflow across the carriers you already know.</h2>
             </div>
-            <a href={loginHref}>Connect your account <FiArrowRight /></a>
+            <a href={loginHref}>
+              Connect your account <FiArrowRight />
+            </a>
           </div>
           <div className="em-carrier-row" aria-label="Supported courier partners">
             {carrierLogos.map((carrier) => (
               <span key={carrier.name}>
-                <img src={carrier.src} alt={carrier.name} />
+                <img src={carrier.src} alt={carrier.name} loading="lazy" decoding="async" />
               </span>
             ))}
           </div>
           <div className="em-network__benefits">
-            <article><FiZap /><div><strong>Faster decisions</strong><span>Compare serviceability and price before dispatch.</span></div></article>
-            <article><FiShield /><div><strong>Safer operations</strong><span>Keep shipment events and exceptions in one view.</span></div></article>
-            <article><FiBarChart2 /><div><strong>Clearer performance</strong><span>Understand cost, courier and delivery outcomes.</span></div></article>
+            <article>
+              <FiZap />
+              <div>
+                <strong>Faster decisions</strong>
+                <span>Compare serviceability and price before dispatch.</span>
+              </div>
+            </article>
+            <article>
+              <FiShield />
+              <div>
+                <strong>Safer operations</strong>
+                <span>Keep shipment events and exceptions in one view.</span>
+              </div>
+            </article>
+            <article>
+              <FiBarChart2 />
+              <div>
+                <strong>Clearer performance</strong>
+                <span>Understand cost, courier and delivery outcomes.</span>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -398,7 +438,9 @@ export default function ExpressMagicLanding() {
           <div className="em-section-heading">
             <p className="em-section-label">Services</p>
             <h2>Cleaner shipping decisions from checkout to doorstep.</h2>
-            <a href={loginHref}>Start shipping <FiArrowRight /></a>
+            <a href={loginHref}>
+              Start shipping <FiArrowRight />
+            </a>
           </div>
           <div className="em-workflow-grid">
             {workflowCards.map((card) => (
@@ -418,13 +460,19 @@ export default function ExpressMagicLanding() {
             <p className="em-section-label">Operations</p>
             <h2>A calmer way to run a moving network.</h2>
             <p>
-              Compare carriers, clear dispatches, and act on delivery exceptions from a single
-              operational view that your team can use every day.
+              Compare carriers, clear dispatches, and act on delivery exceptions from a single operational view that
+              your team can use every day.
             </p>
             <ul>
-              <li><FiCheckCircle /> Live courier rate and ETA comparison</li>
-              <li><FiCheckCircle /> AWB, labels, manifests and pickups</li>
-              <li><FiCheckCircle /> NDR, RTO and COD intelligence</li>
+              <li>
+                <FiCheckCircle /> Live courier rate and ETA comparison
+              </li>
+              <li>
+                <FiCheckCircle /> AWB, labels, manifests and pickups
+              </li>
+              <li>
+                <FiCheckCircle /> NDR, RTO and COD intelligence
+              </li>
             </ul>
           </div>
           <div className="em-command-card">
@@ -453,7 +501,7 @@ export default function ExpressMagicLanding() {
 
       <footer className="em-footer" id="about">
         <div>
-          <img src="/express-magic-logo.jpeg" alt="Express Magic" />
+          <img src="/express-magic-logo.jpeg" alt="Express Magic" loading="lazy" decoding="async" />
           <p>Courier intelligence for modern commerce.</p>
         </div>
         <a className="em-button em-button--primary" href={loginHref}>

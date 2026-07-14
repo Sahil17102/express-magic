@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  AnimatePresence,
-  MotionConfig,
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, MotionConfig, motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import trackingDashboardImage from "../../assets/tracking-dashboard-image-hd.webp";
 import volumetricCalculatorImage from "../../assets/volumetric-calculator-hd.webp";
-import heroWarehouseVisual from "../../assets/express-magic-warehouse-hero.png";
+import heroWarehouseVisual from "../../assets/express-magic-warehouse-hero.webp";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
 import { companyProfile } from "./siteData";
@@ -90,9 +82,27 @@ const shippingTools = [
 ];
 
 const scaleStats = [
-  { value: "25M+", label: "Shipments Delivered", icon: "package", tone: "text-[#2563EB]", shell: "bg-[#E7F1FF]" },
-  { value: "98.6%", label: "On-time Delivery", icon: "pieChart", tone: "text-[#10B981]", shell: "bg-[#E6FAF2]" },
-  { value: "27K+", label: "Happy Clients", icon: "users", tone: "text-[#F97316]", shell: "bg-[#FFF0E4]" },
+  {
+    value: "25M+",
+    label: "Shipments Delivered",
+    icon: "package",
+    tone: "text-[#2563EB]",
+    shell: "bg-[#E7F1FF]",
+  },
+  {
+    value: "98.6%",
+    label: "On-time Delivery",
+    icon: "pieChart",
+    tone: "text-[#10B981]",
+    shell: "bg-[#E6FAF2]",
+  },
+  {
+    value: "27K+",
+    label: "Happy Clients",
+    icon: "users",
+    tone: "text-[#F97316]",
+    shell: "bg-[#FFF0E4]",
+  },
 ];
 
 const whyChooseCards = [
@@ -128,8 +138,7 @@ const featureShowcaseItems = [
     tabDescription: "All your shipping data, in one place.",
     icon: "barChart",
     number: "01",
-    description:
-      "Manage all shipments, carriers, and performance metrics from a single, intuitive dashboard.",
+    description: "Manage all shipments, carriers, and performance metrics from a single, intuitive dashboard.",
     bullets: [
       "View all shipments and statuses in real-time",
       "Monitor delivery performance and KPIs",
@@ -137,10 +146,34 @@ const featureShowcaseItems = [
       "Custom filters, saved views, and exports",
     ],
     metrics: [
-      { label: "Total Shipments", value: "2,458", change: "+12.5%", icon: "package", tone: "teal" },
-      { label: "In Transit", value: "1,245", change: "+8.7%", icon: "truck", tone: "teal" },
-      { label: "Delivered", value: "1,150", change: "+15.2%", icon: "checkCircle", tone: "teal" },
-      { label: "Exceptions", value: "63", change: "-4.3%", icon: "alertTriangle", tone: "orange" },
+      {
+        label: "Total Shipments",
+        value: "2,458",
+        change: "+12.5%",
+        icon: "package",
+        tone: "teal",
+      },
+      {
+        label: "In Transit",
+        value: "1,245",
+        change: "+8.7%",
+        icon: "truck",
+        tone: "teal",
+      },
+      {
+        label: "Delivered",
+        value: "1,150",
+        change: "+15.2%",
+        icon: "checkCircle",
+        tone: "teal",
+      },
+      {
+        label: "Exceptions",
+        value: "63",
+        change: "-4.3%",
+        icon: "alertTriangle",
+        tone: "orange",
+      },
     ],
     lineA: "M8 126 L54 102 L96 102 L140 54 L184 86 L228 74 L272 78 L316 58 L360 68 L404 34 L448 54 L492 36",
     lineB: "M8 142 L54 126 L96 114 L140 88 L184 108 L228 94 L272 88 L316 96 L360 94 L404 78 L448 90 L492 72",
@@ -156,8 +189,7 @@ const featureShowcaseItems = [
     tabDescription: "Connect with top global carriers instantly.",
     icon: "truck",
     number: "02",
-    description:
-      "Compare and ship through trusted courier partners without switching between separate portals.",
+    description: "Compare and ship through trusted courier partners without switching between separate portals.",
     bullets: [
       "Connect Delhivery, Blue Dart, DTDC, XpressBees and more",
       "Compare serviceability, speed, and rates before dispatch",
@@ -165,10 +197,34 @@ const featureShowcaseItems = [
       "Scale carrier coverage as your order volume grows",
     ],
     metrics: [
-      { label: "Courier Partners", value: "27+", change: "+6 live", icon: "truck", tone: "teal" },
-      { label: "Pin Codes", value: "29K+", change: "+18%", icon: "mapPin", tone: "teal" },
-      { label: "Best Match", value: "94%", change: "+11.8%", icon: "checkCircle", tone: "teal" },
-      { label: "Manual Checks", value: "0", change: "-100%", icon: "refresh", tone: "orange" },
+      {
+        label: "Courier Partners",
+        value: "27+",
+        change: "+6 live",
+        icon: "truck",
+        tone: "teal",
+      },
+      {
+        label: "Pin Codes",
+        value: "29K+",
+        change: "+18%",
+        icon: "mapPin",
+        tone: "teal",
+      },
+      {
+        label: "Best Match",
+        value: "94%",
+        change: "+11.8%",
+        icon: "checkCircle",
+        tone: "teal",
+      },
+      {
+        label: "Manual Checks",
+        value: "0",
+        change: "-100%",
+        icon: "refresh",
+        tone: "orange",
+      },
     ],
     lineA: "M8 116 L54 96 L96 84 L140 78 L184 60 L228 54 L272 48 L316 42 L360 36 L404 30 L448 28 L492 24",
     lineB: "M8 136 L54 130 L96 116 L140 104 L184 96 L228 82 L272 74 L316 70 L360 62 L404 52 L448 48 L492 42",
@@ -184,8 +240,7 @@ const featureShowcaseItems = [
     tabDescription: "Track every shipment in real-time.",
     icon: "mapPin",
     number: "03",
-    description:
-      "Track courier movement, milestone updates, and delivery exceptions from one live timeline.",
+    description: "Track courier movement, milestone updates, and delivery exceptions from one live timeline.",
     bullets: [
       "Sync shipment milestones from booking to delivery",
       "Share customer-ready tracking updates automatically",
@@ -193,10 +248,34 @@ const featureShowcaseItems = [
       "Give support teams one clear status source",
     ],
     metrics: [
-      { label: "Live Updates", value: "24/7", change: "always on", icon: "clock", tone: "teal" },
-      { label: "In Transit", value: "1,082", change: "+9.1%", icon: "truck", tone: "teal" },
-      { label: "Delivered", value: "934", change: "+13.4%", icon: "checkCircle", tone: "teal" },
-      { label: "Attention", value: "41", change: "-5.8%", icon: "alertTriangle", tone: "orange" },
+      {
+        label: "Live Updates",
+        value: "24/7",
+        change: "always on",
+        icon: "clock",
+        tone: "teal",
+      },
+      {
+        label: "In Transit",
+        value: "1,082",
+        change: "+9.1%",
+        icon: "truck",
+        tone: "teal",
+      },
+      {
+        label: "Delivered",
+        value: "934",
+        change: "+13.4%",
+        icon: "checkCircle",
+        tone: "teal",
+      },
+      {
+        label: "Attention",
+        value: "41",
+        change: "-5.8%",
+        icon: "alertTriangle",
+        tone: "orange",
+      },
     ],
     lineA: "M8 132 L54 120 L96 94 L140 102 L184 70 L228 72 L272 56 L316 64 L360 48 L404 42 L448 44 L492 28",
     lineB: "M8 144 L54 132 L96 126 L140 112 L184 104 L228 96 L272 90 L316 82 L360 78 L404 70 L448 64 L492 56",
@@ -212,8 +291,7 @@ const featureShowcaseItems = [
     tabDescription: "Save time with smart automation.",
     icon: "gear",
     number: "04",
-    description:
-      "Automate repetitive shipping tasks so teams can process orders faster with fewer errors.",
+    description: "Automate repetitive shipping tasks so teams can process orders faster with fewer errors.",
     bullets: [
       "Auto-generate labels, manifests, and AWB updates",
       "Trigger courier rules based on business preferences",
@@ -221,10 +299,34 @@ const featureShowcaseItems = [
       "Keep customers notified without repetitive follow-up",
     ],
     metrics: [
-      { label: "Labels Created", value: "8,420", change: "+21.5%", icon: "package", tone: "teal" },
-      { label: "Rules Active", value: "36", change: "+12", icon: "gear", tone: "teal" },
-      { label: "Hours Saved", value: "128", change: "+18.2%", icon: "clock", tone: "teal" },
-      { label: "Manual Errors", value: "9", change: "-42%", icon: "alertTriangle", tone: "orange" },
+      {
+        label: "Labels Created",
+        value: "8,420",
+        change: "+21.5%",
+        icon: "package",
+        tone: "teal",
+      },
+      {
+        label: "Rules Active",
+        value: "36",
+        change: "+12",
+        icon: "gear",
+        tone: "teal",
+      },
+      {
+        label: "Hours Saved",
+        value: "128",
+        change: "+18.2%",
+        icon: "clock",
+        tone: "teal",
+      },
+      {
+        label: "Manual Errors",
+        value: "9",
+        change: "-42%",
+        icon: "alertTriangle",
+        tone: "orange",
+      },
     ],
     lineA: "M8 118 L54 100 L96 92 L140 76 L184 82 L228 62 L272 58 L316 44 L360 42 L404 32 L448 30 L492 22",
     lineB: "M8 142 L54 132 L96 120 L140 112 L184 104 L228 92 L272 86 L316 78 L360 70 L404 64 L448 58 L492 50",
@@ -240,8 +342,7 @@ const featureShowcaseItems = [
     tabDescription: "Make data-driven decisions with insights that matter.",
     icon: "pieChart",
     number: "05",
-    description:
-      "Understand cost, delivery performance, and courier reliability with clean operational insights.",
+    description: "Understand cost, delivery performance, and courier reliability with clean operational insights.",
     bullets: [
       "Review courier cost trends and lane performance",
       "Track COD, RTO, and exception patterns",
@@ -249,10 +350,34 @@ const featureShowcaseItems = [
       "Export insights for leadership and operations reviews",
     ],
     metrics: [
-      { label: "Cost Savings", value: "18%", change: "+7.2%", icon: "coins", tone: "teal" },
-      { label: "Reports", value: "42", change: "+8", icon: "barChart", tone: "teal" },
-      { label: "Best Lanes", value: "214", change: "+15%", icon: "route", tone: "teal" },
-      { label: "RTO Risk", value: "6.8%", change: "-3.1%", icon: "alertTriangle", tone: "orange" },
+      {
+        label: "Cost Savings",
+        value: "18%",
+        change: "+7.2%",
+        icon: "coins",
+        tone: "teal",
+      },
+      {
+        label: "Reports",
+        value: "42",
+        change: "+8",
+        icon: "barChart",
+        tone: "teal",
+      },
+      {
+        label: "Best Lanes",
+        value: "214",
+        change: "+15%",
+        icon: "route",
+        tone: "teal",
+      },
+      {
+        label: "RTO Risk",
+        value: "6.8%",
+        change: "-3.1%",
+        icon: "alertTriangle",
+        tone: "orange",
+      },
     ],
     lineA: "M8 134 L54 112 L96 118 L140 82 L184 74 L228 90 L272 62 L316 66 L360 44 L404 50 L448 36 L492 24",
     lineB: "M8 146 L54 138 L96 126 L140 116 L184 108 L228 98 L272 92 L316 86 L360 76 L404 72 L448 66 L492 58",
@@ -309,8 +434,7 @@ const testimonialSlides = [
       avatar: "https://i.pravatar.cc/96?img=47",
     },
     {
-      quote:
-        "From API integration to everyday shipments, Express Magic makes global shipping simple and scalable. Highly recommended!",
+      quote: "From API integration to everyday shipments, Express Magic makes global shipping simple and scalable. Highly recommended!",
       name: "Michael Brown",
       role: "Co-founder, GearUp",
       brand: "GearUp",
@@ -442,43 +566,33 @@ const faqItems = [
 const valueCards = [
   {
     title: "Multi-Channel Integration",
-    description:
-      "Connect Shopify, WooCommerce, Amazon, Flipkart and more so every selling channel lives in one place.",
+    description: "Connect Shopify, WooCommerce, Amazon, Flipkart and more so every selling channel lives in one place.",
     icon: "globe",
-    shell:
-      "bg-[linear-gradient(135deg,rgba(217,230,247,0.5),rgba(255,255,255,0.95))]",
+    shell: "bg-[linear-gradient(135deg,rgba(217,230,247,0.5),rgba(255,255,255,0.95))]",
   },
   {
     title: "27+ Courier Partners",
-    description:
-      "Work with Blue Dart, Delhivery, XpressBees, FedEx and more from one shipping workspace.",
+    description: "Work with Blue Dart, Delhivery, XpressBees, FedEx and more from one shipping workspace.",
     icon: "truck",
-    shell:
-      "bg-[linear-gradient(135deg,rgba(253,231,234,0.42),rgba(255,255,255,0.95))]",
+    shell: "bg-[linear-gradient(135deg,rgba(253,231,234,0.42),rgba(255,255,255,0.95))]",
   },
   {
     title: "Auto Order Sync",
-    description:
-      "Orders from all channels flow into the dashboard automatically so your team can ship faster.",
+    description: "Orders from all channels flow into the dashboard automatically so your team can ship faster.",
     icon: "refresh",
-    shell:
-      "bg-[linear-gradient(135deg,rgba(217,230,247,0.58),rgba(255,255,255,0.95))]",
+    shell: "bg-[linear-gradient(135deg,rgba(217,230,247,0.58),rgba(255,255,255,0.95))]",
   },
   {
     title: "Automated Label Generation",
-    description:
-      "Labels are prepared using your preferred courier logic so operators spend less time repeating manual tasks.",
+    description: "Labels are prepared using your preferred courier logic so operators spend less time repeating manual tasks.",
     icon: "package",
-    shell:
-      "bg-[linear-gradient(135deg,rgba(217,230,247,0.46),rgba(255,255,255,0.95))]",
+    shell: "bg-[linear-gradient(135deg,rgba(217,230,247,0.46),rgba(255,255,255,0.95))]",
   },
   {
     title: "Unified Dashboard",
-    description:
-      "Manage orders, shipments, analytics, and delivery updates from a single operational view.",
+    description: "Manage orders, shipments, analytics, and delivery updates from a single operational view.",
     icon: "chart",
-    shell:
-      "bg-[linear-gradient(135deg,rgba(253,231,234,0.34),rgba(255,255,255,0.95))]",
+    shell: "bg-[linear-gradient(135deg,rgba(253,231,234,0.34),rgba(255,255,255,0.95))]",
   },
 ];
 
@@ -658,8 +772,7 @@ const operationsModes = [
     icon: "route",
     kicker: "Dispatch rules active",
     title: "Best-fit courier selected before the label prints.",
-    description:
-      "Serviceability, promised delivery date, cost, and RTO history are checked in one decision view.",
+    description: "Serviceability, promised delivery date, cost, and RTO history are checked in one decision view.",
     metrics: [
       ["Orders ready", "184"],
       ["Auto assigned", "171"],
@@ -680,8 +793,7 @@ const operationsModes = [
     icon: "mapPin",
     kicker: "Network view online",
     title: "Every shipment milestone in one live operating view.",
-    description:
-      "Courier scans are normalized into a single timeline, with delayed movement highlighted for the team.",
+    description: "Courier scans are normalized into a single timeline, with delayed movement highlighted for the team.",
     metrics: [
       ["In transit", "1,082"],
       ["Out for delivery", "246"],
@@ -702,8 +814,7 @@ const operationsModes = [
     icon: "shield",
     kicker: "Recovery queue prioritized",
     title: "NDR and delivery risks reach the right operator faster.",
-    description:
-      "Failed attempts, address issues, and stuck shipments are grouped by urgency with the next action visible.",
+    description: "Failed attempts, address issues, and stuck shipments are grouped by urgency with the next action visible.",
     metrics: [
       ["Open cases", "41"],
       ["Due today", "18"],
@@ -828,7 +939,11 @@ function HeroCommandDashboard() {
           />
           {timeline.map((item, index) => (
             <div key={item} className="relative min-w-0 pt-6 text-center">
-              <span className={`absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] border-[#0a1c35] ${index < 3 ? "bg-[#7DAFFF]" : "bg-white/18"}`} />
+              <span
+                className={`absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] border-[#0a1c35] ${
+                  index < 3 ? "bg-[#7DAFFF]" : "bg-white/18"
+                }`}
+              />
               <p className={`text-[0.6rem] leading-4 sm:text-[0.68rem] ${index < 3 ? "text-white/78" : "text-white/32"}`}>{item}</p>
             </div>
           ))}
@@ -840,7 +955,10 @@ function HeroCommandDashboard() {
             ["EM-28462", "Jaipur Gateway", "Sorted", "8 min ago"],
             ["EM-28431", "Bengaluru Hub", "Review", "12 min ago"],
           ].map((row, index) => (
-            <div key={row[0]} className={`grid grid-cols-[0.8fr_1fr_0.65fr_0.75fr] gap-3 py-3 text-xs ${index ? "border-t border-white/[0.07]" : ""}`}>
+            <div
+              key={row[0]}
+              className={`grid grid-cols-[0.8fr_1fr_0.65fr_0.75fr] gap-3 py-3 text-xs ${index ? "border-t border-white/[0.07]" : ""}`}
+            >
               <span className="font-semibold text-white/86">{row[0]}</span>
               <span className="text-white/48">{row[1]}</span>
               <span className={row[2] === "Review" ? "text-amber-300" : "text-emerald-300"}>{row[2]}</span>
@@ -852,7 +970,11 @@ function HeroCommandDashboard() {
 
       <MotionDiv
         animate={{ y: [0, -5, 0] }}
-        transition={{ duration: 4.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+        transition={{
+          duration: 4.5,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
         className="absolute bottom-4 right-4 hidden items-center gap-3 rounded-lg border border-white/12 bg-white/10 px-3 py-2 backdrop-blur-xl md:flex"
       >
         <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-[#062A5B]">
@@ -888,15 +1010,11 @@ function AlignedPanelSection({ children, shellClassName = "", innerClassName = "
 function AlignedSectionHeading({ eyebrow, title, description, className = "" }) {
   return (
     <div className={className}>
-      <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-        {eyebrow}
-      </p>
+      <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">{eyebrow}</p>
       <h2 className="mt-4 max-w-[44rem] font-display text-[2rem] font-extrabold leading-[1.16] text-[#061A33] sm:text-[2.55rem]">
         {title}
       </h2>
-      <p className="mt-5 max-w-[36rem] text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
-        {description}
-      </p>
+      <p className="mt-5 max-w-[36rem] text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">{description}</p>
     </div>
   );
 }
@@ -905,21 +1023,13 @@ function HeroProofStrip() {
   return (
     <div className="hero-proof-strip">
       {heroProofItems.map((item, index) => (
-        <div
-          key={item.label}
-          className="hero-proof-strip__item"
-          style={{ animationDelay: `${0.36 + index * 0.08}s` }}
-        >
+        <div key={item.label} className="hero-proof-strip__item" style={{ animationDelay: `${0.36 + index * 0.08}s` }}>
           <span className="hero-proof-strip__icon">
             <Icon name={item.icon} className="h-4 w-4" />
           </span>
           <span>
-            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#ED1C24]">
-              {item.label}
-            </span>
-            <span className="mt-1 block text-sm font-semibold leading-snug text-[#061A33]">
-              {item.value}
-            </span>
+            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#ED1C24]">{item.label}</span>
+            <span className="mt-1 block text-sm font-semibold leading-snug text-[#061A33]">{item.value}</span>
           </span>
         </div>
       ))}
@@ -934,14 +1044,12 @@ function HeroSection() {
 
   return (
     <section className="hero-section section-transition relative overflow-hidden bg-[#f7fbff] pt-6 sm:pt-8">
-      <MotionDiv
-        className="absolute inset-0 z-0"
-        style={{ y: visualY, scale: visualScale }}
-        aria-hidden="true"
-      >
+      <MotionDiv className="absolute inset-0 z-0" style={{ y: visualY, scale: visualScale }} aria-hidden="true">
         <img
           src={heroWarehouseVisual}
           alt=""
+          decoding="async"
+          fetchPriority="high"
           className="h-full w-full object-cover object-[64%_center]"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.99)_0%,rgba(255,255,255,0.95)_30%,rgba(255,255,255,0.66)_52%,rgba(255,255,255,0.08)_100%)]" />
@@ -963,8 +1071,7 @@ function HeroSection() {
           </h1>
 
           <p className="mt-7 max-w-[34rem] text-base font-medium leading-[1.85] text-[#334155] sm:text-lg">
-            One intelligent logistics network for rates, dispatch, tracking, exceptions, and
-            delivery performance across every carrier.
+            One intelligent logistics network for rates, dispatch, tracking, exceptions, and delivery performance across every carrier.
           </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -998,9 +1105,15 @@ function HeroSection() {
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.45,
+                  delay: index * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 whileHover={{ y: -5 }}
-                className={`min-h-[12.5rem] px-6 py-7 ${index < heroFeatureCards.length - 1 ? "border-b border-[#E7EEF7] sm:border-r lg:border-b-0" : ""} ${index === 1 ? "sm:border-r-0 lg:border-r" : ""}`}
+                className={`min-h-[12.5rem] px-6 py-7 ${
+                  index < heroFeatureCards.length - 1 ? "border-b border-[#E7EEF7] sm:border-r lg:border-b-0" : ""
+                } ${index === 1 ? "sm:border-r-0 lg:border-r" : ""}`}
               >
                 <span className={`grid h-16 w-16 place-items-center rounded-xl ${card.shell}`}>
                   <Icon name={card.icon} className="h-8 w-8" />
@@ -1022,15 +1135,13 @@ function PlatformsSection() {
       <div className="mx-auto grid max-w-[1440px] gap-10 px-5 pb-12 pt-16 sm:px-8 lg:grid-cols-[0.45fr_0.55fr] lg:items-center lg:px-16 lg:pb-18 lg:pt-20">
         <Reveal>
           <div>
-            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-              Built for scale
-            </p>
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">Built for scale</p>
             <h2 className="mt-5 max-w-[34rem] font-display text-[2.15rem] font-extrabold leading-[1.14] text-[#061A33] sm:text-[3.1rem]">
               Powering logistics that deliver more.
             </h2>
             <p className="mt-6 max-w-[34rem] text-base font-medium leading-[1.85] text-[#475569]">
-              Our platform connects you with a wide network of carriers and tools to simplify
-              operations, reduce delivery guesswork, and delight your customers.
+              Our platform connects you with a wide network of carriers and tools to simplify operations, reduce delivery guesswork, and
+              delight your customers.
             </p>
 
             <div className="mt-10 grid gap-5 sm:grid-cols-3">
@@ -1040,7 +1151,11 @@ function PlatformsSection() {
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.35 }}
-                  transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{
+                    duration: 0.42,
+                    delay: index * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className="min-w-0"
                 >
                   <span className={`grid h-11 w-11 place-items-center rounded-lg ${stat.shell} ${stat.tone}`}>
@@ -1092,9 +1207,23 @@ function PlatformsSection() {
               <div className="relative mt-6 h-[15rem] overflow-hidden rounded-lg bg-[#F3F8FF]">
                 <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(30deg,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(120deg,rgba(37,99,235,0.08)_1px,transparent_1px)] [background-size:52px_52px]" />
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 560 240" fill="none" aria-hidden="true">
-                  <path d="M46 165 L98 146 L144 162 L214 118 L286 154 L356 96 L432 106 L504 70" stroke="#2563EB" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d="M46 165 L98 146 L144 162 L214 118 L286 154 L356 96 L432 106 L504 70"
+                    stroke="#2563EB"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                   {[46, 144, 214, 356, 432, 504].map((cx, index) => (
-                    <circle key={cx} cx={cx} cy={[165, 162, 118, 96, 106, 70][index]} r="11" fill="#2563EB" stroke="white" strokeWidth="6" />
+                    <circle
+                      key={cx}
+                      cx={cx}
+                      cy={[165, 162, 118, 96, 106, 70][index]}
+                      r="11"
+                      fill="#2563EB"
+                      stroke="white"
+                      strokeWidth="6"
+                    />
                   ))}
                 </svg>
                 <div className="absolute bottom-8 right-7 rounded-lg bg-white px-5 py-4 shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
@@ -1153,7 +1282,9 @@ function ShippingToolsSection() {
                     <div className="flex h-full flex-col justify-between bg-[#081A34] p-5 text-white sm:p-6">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold text-white/48">Rate intelligence</span>
-                        <span className="rounded-full bg-emerald-300/10 px-3 py-1 text-[0.65rem] font-semibold text-emerald-200">3 options</span>
+                        <span className="rounded-full bg-emerald-300/10 px-3 py-1 text-[0.65rem] font-semibold text-emerald-200">
+                          3 options
+                        </span>
                       </div>
                       <div className="grid gap-1">
                         {[
@@ -1161,7 +1292,12 @@ function ShippingToolsSection() {
                           ["Surface Pro", "3-4 days", "Rs 126"],
                           ["Economy", "5-6 days", "Rs 98"],
                         ].map((rate, rateIndex) => (
-                          <div key={rate[0]} className={`grid grid-cols-[1fr_0.8fr_auto] items-center gap-2 py-3 text-xs ${rateIndex ? "border-t border-white/10" : ""}`}>
+                          <div
+                            key={rate[0]}
+                            className={`grid grid-cols-[1fr_0.8fr_auto] items-center gap-2 py-3 text-xs ${
+                              rateIndex ? "border-t border-white/10" : ""
+                            }`}
+                          >
                             <span className="font-semibold">{rate[0]}</span>
                             <span className="text-white/42">{rate[1]}</span>
                             <span className={rateIndex === 1 ? "text-[#8EBBFA]" : "text-white/72"}>{rate[2]}</span>
@@ -1200,8 +1336,7 @@ function ShippingToolsSection() {
 
 function OperationsDeckSection() {
   const [activeModeId, setActiveModeId] = useState(operationsModes[0].id);
-  const activeMode =
-    operationsModes.find((mode) => mode.id === activeModeId) || operationsModes[0];
+  const activeMode = operationsModes.find((mode) => mode.id === activeModeId) || operationsModes[0];
 
   return (
     <section id="operations-deck" className="section-transition overflow-hidden bg-[#041A38] text-white">
@@ -1210,9 +1345,7 @@ function OperationsDeckSection() {
           <div className="grid gap-8 lg:grid-cols-[0.46fr_0.54fr] lg:items-end">
             <Reveal>
               <div>
-                <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#FF5A61]">
-                  Inside Express Magic
-                </p>
+                <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#FF5A61]">Inside Express Magic</p>
                 <h2 className="mt-4 max-w-[42rem] font-display text-[2.15rem] font-extrabold leading-[1.12] text-white sm:text-[3rem]">
                   One operating deck for every shipping decision.
                 </h2>
@@ -1220,8 +1353,8 @@ function OperationsDeckSection() {
             </Reveal>
             <Reveal delay={0.08}>
               <p className="max-w-[39rem] text-sm font-medium leading-7 text-white/70 sm:text-base sm:leading-8 lg:ml-auto">
-                Built around the work dispatch and support teams do every day. Choose a view to
-                see how orders move from allocation to delivery recovery without changing tools.
+                Built around the work dispatch and support teams do every day. Choose a view to see how orders move from allocation to
+                delivery recovery without changing tools.
               </p>
             </Reveal>
           </div>
@@ -1267,15 +1400,9 @@ function OperationsDeckSection() {
               >
                 <div className="flex min-w-0 items-center justify-between gap-3 border-b border-[#D9E3EF] bg-white px-4 py-3 sm:px-5">
                   <div className="flex min-w-0 items-center gap-3">
-                    <img
-                      src="/express-magic-logo.jpeg"
-                      alt="Express Magic"
-                      className="h-9 w-auto shrink-0 object-contain"
-                    />
+                    <img src="/express-magic-logo.jpeg" alt="Express Magic" className="h-9 w-auto shrink-0 object-contain" />
                     <span className="hidden h-5 w-px bg-[#D9E3EF] sm:block" />
-                    <p className="truncate text-xs font-extrabold uppercase tracking-[0.1em] text-[#526277] sm:block">
-                      Operations control
-                    </p>
+                    <p className="truncate text-xs font-extrabold uppercase tracking-[0.1em] text-[#526277] sm:block">Operations control</p>
                   </div>
                   <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#E8F8F1] px-3 py-1.5 text-[0.68rem] font-extrabold text-[#087A55]">
                     <span className="h-2 w-2 rounded-full bg-[#10B981]" />
@@ -1301,15 +1428,11 @@ function OperationsDeckSection() {
                   <div className="min-w-0 p-4 sm:p-6 lg:p-7">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
-                        <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-                          {activeMode.kicker}
-                        </p>
+                        <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">{activeMode.kicker}</p>
                         <h3 className="mt-2 max-w-[42rem] text-xl font-extrabold leading-snug text-[#061A33] sm:text-2xl">
                           {activeMode.title}
                         </h3>
-                        <p className="mt-2 max-w-[46rem] text-sm leading-6 text-[#526277]">
-                          {activeMode.description}
-                        </p>
+                        <p className="mt-2 max-w-[46rem] text-sm leading-6 text-[#526277]">{activeMode.description}</p>
                       </div>
                       <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-md border border-[#D6E1EF] bg-white px-3 py-2 text-xs font-bold text-[#062A5B]">
                         <Icon name="refresh" className="h-4 w-4" />
@@ -1321,9 +1444,7 @@ function OperationsDeckSection() {
                       {activeMode.metrics.map(([label, value]) => (
                         <div key={label} className="min-w-0 border-l-2 border-[#D9E6F7] bg-white px-3 py-3 sm:px-4">
                           <p className="text-lg font-extrabold text-[#061A33] sm:text-xl">{value}</p>
-                          <p className="mt-1 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.06em] text-[#64748B]">
-                            {label}
-                          </p>
+                          <p className="mt-1 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.06em] text-[#64748B]">{label}</p>
                         </div>
                       ))}
                     </div>
@@ -1344,13 +1465,15 @@ function OperationsDeckSection() {
                             <span className="truncate text-xs font-extrabold text-[#061A33] sm:text-sm">{order}</span>
                             <span className="min-w-0 text-xs font-medium leading-5 text-[#526277] sm:text-sm">{lane}</span>
                             <span className="col-span-2 text-xs font-semibold text-[#183153] sm:col-span-1 sm:text-sm">{update}</span>
-                            <span className={`w-fit rounded-full px-2.5 py-1 text-[0.66rem] font-extrabold sm:ml-auto ${
-                              state === "Ready" || state === "Live"
-                                ? "bg-[#E8F8F1] text-[#087A55]"
-                                : state === "Urgent"
+                            <span
+                              className={`w-fit rounded-full px-2.5 py-1 text-[0.66rem] font-extrabold sm:ml-auto ${
+                                state === "Ready" || state === "Live"
+                                  ? "bg-[#E8F8F1] text-[#087A55]"
+                                  : state === "Urgent"
                                   ? "bg-[#FDE7EA] text-[#C9171E]"
                                   : "bg-[#FFF2DE] text-[#A85608]"
-                            }`}>
+                              }`}
+                            >
                               {state}
                             </span>
                           </div>
@@ -1365,9 +1488,7 @@ function OperationsDeckSection() {
                         <p className="mt-5 text-[0.68rem] font-extrabold uppercase tracking-[0.1em] text-white/56">
                           {activeMode.decision[0]}
                         </p>
-                        <p className="mt-2 text-lg font-extrabold leading-snug text-white">
-                          {activeMode.decision[1]}
-                        </p>
+                        <p className="mt-2 text-lg font-extrabold leading-snug text-white">{activeMode.decision[1]}</p>
                         <div className="mt-5 border-t border-white/12 pt-4">
                           <p className="text-xs font-semibold leading-6 text-white/68">{activeMode.signal}</p>
                         </div>
@@ -1379,21 +1500,22 @@ function OperationsDeckSection() {
 
               <div className="operations-float operations-float--left" aria-hidden="true">
                 <Icon name="package" className="h-5 w-5 text-[#ED1C24]" />
-                <span><strong>184</strong> orders ready</span>
+                <span>
+                  <strong>184</strong> orders ready
+                </span>
               </div>
               <div className="operations-float operations-float--right" aria-hidden="true">
                 <Icon name="truck" className="h-5 w-5 text-[#062A5B]" />
-                <span><strong>27+</strong> carrier services</span>
+                <span>
+                  <strong>27+</strong> carrier services
+                </span>
               </div>
             </div>
           </Reveal>
 
           <div className="mt-8 grid border-y border-white/12 sm:grid-cols-2 lg:grid-cols-4">
             {operatingFlow.map(([number, title, detail], index) => (
-              <div
-                key={number}
-                className={`min-w-0 px-1 py-5 sm:px-5 ${index > 0 ? "sm:border-l sm:border-white/12" : ""}`}
-              >
+              <div key={number} className={`min-w-0 px-1 py-5 sm:px-5 ${index > 0 ? "sm:border-l sm:border-white/12" : ""}`}>
                 <p className="text-xs font-extrabold text-[#FF5A61]">{number}</p>
                 <p className="mt-2 text-sm font-extrabold text-white">{title}</p>
                 <p className="mt-1 text-xs leading-5 text-white/56">{detail}</p>
@@ -1411,7 +1533,9 @@ function FeatherMark({ compact = false }) {
     <img
       src="/express-magic-logo.jpeg"
       alt=""
-      className={`${compact ? "h-16" : "h-[5.6rem]"} w-auto rounded-xl border border-[#D6E1EF] bg-white object-contain p-1 shadow-[0_14px_34px_rgba(6,26,51,0.08)]`}
+      className={`${
+        compact ? "h-16" : "h-[5.6rem]"
+      } w-auto rounded-xl border border-[#D6E1EF] bg-white object-contain p-1 shadow-[0_14px_34px_rgba(6,26,51,0.08)]`}
       aria-hidden="true"
     />
   );
@@ -1435,17 +1559,14 @@ function WhyChooseSection() {
         <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr] lg:items-start">
           <Reveal>
             <div className="max-w-[28rem]">
-              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-                Why Choose Express Magic?
-              </p>
+              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">Why Choose Express Magic?</p>
               <h2 className="mt-4 font-display text-[1.72rem] font-extrabold leading-[1.24] text-[#061A33] sm:text-[2.15rem] lg:text-[2.1rem]">
                 Everything You Need,
                 <br />
                 In One Powerful Platform
               </h2>
               <p className="mt-5 text-base leading-[1.62] text-[#183153] sm:text-[1rem]">
-                Express Magic simplifies shipping so you can focus on growing your business.
-                One integration. Endless possibilities.
+                Express Magic simplifies shipping so you can focus on growing your business. One integration. Endless possibilities.
               </p>
               <ActionAnchor
                 href={AUTH_APP_URL}
@@ -1465,39 +1586,11 @@ function WhyChooseSection() {
               fill="none"
               aria-hidden="true"
             >
-              <path
-                d="M92 8 C135 76 240 78 313 58"
-                stroke="#062A5B"
-                strokeDasharray="5 7"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
-              <path
-                d="M313 58 L302 52 M313 58 L303 65"
-                stroke="#062A5B"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
-              <path
-                d="M526 58 C602 80 692 72 748 8"
-                stroke="#062A5B"
-                strokeDasharray="5 7"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
-              <path
-                d="M526 58 L537 52 M526 58 L536 65"
-                stroke="#062A5B"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
-              <path
-                d="M748 8 C790 82 842 72 866 8"
-                stroke="#062A5B"
-                strokeDasharray="5 7"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
+              <path d="M92 8 C135 76 240 78 313 58" stroke="#062A5B" strokeDasharray="5 7" strokeLinecap="round" strokeWidth="1.8" />
+              <path d="M313 58 L302 52 M313 58 L303 65" stroke="#062A5B" strokeLinecap="round" strokeWidth="1.8" />
+              <path d="M526 58 C602 80 692 72 748 8" stroke="#062A5B" strokeDasharray="5 7" strokeLinecap="round" strokeWidth="1.8" />
+              <path d="M526 58 L537 52 M526 58 L536 65" stroke="#062A5B" strokeLinecap="round" strokeWidth="1.8" />
+              <path d="M748 8 C790 82 842 72 866 8" stroke="#062A5B" strokeDasharray="5 7" strokeLinecap="round" strokeWidth="1.8" />
             </svg>
 
             <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -1510,7 +1603,11 @@ function WhyChooseSection() {
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.52, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{
+                      duration: 0.52,
+                      delay: index * 0.06,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                     whileHover={{ y: -8, scale: 1.02 }}
                     className="relative h-[15rem] rounded-lg border border-[#e9f3f5] bg-white px-4 pb-7 pt-6 text-center shadow-[0_14px_34px_rgba(7,25,35,0.05)]"
                   >
@@ -1521,12 +1618,8 @@ function WhyChooseSection() {
                     >
                       <Icon name={card.icon} className="h-7 w-7" />
                     </div>
-                    <h3 className="mt-5 text-[1rem] font-extrabold leading-tight text-[#101820] sm:whitespace-nowrap">
-                      {card.title}
-                    </h3>
-                    <p className="mx-auto mt-3 max-w-[12.5rem] text-[0.82rem] leading-[1.5] text-[#33414b]">
-                      {card.description}
-                    </p>
+                    <h3 className="mt-5 text-[1rem] font-extrabold leading-tight text-[#101820] sm:whitespace-nowrap">{card.title}</h3>
+                    <p className="mx-auto mt-3 max-w-[12.5rem] text-[0.82rem] leading-[1.5] text-[#33414b]">{card.description}</p>
                     {index !== 1 ? <ConnectorDot /> : null}
                   </MotionArticle>
                 );
@@ -1537,7 +1630,11 @@ function WhyChooseSection() {
               initial={{ opacity: 0, y: 18, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.52, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.52,
+                delay: 0.18,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="absolute bottom-0 left-1/2 z-10 hidden -translate-x-1/2 lg:block"
             >
               <FeatherMark />
@@ -1554,7 +1651,11 @@ function FeatureMapBackdrop() {
     <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-[14rem] overflow-hidden md:block" aria-hidden="true">
       <div className="absolute left-0 top-8 hidden h-28 w-[29rem] opacity-35 [clip-path:polygon(0_24%,18%_8%,45%_20%,62%_4%,92%_24%,86%_62%,66%_70%,54%_58%,34%_76%,13%_62%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px] md:block" />
       <div className="absolute right-2 top-8 hidden h-28 w-[29rem] opacity-35 [clip-path:polygon(4%_28%,25%_10%,44%_22%,64%_8%,96%_30%,86%_68%,62%_60%,47%_78%,25%_66%,10%_76%)] [background-image:radial-gradient(circle,#80c5ce_1.35px,transparent_1.6px)] [background-size:8px_8px] md:block" />
-      <svg className="absolute left-[13%] top-[4.8rem] hidden h-28 w-80 text-[#062A5B] opacity-60 md:block" viewBox="0 0 320 112" fill="none">
+      <svg
+        className="absolute left-[13%] top-[4.8rem] hidden h-28 w-80 text-[#062A5B] opacity-60 md:block"
+        viewBox="0 0 320 112"
+        fill="none"
+      >
         <path d="M34 40 C90 104 162 18 262 62" stroke="currentColor" strokeDasharray="4 7" strokeWidth="1.5" />
         <path d="M34 30v30" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
         <circle cx="34" cy="30" r="11" fill="#062A5B" />
@@ -1600,18 +1701,16 @@ function FeatureTrendChart({ feature }) {
             ))}
             <path d={feature.lineB} stroke="#ED1C24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
             <path d={feature.lineA} stroke="#062A5B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-            {feature.lineA
-              .match(/\d+ \d+/g)
-              ?.map((point) => {
-                const [cx, cy] = point.split(" ");
-                return <circle key={`${feature.title}-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="#062A5B" stroke="white" strokeWidth="2" />;
-              })}
-            {feature.lineB
-              .match(/\d+ \d+/g)
-              ?.map((point) => {
-                const [cx, cy] = point.split(" ");
-                return <circle key={`${feature.title}-orange-${cx}-${cy}`} cx={cx} cy={cy} r="3.8" fill="#ED1C24" stroke="white" strokeWidth="2" />;
-              })}
+            {feature.lineA.match(/\d+ \d+/g)?.map((point) => {
+              const [cx, cy] = point.split(" ");
+              return <circle key={`${feature.title}-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="#062A5B" stroke="white" strokeWidth="2" />;
+            })}
+            {feature.lineB.match(/\d+ \d+/g)?.map((point) => {
+              const [cx, cy] = point.split(" ");
+              return (
+                <circle key={`${feature.title}-orange-${cx}-${cy}`} cx={cx} cy={cy} r="3.8" fill="#ED1C24" stroke="white" strokeWidth="2" />
+              );
+            })}
           </svg>
           <div className="grid grid-cols-7 text-center text-[0.64rem] text-[#5e6b75]">
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
@@ -1665,9 +1764,16 @@ function FeatureDashboardPreview({ feature }) {
           const isOrange = metric.tone === "orange";
 
           return (
-            <div key={metric.label} className="rounded-xl border border-[#e7f0f2] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(7,25,35,0.025)]">
+            <div
+              key={metric.label}
+              className="rounded-xl border border-[#e7f0f2] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(7,25,35,0.025)]"
+            >
               <div className="flex items-center gap-3">
-                <span className={`grid h-10 w-10 place-items-center rounded-lg ${isOrange ? "bg-[#FDE7EA] text-[#ED1C24]" : "bg-[#EEF4FB] text-[#062A5B]"}`}>
+                <span
+                  className={`grid h-10 w-10 place-items-center rounded-lg ${
+                    isOrange ? "bg-[#FDE7EA] text-[#ED1C24]" : "bg-[#EEF4FB] text-[#062A5B]"
+                  }`}
+                >
                   <Icon name={metric.icon} className="h-5 w-5" />
                 </span>
                 <span className="text-[0.68rem] font-medium text-[#57636d]">{metric.label}</span>
@@ -1708,17 +1814,14 @@ function FeaturesShowcaseSection() {
 
         <Reveal className="relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-              Features
-            </p>
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">Features</p>
             <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#061A33] sm:text-[2.8rem]">
               Powerful Features.
               <br />
               Built for <span className="text-[#062A5B]">Global Shipping.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
-              Everything you need to ship smarter, scale faster, and deliver an exceptional
-              customer experience.
+              Everything you need to ship smarter, scale faster, and deliver an exceptional customer experience.
             </p>
           </div>
         </Reveal>
@@ -1736,21 +1839,23 @@ function FeaturesShowcaseSection() {
                     whileHover={{ x: isActive ? 0 : 4 }}
                     transition={{ duration: 0.2 }}
                     className={`grid w-full grid-cols-[3.8rem_1fr_auto] items-center gap-3 border-b border-[#e8f2f4] px-4 py-4 text-left last:border-b-0 ${
-                      isActive ? "border-l-[0.45rem] border-l-[#062A5B] bg-[#eaf8fb]" : "border-l-[0.45rem] border-l-transparent bg-white hover:bg-[#f6fcfe]"
+                      isActive
+                        ? "border-l-[0.45rem] border-l-[#062A5B] bg-[#eaf8fb]"
+                        : "border-l-[0.45rem] border-l-transparent bg-white hover:bg-[#f6fcfe]"
                     }`}
                     onClick={() => setActiveIndex(index)}
                     aria-pressed={isActive}
                   >
-                    <span className={`grid h-[3.25rem] w-[3.25rem] place-items-center rounded-xl ${isActive ? "bg-[#062A5B] text-white" : "bg-[#ecfbff] text-[#062A5B]"}`}>
+                    <span
+                      className={`grid h-[3.25rem] w-[3.25rem] place-items-center rounded-xl ${
+                        isActive ? "bg-[#062A5B] text-white" : "bg-[#ecfbff] text-[#062A5B]"
+                      }`}
+                    >
                       <Icon name={item.icon} className="h-6 w-6" />
                     </span>
                     <span className="min-w-0">
-                      <span className={`block text-sm font-extrabold ${isActive ? "text-[#062A5B]" : "text-[#061A33]"}`}>
-                        {item.title}
-                      </span>
-                      <span className="mt-1 block text-[0.8rem] leading-[1.5] text-[#33414b]">
-                        {item.tabDescription}
-                      </span>
+                      <span className={`block text-sm font-extrabold ${isActive ? "text-[#062A5B]" : "text-[#061A33]"}`}>{item.title}</span>
+                      <span className="mt-1 block text-[0.8rem] leading-[1.5] text-[#33414b]">{item.tabDescription}</span>
                     </span>
                     <Icon name="chevronRight" className={`h-5 w-5 ${isActive ? "text-[#062A5B]" : "text-[#80909a]"}`} />
                   </MotionButton>
@@ -1773,13 +1878,9 @@ function FeaturesShowcaseSection() {
                   <span className="grid h-12 w-12 place-items-center rounded-lg bg-[#062A5B] text-lg font-extrabold text-white">
                     {activeFeature.number}
                   </span>
-                  <h3 className="font-display text-[1.32rem] font-extrabold leading-tight text-[#061A33]">
-                    {activeFeature.title}
-                  </h3>
+                  <h3 className="font-display text-[1.32rem] font-extrabold leading-tight text-[#061A33]">{activeFeature.title}</h3>
                 </div>
-                <p className="mt-7 text-sm leading-[1.7] text-[#25313a]">
-                  {activeFeature.description}
-                </p>
+                <p className="mt-7 text-sm leading-[1.7] text-[#25313a]">{activeFeature.description}</p>
 
                 <ul className="mt-8 grid gap-5">
                   {activeFeature.bullets.map((bullet) => (
@@ -1815,27 +1916,24 @@ function FeaturesShowcaseSection() {
           <div className="mt-8 grid overflow-hidden rounded-xl border border-[#dfeff2] bg-[#edf9fc] shadow-[0_16px_42px_rgba(7,25,35,0.04)] sm:grid-cols-2 lg:grid-cols-4">
             {featureSupportItems.map((item, index) => {
               const mobileBorder = index < featureSupportItems.length - 1 ? "border-b" : "";
-              const tabletBorder = [
-                index % 2 === 0 ? "sm:border-r" : "sm:border-r-0",
-                index < 2 ? "sm:border-b" : "sm:border-b-0",
-              ].join(" ");
+              const tabletBorder = [index % 2 === 0 ? "sm:border-r" : "sm:border-r-0", index < 2 ? "sm:border-b" : "sm:border-b-0"].join(
+                " "
+              );
               const desktopBorder = index < featureSupportItems.length - 1 ? "lg:border-r lg:border-b-0" : "lg:border-r-0 lg:border-b-0";
 
               return (
-              <div
-                key={item.title}
-                className={`flex items-center gap-5 border-[#d5e6ea] px-6 py-5 ${mobileBorder} ${tabletBorder} ${desktopBorder}`}
-              >
-                <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#062A5B]">
-                  <Icon name={item.icon} className="h-9 w-9" />
-                </span>
-                <span>
-                  <span className="block text-sm font-extrabold text-[#061A33]">{item.title}</span>
-                  <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">
-                    {item.description}
+                <div
+                  key={item.title}
+                  className={`flex items-center gap-5 border-[#d5e6ea] px-6 py-5 ${mobileBorder} ${tabletBorder} ${desktopBorder}`}
+                >
+                  <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e4f7fb] text-[#062A5B]">
+                    <Icon name={item.icon} className="h-9 w-9" />
                   </span>
-                </span>
-              </div>
+                  <span>
+                    <span className="block text-sm font-extrabold text-[#061A33]">{item.title}</span>
+                    <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">{item.description}</span>
+                  </span>
+                </div>
               );
             })}
           </div>
@@ -1877,9 +1975,7 @@ function TestimonialCard({ testimonial, index }) {
     >
       <div className="flex flex-1 flex-col px-6 pb-5 pt-6 sm:px-7">
         <span className="text-[3.1rem] font-extrabold leading-none text-[#062A5B]">"</span>
-        <p className="mt-3 min-h-[8.6rem] text-[0.96rem] font-medium leading-[1.7] text-[#061A33]">
-          {testimonial.quote}
-        </p>
+        <p className="mt-3 min-h-[8.6rem] text-[0.96rem] font-medium leading-[1.7] text-[#061A33]">{testimonial.quote}</p>
 
         <div className="mt-5 flex gap-1 text-[#ED1C24]" aria-label="5 star rating">
           {Array.from({ length: 5 }).map((_, starIndex) => (
@@ -1938,17 +2034,14 @@ function TestimonialsSection() {
 
         <Reveal className="relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-              Testimonials
-            </p>
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">Testimonials</p>
             <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.18] text-[#061A33] sm:text-[2.8rem]">
               Trusted by Businesses
               <br />
               <span className="text-[#062A5B]">Worldwide.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
-              See how businesses of all sizes are simplifying shipping, saving time, and growing
-              with Express Magic.
+              See how businesses of all sizes are simplifying shipping, saving time, and growing with Express Magic.
             </p>
           </div>
         </Reveal>
@@ -2015,9 +2108,7 @@ function TestimonialsSection() {
                 type="button"
                 aria-label={`Show testimonial set ${index + 1}`}
                 onClick={() => setActiveSlide(index)}
-                className={`h-3 w-3 rounded-full transition ${
-                  index === activeSlide ? "bg-[#062A5B]" : "bg-[#d8e7eb] hover:bg-[#b7d5dc]"
-                }`}
+                className={`h-3 w-3 rounded-full transition ${index === activeSlide ? "bg-[#062A5B]" : "bg-[#d8e7eb] hover:bg-[#b7d5dc]"}`}
               />
             ))}
           </div>
@@ -2027,10 +2118,9 @@ function TestimonialsSection() {
           <div className="mx-auto mt-10 grid max-w-[1260px] overflow-hidden rounded-xl border border-[#dfeff2] bg-white/70 shadow-[0_16px_42px_rgba(7,25,35,0.04)] sm:grid-cols-2 lg:grid-cols-4">
             {testimonialStats.map((stat, index) => {
               const mobileBorder = index < testimonialStats.length - 1 ? "border-b" : "";
-              const tabletBorder = [
-                index % 2 === 0 ? "sm:border-r" : "sm:border-r-0",
-                index < 2 ? "sm:border-b" : "sm:border-b-0",
-              ].join(" ");
+              const tabletBorder = [index % 2 === 0 ? "sm:border-r" : "sm:border-r-0", index < 2 ? "sm:border-b" : "sm:border-b-0"].join(
+                " "
+              );
               const desktopBorder = index < testimonialStats.length - 1 ? "lg:border-r lg:border-b-0" : "lg:border-r-0 lg:border-b-0";
 
               return (
@@ -2042,12 +2132,8 @@ function TestimonialsSection() {
                     <Icon name={stat.icon} className="h-9 w-9" />
                   </span>
                   <span>
-                    <span className="block text-[1.75rem] font-extrabold leading-tight text-[#062A5B]">
-                      {stat.value}
-                    </span>
-                    <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">
-                      {stat.label}
-                    </span>
+                    <span className="block text-[1.75rem] font-extrabold leading-tight text-[#062A5B]">{stat.value}</span>
+                    <span className="mt-2 block text-[0.82rem] leading-[1.55] text-[#33414b]">{stat.label}</span>
                   </span>
                 </div>
               );
@@ -2091,16 +2177,14 @@ function WhatYouGetSection() {
                     <Icon name={item.icon} />
                   </span>
                   <div>
-                    <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
-                      {item.title}
-                    </h3>
+                    <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">{item.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[#33414b]">{item.description}</p>
                   </div>
                 </div>
               </MotionArticle>
             </Reveal>
           ))}
-      </div>
+        </div>
       </div>
     </AlignedPanelSection>
   );
@@ -2195,9 +2279,7 @@ function FaqAccordionItem({ item, index, activeIndex, setActiveIndex }) {
         <span className="grid h-8 w-8 place-items-center rounded-full bg-[#062A5B] text-white shadow-[0_8px_18px_rgba(6,42,91,0.16)]">
           <Icon name={isOpen ? "minus" : "plus"} className="h-4 w-4" />
         </span>
-        <span className="text-[0.98rem] font-extrabold text-[#061A33] sm:text-[1.05rem]">
-          {item.question}
-        </span>
+        <span className="text-[0.98rem] font-extrabold text-[#061A33] sm:text-[1.05rem]">{item.question}</span>
         <Icon name="chevronDown" className={`h-5 w-5 text-[#062A5B] transition ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
@@ -2211,9 +2293,7 @@ function FaqAccordionItem({ item, index, activeIndex, setActiveIndex }) {
             className="overflow-hidden"
           >
             <div className="grid gap-5 px-5 pb-8 pl-[4.55rem] pr-5 sm:grid-cols-[1fr_auto] sm:px-8 sm:pl-[5.55rem]">
-              <p className="max-w-[43rem] text-sm font-medium leading-[1.75] text-[#183153]">
-                {item.answer}
-              </p>
+              <p className="max-w-[43rem] text-sm font-medium leading-[1.75] text-[#183153]">{item.answer}</p>
               {index === 0 ? <FaqPackageIllustration /> : null}
             </div>
           </MotionDiv>
@@ -2232,17 +2312,14 @@ function FaqSection() {
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
           <Reveal>
             <div className="relative z-10">
-              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-                FAQ
-              </p>
+              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">FAQ</p>
               <h2 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.16] text-[#061A33] sm:text-[2.55rem]">
                 Frequently Asked
                 <br />
                 <span className="text-[#062A5B]">Questions.</span>
               </h2>
               <p className="mt-5 max-w-[25rem] text-sm font-medium leading-[1.75] text-[#183153] sm:text-base">
-                Everything you need to know about Express Magic and how it can simplify your
-                shipping operations.
+                Everything you need to know about Express Magic and how it can simplify your shipping operations.
               </p>
 
               <FaqRouteMap />
@@ -2279,13 +2356,7 @@ function FaqSection() {
               onMouseLeave={() => setActiveFaq(0)}
             >
               {faqItems.map((item, index) => (
-                <FaqAccordionItem
-                  key={item.question}
-                  item={item}
-                  index={index}
-                  activeIndex={activeFaq}
-                  setActiveIndex={setActiveFaq}
-                />
+                <FaqAccordionItem key={item.question} item={item} index={index} activeIndex={activeFaq} setActiveIndex={setActiveFaq} />
               ))}
             </div>
           </Reveal>
@@ -2298,22 +2369,28 @@ function FaqSection() {
                 <Icon name="messages" className="h-9 w-9" />
               </span>
               <span>
-                <span className="block text-[1.05rem] font-extrabold text-[#061A33]">
-                  Can't find what you're looking for?
-                </span>
-                <span className="mt-2 block text-sm font-medium text-[#33414b]">
-                  Our team is just a message away.
-                </span>
+                <span className="block text-[1.05rem] font-extrabold text-[#061A33]">Can't find what you're looking for?</span>
+                <span className="mt-2 block text-sm font-medium text-[#33414b]">Our team is just a message away.</span>
               </span>
             </div>
             {[
-              { title: "Live Chat", detail: "Chat with our experts", icon: "messageSquare" },
+              {
+                title: "Live Chat",
+                detail: "Chat with our experts",
+                icon: "messageSquare",
+              },
               { title: "Email Us", detail: companyProfile.email, icon: "mail" },
               { title: "Call Us", detail: companyProfile.phone, icon: "phone" },
             ].map((item, index) => (
               <a
                 key={item.title}
-                href={item.icon === "mail" ? `mailto:${companyProfile.email}` : item.icon === "phone" ? `tel:${companyProfile.mobile}` : AUTH_APP_URL}
+                href={
+                  item.icon === "mail"
+                    ? `mailto:${companyProfile.email}`
+                    : item.icon === "phone"
+                    ? `tel:${companyProfile.mobile}`
+                    : AUTH_APP_URL
+                }
                 className={`flex items-center gap-5 border-b border-[#d5e6ea] px-7 py-7 transition hover:bg-white/70 lg:border-b-0 ${
                   index < 2 ? "lg:border-r" : ""
                 }`}
@@ -2337,14 +2414,10 @@ function AnalyticsDashboard() {
     <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_20px_56px_rgba(7,25,35,0.05)] sm:p-7">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
-            Analytics dashboard
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Analytics dashboard</p>
           <h3 className="mt-3 font-display text-3xl text-slate-950">Operational snapshot</h3>
         </div>
-        <span className="rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm">
-          Live
-        </span>
+        <span className="rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm">Live</span>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -2368,7 +2441,11 @@ function AnalyticsDashboard() {
               initial={{ scaleY: 0.18, opacity: 0.45 }}
               whileInView={{ scaleY: 1, opacity: 1 }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.7, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.06,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className={`origin-bottom flex-1 rounded-t-[0.75rem] ${barClass}`}
             />
           ))}
@@ -2404,9 +2481,7 @@ function InsightsSection() {
                         <Icon name={card.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
-                          {card.title}
-                        </h3>
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">{card.title}</h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
                       </div>
                     </div>
@@ -2434,9 +2509,7 @@ function CommercePanel() {
     <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_20px_56px_rgba(7,25,35,0.05)] sm:p-7">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border border-[#e7f0f2] bg-[#F5F8FC] p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-            Store connections
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Store connections</p>
           <div className="mt-4 grid gap-3">
             {["Shopify", "WooCommerce", "Amazon", "Flipkart"].map((label, index) => (
               <MotionDiv
@@ -2444,7 +2517,11 @@ function CommercePanel() {
                 initial={{ opacity: 0, x: -14 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.48, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.48,
+                  delay: index * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700"
               >
                 <span className="flex items-center gap-2">
@@ -2463,9 +2540,7 @@ function CommercePanel() {
         </div>
 
         <div className="rounded-xl border border-[#e7f0f2] bg-[#FDE7EA] p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
-            Shipment updates
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Shipment updates</p>
           <div className="mt-4 space-y-3">
             {[
               ["AWB linked", "Store order updated"],
@@ -2477,7 +2552,11 @@ function CommercePanel() {
                 initial={{ opacity: 0, x: 14 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.48, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.48,
+                  delay: index * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="rounded-lg bg-white px-4 py-3 shadow-sm"
               >
                 <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
@@ -2499,12 +2578,14 @@ function CommercePanel() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.06,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="rounded-lg bg-[#F5F8FC] px-4 py-4 shadow-sm"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-                Step 0{index + 1}
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Step 0{index + 1}</p>
               <p className="mt-2 text-sm font-semibold text-slate-900">{item}</p>
             </MotionDiv>
           ))}
@@ -2535,9 +2616,7 @@ function EcommerceSection() {
                         <Icon name={item.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
-                          {item.title}
-                        </h3>
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">{item.title}</h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{item.description}</p>
                       </div>
                     </div>
@@ -2565,12 +2644,8 @@ function RateComparisonPreview() {
     <div className="relative overflow-hidden rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_20px_56px_rgba(7,25,35,0.05)] sm:p-7">
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">
-            Rate engine
-          </p>
-          <h3 className="mt-3 font-display text-3xl font-extrabold text-[#061A33]">
-            Best carrier, visible cost.
-          </h3>
+          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">Rate engine</p>
+          <h3 className="mt-3 font-display text-3xl font-extrabold text-[#061A33]">Best carrier, visible cost.</h3>
         </div>
         <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e4f7fb] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#062A5B]">
           <Icon name="spark" className="h-4 w-4" />
@@ -2585,7 +2660,11 @@ function RateComparisonPreview() {
             initial={{ opacity: 0, x: 28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.42,
+              delay: index * 0.06,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             whileHover={{ y: -4, scale: 1.01 }}
             className="rounded-xl border border-[#D6E1EF] bg-white p-4 shadow-sm"
           >
@@ -2596,7 +2675,9 @@ function RateComparisonPreview() {
                 </span>
                 <div className="min-w-0">
                   <p className="truncate text-sm font-extrabold text-[#061A33]">{row.courier}</p>
-                  <p className="mt-1 text-xs font-semibold text-[#66747e]">{row.lane} - {row.eta}</p>
+                  <p className="mt-1 text-xs font-semibold text-[#66747e]">
+                    {row.lane} - {row.eta}
+                  </p>
                 </div>
               </div>
               <div className="text-right">
@@ -2615,9 +2696,7 @@ function RateComparisonPreview() {
         {["Rate", "SLA", "Risk"].map((label, index) => (
           <div key={label} className="rounded-lg border border-[#D6E1EF] bg-[#F5F8FC] px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#66747e]">{label}</p>
-            <p className="mt-2 text-sm font-extrabold text-[#061A33]">
-              {index === 0 ? "Compared" : index === 1 ? "Checked" : "Scored"}
-            </p>
+            <p className="mt-2 text-sm font-extrabold text-[#061A33]">{index === 0 ? "Compared" : index === 1 ? "Checked" : "Scored"}</p>
           </div>
         ))}
       </div>
@@ -2649,9 +2728,7 @@ function RateConfidenceSection() {
                       </span>
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-start justify-between gap-3">
-                          <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
-                            {card.title}
-                          </h3>
+                          <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">{card.title}</h3>
                           <span className="rounded-full bg-[#FDE7EA] px-3 py-1 text-xs font-extrabold text-[#ED1C24]">
                             {card.metric} {card.label}
                           </span>
@@ -2667,7 +2744,10 @@ function RateConfidenceSection() {
               <ActionAnchor href={AUTH_APP_URL} className={primaryButtonClass}>
                 Get Started
               </ActionAnchor>
-              <ActionAnchor href="/rate-calculator" className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto">
+              <ActionAnchor
+                href="/rate-calculator"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto"
+              >
                 Rate Calculator
               </ActionAnchor>
             </div>
@@ -2688,9 +2768,7 @@ function StackPreviewPanel() {
       <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#062A5B,#0f9aa4,#ED1C24)]" />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">
-            Live workspace
-          </p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ED1C24]">Live workspace</p>
           <h3 className="mt-3 font-display text-3xl font-extrabold leading-tight text-[#061A33]">
             One queue from order sync to delivery action.
           </h3>
@@ -2708,22 +2786,27 @@ function StackPreviewPanel() {
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.42, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.42,
+              delay: index * 0.06,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="rounded-lg border border-[#E1ECF4] bg-[#F8FBFE] p-4"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white text-[#062A5B] shadow-sm">
-                  <Icon name={index === 0 ? "shoppingBag" : index === 1 ? "store" : index === 2 ? "globe" : "package"} className="h-5 w-5" />
+                  <Icon
+                    name={index === 0 ? "shoppingBag" : index === 1 ? "store" : index === 2 ? "globe" : "package"}
+                    className="h-5 w-5"
+                  />
                 </span>
                 <div>
                   <p className="text-sm font-extrabold text-[#061A33]">{channel}</p>
                   <p className="mt-1 text-xs font-semibold text-[#66747e]">{action}</p>
                 </div>
               </div>
-              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#062A5B] shadow-sm">
-                {status}
-              </span>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#062A5B] shadow-sm">{status}</span>
             </div>
           </MotionArticle>
         ))}
@@ -2733,9 +2816,7 @@ function StackPreviewPanel() {
         {stackMetrics.map((metric) => (
           <div key={metric.label} className="rounded-lg border border-[#D6E1EF] bg-white p-4">
             <p className="text-2xl font-extrabold text-[#062A5B]">{metric.value}</p>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#66747e]">
-              {metric.label}
-            </p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#66747e]">{metric.label}</p>
           </div>
         ))}
       </div>
@@ -2765,9 +2846,7 @@ function ShippingStackSection() {
                     <span className="grid h-11 w-11 place-items-center rounded-lg bg-[#FDE7EA] text-[#ED1C24]">
                       <Icon name={card.icon} />
                     </span>
-                    <h3 className="mt-4 font-display text-[1.18rem] font-extrabold leading-tight text-[#061A33]">
-                      {card.title}
-                    </h3>
+                    <h3 className="mt-4 font-display text-[1.18rem] font-extrabold leading-tight text-[#061A33]">{card.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
                   </MotionArticle>
                 </Reveal>
@@ -2778,7 +2857,10 @@ function ShippingStackSection() {
               <ActionAnchor href={AUTH_APP_URL} className={primaryButtonClass}>
                 Start Shipping
               </ActionAnchor>
-              <ActionAnchor href={`mailto:${companyProfile.email}`} className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto">
+              <ActionAnchor
+                href={`mailto:${companyProfile.email}`}
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3 text-sm font-semibold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#F5F8FC] sm:w-auto"
+              >
                 Talk to Sales
               </ActionAnchor>
             </div>
@@ -2798,9 +2880,7 @@ function LaunchTimelineVisual() {
     <div className="relative overflow-hidden rounded-xl border border-white/12 bg-[#014b55] p-5 text-white shadow-[0_30px_90px_rgba(0,45,53,0.18)] sm:p-7">
       <div className="absolute inset-x-0 top-0 h-32 opacity-25 [clip-path:polygon(0_20%,16%_8%,34%_22%,48%_4%,70%_16%,98%_25%,92%_72%,70%_62%,52%_78%,33%_68%,15%_82%,4%_62%)] [background-image:radial-gradient(circle,#c8f5fb_1.3px,transparent_1.55px)] [background-size:8px_8px]" />
       <div className="relative">
-        <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ffd8a8]">
-          Launch plan
-        </p>
+        <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ffd8a8]">Launch plan</p>
         <h3 className="mt-3 max-w-md font-display text-3xl font-extrabold leading-tight">
           From first connect to live shipments without the chaos.
         </h3>
@@ -2813,7 +2893,11 @@ function LaunchTimelineVisual() {
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.42, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.42,
+              delay: index * 0.07,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="relative rounded-xl border border-white/10 bg-white/[0.08] p-5 backdrop-blur-sm"
           >
             {index < launchSteps.length - 1 ? (
@@ -2824,9 +2908,7 @@ function LaunchTimelineVisual() {
                 <Icon name={step.icon} />
               </span>
               <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/52">
-                  Step 0{index + 1}
-                </p>
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/52">Step 0{index + 1}</p>
                 <h4 className="mt-1 text-lg font-extrabold text-white">{step.title}</h4>
                 <p className="mt-2 text-sm leading-7 text-white/72">{step.description}</p>
               </div>
@@ -2838,12 +2920,13 @@ function LaunchTimelineVisual() {
       <div className="relative mt-6 rounded-xl bg-white p-5 text-[#061A33]">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#ED1C24]">
-              Dedicated help
-            </p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#ED1C24]">Dedicated help</p>
             <p className="mt-2 text-lg font-extrabold">Support ready before your first label.</p>
           </div>
-          <a href={`mailto:${companyProfile.email}`} className="inline-flex items-center justify-center rounded-lg bg-[#062A5B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#123763]">
+          <a
+            href={`mailto:${companyProfile.email}`}
+            className="inline-flex items-center justify-center rounded-lg bg-[#062A5B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#123763]"
+          >
             Contact Support
           </a>
         </div>
@@ -2879,9 +2962,7 @@ function LaunchSupportSection() {
                         <Icon name={card.icon} />
                       </span>
                       <div>
-                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
-                          {card.title}
-                        </h3>
+                        <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">{card.title}</h3>
                         <p className="mt-3 text-sm leading-7 text-[#33414b]">{card.description}</p>
                       </div>
                     </div>
@@ -2890,11 +2971,17 @@ function LaunchSupportSection() {
               ))}
             </div>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <a href={`tel:${companyProfile.mobile}`} className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white">
+              <a
+                href={`tel:${companyProfile.mobile}`}
+                className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white"
+              >
                 <Icon name="phone" className="h-6 w-6 text-[#062A5B]" />
                 <span>{companyProfile.mobile}</span>
               </a>
-              <a href={`mailto:${companyProfile.email}`} className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white">
+              <a
+                href={`mailto:${companyProfile.email}`}
+                className="flex items-center gap-4 rounded-xl border border-[#D6E1EF] bg-[#F5F8FC] p-4 text-sm font-semibold text-[#061A33] transition hover:-translate-y-0.5 hover:bg-white"
+              >
                 <Icon name="mail" className="h-6 w-6 text-[#062A5B]" />
                 <span>{companyProfile.email}</span>
               </a>

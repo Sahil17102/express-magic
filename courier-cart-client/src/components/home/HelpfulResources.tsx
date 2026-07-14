@@ -10,14 +10,14 @@ const HelpfulResources = () => {
 
   const cards = [
     {
-      image: '/images/blog.png',
+      image: '/images/blog.webp',
       title: 'Explore Our Blog',
       description: 'Get insights, product updates, and how-to guides to stay̦ ahead.',
       buttonText: 'Read Blogs',
       onClick: () => window.open('https://expressmagic.in/blogs', '_blank'),
     },
     {
-      image: '/images/keyboard.png',
+      image: '/images/keyboard.webp',
       title: 'Keyboard Shortcuts',
       description: 'Speed up your workflow with handy keyboard combinations.',
       buttonText: 'View Shortcuts',
@@ -87,8 +87,7 @@ const HelpfulResources = () => {
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
-                    background:
-                      'radial-gradient(circle at center, rgba(59, 74, 116, 0.15), transparent 70%)',
+                    background: 'radial-gradient(circle at center, rgba(59, 74, 116, 0.15), transparent 70%)',
                     filter: 'blur(40px)',
                     zIndex: 1,
                   }}
@@ -98,6 +97,8 @@ const HelpfulResources = () => {
                 <img
                   src={card.image}
                   alt={card.title}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -117,7 +118,12 @@ const HelpfulResources = () => {
               {/* Description */}
               <Typography
                 variant="body2"
-                sx={{ color: '#062A5B', fontSize: '13px', lineHeight: 1.6, opacity: 0.8 }}
+                sx={{
+                  color: '#062A5B',
+                  fontSize: '13px',
+                  lineHeight: 1.6,
+                  opacity: 0.8,
+                }}
               >
                 {card.description}
               </Typography>

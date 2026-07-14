@@ -10,7 +10,7 @@
   overflow-x: hidden;
   background: var(--surface);
   color: var(--ink);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
 }
 
 .em-landing *,
@@ -136,10 +136,15 @@
 .em-hero__media {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.93) 31%, rgba(255, 255, 255, 0.58) 55%, rgba(255, 255, 255, 0.05) 100%),
+  background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.93) 31%,
+      rgba(255, 255, 255, 0.58) 55%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
     linear-gradient(180deg, rgba(247, 251, 255, 0) 68%, #f7fbff 94%),
-    url("/images/express-magic-warehouse-hero.png") center right / cover no-repeat;
+    url('/images/express-magic-warehouse-hero.webp') center right / cover no-repeat;
 }
 
 .em-hero__content {
@@ -263,11 +268,26 @@
   font-size: 30px;
 }
 
-.is-rose { background: #fde7ea; color: #ed1c24; }
-.is-blue { background: #e7f1ff; color: #2563eb; }
-.is-green { background: #e5faf3; color: #0f9f73; }
-.is-violet { background: #f1e7ff; color: #7c3aed; }
-.is-orange { background: #fff0e4; color: #f97316; }
+.is-rose {
+  background: #fde7ea;
+  color: #ed1c24;
+}
+.is-blue {
+  background: #e7f1ff;
+  color: #2563eb;
+}
+.is-green {
+  background: #e5faf3;
+  color: #0f9f73;
+}
+.is-violet {
+  background: #f1e7ff;
+  color: #7c3aed;
+}
+.is-orange {
+  background: #fff0e4;
+  color: #f97316;
+}
 
 .em-feature-strip h2 {
   margin: 24px 0 0;
@@ -358,6 +378,14 @@
   color: #64748b;
   font-size: 12px;
   font-weight: 700;
+}
+
+@supports (content-visibility: auto) {
+  .em-landing > section:not(.em-hero),
+  .em-footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 850px;
+  }
 }
 
 .em-tool-lab {
@@ -520,7 +548,7 @@
   gap: 16px;
 }
 
-.em-slider-row input[type="range"] {
+.em-slider-row input[type='range'] {
   min-width: 0;
   width: 100%;
   accent-color: var(--blue);
@@ -801,10 +829,8 @@
   min-height: 255px;
   overflow: hidden;
   border-radius: 10px;
-  background:
-    linear-gradient(30deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px),
-    linear-gradient(120deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px),
-    #f3f8ff;
+  background: linear-gradient(30deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(120deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px), #f3f8ff;
   background-size: 52px 52px;
   margin-top: 22px;
 }
@@ -1138,9 +1164,13 @@
   }
 
   .em-hero__media {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.76) 42%, rgba(255, 255, 255, 0.62) 100%),
-      url("/images/express-magic-warehouse-hero.png") 63% center / cover no-repeat;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.76) 42%,
+        rgba(255, 255, 255, 0.62) 100%
+      ),
+      url('/images/express-magic-warehouse-hero.webp') 63% center / cover no-repeat;
   }
 
   .em-hero__content {

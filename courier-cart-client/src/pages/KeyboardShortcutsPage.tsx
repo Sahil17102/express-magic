@@ -1,25 +1,6 @@
-import {
-  alpha,
-  Box,
-  Grid,
-  Paper,
-  Stack,
-  styled,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
+import { alpha, Box, Grid, Paper, Stack, styled, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
-import {
-  FiDollarSign,
-  FiGrid,
-  FiPackage,
-  FiSearch,
-  FiSettings,
-  FiTool,
-  FiTruck,
-  FiUsers,
-} from 'react-icons/fi'
+import { FiDollarSign, FiGrid, FiPackage, FiSearch, FiSettings, FiTool, FiTruck, FiUsers } from 'react-icons/fi'
 import PageHeading from '../components/UI/heading/PageHeading'
 
 const BRAND_PRIMARY = '#062A5B'
@@ -140,7 +121,9 @@ const KeyboardShortcutsPage: React.FC = () => {
       >
         <Box
           component="img"
-          src="/images/keyboard-shortcuts.png"
+          src="/images/keyboard-shortcuts.webp"
+          loading="lazy"
+          decoding="async"
           alt="Keyboard Shortcuts Guide"
           sx={{ width: '100%', display: 'block', objectFit: 'cover' }}
         />
@@ -180,9 +163,7 @@ const KeyboardShortcutsPage: React.FC = () => {
               <Stack spacing={1.6}>
                 {shortcuts.map(({ label, keys }) => (
                   <Box key={label}>
-                    <Typography sx={{ mb: 1.1, color: BRAND_PRIMARY, fontWeight: 700 }}>
-                      {label}
-                    </Typography>
+                    <Typography sx={{ mb: 1.1, color: BRAND_PRIMARY, fontWeight: 700 }}>{label}</Typography>
                     <Box display="flex" flexWrap="wrap" alignItems="center" gap={0.5}>
                       {keys.map((key, idx) => (
                         <React.Fragment key={`${label}-${key}-${idx}`}>

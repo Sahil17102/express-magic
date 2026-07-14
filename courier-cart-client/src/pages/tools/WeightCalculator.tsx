@@ -95,7 +95,10 @@ export default function WeightCalculator() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.9fr) minmax(620px,1.1fr)' },
+            gridTemplateColumns: {
+              xs: '1fr',
+              lg: 'minmax(0,0.9fr) minmax(620px,1.1fr)',
+            },
             gap: { xs: 2.4, md: 3.5 },
             alignItems: 'stretch',
           }}
@@ -151,8 +154,7 @@ export default function WeightCalculator() {
                 lineHeight: 1.8,
               }}
             >
-              Compare actual and volumetric weight before booking so your shipment uses the right
-              slab from the start.
+              Compare actual and volumetric weight before booking so your shipment uses the right slab from the start.
             </Typography>
 
             <Box
@@ -167,7 +169,9 @@ export default function WeightCalculator() {
             >
               <Box
                 component="img"
-                src="/images/weight-tool-3d.png"
+                src="/images/weight-tool-3d.webp"
+                loading="lazy"
+                decoding="async"
                 alt=""
                 sx={{
                   width: '100%',
@@ -213,25 +217,68 @@ export default function WeightCalculator() {
             >
               Find chargeable weight
             </Typography>
-            <Typography sx={{ color: '#4B5870', mt: 1.4, mb: 2.5, fontSize: '0.94rem', lineHeight: 1.7 }}>
+            <Typography
+              sx={{
+                color: '#4B5870',
+                mt: 1.4,
+                mb: 2.5,
+                fontSize: '0.94rem',
+                lineHeight: 1.7,
+              }}
+            >
               Enter parcel dimensions in centimeters and actual weight in kilograms.
             </Typography>
 
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, md: 4 }}>
-                <TextField label="Length" type="number" value={length} onChange={(e) => setLength(e.target.value)} fullWidth sx={fieldSx} />
+                <TextField
+                  label="Length"
+                  type="number"
+                  value={length}
+                  onChange={(e) => setLength(e.target.value)}
+                  fullWidth
+                  sx={fieldSx}
+                />
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
-                <TextField label="Breadth" type="number" value={breadth} onChange={(e) => setBreadth(e.target.value)} fullWidth sx={fieldSx} />
+                <TextField
+                  label="Breadth"
+                  type="number"
+                  value={breadth}
+                  onChange={(e) => setBreadth(e.target.value)}
+                  fullWidth
+                  sx={fieldSx}
+                />
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
-                <TextField label="Height" type="number" value={height} onChange={(e) => setHeight(e.target.value)} fullWidth sx={fieldSx} />
+                <TextField
+                  label="Height"
+                  type="number"
+                  value={height}
+                  onChange={(e) => setHeight(e.target.value)}
+                  fullWidth
+                  sx={fieldSx}
+                />
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
-                <TextField label="Actual Weight (kg)" type="number" value={actualWeight} onChange={(e) => setActualWeight(e.target.value)} fullWidth sx={fieldSx} />
+                <TextField
+                  label="Actual Weight (kg)"
+                  type="number"
+                  value={actualWeight}
+                  onChange={(e) => setActualWeight(e.target.value)}
+                  fullWidth
+                  sx={fieldSx}
+                />
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
-                <TextField select label="Volumetric Divisor" value={divisor} onChange={(e) => setDivisor(e.target.value)} fullWidth sx={fieldSx}>
+                <TextField
+                  select
+                  label="Volumetric Divisor"
+                  value={divisor}
+                  onChange={(e) => setDivisor(e.target.value)}
+                  fullWidth
+                  sx={fieldSx}
+                >
                   <MenuItem value="5000">5000 - Standard air</MenuItem>
                   <MenuItem value="4000">4000 - Dense courier slab</MenuItem>
                   <MenuItem value="27000">27000 - B2B CFT</MenuItem>
@@ -257,13 +304,38 @@ export default function WeightCalculator() {
                     bgcolor: '#FFFFFF',
                   }}
                 >
-                  <Box sx={{ color: card.color, bgcolor: card.bg, width: 38, height: 38, borderRadius: 2.4, display: 'grid', placeItems: 'center', fontSize: 21 }}>
+                  <Box
+                    sx={{
+                      color: card.color,
+                      bgcolor: card.bg,
+                      width: 38,
+                      height: 38,
+                      borderRadius: 2.4,
+                      display: 'grid',
+                      placeItems: 'center',
+                      fontSize: 21,
+                    }}
+                  >
                     {card.icon}
                   </Box>
-                  <Typography sx={{ mt: 1.4, color: '#64748B', fontSize: '0.74rem', fontWeight: 850 }}>
+                  <Typography
+                    sx={{
+                      mt: 1.4,
+                      color: '#64748B',
+                      fontSize: '0.74rem',
+                      fontWeight: 850,
+                    }}
+                  >
                     {card.label}
                   </Typography>
-                  <Typography sx={{ mt: 0.4, color: '#07142F', fontSize: '1.38rem', fontWeight: 950 }}>
+                  <Typography
+                    sx={{
+                      mt: 0.4,
+                      color: '#07142F',
+                      fontSize: '1.38rem',
+                      fontWeight: 950,
+                    }}
+                  >
                     {card.value}
                   </Typography>
                 </Box>
@@ -279,12 +351,17 @@ export default function WeightCalculator() {
                 p: 1.8,
               }}
             >
-              <Typography sx={{ color: '#07142F', fontWeight: 950 }}>
-                Billing slab: {calculation.source}
-              </Typography>
-              <Typography sx={{ mt: 0.45, color: muted, fontSize: '0.82rem', fontWeight: 700 }}>
-                Package volume is {calculation.volume.toLocaleString('en-IN')} cubic cm. Courier
-                billing usually uses the higher of actual and volumetric weight.
+              <Typography sx={{ color: '#07142F', fontWeight: 950 }}>Billing slab: {calculation.source}</Typography>
+              <Typography
+                sx={{
+                  mt: 0.45,
+                  color: muted,
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                }}
+              >
+                Package volume is {calculation.volume.toLocaleString('en-IN')} cubic cm. Courier billing usually uses
+                the higher of actual and volumetric weight.
               </Typography>
             </Box>
           </CardContent>
@@ -303,15 +380,32 @@ export default function WeightCalculator() {
           }}
         >
           <Box>
-            <Typography sx={{ color: orange, fontSize: '0.76rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <Typography
+              sx={{
+                color: orange,
+                fontSize: '0.76rem',
+                fontWeight: 900,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+              }}
+            >
               Volumetric formula
             </Typography>
-            <Typography component="h2" sx={{ mt: 1.2, color: '#07142F', fontSize: { xs: '2rem', md: '3rem' }, fontWeight: 950, lineHeight: 1.05 }}>
+            <Typography
+              component="h2"
+              sx={{
+                mt: 1.2,
+                color: '#07142F',
+                fontSize: { xs: '2rem', md: '3rem' },
+                fontWeight: 950,
+                lineHeight: 1.05,
+              }}
+            >
               Dimensions can weigh more than kilograms.
             </Typography>
             <Typography sx={{ mt: 1.5, color: muted, lineHeight: 1.75, fontWeight: 650 }}>
-              Couriers reserve vehicle space by volume. That is why a light but large parcel can
-              have a higher billable weight than its actual scale reading.
+              Couriers reserve vehicle space by volume. That is why a light but large parcel can have a higher billable
+              weight than its actual scale reading.
             </Typography>
           </Box>
           <Box
@@ -327,20 +421,41 @@ export default function WeightCalculator() {
             <Typography sx={{ color: muted, fontSize: '0.78rem', fontWeight: 850 }}>
               STANDARD COURIER FORMULA
             </Typography>
-            <Typography sx={{ mt: 1.4, color: teal, fontSize: { xs: '1.25rem', md: '1.8rem' }, fontWeight: 950 }}>
+            <Typography
+              sx={{
+                mt: 1.4,
+                color: teal,
+                fontSize: { xs: '1.25rem', md: '1.8rem' },
+                fontWeight: 950,
+              }}
+            >
               Length x Breadth x Height / {divisor}
             </Typography>
             <Box sx={{ mt: 2.2, height: 1, bgcolor: alpha(teal, 0.12) }} />
             <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" gap={2} sx={{ mt: 2.2 }}>
               <Box>
                 <Typography sx={{ color: muted, fontSize: '0.75rem', fontWeight: 800 }}>Calculated volume</Typography>
-                <Typography sx={{ mt: 0.4, color: '#07142F', fontSize: '1.3rem', fontWeight: 950 }}>
+                <Typography
+                  sx={{
+                    mt: 0.4,
+                    color: '#07142F',
+                    fontSize: '1.3rem',
+                    fontWeight: 950,
+                  }}
+                >
                   {calculation.volume.toLocaleString('en-IN')} cm3
                 </Typography>
               </Box>
               <Box>
                 <Typography sx={{ color: muted, fontSize: '0.75rem', fontWeight: 800 }}>Billable result</Typography>
-                <Typography sx={{ mt: 0.4, color: orange, fontSize: '1.3rem', fontWeight: 950 }}>
+                <Typography
+                  sx={{
+                    mt: 0.4,
+                    color: orange,
+                    fontSize: '1.3rem',
+                    fontWeight: 950,
+                  }}
+                >
                   {calculation.chargeable.toFixed(2)} kg
                 </Typography>
               </Box>
@@ -353,15 +468,43 @@ export default function WeightCalculator() {
           title="From parcel size to the right billing slab"
           description="A clear three-step workflow helps you enter dimensions correctly and understand which weight the courier will use."
           steps={[
-            { icon: <TbRulerMeasure />, title: 'Measure the parcel', description: 'Use the outermost length, breadth and height after final packaging.' },
-            { icon: <TbScale />, title: 'Add actual weight', description: 'Place the packed shipment on a scale and enter the kilogram reading.' },
-            { icon: <FiCheckCircle />, title: 'Use the higher value', description: 'The calculator compares actual and volumetric weight automatically.' },
+            {
+              icon: <TbRulerMeasure />,
+              title: 'Measure the parcel',
+              description: 'Use the outermost length, breadth and height after final packaging.',
+            },
+            {
+              icon: <TbScale />,
+              title: 'Add actual weight',
+              description: 'Place the packed shipment on a scale and enter the kilogram reading.',
+            },
+            {
+              icon: <FiCheckCircle />,
+              title: 'Use the higher value',
+              description: 'The calculator compares actual and volumetric weight automatically.',
+            },
           ]}
           features={[
-            { icon: <FiPackage />, title: 'Accurate slabs', description: 'Reduce avoidable weight adjustments.' },
-            { icon: <FiDollarSign />, title: 'Better estimates', description: 'Know the likely billing basis early.' },
-            { icon: <FiShield />, title: 'Fewer disputes', description: 'Declare parcel details with confidence.' },
-            { icon: <FiZap />, title: 'Instant result', description: 'See chargeable weight as you type.' },
+            {
+              icon: <FiPackage />,
+              title: 'Accurate slabs',
+              description: 'Reduce avoidable weight adjustments.',
+            },
+            {
+              icon: <FiDollarSign />,
+              title: 'Better estimates',
+              description: 'Know the likely billing basis early.',
+            },
+            {
+              icon: <FiShield />,
+              title: 'Fewer disputes',
+              description: 'Declare parcel details with confidence.',
+            },
+            {
+              icon: <FiZap />,
+              title: 'Instant result',
+              description: 'See chargeable weight as you type.',
+            },
           ]}
           ctaTitle="Weight checked. Ready to compare rates?"
           ctaDescription="Move straight to the rate calculator with your parcel dimensions ready, or sign in to book and manage shipments."

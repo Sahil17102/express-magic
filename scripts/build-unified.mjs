@@ -51,6 +51,28 @@ cpSync(path.join(clientDir, "dist"), path.join(outputDir, "app"), {
   recursive: true,
 });
 
+// Existing client code intentionally references public files from the origin
+// root. Hoist those files when the client is mounted at /app so the browser
+// does not request missing /app-relative copies.
+const clientPublicEntries = [
+  "images",
+  "logo",
+  "animations",
+  "express-magic-logo.jpeg",
+  "API_DOCUMENTATION.pdf",
+];
+
+for (const entry of clientPublicEntries) {
+  const appEntry = path.join(outputDir, "app", entry);
+  if (!existsSync(appEntry)) continue;
+
+  cpSync(appEntry, path.join(outputDir, entry), {
+    force: true,
+    recursive: true,
+  });
+  rmSync(appEntry, { force: true, recursive: true });
+}
+
 if (
   !existsSync(path.join(outputDir, "index.html")) ||
   !existsSync(path.join(outputDir, "app", "index.html"))

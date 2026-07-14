@@ -21,15 +21,7 @@ import {
 } from '@mui/material'
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import {
-  FaBoxOpen,
-  FaEnvelopeOpenText,
-  FaHashtag,
-  FaPhoneAlt,
-  FaReceipt,
-  FaSearch,
-  FaShieldAlt,
-} from 'react-icons/fa'
+import { FaBoxOpen, FaEnvelopeOpenText, FaHashtag, FaPhoneAlt, FaReceipt, FaSearch, FaShieldAlt } from 'react-icons/fa'
 import { MdLocationOn, MdSchedule } from 'react-icons/md'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { TrackingHistory } from '../../api/tracking.service'
@@ -40,12 +32,7 @@ import PublicToolStorySections from '../../components/tools/PublicToolStorySecti
 import PublicToolsHeader from '../../components/tools/PublicToolsHeader'
 import { SmartTabs } from '../../components/UI/tab/Tabs'
 import { useTracking } from '../../hooks/Orders/useTracking'
-import {
-  getAwbTrackingPath,
-  getClientAwbTrackingPath,
-  isValidAwb,
-  normalizeAwb,
-} from '../../utils/awb'
+import { getAwbTrackingPath, getClientAwbTrackingPath, isValidAwb, normalizeAwb } from '../../utils/awb'
 
 type FormValues = {
   awb: string
@@ -114,11 +101,7 @@ export default function OrderTrackingForm() {
     isError: trackingError,
     error: trackingErrorObj,
     isSuccess,
-  } = useTracking(
-    isValidAwb(activeAwb) ? activeAwb : null,
-    activeOrder ?? null,
-    activeContact ?? null,
-  )
+  } = useTracking(isValidAwb(activeAwb) ? activeAwb : null, activeOrder ?? null, activeContact ?? null)
 
   useEffect(() => {
     if (activeAwb) {
@@ -158,9 +141,7 @@ export default function OrderTrackingForm() {
     }
 
     if (trackingError) {
-      setError(
-        trackingErrorObj instanceof Error ? trackingErrorObj.message : 'Failed to fetch tracking',
-      )
+      setError(trackingErrorObj instanceof Error ? trackingErrorObj.message : 'Failed to fetch tracking')
     } else if (isSuccess) {
       setError('')
     }
@@ -169,9 +150,7 @@ export default function OrderTrackingForm() {
   const canSubmit =
     mode === 'awb'
       ? isValidAwb(formValues.awb)
-      : formValues.orderNumber.trim().length > 2 &&
-        formValues.contact.trim().length > 3 &&
-        isContactValid
+      : formValues.orderNumber.trim().length > 2 && formValues.contact.trim().length > 3 && isContactValid
 
   const onSubmit = (data: FormValues) => {
     if (!canSubmit) return
@@ -183,11 +162,7 @@ export default function OrderTrackingForm() {
         setError('Invalid AWB')
         return
       }
-      navigate(
-        isClientTrackingRoute
-          ? getClientAwbTrackingPath(normalizedAwb)
-          : getAwbTrackingPath(normalizedAwb),
-      )
+      navigate(isClientTrackingRoute ? getClientAwbTrackingPath(normalizedAwb) : getAwbTrackingPath(normalizedAwb))
       return
     }
 
@@ -201,9 +176,7 @@ export default function OrderTrackingForm() {
 
   const sortedHistory = useMemo<TrackingHistory[]>(() => {
     if (!tracking?.history) return []
-    return [...tracking.history].sort(
-      (a, b) => new Date(b.event_time).getTime() - new Date(a.event_time).getTime(),
-    )
+    return [...tracking.history].sort((a, b) => new Date(b.event_time).getTime() - new Date(a.event_time).getTime())
   }, [tracking])
 
   const resetResults = () => {
@@ -262,7 +235,10 @@ export default function OrderTrackingForm() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,0.9fr) minmax(640px,1.1fr)' },
+            gridTemplateColumns: {
+              xs: '1fr',
+              lg: 'minmax(0,0.9fr) minmax(640px,1.1fr)',
+            },
             gap: { xs: 2.4, md: 3.5 },
             alignItems: 'stretch',
           }}
@@ -272,10 +248,10 @@ export default function OrderTrackingForm() {
               position: 'relative',
               overflow: 'hidden',
               minHeight: { xs: 560, md: 760 },
-                borderRadius: { xs: 4, md: 5 },
-                border: `1px solid ${alpha('#07142F', 0.13)}`,
-                p: { xs: 3, md: 5 },
-                background:
+              borderRadius: { xs: 4, md: 5 },
+              border: `1px solid ${alpha('#07142F', 0.13)}`,
+              p: { xs: 3, md: 5 },
+              background:
                 'linear-gradient(rgba(6,42,91,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(6,42,91,0.055) 1px, transparent 1px), #FFFFFF',
               backgroundSize: '44px 44px',
               boxShadow: '0 30px 90px rgba(7,20,47,0.12)',
@@ -319,8 +295,8 @@ export default function OrderTrackingForm() {
                 lineHeight: 1.8,
               }}
             >
-              Search by AWB or order reference and get a clean Express Magic delivery view with
-              courier status, key milestones, and event history.
+              Search by AWB or order reference and get a clean Express Magic delivery view with courier status, key
+              milestones, and event history.
             </Typography>
             <Box
               sx={{
@@ -344,10 +320,23 @@ export default function OrderTrackingForm() {
                     p: 2,
                   }}
                 >
-                  <Typography sx={{ color: '#07142F', fontSize: '1.25rem', fontWeight: 900 }}>
+                  <Typography
+                    sx={{
+                      color: '#07142F',
+                      fontSize: '1.25rem',
+                      fontWeight: 900,
+                    }}
+                  >
                     {value}
                   </Typography>
-                  <Typography sx={{ mt: 0.4, color: '#64748B', fontSize: '0.78rem', fontWeight: 800 }}>
+                  <Typography
+                    sx={{
+                      mt: 0.4,
+                      color: '#64748B',
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
+                    }}
+                  >
                     {label}
                   </Typography>
                 </Box>
@@ -365,9 +354,16 @@ export default function OrderTrackingForm() {
             >
               <Box
                 component="img"
-                src="/images/tracking-tool-3d.png"
+                src="/images/tracking-tool-3d.webp"
+                loading="lazy"
+                decoding="async"
                 alt=""
-                sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center bottom' }}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  objectPosition: 'center bottom',
+                }}
               />
               <Box
                 sx={{
@@ -406,172 +402,192 @@ export default function OrderTrackingForm() {
             }}
           >
             <Typography
-              sx={{ color: BRAND_ACCENT, fontSize: '0.76rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+              sx={{
+                color: BRAND_ACCENT,
+                fontSize: '0.76rem',
+                fontWeight: 900,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+              }}
             >
               Tracking console
             </Typography>
-            <Typography sx={{ mt: 1.2, fontSize: { xs: '1.7rem', md: '2.35rem' }, fontWeight: 950, letterSpacing: '-0.04em', color: '#07142F', lineHeight: 1 }}>
+            <Typography
+              sx={{
+                mt: 1.2,
+                fontSize: { xs: '1.7rem', md: '2.35rem' },
+                fontWeight: 950,
+                letterSpacing: '-0.04em',
+                color: '#07142F',
+                lineHeight: 1,
+              }}
+            >
               Track your shipment
             </Typography>
-            <Typography variant="body2" sx={{ color: '#4B5870', mt: 1.4, mb: 2.3, fontSize: '0.94rem', lineHeight: 1.7 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: '#4B5870',
+                mt: 1.4,
+                mb: 2.3,
+                fontSize: '0.94rem',
+                lineHeight: 1.7,
+              }}
+            >
               Enter your AWB number or Order ID to get real-time updates.
             </Typography>
 
-        <SmartTabs
-          onChange={(value) => {
-            const nextMode = value as 'awb' | 'order'
-            setMode(nextMode)
-            reset({
-              awb: '',
-              orderNumber: '',
-              contact: '',
-            })
-            setError('')
-            resetResults()
-            if (nextMode === 'order' && location.pathname.startsWith('/tracking/')) {
-              navigate(trackingBasePath)
-            }
-          }}
-          tabs={[
-            { label: 'Track By AWB', value: 'awb' },
-            { label: 'Track By Order ID', value: 'order' },
-          ]}
-          value={mode}
-        />
-
-        {mode === 'awb' ? (
-          <FormControl fullWidth sx={{ mb: 1.6 }}>
-            <Controller
-              name="awb"
-              control={control}
-              render={({ field }) => (
-                <CustomInput
-                  {...field}
-                  id="awb"
-                  placeholder="e.g. 1234567890"
-                  prefix={<FaHashtag />}
-                  error={!!errors.awb}
-                  helperText={errors.awb?.message || 'Click any AWB in the app to jump here instantly'}
-                  label="AWB Number"
-                  value={field.value ?? ''}
-                  onChange={(event) => field.onChange(event.target.value.toUpperCase())}
-                />
-              )}
-              rules={{
-                required: 'AWB number is required',
-                validate: (value) => isValidAwb(value) || 'Invalid AWB',
+            <SmartTabs
+              onChange={(value) => {
+                const nextMode = value as 'awb' | 'order'
+                setMode(nextMode)
+                reset({
+                  awb: '',
+                  orderNumber: '',
+                  contact: '',
+                })
+                setError('')
+                resetResults()
+                if (nextMode === 'order' && location.pathname.startsWith('/tracking/')) {
+                  navigate(trackingBasePath)
+                }
               }}
+              tabs={[
+                { label: 'Track By AWB', value: 'awb' },
+                { label: 'Track By Order ID', value: 'order' },
+              ]}
+              value={mode}
             />
-            {errors.awb && <FormHelperText error>{errors.awb.message}</FormHelperText>}
-          </FormControl>
-        ) : (
-          <>
-            <FormControl fullWidth sx={{ mb: 1.6 }}>
-              <Controller
-                name="orderNumber"
-                control={control}
-                render={({ field }) => (
-                  <CustomInput
-                    {...field}
-                    id="orderNumber"
-                    placeholder="e.g. ORD-2025-0001"
-                    prefix={<FaReceipt />}
-                    error={!!errors.orderNumber}
-                    label="Order ID"
+
+            {mode === 'awb' ? (
+              <FormControl fullWidth sx={{ mb: 1.6 }}>
+                <Controller
+                  name="awb"
+                  control={control}
+                  render={({ field }) => (
+                    <CustomInput
+                      {...field}
+                      id="awb"
+                      placeholder="e.g. 1234567890"
+                      prefix={<FaHashtag />}
+                      error={!!errors.awb}
+                      helperText={errors.awb?.message || 'Click any AWB in the app to jump here instantly'}
+                      label="AWB Number"
+                      value={field.value ?? ''}
+                      onChange={(event) => field.onChange(event.target.value.toUpperCase())}
+                    />
+                  )}
+                  rules={{
+                    required: 'AWB number is required',
+                    validate: (value) => isValidAwb(value) || 'Invalid AWB',
+                  }}
+                />
+                {errors.awb && <FormHelperText error>{errors.awb.message}</FormHelperText>}
+              </FormControl>
+            ) : (
+              <>
+                <FormControl fullWidth sx={{ mb: 1.6 }}>
+                  <Controller
+                    name="orderNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomInput
+                        {...field}
+                        id="orderNumber"
+                        placeholder="e.g. ORD-2025-0001"
+                        prefix={<FaReceipt />}
+                        error={!!errors.orderNumber}
+                        label="Order ID"
+                      />
+                    )}
+                    rules={{ required: 'Order ID is required' }}
                   />
-                )}
-                rules={{ required: 'Order ID is required' }}
-              />
-              {errors.orderNumber && (
-                <FormHelperText error>{errors.orderNumber.message}</FormHelperText>
-              )}
-            </FormControl>
+                  {errors.orderNumber && <FormHelperText error>{errors.orderNumber.message}</FormHelperText>}
+                </FormControl>
 
-            <FormControl fullWidth sx={{ mb: 1.6 }}>
-              <Controller
-                name="contact"
-                control={control}
-                render={({ field }) => (
-                  <CustomInput
-                    {...field}
-                    id="contact"
-                    placeholder="you@example.com or +91 98765 43210"
-                    prefix={isEmail ? <FaEnvelopeOpenText /> : <FaPhoneAlt />}
-                    error={!isContactValid}
-                    label="Email or Phone"
+                <FormControl fullWidth sx={{ mb: 1.6 }}>
+                  <Controller
+                    name="contact"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomInput
+                        {...field}
+                        id="contact"
+                        placeholder="you@example.com or +91 98765 43210"
+                        prefix={isEmail ? <FaEnvelopeOpenText /> : <FaPhoneAlt />}
+                        error={!isContactValid}
+                        label="Email or Phone"
+                      />
+                    )}
+                    rules={{ required: 'Email or Phone is required' }}
                   />
-                )}
-                rules={{ required: 'Email or Phone is required' }}
-              />
-              {!isContactValid && (
-                <FormHelperText error>Enter a valid email or phone number</FormHelperText>
-              )}
-            </FormControl>
-          </>
-        )}
+                  {!isContactValid && <FormHelperText error>Enter a valid email or phone number</FormHelperText>}
+                </FormControl>
+              </>
+            )}
 
-        {error && (
-          <Typography
-            variant="body2"
-            mb={2}
-            sx={{
-              color: '#B42318',
-              bgcolor: 'rgba(180,35,24,0.06)',
-              border: '1px solid rgba(180,35,24,0.12)',
-              borderRadius: 2,
-              px: 1.6,
-              py: 0.9,
-            }}
-          >
-            {error}
-          </Typography>
-        )}
+            {error && (
+              <Typography
+                variant="body2"
+                mb={2}
+                sx={{
+                  color: '#B42318',
+                  bgcolor: 'rgba(180,35,24,0.06)',
+                  border: '1px solid rgba(180,35,24,0.12)',
+                  borderRadius: 2,
+                  px: 1.6,
+                  py: 0.9,
+                }}
+              >
+                {error}
+              </Typography>
+            )}
 
-        <Box display="flex" gap={1.2} alignItems="center" flexWrap="wrap">
-          <Button
-            type="submit"
-            variant="contained"
-            startIcon={trackingLoading ? <CircularProgress size={18} /> : <FaSearch />}
-            disabled={!canSubmit || trackingLoading}
-            sx={{
-              borderRadius: 2.5,
-              minHeight: 50,
-              px: 3,
-              py: 1.1,
-              bgcolor: '#07142F',
-              textTransform: 'none',
-              fontWeight: 900,
-              boxShadow: '0 16px 34px rgba(7,20,47,0.18)',
-              '&:hover': { bgcolor: BRAND_PRIMARY },
-            }}
-          >
-            {trackingLoading ? 'Tracking...' : 'Track Shipment'}
-          </Button>
-          <Button
-            type="button"
-            variant="text"
-            color="inherit"
-            onClick={() => {
-              reset({
-                awb: '',
-                orderNumber: '',
-                contact: '',
-              })
-              resetResults()
-              if (location.pathname.startsWith('/tracking')) {
-                navigate(trackingBasePath)
-              }
-            }}
-            sx={{
-              borderRadius: 2.5,
-              color: '#4B5870',
-              textTransform: 'none',
-              fontWeight: 900,
-            }}
-          >
-            Reset
-          </Button>
-        </Box>
+            <Box display="flex" gap={1.2} alignItems="center" flexWrap="wrap">
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={trackingLoading ? <CircularProgress size={18} /> : <FaSearch />}
+                disabled={!canSubmit || trackingLoading}
+                sx={{
+                  borderRadius: 2.5,
+                  minHeight: 50,
+                  px: 3,
+                  py: 1.1,
+                  bgcolor: '#07142F',
+                  textTransform: 'none',
+                  fontWeight: 900,
+                  boxShadow: '0 16px 34px rgba(7,20,47,0.18)',
+                  '&:hover': { bgcolor: BRAND_PRIMARY },
+                }}
+              >
+                {trackingLoading ? 'Tracking...' : 'Track Shipment'}
+              </Button>
+              <Button
+                type="button"
+                variant="text"
+                color="inherit"
+                onClick={() => {
+                  reset({
+                    awb: '',
+                    orderNumber: '',
+                    contact: '',
+                  })
+                  resetResults()
+                  if (location.pathname.startsWith('/tracking')) {
+                    navigate(trackingBasePath)
+                  }
+                }}
+                sx={{
+                  borderRadius: 2.5,
+                  color: '#4B5870',
+                  textTransform: 'none',
+                  fontWeight: 900,
+                }}
+              >
+                Reset
+              </Button>
+            </Box>
 
             {!hasTrackingQuery && (
               <>
@@ -586,7 +602,7 @@ export default function OrderTrackingForm() {
                     borderRadius: 3,
                     background: `linear-gradient(135deg, ${alpha(BRAND_PRIMARY, 0.055)}, ${alpha(
                       BRAND_ACCENT,
-                      0.055,
+                      0.055
                     )})`,
                     p: 1.7,
                   }}
@@ -606,10 +622,23 @@ export default function OrderTrackingForm() {
                     <FaShieldAlt />
                   </Box>
                   <Box>
-                    <Typography sx={{ color: '#07142F', fontSize: '0.86rem', fontWeight: 950 }}>
+                    <Typography
+                      sx={{
+                        color: '#07142F',
+                        fontSize: '0.86rem',
+                        fontWeight: 950,
+                      }}
+                    >
                       100% Secure & Private
                     </Typography>
-                    <Typography sx={{ mt: 0.25, color: '#64748B', fontSize: '0.76rem', fontWeight: 700 }}>
+                    <Typography
+                      sx={{
+                        mt: 0.25,
+                        color: '#64748B',
+                        fontSize: '0.76rem',
+                        fontWeight: 700,
+                      }}
+                    >
                       We never share your tracking information.
                     </Typography>
                   </Box>
@@ -617,7 +646,13 @@ export default function OrderTrackingForm() {
 
                 <Box sx={{ mt: 2.6 }}>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
-                    <Typography sx={{ color: '#07142F', fontSize: '0.92rem', fontWeight: 950 }}>
+                    <Typography
+                      sx={{
+                        color: '#07142F',
+                        fontSize: '0.92rem',
+                        fontWeight: 950,
+                      }}
+                    >
                       Recent Tracks
                     </Typography>
                     <Button
@@ -641,7 +676,10 @@ export default function OrderTrackingForm() {
                         key={track.awb}
                         sx={{
                           display: 'grid',
-                          gridTemplateColumns: { xs: '1fr', sm: '1fr auto auto' },
+                          gridTemplateColumns: {
+                            xs: '1fr',
+                            sm: '1fr auto auto',
+                          },
                           gap: { xs: 0.5, sm: 1.4 },
                           alignItems: 'center',
                           borderTop: `1px solid ${alpha('#07142F', 0.08)}`,
@@ -649,10 +687,22 @@ export default function OrderTrackingForm() {
                         }}
                       >
                         <Box sx={{ minWidth: 0 }}>
-                          <Typography sx={{ color: '#07142F', fontSize: '0.78rem', fontWeight: 950 }}>
+                          <Typography
+                            sx={{
+                              color: '#07142F',
+                              fontSize: '0.78rem',
+                              fontWeight: 950,
+                            }}
+                          >
                             {track.awb}
                           </Typography>
-                          <Typography sx={{ color: '#64748B', fontSize: '0.72rem', fontWeight: 700 }}>
+                          <Typography
+                            sx={{
+                              color: '#64748B',
+                              fontSize: '0.72rem',
+                              fontWeight: 700,
+                            }}
+                          >
                             {track.route}
                           </Typography>
                         </Box>
@@ -669,7 +719,13 @@ export default function OrderTrackingForm() {
                             fontWeight: 950,
                           }}
                         />
-                        <Typography sx={{ color: '#64748B', fontSize: '0.72rem', fontWeight: 750 }}>
+                        <Typography
+                          sx={{
+                            color: '#64748B',
+                            fontSize: '0.72rem',
+                            fontWeight: 750,
+                          }}
+                        >
                           {track.time}
                         </Typography>
                       </Box>
@@ -687,16 +743,48 @@ export default function OrderTrackingForm() {
             title="Every handoff, in one clear timeline"
             description="Track the shipment from order confirmation to final delivery without switching between courier websites."
             steps={[
-              { icon: <FaReceipt />, title: 'Order confirmed', description: 'Shipment details and AWB are recorded for tracking.' },
-              { icon: <FaBoxOpen />, title: 'Picked and in transit', description: 'Courier scans show movement through the network.' },
-              { icon: <MdLocationOn />, title: 'Out for delivery', description: 'See the latest location context before arrival.' },
-              { icon: <FaShieldAlt />, title: 'Delivered', description: 'The final delivery event completes the journey.' },
+              {
+                icon: <FaReceipt />,
+                title: 'Order confirmed',
+                description: 'Shipment details and AWB are recorded for tracking.',
+              },
+              {
+                icon: <FaBoxOpen />,
+                title: 'Picked and in transit',
+                description: 'Courier scans show movement through the network.',
+              },
+              {
+                icon: <MdLocationOn />,
+                title: 'Out for delivery',
+                description: 'See the latest location context before arrival.',
+              },
+              {
+                icon: <FaShieldAlt />,
+                title: 'Delivered',
+                description: 'The final delivery event completes the journey.',
+              },
             ]}
             features={[
-              { icon: <MdLocationOn />, title: 'Real-time events', description: 'Get live courier scan context.' },
-              { icon: <FaReceipt />, title: 'All-in-one lookup', description: 'Search by AWB or order details.' },
-              { icon: <MdSchedule />, title: 'Accurate timeline', description: 'Review every milestone in order.' },
-              { icon: <FaShieldAlt />, title: 'Secure and private', description: 'Tracking data stays protected.' },
+              {
+                icon: <MdLocationOn />,
+                title: 'Real-time events',
+                description: 'Get live courier scan context.',
+              },
+              {
+                icon: <FaReceipt />,
+                title: 'All-in-one lookup',
+                description: 'Search by AWB or order details.',
+              },
+              {
+                icon: <MdSchedule />,
+                title: 'Accurate timeline',
+                description: 'Review every milestone in order.',
+              },
+              {
+                icon: <FaShieldAlt />,
+                title: 'Secure and private',
+                description: 'Tracking data stays protected.',
+              },
             ]}
             ctaTitle="Know where it is. Ready for the next shipment?"
             ctaDescription="Sign in to book, manage and track every courier from one Express Magic dashboard."
@@ -707,171 +795,170 @@ export default function OrderTrackingForm() {
           />
         )}
 
-      {isSuccess && tracking && (activeAwb || (activeOrder && activeContact)) && (
-        <Stack spacing={1.5} mt={1.5}>
-          <Card sx={shellCardStyles}>
-            <CardContent>
-              <Typography variant="h6" fontWeight={800} gutterBottom color="#17171A">
-                Shipment Overview
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    AWB Number
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {tracking.awb_number ? <AWBLink awb={tracking.awb_number} /> : '-'}
-                  </Typography>
+        {isSuccess && tracking && (activeAwb || (activeOrder && activeContact)) && (
+          <Stack spacing={1.5} mt={1.5}>
+            <Card sx={shellCardStyles}>
+              <CardContent>
+                <Typography variant="h6" fontWeight={800} gutterBottom color="#17171A">
+                  Shipment Overview
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      AWB Number
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {tracking.awb_number ? <AWBLink awb={tracking.awb_number} /> : '-'}
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Order Number
+                    </Typography>
+                    <Typography fontWeight={600}>{tracking.order_number || '-'}</Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Courier
+                    </Typography>
+                    <Typography fontWeight={600}>{tracking.courier_name || '-'}</Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Status
+                    </Typography>
+                    <Chip
+                      label={tracking.status || 'Unknown'}
+                      color={(() => {
+                        const normalized = (tracking.status || '').toLowerCase()
+                        if (normalized.includes('deliver')) return 'success'
+                        if (normalized.includes('transit')) return 'info'
+                        if (normalized.includes('cancel')) return 'error'
+                        if (normalized.includes('rto')) return 'warning'
+                        return 'default'
+                      })()}
+                      size="small"
+                      sx={{ fontWeight: 700, borderRadius: '999px' }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Payment Type
+                    </Typography>
+                    <Typography fontWeight={600} textTransform="uppercase">
+                      {tracking.payment_type || '-'}
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Estimated Delivery
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {tracking.edd ? new Date(tracking.edd).toLocaleDateString() : '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Order Number
-                  </Typography>
-                  <Typography fontWeight={600}>{tracking.order_number || '-'}</Typography>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Courier
-                  </Typography>
-                  <Typography fontWeight={600}>{tracking.courier_name || '-'}</Typography>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Status
+                {tracking.shipment_info && (
+                  <Box mt={3}>
+                    <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={700}>
+                      Shipment Info
+                    </Typography>
+                    <Typography fontSize={14}>{tracking.shipment_info}</Typography>
+                  </Box>
+                )}
+              </CardContent>
+            </Card>
+
+            <DelhiveryLifecycleAdapter
+              courierName={tracking.courier_name}
+              integrationType={tracking.integration_type}
+            />
+
+            <Card sx={shellCardStyles}>
+              <CardContent>
+                <Stack
+                  direction={{ xs: 'column', md: 'row' }}
+                  justifyContent="space-between"
+                  alignItems={{ xs: 'flex-start', md: 'center' }}
+                  spacing={1}
+                  mb={1}
+                >
+                  <Typography variant="h6" fontWeight={800} color="#17171A">
+                    Tracking Timeline
                   </Typography>
                   <Chip
-                    label={tracking.status || 'Unknown'}
-                    color={(() => {
-                      const normalized = (tracking.status || '').toLowerCase()
-                      if (normalized.includes('deliver')) return 'success'
-                      if (normalized.includes('transit')) return 'info'
-                      if (normalized.includes('cancel')) return 'error'
-                      if (normalized.includes('rto')) return 'warning'
-                      return 'default'
-                    })()}
-                    size="small"
-                    sx={{ fontWeight: 700, borderRadius: '999px' }}
+                    label={`${sortedHistory.length} event${sortedHistory.length === 1 ? '' : 's'}`}
+                    sx={{
+                      bgcolor: alpha(BRAND_ACCENT, 0.1),
+                      color: BRAND_ACCENT,
+                      borderRadius: '999px',
+                      fontWeight: 800,
+                    }}
                   />
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Payment Type
-                  </Typography>
-                  <Typography fontWeight={600} textTransform="uppercase">
-                    {tracking.payment_type || '-'}
-                  </Typography>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Estimated Delivery
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {tracking.edd ? new Date(tracking.edd).toLocaleDateString() : '-'}
-                  </Typography>
-                </Grid>
-              </Grid>
-              {tracking.shipment_info && (
-                <Box mt={3}>
-                  <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={700}>
-                    Shipment Info
-                  </Typography>
-                  <Typography fontSize={14}>{tracking.shipment_info}</Typography>
-                </Box>
-              )}
-            </CardContent>
-          </Card>
-
-          <DelhiveryLifecycleAdapter
-            courierName={tracking.courier_name}
-            integrationType={tracking.integration_type}
-          />
-
-          <Card sx={shellCardStyles}>
-            <CardContent>
-              <Stack
-                direction={{ xs: 'column', md: 'row' }}
-                justifyContent="space-between"
-                alignItems={{ xs: 'flex-start', md: 'center' }}
-                spacing={1}
-                mb={1}
-              >
-                <Typography variant="h6" fontWeight={800} color="#17171A">
+                </Stack>
+                <Divider sx={{ mb: 1.5 }} />
+                <Typography variant="h6" fontWeight={700} gutterBottom sx={{ display: 'none' }}>
                   Tracking Timeline
                 </Typography>
-                <Chip
-                  label={`${sortedHistory.length} event${sortedHistory.length === 1 ? '' : 's'}`}
-                  sx={{
-                    bgcolor: alpha(BRAND_ACCENT, 0.1),
-                    color: BRAND_ACCENT,
-                    borderRadius: '999px',
-                    fontWeight: 800,
-                  }}
-                />
-              </Stack>
-              <Divider sx={{ mb: 1.5 }} />
-              <Typography variant="h6" fontWeight={700} gutterBottom sx={{ display: 'none' }}>
-                Tracking Timeline
-              </Typography>
-              {sortedHistory.length === 0 ? (
-                <Typography color="text.secondary">No tracking events available yet.</Typography>
-              ) : (
-                <List>
-                  {sortedHistory.map((event, idx) => (
-                    <Fragment key={`${event.event_time}-${idx}`}>
-                      <ListItem alignItems="flex-start" sx={{ px: 0 }}>
-                        <ListItemIcon sx={{ minWidth: 36 }}>
-                          {idx === 0 ? (
-                            <FaBoxOpen color="#062A5B" size={20} />
-                          ) : (
-                            <MdLocationOn color="#6B7280" size={20} />
-                          )}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={
-                            <Stack direction="row" spacing={1} alignItems="center">
-                              <Typography fontWeight={600}>
-                                {event.message || event.status_code}
-                              </Typography>
-                              <Chip
-                                size="small"
-                                label={event.status_code}
-                                color={idx === 0 ? 'primary' : 'default'}
-                                sx={{ borderRadius: '999px', fontWeight: 700 }}
-                              />
-                            </Stack>
-                          }
-                          secondary={
-                            <Stack
-                              direction={{ xs: 'column', sm: 'row' }}
-                              spacing={1}
-                              mt={0.5}
-                              alignItems={{ sm: 'center' }}
-                            >
-                              <Stack direction="row" spacing={0.5} alignItems="center">
-                                <MdSchedule size={16} />
-                                <Typography variant="caption">
-                                  {formatTrackingEventTime(event.event_time)}
-                                </Typography>
+                {sortedHistory.length === 0 ? (
+                  <Typography color="text.secondary">No tracking events available yet.</Typography>
+                ) : (
+                  <List>
+                    {sortedHistory.map((event, idx) => (
+                      <Fragment key={`${event.event_time}-${idx}`}>
+                        <ListItem alignItems="flex-start" sx={{ px: 0 }}>
+                          <ListItemIcon sx={{ minWidth: 36 }}>
+                            {idx === 0 ? (
+                              <FaBoxOpen color="#062A5B" size={20} />
+                            ) : (
+                              <MdLocationOn color="#6B7280" size={20} />
+                            )}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Stack direction="row" spacing={1} alignItems="center">
+                                <Typography fontWeight={600}>{event.message || event.status_code}</Typography>
+                                <Chip
+                                  size="small"
+                                  label={event.status_code}
+                                  color={idx === 0 ? 'primary' : 'default'}
+                                  sx={{
+                                    borderRadius: '999px',
+                                    fontWeight: 700,
+                                  }}
+                                />
                               </Stack>
-                              {event.location && (
-                                <Typography variant="caption" color="text.secondary">
-                                  {event.location}
-                                </Typography>
-                              )}
-                            </Stack>
-                          }
-                        />
-                      </ListItem>
-                      {idx !== sortedHistory.length - 1 && <Divider component="li" />}
-                    </Fragment>
-                  ))}
-                </List>
-              )}
-            </CardContent>
-          </Card>
-        </Stack>
-      )}
-    </Stack>
+                            }
+                            secondary={
+                              <Stack
+                                direction={{ xs: 'column', sm: 'row' }}
+                                spacing={1}
+                                mt={0.5}
+                                alignItems={{ sm: 'center' }}
+                              >
+                                <Stack direction="row" spacing={0.5} alignItems="center">
+                                  <MdSchedule size={16} />
+                                  <Typography variant="caption">{formatTrackingEventTime(event.event_time)}</Typography>
+                                </Stack>
+                                {event.location && (
+                                  <Typography variant="caption" color="text.secondary">
+                                    {event.location}
+                                  </Typography>
+                                )}
+                              </Stack>
+                            }
+                          />
+                        </ListItem>
+                        {idx !== sortedHistory.length - 1 && <Divider component="li" />}
+                      </Fragment>
+                    ))}
+                  </List>
+                )}
+              </CardContent>
+            </Card>
+          </Stack>
+        )}
+      </Stack>
     </Box>
   )
 }

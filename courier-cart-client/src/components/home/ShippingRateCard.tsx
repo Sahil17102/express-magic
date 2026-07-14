@@ -33,7 +33,7 @@ const ShippingRateCard = () => {
           left: 0,
           width: '100%',
           height: '190%',
-          backgroundImage: 'url(/images/locations-bg.png)',
+          backgroundImage: 'url(/images/locations-bg.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           opacity: 0.3,
@@ -42,13 +42,7 @@ const ShippingRateCard = () => {
       }}
     >
       {/* Content */}
-      <Box
-        sx={{ position: 'relative', zIndex: 1 }}
-        display="flex"
-        flex={1}
-        gap={2}
-        flexDirection="column"
-      >
+      <Box sx={{ position: 'relative', zIndex: 1 }} display="flex" flex={1} gap={2} flexDirection="column">
         <Box display="flex" alignItems="center" gap={2}>
           <Box
             sx={{
@@ -86,10 +80,7 @@ const ShippingRateCard = () => {
         />
 
         {/* Description */}
-        <Typography
-          variant="body2"
-          sx={{ fontSize: 13, color: '#FFFFFF', mb: 0.5, fontWeight: 500 }}
-        >
+        <Typography variant="body2" sx={{ fontSize: 13, color: '#FFFFFF', mb: 0.5, fontWeight: 500 }}>
           Enter your pickup & delivery pincodes and shipment weight to calculate exact charges.
         </Typography>
 
@@ -108,7 +99,13 @@ const ShippingRateCard = () => {
 
         <Typography
           variant="body2"
-          sx={{ fontSize: 12, mt: 0.5, color: '#FFFFFF', opacity: 0.85, fontWeight: 500 }}
+          sx={{
+            fontSize: 12,
+            mt: 0.5,
+            color: '#FFFFFF',
+            opacity: 0.85,
+            fontWeight: 500,
+          }}
         >
           Know delivery timelines, zones, and expected COD charges instantly.
         </Typography>
