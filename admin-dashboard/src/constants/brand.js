@@ -2,7 +2,7 @@ export const BRAND = {
   name: 'Express Magic',
   shortName: 'Express Magic',
   tagline: 'Fast. Safe. Worldwide.',
-  adminEmail: 'admin@expressmagic.in',
+  adminEmail: 'admin@shiplifi.com',
   supportEmail: 'support@expressmagic.in',
   website: 'www.expressmagic.in',
   logo: '/express-magic-logo.jpeg',

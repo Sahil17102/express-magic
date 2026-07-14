@@ -307,7 +307,8 @@ export const requestOtp = async (req: Request, res: Response): Promise<any> => {
       })
     }
 
-    // 2. Deliver OTP. In Railway/demo mode we show the code on screen instead of requiring SMTP.
+    // 2. Deliver OTP. The client panel shows the generated code on screen so
+    // demo/test logins do not depend on SMTP delivery.
     const otpDeliveryMode = getAuthOtpDeliveryMode()
     if (otpDeliveryMode === 'email' || otpDeliveryMode === 'both') {
       try {
@@ -321,13 +322,10 @@ export const requestOtp = async (req: Request, res: Response): Promise<any> => {
     const response: Record<string, string> = {
       message:
         otpDeliveryMode === 'email'
-          ? 'OTP sent successfully to your email'
+          ? 'OTP generated successfully. Enter the code shown on screen.'
           : 'OTP generated successfully. Enter the code shown on screen.',
-    }
-
-    if (otpDeliveryMode === 'screen' || otpDeliveryMode === 'both') {
-      response.otp = otp
-      response.devOtp = otp
+      otp,
+      devOtp: otp,
     }
 
     return res.json(response)

@@ -214,7 +214,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
           }}
         >
           <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_TEAL, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            Test OTP
+            Sign-in code
           </Typography>
           <Typography sx={{ mt: 0.4, fontSize: '1.5rem', fontWeight: 800, color: BRAND_DARK, letterSpacing: '0.18em' }}>
             {debugOtp}
@@ -286,7 +286,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
       )}
 
       <Typography variant="caption" color="#6E6763" textAlign="center" sx={{ userSelect: 'none' }}>
-        Enter the test code above to continue to the merchant shipping workspace.
+        Enter the code shown above to continue to the merchant shipping workspace.
       </Typography>
 
       <CustomIconLoadingButton

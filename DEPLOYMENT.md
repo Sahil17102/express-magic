@@ -73,7 +73,7 @@ Set these environment variables in the backend service:
 | `COURIER_SECRET_KEY` | A third unique random secret used to encrypt stored courier credentials. Keep this stable after production data exists. |
 | `ADMIN_SEED_EMAIL` | The real production administrator email address. |
 | `ADMIN_SEED_PASSWORD` | A unique strong initial administrator password. Change it after first login and keep it out of Git. |
-| `AUTH_OTP_DELIVERY` | `email` when production SMTP is configured; use `screen` only for temporary testing. |
+| `AUTH_OTP_DELIVERY` | `screen` to show the login code in the client panel. Use `email` or `both` only when SMTP should also send the same code. |
 | `AUTO_MIGRATE_ON_START` | `true` for the first deployment or automatic schema bootstrap; set `false` only after migrations are managed separately. |
 
 Render supplies `PORT`; do not hardcode it. Courier, payment, email, storage, Shopify, and Google variables are feature-specific and should be added only with real values from those providers.
