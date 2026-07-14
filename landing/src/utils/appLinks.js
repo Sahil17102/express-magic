@@ -1,5 +1,17 @@
 const stripTrailingSlash = (url = "") => String(url).replace(/\/+$/, "");
 
+const isLegacyDeploymentUrl = (url = "") =>
+  /(^|\.)up\.railway\.app(?=\/|$)/i.test(
+    String(url).replace(/^https?:\/\//i, ""),
+  );
+
+const resolveProductionUrl = (configuredUrl, fallbackUrl) => {
+  const configured = stripTrailingSlash(configuredUrl);
+  return configured && !isLegacyDeploymentUrl(configured)
+    ? configured
+    : stripTrailingSlash(fallbackUrl);
+};
+
 const inferLocalHostUrl = (port) => {
   if (typeof window === "undefined" || !window.location?.hostname) {
     return "";
@@ -24,24 +36,29 @@ const defaultApiBaseUrl = import.meta.env.DEV
   ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://express-magic-backend.onrender.com"}/api`
   : "https://express-magic-backend.onrender.com/api";
 
-export const CLIENT_APP_URL = stripTrailingSlash(
-  import.meta.env.VITE_CLIENT_APP_URL || defaultClientAppUrl,
+export const CLIENT_APP_URL = resolveProductionUrl(
+  import.meta.env.VITE_CLIENT_APP_URL,
+  defaultClientAppUrl,
 );
 
-export const AUTH_APP_URL = stripTrailingSlash(
-  import.meta.env.VITE_AUTH_APP_URL || `${CLIENT_APP_URL}/login`,
+export const AUTH_APP_URL = resolveProductionUrl(
+  import.meta.env.VITE_AUTH_APP_URL,
+  `${CLIENT_APP_URL}/login`,
 );
 
-export const ADMIN_APP_URL = stripTrailingSlash(
-  import.meta.env.VITE_ADMIN_APP_URL || defaultAdminAppUrl,
+export const ADMIN_APP_URL = resolveProductionUrl(
+  import.meta.env.VITE_ADMIN_APP_URL,
+  defaultAdminAppUrl,
 );
 
-export const ADMIN_AUTH_URL = stripTrailingSlash(
-  import.meta.env.VITE_ADMIN_AUTH_URL || `${ADMIN_APP_URL}/auth/signin`,
+export const ADMIN_AUTH_URL = resolveProductionUrl(
+  import.meta.env.VITE_ADMIN_AUTH_URL,
+  `${ADMIN_APP_URL}/auth/signin`,
 );
 
-export const API_BASE_URL = stripTrailingSlash(
-  import.meta.env.VITE_API_URL || defaultApiBaseUrl,
+export const API_BASE_URL = resolveProductionUrl(
+  import.meta.env.VITE_API_URL,
+  defaultApiBaseUrl,
 );
 
 export const CLIENT_RATE_CALCULATOR_URL = `${CLIENT_APP_URL}/tools/rate_calculator`;
