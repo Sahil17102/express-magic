@@ -13,6 +13,9 @@ const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 
   .trim()
   .toLowerCase()
 const password = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD || 'Admin@12345!'
+const forcePasswordReset = ['1', 'true', 'yes', 'on'].includes(
+  String(process.env.ADMIN_FORCE_PASSWORD_RESET || '').trim().toLowerCase(),
+)
 
 const isMissingRelationError = (error: any) =>
   error?.code === '42P01' ||
@@ -25,7 +28,6 @@ async function ensureAdmin() {
     throw new Error('ADMIN_SEED_EMAIL and ADMIN_SEED_PASSWORD are required')
   }
 
-  const passwordHash = await bcryptjs.hash(password, 10)
   const existingUser = await db.query.users.findFirst({
     where: eq(users.email, email),
   })
@@ -33,19 +35,28 @@ async function ensureAdmin() {
   let userId = existingUser?.id
 
   if (existingUser) {
+    const updates: Partial<typeof users.$inferInsert> = {
+      role: 'admin',
+      emailVerified: true,
+      phoneVerified: true,
+      accountVerified: true,
+      updatedAt: new Date(),
+    }
+
+    if (!existingUser.passwordHash || forcePasswordReset) {
+      updates.passwordHash = await bcryptjs.hash(password, 10)
+    }
+
     await db
       .update(users)
-      .set({
-        passwordHash,
-        role: 'admin',
-        emailVerified: true,
-        phoneVerified: true,
-        accountVerified: true,
-        updatedAt: new Date(),
-      })
+      .set(updates)
       .where(eq(users.id, existingUser.id))
     console.log(`Admin updated: ${email}`)
+    if (forcePasswordReset) {
+      console.log('Admin password reset from ADMIN_SEED_PASSWORD')
+    }
   } else {
+    const passwordHash = await bcryptjs.hash(password, 10)
     const [createdUser] = await db
       .insert(users)
       .values({
@@ -112,7 +123,7 @@ async function ensureAdmin() {
 
   console.log('\nAdmin panel login')
   console.log(`Email: ${email}`)
-  console.log(`Password: ${password}`)
+  console.log('Password: configured securely in ADMIN_SEED_PASSWORD')
 }
 
 ensureAdmin()

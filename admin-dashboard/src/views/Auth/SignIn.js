@@ -35,6 +35,25 @@ function isTokenValid(token) {
   }
 }
 
+function getLoginErrorMessage(error) {
+  const apiError = error?.response?.data?.error
+  if (typeof apiError === 'string' && apiError.trim()) return apiError
+
+  const status = error?.response?.status
+  const contentType = String(error?.response?.headers?.['content-type'] || '').toLowerCase()
+  const receivedHtml = contentType.includes('text/html')
+
+  if (status === 405 || receivedHtml) {
+    return 'Backend API deployment is misconfigured. The API URL is serving a frontend app instead of the Express API.'
+  }
+
+  if (!error?.response) {
+    return 'Cannot reach the backend API. Check the backend service URL, deployment, and CORS settings.'
+  }
+
+  return `Admin API request failed (HTTP ${status || 'unknown'}). Check the backend deployment.`
+}
+
 function SignIn() {
   const pageBg = useColorModeValue(BRAND.colors.surface, '#111113')
   const shellBg = useColorModeValue('white', '#18181B')
@@ -81,7 +100,7 @@ function SignIn() {
     } catch (err) {
       toast({
         title: 'Login failed',
-        description: err.response?.data?.error || 'Something went wrong',
+        description: getLoginErrorMessage(err),
         status: 'error',
         duration: 3000,
         isClosable: true,

@@ -92,3 +92,5 @@ services:
         sync: false
       - key: ADMIN_SEED_PASSWORD
         sync: false
+      - key: ADMIN_FORCE_PASSWORD_RESET
+        value: "false"
