@@ -39,6 +39,8 @@ VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 - Publish directory: `build`
 - Add a rewrite from `/*` to `/index.html` for React Router.
 
+For an existing Docker Web Service, set Root Directory to `admin-dashboard`, Dockerfile Path to `./Dockerfile`, and Health Check Path to `/health`. The included Nginx configuration serves the production admin build and handles SPA routes.
+
 Set these build-time environment variables:
 
 ```env
