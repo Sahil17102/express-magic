@@ -48,11 +48,14 @@ REACT_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 
 ### Backend settings
 
+- Root directory: `backend`
 - Runtime: `Node`
 - Build command: `npm ci && npm run build`
 - Start command: `npm start`
 - Health check path: `/health`
 - Region: the same region as the Render Postgres database
+
+If the existing service was created with the `Docker` runtime, keep it as Docker, set Root Directory to `backend`, and set Dockerfile Path to `./Dockerfile`. Render then uses `backend/Dockerfile`; leave native Node build/start fields unused. The backend URL is misconfigured if `/` or `/api` returns the landing page HTML. A correct deployment returns `{"status":"ok"}` from `/health`.
 
 Set these environment variables in the backend service:
 
