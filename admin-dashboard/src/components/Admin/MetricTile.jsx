@@ -20,8 +20,11 @@ export default function MetricTile({
     <Flex
       direction="column"
       justify="space-between"
-      minH="136px"
-      p={4.5}
+      w="100%"
+      minW={0}
+      minH={{ base: '164px', md: '172px' }}
+      h="100%"
+      p={{ base: 4, md: 4.5 }}
       borderRadius="22px"
       borderWidth="1px"
       borderColor={borderColor}
@@ -40,11 +43,22 @@ export default function MetricTile({
       }
       onClick={onClick}
     >
-      <Flex align="center" justify="space-between" mb={5}>
-        <Text fontSize="xs" fontWeight="700" textTransform="uppercase" letterSpacing="0.1em" color={titleColor}>
+      <Flex align="flex-start" justify="space-between" gap={3} mb={4} minW={0}>
+        <Text
+          minW={0}
+          pt={1}
+          fontSize="xs"
+          fontWeight="700"
+          lineHeight="1.35"
+          textTransform="uppercase"
+          letterSpacing="0.08em"
+          overflowWrap="anywhere"
+          color={titleColor}
+        >
           {label}
         </Text>
         <Flex
+          flexShrink={0}
           align="center"
           justify="center"
           w="42px"
@@ -56,12 +70,25 @@ export default function MetricTile({
           {icon}
         </Flex>
       </Flex>
-      <Box>
-        <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="800" letterSpacing="-0.03em" color={valueColor}>
+      <Box minW={0}>
+        <Text
+          fontSize={{ base: '2xl', md: '3xl' }}
+          fontWeight="800"
+          lineHeight="1.15"
+          letterSpacing="0"
+          overflowWrap="anywhere"
+          color={valueColor}
+        >
           {value}
         </Text>
         {muted ? (
-          <Text mt={1.5} fontSize="sm" color={titleColor}>
+          <Text
+            mt={1.5}
+            fontSize="sm"
+            lineHeight="1.45"
+            overflowWrap="anywhere"
+            color={titleColor}
+          >
             {muted}
           </Text>
         ) : null}
