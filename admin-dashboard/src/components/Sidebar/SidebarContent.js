@@ -34,7 +34,7 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
   const activeRoute = (routeName) => location.pathname.startsWith(routeName)
 
   const toggleCollapse = (key) => {
-    setState((prev) => ({ ...prev, [key]: !prev[key] }))
+    setState((prev) => ({ [key]: !prev[key] }))
   }
 
   useEffect(() => {
@@ -57,14 +57,18 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
 
   const renderLinkButton = (prop, isActive) => (
     <Button
+      className="sidebar-nav-button"
+      aria-label={collapsed ? prop.name : undefined}
+      title={collapsed ? prop.name : undefined}
       justifyContent={collapsed ? 'center' : 'flex-start'}
       w="100%"
       bg={isActive ? activeBg : 'transparent'}
       borderRadius="10px"
-      mb="1"
+      mb={collapsed ? '1px' : '2px'}
       px={collapsed ? '2' : '3'}
-      py="10px"
+      py={collapsed ? '5px' : '7px'}
       h="auto"
+      minH={collapsed ? '42px' : '46px'}
       border="1px solid"
       borderColor={isActive ? activeBorder : 'transparent'}
       _hover={{
@@ -75,14 +79,17 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
       _active={{ transform: 'scale(0.98)' }}
       transition="all 0.2s ease"
     >
-      <Flex align="center" gap="10px" w="100%">
+      <Flex align="center" justify={collapsed ? 'center' : 'flex-start'} gap={collapsed ? '0' : '10px'} w="100%">
         {prop.icon && (
           <Box
-            p="6px"
+            className="sidebar-nav-icon"
+            p={collapsed ? '4px' : '6px'}
             borderRadius="8px"
             bg={isActive ? iconActiveBg : iconBg}
             color={isActive ? '#FFFFFF' : iconColor}
-            fontSize={collapsed ? '20px' : '18px'}
+            fontSize="18px"
+            minW={collapsed ? '30px' : 'auto'}
+            minH={collapsed ? '30px' : 'auto'}
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -111,17 +118,21 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
           )
 
           return (
-            <Box key={prop.name} mb="1">
+            <Box key={prop.name} mb={collapsed ? '1px' : '2px'}>
               <Button
+                className="sidebar-nav-button"
+                aria-label={collapsed ? prop.name : undefined}
+                title={collapsed ? prop.name : undefined}
                 onClick={() => toggleCollapse(prop.state)}
                 justifyContent={collapsed ? 'center' : 'space-between'}
                 w="100%"
                 bg={isChildActive ? activeBg : 'transparent'}
                 borderRadius="10px"
-                mb="1"
+                mb={collapsed ? '1px' : '2px'}
                 px={collapsed ? '2' : '3'}
-                py="10px"
+                py={collapsed ? '5px' : '7px'}
                 h="auto"
+                minH={collapsed ? '42px' : '46px'}
                 border="1px solid"
                 borderColor={isChildActive ? activeBorder : 'transparent'}
                 _hover={{
@@ -131,13 +142,16 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
                 }}
                 transition="all 0.2s ease"
               >
-                <Flex align="center" gap="10px" w="100%">
+                <Flex align="center" justify={collapsed ? 'center' : 'flex-start'} gap={collapsed ? '0' : '10px'} w="100%">
                   <Box
-                    p="6px"
+                    className="sidebar-nav-icon"
+                    p={collapsed ? '4px' : '6px'}
                     borderRadius="8px"
                     bg={isChildActive ? iconActiveBg : iconBg}
                     color={isChildActive ? '#FFFFFF' : iconColor}
-                    fontSize={collapsed ? '20px' : '18px'}
+                    fontSize="18px"
+                    minW={collapsed ? '30px' : 'auto'}
+                    minH={collapsed ? '30px' : 'auto'}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
@@ -185,9 +199,10 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
 
   return (
     <Box
-      pt="20px"
-      pb="20px"
-      h="100vh"
+      pt={collapsed ? '8px' : '14px'}
+      pb={collapsed ? '8px' : '14px'}
+      h="100dvh"
+      maxH="100dvh"
       w={`${sidebarWidth}px`}
       bg={sidebarBg}
       borderRight="1px solid"
@@ -196,10 +211,12 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
       position="fixed"
       left="0"
       top="0"
+      zIndex="1200"
       transition="width 0.25s ease"
       overflowY="auto"
       overflowX="hidden"
       pr="2"
+      overscrollBehavior="contain"
       css={{
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': { width: '5px' },
@@ -208,9 +225,23 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
           background: thumbColor,
           borderRadius: '4px',
         },
+        '@media screen and (max-height: 760px)': {
+          '& .sidebar-nav-button': {
+            minHeight: '38px',
+            paddingTop: '3px',
+            paddingBottom: '3px',
+            marginBottom: '0px',
+          },
+          '& .sidebar-nav-icon': {
+            minWidth: '28px',
+            minHeight: '28px',
+            padding: '3px',
+            fontSize: '17px',
+          },
+        },
       }}
     >
-      <Box mb="20px" px="14px" textAlign="center" transition="all 0.3s ease">
+      <Box mb={collapsed ? '7px' : '12px'} px={collapsed ? '8px' : '14px'} textAlign="center" transition="all 0.3s ease">
         {showText ? (
           <Flex
             align="center"
@@ -227,14 +258,14 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
           </Flex>
         ) : (
           <Box mx="auto" p="2px" borderRadius="10px" bg={collapsedLogoBg}>
-            <BrandMark markOnly size={36} />
+            <BrandMark markOnly size={30} />
           </Box>
         )}
       </Box>
 
-      <Box h="1px" bg={dividerColor} mx="14px" mb="14px" />
+      <Box h="1px" bg={dividerColor} mx={collapsed ? '8px' : '14px'} mb={collapsed ? '6px' : '10px'} />
 
-      <Stack direction="column" spacing="0.5" px="10px">
+      <Stack direction="column" spacing="0" px={collapsed ? '6px' : '10px'}>
         {renderLinks(routes)}
       </Stack>
     </Box>

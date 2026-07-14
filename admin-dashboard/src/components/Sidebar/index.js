@@ -24,16 +24,23 @@ function Sidebar(props) {
   // SIDEBAR
   return (
     <Box ref={mainPanel}>
-      <Box display={{ sm: 'none', xl: 'block' }} position="fixed">
+      <Box
+        display={{ sm: 'none', xl: 'block' }}
+        position="fixed"
+        inset="0 auto 0 0"
+        h="100dvh"
+        zIndex="1200"
+        overflow="hidden"
+      >
         <Box
           bg={sidebarBg}
           transition={variantChange}
           w={`${sidebarWidth}px`} // ✅ dynamic width from Dashboard
           maxW="400px"
-          minW="200px"
+          minW={`${sidebarWidth}px`}
           ms={{ sm: '16px' }}
           my={{ sm: '16px' }}
-          h="calc(100vh - 32px)"
+          h="100dvh"
           ps="20px"
           pe="20px"
           m={sidebarMargins}

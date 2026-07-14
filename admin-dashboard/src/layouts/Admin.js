@@ -17,6 +17,10 @@ import MainPanel from '../components/Layout/MainPanel'
 import PanelContainer from '../components/Layout/PanelContainer'
 import PanelContent from '../components/Layout/PanelContent'
 
+const SIDEBAR_MIN_WIDTH = 88
+const SIDEBAR_MAX_WIDTH = 400
+const SIDEBAR_DEFAULT_WIDTH = 96
+
 export default function Dashboard(props) {
   const { ...rest } = props
   // states and functions
@@ -24,14 +28,20 @@ export default function Dashboard(props) {
   const [fixed, setFixed] = useState(false)
 
   // 🆕 Sidebar resizing state
-  const [sidebarWidth, setSidebarWidth] = useState(260) // default width
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    const savedValue = window.localStorage.getItem('adminSidebarWidth')
+    const savedWidth = Number(savedValue)
+    return savedValue && Number.isFinite(savedWidth)
+      ? Math.min(Math.max(savedWidth, SIDEBAR_MIN_WIDTH), SIDEBAR_MAX_WIDTH)
+      : SIDEBAR_DEFAULT_WIDTH
+  })
   const [isResizing, setIsResizing] = useState(false)
 
   // Resizing logic
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (isResizing) {
-        const newWidth = Math.min(Math.max(e.clientX, 200), 400) // min 200, max 400
+        const newWidth = Math.min(Math.max(e.clientX, SIDEBAR_MIN_WIDTH), SIDEBAR_MAX_WIDTH)
         setSidebarWidth(newWidth)
       }
     }
@@ -45,6 +55,10 @@ export default function Dashboard(props) {
       window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [isResizing])
+
+  useEffect(() => {
+    window.localStorage.setItem('adminSidebarWidth', String(sidebarWidth))
+  }, [sidebarWidth])
 
   useEffect(() => {
     document.title = `${BRAND.name} Admin`
@@ -170,15 +184,15 @@ export default function Dashboard(props) {
       {/* 🖱️ Resize Handle */}
       <Box
         position="fixed"
-          left={`${sidebarWidth - 3}px`}
-          top="0"
-          h="100vh"
-          w="6px"
-          cursor="col-resize"
-          zIndex="1400"
-          _hover={{ bg: useColorModeValue('rgba(6, 42, 91, 0.14)', 'rgba(6, 42, 91, 0.24)') }}
-          onMouseDown={() => setIsResizing(true)}
-        />
+        left={`${sidebarWidth - 3}px`}
+        top="0"
+        h="100dvh"
+        w="6px"
+        cursor="col-resize"
+        zIndex="1400"
+        _hover={{ bg: useColorModeValue('rgba(6, 42, 91, 0.14)', 'rgba(6, 42, 91, 0.24)') }}
+        onMouseDown={() => setIsResizing(true)}
+      />
       </ChakraProvider>
   )
 }
