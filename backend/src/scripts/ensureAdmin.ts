@@ -12,7 +12,8 @@ dotenv.config({ path: path.resolve(__dirname, `../../.env.${env}`) })
 const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 'admin@shiplifi.com')
   .trim()
   .toLowerCase()
-const password = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD || 'Admin@12345!'
+const configuredPassword = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD
+const password = configuredPassword || 'Admin@12345!'
 const forcePasswordReset = ['1', 'true', 'yes', 'on'].includes(
   String(process.env.ADMIN_FORCE_PASSWORD_RESET || '').trim().toLowerCase(),
 )
@@ -43,7 +44,9 @@ async function ensureAdmin() {
       updatedAt: new Date(),
     }
 
-    if (!existingUser.passwordHash || forcePasswordReset) {
+    // An explicitly configured seed password is authoritative. This prevents
+    // Render credentials from drifting away from an older database password.
+    if (!existingUser.passwordHash || forcePasswordReset || configuredPassword) {
       updates.passwordHash = await bcryptjs.hash(password, 10)
     }
 
@@ -52,8 +55,8 @@ async function ensureAdmin() {
       .set(updates)
       .where(eq(users.id, existingUser.id))
     console.log(`Admin updated: ${email}`)
-    if (forcePasswordReset) {
-      console.log('Admin password reset from ADMIN_SEED_PASSWORD')
+    if (forcePasswordReset || configuredPassword) {
+      console.log('Admin password synchronized from ADMIN_SEED_PASSWORD')
     }
   } else {
     const passwordHash = await bcryptjs.hash(password, 10)

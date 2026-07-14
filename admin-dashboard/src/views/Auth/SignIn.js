@@ -57,15 +57,15 @@ function getLoginErrorMessage(error) {
 function SignIn() {
   const pageBg = useColorModeValue(BRAND.colors.surface, '#111113')
   const shellBg = useColorModeValue('white', '#18181B')
-  const shellBorder = useColorModeValue('rgba(215,238,241,0.95)', 'rgba(255,255,255,0.08)')
+  const shellBorder = useColorModeValue('rgba(6,42,91,0.16)', 'rgba(255,255,255,0.08)')
   const leftBg = useColorModeValue(
-    'linear-gradient(145deg, #041A38 0%, #062A5B 52%, #0d4f66 100%)',
+    'radial-gradient(circle at 92% 8%, rgba(237,28,36,0.28), transparent 28%), linear-gradient(145deg, #041A38 0%, #062A5B 64%, #09254C 100%)',
     '#111113',
   )
   const leftBorder = useColorModeValue('rgba(255,255,255,0.12)', 'rgba(255,255,255,0.08)')
   const textPrimary = useColorModeValue(BRAND.colors.ink, 'white')
-  const textSecondary = useColorModeValue('rgba(255,255,255,0.88)', 'rgba(255,255,255,0.72)')
-  const inputBg = useColorModeValue('#F8FCFD', 'rgba(255,255,255,0.04)')
+  const textSecondary = useColorModeValue(BRAND.colors.muted, 'rgba(255,255,255,0.72)')
+  const inputBg = useColorModeValue(BRAND.colors.surface, 'rgba(255,255,255,0.04)')
   const inputBorder = useColorModeValue('rgba(6,42,91,0.12)', 'rgba(255,255,255,0.1)')
   const iconHoverBg = useColorModeValue('rgba(6,42,91,0.08)', 'rgba(255,255,255,0.08)')
 
@@ -149,6 +149,15 @@ function SignIn() {
         borderRadius={{ base: '16px', lg: '20px' }}
         boxShadow={useColorModeValue('0 24px 64px rgba(7,25,35,0.1)', '0 24px 60px rgba(5,4,10,0.42)')}
         overflow="hidden"
+        position="relative"
+        _before={{
+          content: '""',
+          position: 'absolute',
+          inset: '0 0 auto 0',
+          h: '4px',
+          bg: `linear-gradient(90deg, ${BRAND.colors.tealDark} 0%, ${BRAND.colors.teal} 64%, ${BRAND.colors.orange} 100%)`,
+          zIndex: 2,
+        }}
         zIndex="1"
       >
         <GridItem bg={leftBg} borderRight={{ base: 'none', lg: '1px solid' }} borderColor={leftBorder}>
@@ -164,10 +173,10 @@ function SignIn() {
                 borderRadius="10px"
                 bg="white"
                 p="1"
-                border="1px solid rgba(17,17,19,0.08)"
+                border={`2px solid ${BRAND.colors.orange}`}
               />
               <VStack align="start" spacing={0.5}>
-                <Text fontSize="xs" fontWeight="800" letterSpacing="0.18em" textTransform="uppercase" color="rgba(255,255,255,0.72)">
+                <Text fontSize="xs" fontWeight="800" letterSpacing="0.18em" textTransform="uppercase" color="#FF6570">
                   {BRAND.name}
                 </Text>
                 <Text fontSize="sm" fontWeight="700" color="white">
@@ -188,9 +197,9 @@ function SignIn() {
 
             <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4} mt={{ base: 8, md: 10 }}>
               {[
-                { title: 'Pricing', body: 'manage courier logic, plans, and platform commercials' },
-                { title: 'Operations', body: 'review orders, NDR, RTO, and exception workflows' },
-                { title: 'Support', body: 'track users, tickets, notifications, and admin actions' },
+                { title: 'Pricing', body: 'manage courier logic, plans, and platform commercials', accent: BRAND.colors.orange },
+                { title: 'Operations', body: 'review orders, NDR, RTO, and exception workflows', accent: '#6D92C7' },
+                { title: 'Support', body: 'track users, tickets, notifications, and admin actions', accent: BRAND.colors.orange },
               ].map((item) => (
                 <Box
                   key={item.title}
@@ -198,6 +207,7 @@ function SignIn() {
                   borderRadius="10px"
                   bg="rgba(255,255,255,0.1)"
                   border="1px solid rgba(255,255,255,0.16)"
+                  borderTop={`3px solid ${item.accent}`}
                 >
                   <Text fontSize="sm" fontWeight="800" color="white">
                     {item.title}
@@ -233,7 +243,7 @@ function SignIn() {
             <Box as="form" onSubmit={handleSubmit} w="100%" maxW="440px">
               <VStack spacing={6} align="stretch">
                 <Box>
-                  <Text fontSize="xs" fontWeight="800" letterSpacing="0.16em" color="brand.500" mb={2}>
+                  <Text fontSize="xs" fontWeight="800" letterSpacing="0.16em" color="accent.500" mb={2}>
                     Secure Access
                   </Text>
                   <Heading fontSize={{ base: '2xl', md: '3xl' }} fontWeight="800" color={textPrimary} lineHeight="1.08" letterSpacing="-0.03em">
@@ -259,8 +269,8 @@ function SignIn() {
                     borderColor={inputBorder}
                     _hover={{ borderColor: 'brand.400' }}
                     _focus={{
-                      borderColor: 'brand.500',
-                      boxShadow: '0 0 0 3px rgba(6,42,91,0.12)',
+                      borderColor: 'accent.500',
+                      boxShadow: '0 0 0 3px rgba(237,28,36,0.12)',
                     }}
                   />
                 </FormControl>
@@ -304,13 +314,17 @@ function SignIn() {
                   type="submit"
                   h="50px"
                   borderRadius="10px"
-                  bg="brand.500"
+                  bg={`linear-gradient(100deg, ${BRAND.colors.tealDark} 0%, ${BRAND.colors.teal} 68%, ${BRAND.colors.orange} 100%)`}
                   color="white"
                   fontWeight="700"
                   isLoading={loading}
                   loadingText="Signing in"
-                  _hover={{ bg: 'brand.600' }}
-                  _active={{ bg: 'brand.700' }}
+                  boxShadow="0 12px 24px rgba(6,42,91,0.2)"
+                  _hover={{
+                    bg: `linear-gradient(100deg, ${BRAND.colors.tealDark} 0%, #123763 60%, ${BRAND.colors.orangeDark} 100%)`,
+                    transform: 'translateY(-1px)',
+                  }}
+                  _active={{ transform: 'translateY(0)' }}
                 >
                   Sign In
                 </Button>
