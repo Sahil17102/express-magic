@@ -189,7 +189,7 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#D8E4F2] bg-white text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.08)] transition hover:bg-[#F5F8FC] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#D8E4F2] bg-white text-[#062A5B] shadow-[0_12px_26px_rgba(6,42,91,0.08)] transition hover:bg-[#F5F8FC]"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             onClick={onToggleMenu}
           >
@@ -204,7 +204,7 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-t border-[#D6E1EF] bg-[#F5F8FC] lg:hidden"
+            className="overflow-hidden border-t border-[#D6E1EF] bg-[#F5F8FC]"
           >
             <div className="mx-auto grid max-w-7xl gap-3 px-4 py-4 sm:px-6">
               {siteNavigation.map((item) => (

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   MotionConfig,
@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import trackingDashboardImage from "../../assets/tracking-dashboard-image-hd.webp";
 import volumetricCalculatorImage from "../../assets/volumetric-calculator-hd.webp";
+import heroWarehouseVisual from "../../assets/express-magic-warehouse-hero.png";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
 import { companyProfile } from "./siteData";
@@ -20,7 +21,6 @@ const MotionAnchor = motion.a;
 const MotionButton = motion.button;
 const MotionDiv = motion.div;
 const MotionSpan = motion.span;
-const LogisticsNetworkScene = lazy(() => import("./LogisticsNetworkScene"));
 
 const primaryButtonClass =
   "inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto";
@@ -901,88 +901,112 @@ function AlignedSectionHeading({ eyebrow, title, description, className = "" }) 
   );
 }
 
+function HeroProofStrip() {
+  return (
+    <div className="hero-proof-strip">
+      {heroProofItems.map((item, index) => (
+        <div
+          key={item.label}
+          className="hero-proof-strip__item"
+          style={{ animationDelay: `${0.36 + index * 0.08}s` }}
+        >
+          <span className="hero-proof-strip__icon">
+            <Icon name={item.icon} className="h-4 w-4" />
+          </span>
+          <span>
+            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#ED1C24]">
+              {item.label}
+            </span>
+            <span className="mt-1 block text-sm font-semibold leading-snug text-[#061A33]">
+              {item.value}
+            </span>
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function HeroSection() {
   const { scrollYProgress } = useScroll();
-  const visualY = useTransform(scrollYProgress, [0, 0.2], [0, -28]);
+  const visualY = useTransform(scrollYProgress, [0, 0.24], [0, -42]);
+  const visualScale = useTransform(scrollYProgress, [0, 0.24], [1, 1.035]);
 
   return (
-    <section className="hero-cinematic section-transition relative isolate overflow-hidden bg-[#06152d] text-white">
-      <MotionDiv className="absolute inset-0 z-0" style={{ y: visualY }} aria-hidden="true">
-        <Suspense fallback={<div className="absolute inset-0 bg-[#06152d]" />}>
-          <LogisticsNetworkScene />
-        </Suspense>
+    <section className="hero-section section-transition relative overflow-hidden bg-[#f7fbff] pt-6 sm:pt-8">
+      <MotionDiv
+        className="absolute inset-0 z-0"
+        style={{ y: visualY, scale: visualScale }}
+        aria-hidden="true"
+      >
+        <img
+          src={heroWarehouseVisual}
+          alt=""
+          className="h-full w-full object-cover object-[64%_center]"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.99)_0%,rgba(255,255,255,0.95)_30%,rgba(255,255,255,0.66)_52%,rgba(255,255,255,0.08)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,rgba(247,251,255,0),#f7fbff_82%)]" />
       </MotionDiv>
-      <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(4,15,33,0.98)_0%,rgba(4,15,33,0.88)_42%,rgba(4,15,33,0.38)_100%)]" />
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-52 bg-[linear-gradient(180deg,rgba(6,21,45,0),#06152d_86%)]" />
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-5 pb-12 pt-14 sm:px-8 sm:pb-14 sm:pt-18 lg:px-16 lg:pb-16 lg:pt-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
-          <Reveal className="max-w-[42rem]" delay={0.02}>
-            <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-4 py-2 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.12em] text-[#9CC5FF] backdrop-blur-xl sm:text-xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#ED1C24] shadow-[0_0_16px_rgba(237,28,36,0.9)]" />
-              Logistics infrastructure for modern commerce
-            </span>
+      <div className="relative z-10 mx-auto max-w-[1440px] px-5 pb-0 pt-10 sm:px-8 sm:pt-14 lg:px-16 lg:pt-16">
+        <Reveal className="max-w-[43rem]" delay={0.04}>
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-white/82 px-4 py-2 text-[0.68rem] font-extrabold uppercase leading-5 tracking-[0.1em] text-[#1F5C9E] shadow-[0_12px_28px_rgba(6,42,91,0.08)] ring-1 ring-[#D9E6F7] sm:text-[0.76rem] sm:tracking-[0.14em]">
+            <Icon name="spark" className="h-4 w-4 text-[#2563EB]" />
+            <span className="min-w-0">Mission Control for Modern Commerce</span>
+          </span>
 
-            <h1 className="mt-7 max-w-[42rem] font-display text-[2.9rem] font-extrabold leading-[1.04] text-white sm:text-[4.25rem] lg:text-[4.8rem]">
-              Every shipment,
-              <span className="block text-[#8EBBFA]">under control.</span>
-            </h1>
+          <h1 className="mt-7 max-w-[40rem] font-display text-[3rem] font-extrabold leading-[1.05] text-[#061A33] sm:text-[4.55rem] lg:text-[5rem]">
+            <span className="block">From</span>
+            <span className="block">warehouse.</span>
+            <span className="block text-[#ED1C24]">To every</span>
+            <span className="block text-[#ED1C24]">doorstep.</span>
+          </h1>
 
-            <p className="mt-6 max-w-[37rem] text-base font-medium leading-8 text-white/68 sm:text-lg sm:leading-9">
-              Compare couriers, automate dispatch, track every milestone, and recover delivery
-              exceptions from one intelligent operating layer.
-            </p>
+          <p className="mt-7 max-w-[34rem] text-base font-medium leading-[1.85] text-[#334155] sm:text-lg">
+            One intelligent logistics network for rates, dispatch, tracking, exceptions, and
+            delivery performance across every carrier.
+          </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <MagneticLink
-                href={AUTH_APP_URL}
-                className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-7 py-4 text-sm font-bold text-white shadow-[0_18px_38px_rgba(237,28,36,0.28)] transition-colors hover:bg-[#d31820] sm:w-auto"
-                style={{ color: "#ffffff" }}
-              >
-                <span>Start shipping</span>
-                <Icon name="arrowUpRight" className="h-5 w-5" />
-              </MagneticLink>
-              <MagneticLink
-                href="/tracking"
-                className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-white/18 bg-white/[0.07] px-7 py-4 text-sm font-bold text-white backdrop-blur-xl transition-colors hover:bg-white/[0.12] sm:w-auto"
-              >
-                <Icon name="package" className="h-5 w-5" />
-                <span>Track a package</span>
-              </MagneticLink>
-            </div>
-
-            <div className="mt-8 grid max-w-[36rem] grid-cols-3 gap-3 border-t border-white/10 pt-6">
-              {heroProofItems.map((item) => (
-                <div key={item.label} className="min-w-0">
-                  <p className="text-xs font-semibold text-white/38">{item.label}</p>
-                  <p className="mt-1 text-xs font-semibold leading-5 text-white/82 sm:text-sm">{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <div className="relative min-w-0 lg:perspective-[1400px]">
-            <HeroCommandDashboard />
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <ActionAnchor
+              href={AUTH_APP_URL}
+              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-7 py-4 text-sm font-extrabold text-white shadow-[0_18px_36px_rgba(237,28,36,0.24)] transition hover:-translate-y-0.5 hover:bg-[#c9171e] sm:w-auto"
+              style={{ color: "#ffffff" }}
+            >
+              <span>Launch your shipments</span>
+              <Icon name="arrowUpRight" className="h-5 w-5" />
+            </ActionAnchor>
+            <a
+              href="/tracking"
+              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-[#C7D6EA] bg-white/86 px-7 py-4 text-sm font-extrabold text-[#061A33] shadow-[0_14px_30px_rgba(6,42,91,0.08)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
+            >
+              <Icon name="package" className="h-5 w-5" />
+              <span>Track a package</span>
+            </a>
           </div>
-        </div>
 
-        <Reveal delay={0.28}>
-          <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 backdrop-blur-xl lg:mt-16 lg:grid-cols-4">
-            {heroFeatureCards.map((card) => (
+          <div className="hidden sm:block">
+            <HeroProofStrip />
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.18}>
+          <div className="relative z-20 mt-14 grid overflow-hidden rounded-xl border border-white/80 bg-white/92 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-md sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+            {heroFeatureCards.map((card, index) => (
               <MotionArticle
                 key={card.title}
-                whileHover={{ backgroundColor: "rgba(255,255,255,0.09)" }}
-                className="bg-[#071931]/94 px-4 py-5 sm:min-h-[9rem] sm:px-6"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -5 }}
+                className={`min-h-[12.5rem] px-6 py-7 ${index < heroFeatureCards.length - 1 ? "border-b border-[#E7EEF7] sm:border-r lg:border-b-0" : ""} ${index === 1 ? "sm:border-r-0 lg:border-r" : ""}`}
               >
-                <div className="flex items-start gap-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/10 text-[#8EBBFA]">
-                    <Icon name={card.icon} className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-sm font-bold text-white">{card.title}</h3>
-                    <p className="mt-2 hidden text-xs leading-6 text-white/48 sm:block">{card.description}</p>
-                  </div>
-                </div>
+                <span className={`grid h-16 w-16 place-items-center rounded-xl ${card.shell}`}>
+                  <Icon name={card.icon} className="h-8 w-8" />
+                </span>
+                <h3 className="mt-5 text-base font-extrabold text-[#061A33]">{card.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#475569]">{card.description}</p>
               </MotionArticle>
             ))}
           </div>

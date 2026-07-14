@@ -34,7 +34,7 @@ const RadialBarChart = ({ series = [], labels = [] }) => {
       },
     },
     labels,
-    colors: ['#0EA5E9', '#8B5CF6', '#F97316', '#10B981', '#EF4444'],
+    colors: ['#062A5B', '#ED1C24', '#3E6AA8', '#86A8D3', '#B80F1A'],
     stroke: {
       lineCap: 'round',
     },

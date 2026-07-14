@@ -12,7 +12,7 @@ const DonutChart = ({ series = [], labels = [] }) => {
       toolbar: { show: false },
     },
     labels,
-    colors: ['#0EA5E9', '#14B8A6', '#F97316', '#8B5CF6', '#F43F5E', '#22C55E'],
+    colors: ['#062A5B', '#ED1C24', '#3E6AA8', '#B80F1A', '#86A8D3', '#F36673'],
     legend: {
       position: 'bottom',
       labels: {

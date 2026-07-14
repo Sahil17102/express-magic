@@ -75,42 +75,42 @@ const Home = () => {
       label: 'Create Shipment',
       icon: MdOutlineAddShoppingCart,
       path: '/orders/create',
-      color: '#EF4444',
+      color: '#ED1C24',
       desc: 'Start a new order',
     },
     {
       label: 'All Shipments',
       icon: MdOutlineAssignment,
       path: '/orders/list',
-      color: '#3B82F6',
+      color: '#062A5B',
       desc: 'Track every order',
     },
     {
       label: 'Track Shipment',
       icon: MdOutlineLocalShipping,
       path: '/tools/order_tracking',
-      color: '#06B6D4',
+      color: '#1F5C9E',
       desc: 'Check live movement',
     },
     {
       label: 'NDR Management',
       icon: MdErrorOutline,
       path: '/ops/ndr',
-      color: '#F59E0B',
+      color: '#B80F1A',
       desc: 'Resolve exceptions',
     },
     {
       label: 'Manage Pickups',
       icon: MdContactMail,
       path: '/settings/manage_pickups',
-      color: '#EC4899',
+      color: '#3E6AA8',
       desc: 'Organize origins',
     },
     {
       label: 'COD Remittance',
       icon: MdLocalShipping,
       path: '/cod-settlement',
-      color: '#F97316',
+      color: '#041A38',
       desc: 'Check COD flow',
     },
   ]
@@ -121,7 +121,7 @@ const Home = () => {
       return { bg: alpha('#10B981', 0.1), text: '#10B981', icon: <MdCheckCircle size={14} /> }
     }
     if (normalized.includes('transit') || normalized.includes('pickup')) {
-      return { bg: alpha('#3B82F6', 0.1), text: '#3B82F6', icon: <MdAccessTime size={14} /> }
+      return { bg: alpha(BRAND_PRIMARY, 0.1), text: BRAND_PRIMARY, icon: <MdAccessTime size={14} /> }
     }
     if (normalized.includes('ndr') || normalized.includes('rto') || normalized.includes('fail')) {
       return { bg: alpha('#F59E0B', 0.12), text: '#D97706', icon: <MdWarning size={14} /> }
