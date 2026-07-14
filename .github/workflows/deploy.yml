@@ -11,7 +11,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  preflight:
+    name: Check deploy configuration
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_enabled: ${{ steps.credentials.outputs.deploy_enabled }}
+    steps:
+      - name: Check VPS credentials
+        id: credentials
+        env:
+          DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
+          DEPLOY_USER: ${{ secrets.FGSHIP_USER || secrets.FEATHERS_GLOBAL_USER }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY || secrets.FEATHERS_GLOBAL_SSH_PRIVATE_KEY }}
+          DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD || secrets.FEATHERS_GLOBAL_PASSWORD }}
+        run: |
+          if [ -n "${DEPLOY_HOST}" ] && [ -n "${DEPLOY_USER}" ] && \
+             { [ -n "${DEPLOY_SSH_PRIVATE_KEY}" ] || [ -n "${DEPLOY_PASSWORD}" ]; }; then
+            echo "deploy_enabled=true" >> "${GITHUB_OUTPUT}"
+            echo "VPS deployment credentials are configured."
+            exit 0
+          fi
+
+          echo "deploy_enabled=false" >> "${GITHUB_OUTPUT}"
+          echo "::warning::VPS deployment skipped because FGSHIP/FEATHERS_GLOBAL host, user, and authentication secrets are not configured. Railway deployments are unaffected."
+
   deploy:
+    needs: preflight
+    if: needs.preflight.outputs.deploy_enabled == 'true'
     runs-on: ubuntu-latest
     env:
       DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
