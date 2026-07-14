@@ -89,7 +89,7 @@ api.interceptors.response.use(
           useAuthStore.getState().logout()
         })
 
-        window.location.href = '/auth/signin' // Force logout
+        window.location.href = '/#/auth/signin' // Force logout without relying on a host rewrite
       }
     }
 

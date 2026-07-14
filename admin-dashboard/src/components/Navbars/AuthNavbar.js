@@ -82,7 +82,7 @@ export default function AuthNavbar(props) {
           <SidebarResponsive logoText={logoText || BRAND.name} secondary={secondary} routes={routes} {...rest} />
         </Box>
         {linksAuth}
-        <Link href="/auth/signin">
+        <Link href="/#/auth/signin">
           <Button
             bg="brand.500"
             color="white"

@@ -18,8 +18,9 @@ The Render Blueprint defines these services:
 
 Create or sync a Render Blueprint using `render.yaml` from the repository root.
 The existing services with matching names are updated in place, and the missing
-`express-magic-client` service is created. The Blueprint also applies the required
-React Router rewrites so `/login` and `/auth/signin` do not return 404.
+`express-magic-client` service is created. The Blueprint applies the client React
+Router rewrite. The admin uses hash routing (`/#/auth/signin`) so its routes remain
+reload-safe even before a host-level rewrite is configured.
 
 During the first Blueprint setup, provide the variables marked `sync: false`.
 For an existing backend, Render preserves its current secret values. Do not replace

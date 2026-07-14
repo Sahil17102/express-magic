@@ -12,6 +12,13 @@ const resolveProductionUrl = (configuredUrl, fallbackUrl) => {
     : stripTrailingSlash(fallbackUrl);
 };
 
+const normalizeAdminAuthUrl = (url) => {
+  const normalized = stripTrailingSlash(url);
+  return /^https:\/\/express-magic-admin\.onrender\.com\/auth\/signin$/i.test(normalized)
+    ? "https://express-magic-admin.onrender.com/#/auth/signin"
+    : normalized;
+};
+
 const inferLocalHostUrl = (port) => {
   if (typeof window === "undefined" || !window.location?.hostname) {
     return "";
@@ -51,9 +58,11 @@ export const ADMIN_APP_URL = resolveProductionUrl(
   defaultAdminAppUrl,
 );
 
-export const ADMIN_AUTH_URL = resolveProductionUrl(
-  import.meta.env.VITE_ADMIN_AUTH_URL,
-  `${ADMIN_APP_URL}/auth/signin`,
+export const ADMIN_AUTH_URL = normalizeAdminAuthUrl(
+  resolveProductionUrl(
+    import.meta.env.VITE_ADMIN_AUTH_URL,
+    `${ADMIN_APP_URL}/#/auth/signin`,
+  ),
 );
 
 export const API_BASE_URL = resolveProductionUrl(

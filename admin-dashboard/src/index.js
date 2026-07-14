@@ -17,7 +17,7 @@
 */
 import { createRoot } from 'react-dom/client'
 
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -31,14 +31,14 @@ const queryClient = new QueryClient()
 const root = createRoot(document.getElementById('root'))
 root.render(
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route path={`/auth`} component={AuthLayout} />
         <Route path={`/admin`} component={AdminLayout} />
         <Route path={`/rtl`} component={RTLLayout} />
         <Redirect from={`/`} to="/admin/dashboard" />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
 
     {/* 🛠 Devtools (optional, helpful during development) */}
     <ReactQueryDevtools initialIsOpen={false} />
