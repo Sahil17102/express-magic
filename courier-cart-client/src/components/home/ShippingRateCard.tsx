@@ -1,12 +1,13 @@
 import { Box, Button, Card, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaShippingFast } from 'react-icons/fa'
+import { getAppHashHref } from '../../utils/appNavigation'
 
 const ShippingRateCard = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleNavigate = () => {
-    window.location.href = '/tools/rate_calculator'
+    window.location.href = getAppHashHref('/tools/rate_calculator')
   }
 
   return (

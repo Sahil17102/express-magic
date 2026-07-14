@@ -1,43 +1,38 @@
 # Express Magic deployment
 
-Express Magic uses Render as its primary deployment platform. The repository-level
-`render.yaml` Blueprint manages the landing site, merchant client, admin panel, and
-backend API from the same GitHub repository. The manual GitHub Actions workflows
-remain available only for the separate Linux VPS deployment path.
+Express Magic uses Render as its primary deployment platform. The public landing
+and merchant client are packaged into one free Static Site. The manual GitHub
+Actions workflows remain available only for the separate Linux VPS deployment path.
 
 ## Render deployment
 
-The Render Blueprint defines these services:
+The Render configuration defines these services:
 
 | Component | URL | Root directory | Type |
 | --- | --- | --- | --- |
-| Landing site | `https://express-magic.onrender.com` | `landing` | Static Site |
-| Client panel | `https://express-magic-client.onrender.com` | `courier-cart-client` | Static Site |
+| Landing + client | `https://express-magic.onrender.com` | repository root | Static Site |
 | Admin panel | `https://express-magic-admin.onrender.com` | `admin-dashboard` | Static Site |
 | Backend API | `https://express-magic-backend.onrender.com` | `backend` | Docker Web Service |
 
-Create or sync a Render Blueprint using `render.yaml` from the repository root.
-The existing services with matching names are updated in place, and the missing
-`express-magic-client` service is created. The Blueprint applies the client React
-Router rewrite. The admin uses hash routing (`/#/auth/signin`) so its routes remain
-reload-safe even before a host-level rewrite is configured.
+No Blueprint or second client service is required. Configure the existing
+`express-magic` Static Site with an empty Root Directory (repository root), Build
+Command `npm run build`, and Publish Directory `combined-dist`. The root build
+packages the Feather landing at `/` and the merchant app at `/app/`.
 
-During the first Blueprint setup, provide the variables marked `sync: false`.
-For an existing backend, Render preserves its current secret values. Do not replace
-the current database URL or encryption keys with placeholders.
+Keep backend secrets in their existing Render service. Do not replace the current
+database URL or encryption keys with placeholders. The checked-in `render.yaml`
+is an optional configuration reference; Blueprint deployment is not required.
 
-### Landing site settings
+### Combined landing and client settings
 
-The Blueprint builds `landing`, keeps `https://express-magic.onrender.com` as the
-public site, and compiles all login/admin links to their Render services. No legacy
-deployment URL is used.
+The merchant login URL is
+`https://express-magic.onrender.com/app/#/login`. Client routing uses the URL hash,
+so login/dashboard reloads do not require a paid feature or host rewrite.
 
-### Client panel settings
-
-- Build command: `npm ci && npm run build`
-- Publish directory: `dist`
-- URL: `https://express-magic-client.onrender.com`
-- The Blueprint adds a rewrite from `/*` to `/index.html` for React Router.
+- Root directory: leave blank
+- Build command: `npm run build`
+- Publish directory: `combined-dist`
+- Static Site price: free on a Render Hobby workspace
 
 Set these build-time environment variables:
 
@@ -52,7 +47,7 @@ VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 
 - Build command: `npm install --legacy-peer-deps && npm run build`
 - Publish directory: `dist`
-- The Blueprint adds a rewrite from `/*` to `/index.html` for React Router.
+- Add the rewrite from `/*` to `/index.html` in the existing Static Site settings.
 
 Set these build-time environment variables:
 
@@ -79,8 +74,8 @@ Set these environment variables in the backend service:
 | `NODE_ENV` | `production` |
 | `DATABASE_URL` | The **new Internal Database URL** copied from the Render Postgres **Connect** menu after rotating the exposed database password. Do not use a URL committed to Git. |
 | `API_URL` | `https://express-magic-backend.onrender.com` (no `/api`) |
-| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-client.onrender.com,https://express-magic-admin.onrender.com` |
-| `FRONTEND_URL` | `https://express-magic-client.onrender.com` |
+| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-admin.onrender.com` |
+| `FRONTEND_URL` | `https://express-magic.onrender.com/app` |
 | `ACCESS_TOKEN_SECRET` | A unique random secret of at least 32 bytes. Generate it locally with `openssl rand -base64 48`. |
 | `REFRESH_TOKEN_SECRET` | A different unique random secret of at least 32 bytes. |
 | `COURIER_SECRET_KEY` | A third unique random secret used to encrypt stored courier credentials. Keep this stable after production data exists. |
@@ -114,7 +109,7 @@ All SSH workflows are manual-only:
 - `Server Debug` inspects the running VPS and PM2 logs.
 - `Amazon Shipping Smoke` runs an Amazon Shipping check from the VPS.
 
-Normal pushes are deployed by the connected Render Blueprint and do not run the VPS workflow. A manually started VPS workflow intentionally fails when required SSH secrets are absent, because reporting a successful deployment without contacting the server would be misleading.
+Normal pushes are deployed by the connected Render services and do not run the VPS workflow. A manually started VPS workflow intentionally fails when required SSH secrets are absent, because reporting a successful deployment without contacting the server would be misleading.
 
 ## Required GitHub Secrets
 

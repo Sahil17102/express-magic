@@ -58,7 +58,10 @@ const ColorConnector = styled(StepConnector)(() => ({
 }))
 
 export default function TrackingPage() {
-  const searchParams = new URLSearchParams(window.location.search)
+  const hashQueryIndex = window.location.hash.indexOf('?')
+  const routeSearch =
+    hashQueryIndex >= 0 ? window.location.hash.slice(hashQueryIndex) : window.location.search
+  const searchParams = new URLSearchParams(routeSearch)
   const awb = searchParams.get('awb')
   const order = searchParams.get('orderNumber')
   const contact = searchParams.get('contact')

@@ -19,6 +19,30 @@ const normalizeAdminAuthUrl = (url) => {
     : normalized;
 };
 
+const UNIFIED_RENDER_CLIENT_URL = "https://express-magic.onrender.com/app";
+
+const normalizeClientAppUrl = (url) => {
+  const normalized = stripTrailingSlash(url);
+  if (/^https:\/\/express-magic-client\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
+    return UNIFIED_RENDER_CLIENT_URL;
+  }
+  if (/^https:\/\/express-magic\.onrender\.com$/i.test(normalized)) {
+    return UNIFIED_RENDER_CLIENT_URL;
+  }
+  return normalized;
+};
+
+const normalizeClientAuthUrl = (url) => {
+  const normalized = stripTrailingSlash(url);
+  if (
+    /^https:\/\/express-magic-client\.onrender\.com(?:\/login)?$/i.test(normalized) ||
+    /^https:\/\/express-magic\.onrender\.com\/login$/i.test(normalized)
+  ) {
+    return `${UNIFIED_RENDER_CLIENT_URL}/#/login`;
+  }
+  return normalized;
+};
+
 const inferLocalHostUrl = (port) => {
   if (typeof window === "undefined" || !window.location?.hostname) {
     return "";
@@ -32,8 +56,8 @@ const inferLocalHostUrl = (port) => {
 };
 
 const defaultClientAppUrl = import.meta.env.DEV
-  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || "https://express-magic-client.onrender.com"
-  : "https://express-magic-client.onrender.com";
+  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || UNIFIED_RENDER_CLIENT_URL
+  : UNIFIED_RENDER_CLIENT_URL;
 
 const defaultAdminAppUrl = import.meta.env.DEV
   ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || "https://express-magic-admin.onrender.com"
@@ -43,14 +67,15 @@ const defaultApiBaseUrl = import.meta.env.DEV
   ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://express-magic-backend.onrender.com"}/api`
   : "https://express-magic-backend.onrender.com/api";
 
-export const CLIENT_APP_URL = resolveProductionUrl(
-  import.meta.env.VITE_CLIENT_APP_URL,
-  defaultClientAppUrl,
+export const CLIENT_APP_URL = normalizeClientAppUrl(
+  resolveProductionUrl(import.meta.env.VITE_CLIENT_APP_URL, defaultClientAppUrl),
 );
 
-export const AUTH_APP_URL = resolveProductionUrl(
-  import.meta.env.VITE_AUTH_APP_URL,
-  `${CLIENT_APP_URL}/login`,
+export const AUTH_APP_URL = normalizeClientAuthUrl(
+  resolveProductionUrl(
+    import.meta.env.VITE_AUTH_APP_URL,
+    `${CLIENT_APP_URL}/#/login`,
+  ),
 );
 
 export const ADMIN_APP_URL = resolveProductionUrl(
@@ -70,7 +95,7 @@ export const API_BASE_URL = resolveProductionUrl(
   defaultApiBaseUrl,
 );
 
-export const CLIENT_RATE_CALCULATOR_URL = `${CLIENT_APP_URL}/tools/rate_calculator`;
+export const CLIENT_RATE_CALCULATOR_URL = `${CLIENT_APP_URL}/#/tools/rate_calculator`;
 
 export const launchDestinations = [
   {

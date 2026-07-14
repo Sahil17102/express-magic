@@ -1,4 +1,5 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios'
+import { getAppHashHref } from '../utils/appNavigation'
 import { clearAuthTokens, getAuthTokens, setAuthTokens } from './tokenVault'
 
 const DEFAULT_PRODUCTION_API_URL = 'https://express-magic-backend.onrender.com/api'
@@ -33,8 +34,8 @@ let refreshPromiseSessionId: string | null = null
 
 const redirectToLogin = () => {
   if (typeof window === 'undefined') return
-  if (!window.location.pathname.includes('/login')) {
-    window.location.href = '/login'
+  if (!window.location.hash.includes('/login')) {
+    window.location.href = getAppHashHref('/login')
   }
 }
 

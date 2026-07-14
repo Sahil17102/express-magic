@@ -1,6 +1,6 @@
 // AppRoutes.tsx
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { HashRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import RequireAuth from '../components/auth/wrapper/RequireAuth'
 import RequireEmployeePermission from '../components/auth/wrapper/RequireEmployeePermission'
 import RequireMerchantReady from '../components/auth/wrapper/RequireMerchantReady'
@@ -123,7 +123,7 @@ function PublicTrackingRoute() {
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <GlobalRedirectHandler />
       <Suspense fallback={<FullScreenLoader />}>
         <Routes>
@@ -235,6 +235,6 @@ export default function AppRoutes() {
           <Route path="*" element={<ExpressMagicLanding />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

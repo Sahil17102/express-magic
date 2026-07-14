@@ -19,6 +19,7 @@ import {
 } from '../../api/tokenVault'
 import { useUserProfile } from '../../hooks/User/useUserProfile'
 import type { IUserProfileDB } from '../../types/user.types'
+import { getAppHashHref } from '../../utils/appNavigation'
 import { getCurrentAuthScope } from '../../utils/authQueryKeys'
 import { emptyUserProfile } from '../../utils/utility'
 
@@ -161,7 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Logout error ignored:', e)
     }
     clearTokens()
-    window.location.href = '/login'
+    window.location.href = getAppHashHref('/login')
   }
 
   const activeUser = (user ?? sessionUser ?? { ...emptyUserProfile }) as IUserProfileDB

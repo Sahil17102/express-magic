@@ -15,6 +15,7 @@ import {
   FiUsers,
   FiZap,
 } from 'react-icons/fi'
+import { getAppHashHref } from '../../utils/appNavigation'
 import './ExpressMagicLanding.css'
 
 const heroFeatures = [
@@ -94,6 +95,11 @@ const parcelLimits: Record<ParcelField, { min: number; max: number; step: number
 
 export default function ExpressMagicLanding() {
   const [navOpen, setNavOpen] = useState(false)
+  const appHomeHref = getAppHashHref('/')
+  const loginHref = getAppHashHref('/login')
+  const trackingHref = getAppHashHref('/tracking')
+  const weightCalculatorHref = getAppHashHref('/weight-calculator')
+  const rateCalculatorHref = getAppHashHref('/rate-calculator')
   const [parcel, setParcel] = useState({
     length: 32,
     breadth: 24,
@@ -122,18 +128,18 @@ export default function ExpressMagicLanding() {
   return (
     <main className="em-landing">
       <header className="em-nav">
-        <a className="em-brand" href="/" aria-label="Express Magic home">
+        <a className="em-brand" href={appHomeHref} aria-label="Express Magic home">
           <img src="/express-magic-logo.jpeg" alt="Express Magic" />
         </a>
 
         <nav className={`em-nav__links${navOpen ? ' is-open' : ''}`} aria-label="Primary navigation">
-          <a href="/tracking">Tracking</a>
-          <a href="/weight-calculator">Weight Calculator</a>
-          <a href="/rate-calculator">Rate Calculator</a>
+          <a href={trackingHref}>Tracking</a>
+          <a href={weightCalculatorHref}>Weight Calculator</a>
+          <a href={rateCalculatorHref}>Rate Calculator</a>
         </nav>
 
         <div className="em-nav__actions">
-          <a className="em-platform-button" href="/login">
+          <a className="em-platform-button" href={loginHref}>
             <span>Enter platform</span> <FiArrowRight />
           </a>
           <button
@@ -168,10 +174,10 @@ export default function ExpressMagicLanding() {
             delivery performance across every carrier.
           </p>
           <div className="em-hero__actions">
-            <a className="em-button em-button--primary" href="/login">
+            <a className="em-button em-button--primary" href={loginHref}>
               <span>Launch your shipments</span> <FiArrowRight />
             </a>
-            <a className="em-button em-button--secondary" href="/tracking">
+            <a className="em-button em-button--secondary" href={trackingHref}>
               <FiPackage /> Track a package
             </a>
           </div>
@@ -275,9 +281,9 @@ export default function ExpressMagicLanding() {
               </p>
             </div>
             <div className="em-tool-tabs" aria-label="Express Magic tools">
-              <a href="/tracking"><FiMapPin /> Tracking</a>
-              <a className="is-active" href="/weight-calculator" aria-current="page"><FiSliders /> Weight</a>
-              <a href="/rate-calculator"><FiDollarSign /> Rate</a>
+              <a href={trackingHref}><FiMapPin /> Tracking</a>
+              <a className="is-active" href={weightCalculatorHref} aria-current="page"><FiSliders /> Weight</a>
+              <a href={rateCalculatorHref}><FiDollarSign /> Rate</a>
             </div>
           </div>
 
@@ -355,7 +361,7 @@ export default function ExpressMagicLanding() {
                   <strong>{weightResult.chargeable.toFixed(2)} kg</strong>
                 </article>
               </div>
-              <a className="em-button em-button--primary em-weight-visual__cta" href="/weight-calculator">
+              <a className="em-button em-button--primary em-weight-visual__cta" href={weightCalculatorHref}>
                 Open full weight calculator <FiArrowRight />
               </a>
             </div>
@@ -370,7 +376,7 @@ export default function ExpressMagicLanding() {
               <p className="em-section-label">Connected courier network</p>
               <h2 id="network-title">One workflow across the carriers you already know.</h2>
             </div>
-            <a href="/login">Connect your account <FiArrowRight /></a>
+            <a href={loginHref}>Connect your account <FiArrowRight /></a>
           </div>
           <div className="em-carrier-row" aria-label="Supported courier partners">
             {carrierLogos.map((carrier) => (
@@ -392,7 +398,7 @@ export default function ExpressMagicLanding() {
           <div className="em-section-heading">
             <p className="em-section-label">Services</p>
             <h2>Cleaner shipping decisions from checkout to doorstep.</h2>
-            <a href="/login">Start shipping <FiArrowRight /></a>
+            <a href={loginHref}>Start shipping <FiArrowRight /></a>
           </div>
           <div className="em-workflow-grid">
             {workflowCards.map((card) => (
@@ -450,7 +456,7 @@ export default function ExpressMagicLanding() {
           <img src="/express-magic-logo.jpeg" alt="Express Magic" />
           <p>Courier intelligence for modern commerce.</p>
         </div>
-        <a className="em-button em-button--primary" href="/login">
+        <a className="em-button em-button--primary" href={loginHref}>
           Launch Express Magic <FiArrowRight />
         </a>
       </footer>
