@@ -44,9 +44,9 @@ const CustomDrawer: React.FC<GlassDrawerProps> = ({
       slotProps={{
         paper: {
           sx: {
-            width: isMobile ? '100%' : isFullWidth ? '100vw' : width,
-            maxWidth: '100vw',
-            height: '100%',
+            width: isMobile || isFullWidth ? '100dvw' : width,
+            maxWidth: '100dvw',
+            height: '100dvh',
             bgcolor: '#fff',
             color: TEXT,
             overflow: 'hidden',
@@ -62,7 +62,7 @@ const CustomDrawer: React.FC<GlassDrawerProps> = ({
       {/* Header */}
       <Box
         sx={{
-          px: { xs: 2, sm: 2.5 },
+          px: { xs: 1.5, sm: 2.5 },
           py: 1.8,
           display: 'flex',
           alignItems: 'center',
@@ -78,7 +78,7 @@ const CustomDrawer: React.FC<GlassDrawerProps> = ({
               fontSize: '1rem',
               fontWeight: 800,
               color: TEXT,
-              letterSpacing: '-0.02em',
+              letterSpacing: 0,
             }}
           >
             {title}
@@ -109,10 +109,11 @@ const CustomDrawer: React.FC<GlassDrawerProps> = ({
       {/* Content */}
       <Box
         sx={{
-          px: { xs: 2, sm: 2.5 },
+          px: { xs: 1.5, sm: 2.5 },
           py: 2,
           height: 'calc(100% - 69px)',
           overflowY: 'auto',
+          overflowX: 'hidden',
           bgcolor: '#fff',
 
           '&::-webkit-scrollbar': {

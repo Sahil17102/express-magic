@@ -39,23 +39,24 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
   selectionInfo,
 }) => {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={{ xs: 1.5, md: 2 }} sx={{ width: '100%', minWidth: 0, maxWidth: '100%' }}>
       {/* Header Section */}
       <Stack
         direction={{ xs: 'column', md: 'row' }}
         alignItems={{ xs: 'stretch', md: 'center' }}
         justifyContent="space-between"
         gap={2}
-        sx={{ p: 1 }}
+        sx={{ p: { xs: 0.5, sm: 1 }, minWidth: 0 }}
       >
         {/* Left Title Section */}
-        <Stack spacing={0.3}>
+        <Stack spacing={0.3} sx={{ minWidth: 0 }}>
           <Typography
             sx={{
               fontSize: { xs: '1.15rem', md: '1.35rem' },
               fontWeight: 800,
               color: '#111111',
               lineHeight: 1.2,
+              overflowWrap: 'anywhere',
             }}
           >
             {title}
@@ -65,6 +66,8 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
               fontSize: '0.88rem',
               color: '#6B7280',
               fontWeight: 500,
+              lineHeight: 1.55,
+              overflowWrap: 'anywhere',
             }}
           >
             {description}
@@ -77,6 +80,8 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
             direction={{ xs: 'column', sm: 'row' }}
             gap={1.25}
             width={{ xs: '100%', md: 'auto' }}
+            flexWrap="wrap"
+            useFlexGap
           >
             {actions.map((action, index) => (
               <Button
@@ -84,7 +89,7 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
                 variant={action.variant || 'contained'}
                 color="primary"
                 onClick={action.onClick}
-                fullWidth
+                fullWidth={false}
                 startIcon={action.icon}
                 sx={{
                   minHeight: 42,
@@ -96,6 +101,8 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
                     borderWidth: '1.5px',
                   }),
                   whiteSpace: 'nowrap',
+                  width: { xs: '100%', sm: 'auto' },
+                  flex: { sm: '0 0 auto' },
                 }}
               >
                 {action.label}
@@ -106,7 +113,7 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
       </Stack>
 
       {/* Controls Section */}
-      {controls && <Box>{controls}</Box>}
+      {controls && <Box sx={{ width: '100%', minWidth: 0, maxWidth: '100%' }}>{controls}</Box>}
 
       {/* Feedback Alert */}
       {feedback && (
@@ -121,7 +128,7 @@ const ListPageLayout: React.FC<ListPageLayoutProps> = ({
       )}
 
       {/* Selection Info */}
-      {selectionInfo && <Box>{selectionInfo}</Box>}
+      {selectionInfo && <Box sx={{ minWidth: 0, maxWidth: '100%' }}>{selectionInfo}</Box>}
 
       {/* Content */}
       {children}

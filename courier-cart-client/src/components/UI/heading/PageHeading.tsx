@@ -26,8 +26,11 @@ const PageHeading: React.FC<PageHeadingProps> = ({
     <Box
       sx={{
         position: 'relative',
+        width: '100%',
+        minWidth: 0,
+        maxWidth: '100%',
         overflow: 'hidden',
-        borderRadius: 3,
+        borderRadius: { xs: 2, md: 3 },
         bgcolor: theme.palette.background.paper,
         border: `1px solid ${alpha(theme.palette.divider, 0.75)}`,
         px: { xs: 2, sm: 3, md: 3.5 },
@@ -122,8 +125,9 @@ const PageHeading: React.FC<PageHeadingProps> = ({
                 fontSize: fontSize ?? { xs: '1.1rem', md: '1.45rem' },
                 fontWeight: 800,
                 lineHeight: 1.15,
-                letterSpacing: '-0.03em',
+                letterSpacing: 0,
                 color: theme.palette.text.primary,
+                overflowWrap: 'anywhere',
               }}
             >
               {title}
@@ -138,6 +142,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
                 color: alpha(theme.palette.text.secondary, 0.95),
                 lineHeight: 1.55,
                 maxWidth: 760,
+                overflowWrap: 'anywhere',
               }}
             >
               {subtitle}
@@ -157,6 +162,13 @@ const PageHeading: React.FC<PageHeadingProps> = ({
                 md: 'flex-end',
               },
               alignItems: 'center',
+              minWidth: 0,
+              maxWidth: '100%',
+              flexWrap: 'wrap',
+              gap: 1,
+              '& > *': {
+                maxWidth: '100%',
+              },
             }}
           >
             {actions}

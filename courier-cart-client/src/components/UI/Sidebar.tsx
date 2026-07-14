@@ -314,7 +314,7 @@ export default function Sidebar({
       sx={{
         width: sidebarWidth,
         minWidth: sidebarWidth,
-        height: '100vh',
+        height: '100dvh',
         position: 'sticky',
         top: 0,
         display: 'flex',

@@ -203,7 +203,10 @@ export default function DataTable<T extends { id: string | number }>(props: Data
       sx={{
         p: 0,
         position: 'relative',
-        borderRadius: 4,
+        width: '100%',
+        minWidth: 0,
+        maxWidth: '100%',
+        borderRadius: { xs: 2, md: 3 },
         border: `1px solid ${BORDER}`,
         bgcolor: BG,
         boxShadow: '0 12px 28px rgba(0,0,0,0.04)',
@@ -217,7 +220,9 @@ export default function DataTable<T extends { id: string | number }>(props: Data
           justifyContent="space-between"
           gap={2}
           sx={{
-            px: 3,
+            width: '100%',
+            minWidth: 0,
+            px: { xs: 1.5, sm: 2, md: 3 },
             py: 1,
             borderBottom: `1px solid ${BORDER}`,
           }}
@@ -267,7 +272,32 @@ export default function DataTable<T extends { id: string | number }>(props: Data
                 }
               }}
               rowsPerPageOptions={rowsPerPageOptions}
-              labelRowsPerPage="Rows"
+              labelRowsPerPage={isMobile ? '' : 'Rows'}
+              sx={{
+                width: { xs: '100%', md: 'auto' },
+                maxWidth: '100%',
+                overflowX: 'auto',
+                '& .MuiTablePagination-toolbar': {
+                  minHeight: 40,
+                  px: { xs: 0, sm: 1 },
+                  flexWrap: 'nowrap',
+                },
+                '& .MuiTablePagination-spacer': {
+                  display: { xs: 'none', sm: 'block' },
+                },
+                '& .MuiTablePagination-selectLabel': {
+                  display: { xs: 'none', sm: 'block' },
+                },
+                '& .MuiTablePagination-displayedRows': {
+                  ml: { xs: 'auto', sm: 0 },
+                  whiteSpace: 'nowrap',
+                  fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                },
+                '& .MuiTablePagination-actions': {
+                  ml: { xs: 0.5, sm: 2 },
+                  whiteSpace: 'nowrap',
+                },
+              }}
             />
           )}
         </Stack>
@@ -279,6 +309,9 @@ export default function DataTable<T extends { id: string | number }>(props: Data
           maxHeight,
           overflowX: 'auto',
           overflowY: 'auto',
+          maxWidth: '100%',
+          overscrollBehaviorX: 'contain',
+          WebkitOverflowScrolling: 'touch',
           '&::-webkit-scrollbar': {
             width: 8,
             height: 8,

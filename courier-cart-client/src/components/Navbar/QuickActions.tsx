@@ -31,6 +31,7 @@ const QuickActions = ({ compact = false, iconOverride }: QuickActionsProps) => {
       <Box ref={anchorRef} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
         <IconButton
           aria-label="Quick actions"
+          onClick={() => setOpen((current) => !current)}
           sx={{
             width: compact ? 36 : 40,
             height: compact ? 36 : 40,

@@ -18,9 +18,11 @@ html,
 body,
 #root {
   width: 100%;
+  max-width: 100%;
   min-height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: clip;
 }
 
 html {
@@ -67,6 +69,11 @@ select {
   font: inherit;
 }
 
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 img {
   max-width: 100%;
 }
@@ -102,4 +109,16 @@ img {
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: rgba(6, 42, 91, 0.72) rgba(6, 42, 91, 0.04);
+}
+
+@media (max-width: 600px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  img,
+  svg,
+  canvas {
+    max-width: 100%;
+  }
 }

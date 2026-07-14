@@ -35,6 +35,9 @@ export default function Layout() {
       sx={{
         display: 'flex',
         minHeight: '100vh',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
         background: brandGradient,
         scrollbarGutter: 'stable',
       }}
@@ -49,16 +52,17 @@ export default function Layout() {
           ModalProps={{ keepMounted: true }}
           sx={{
             '& .MuiDrawer-paper': {
-              width: 280,
-            border: 0,
-            background: '#FFFFFF',
-            boxShadow: '0 18px 48px rgba(7, 25, 35, 0.14)',
+              width: 'min(88vw, 300px)',
+              maxWidth: '100vw',
+              border: 0,
+              background: '#FFFFFF',
+              boxShadow: '0 18px 48px rgba(7, 25, 35, 0.14)',
             },
           }}
         >
-          <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ flex: 1, overflowY: 'auto' }}>
-              <Sidebar role={isAdminWorkspace ? 'admin' : 'customer'} />
+              <Sidebar role={isAdminWorkspace ? 'admin' : 'customer'} pinned />
             </Box>
           </Box>
         </Drawer>
@@ -74,6 +78,7 @@ export default function Layout() {
         sx={{
           flex: 1,
           minWidth: 0,
+          maxWidth: '100%',
           minHeight: '100vh',
           p: 0,
           gap: 0,
@@ -92,6 +97,7 @@ export default function Layout() {
             flex: 1,
             minHeight: 0,
             overflowY: 'auto',
+            overflowX: 'hidden',
             p: 0,
             backgroundColor: 'rgba(255, 255, 255, 0.72)',
           }}
@@ -101,9 +107,10 @@ export default function Layout() {
               maxWidth: 1700,
               mx: 'auto',
               width: '100%',
+              minWidth: 0,
               px: isOrderCreatePage
                 ? { xs: 0, sm: 0.25, md: 0.4, lg: 0.5 }
-                : { xs: 0.4, sm: 0.8, md: 1.5, lg: 2 },
+                : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
               py: isOrderCreatePage
                 ? 0
                 : { xs: 0.6, sm: 1, md: 1.5 },
@@ -116,7 +123,10 @@ export default function Layout() {
                 </Box>
               }
             >
-              <Box key={location.pathname} sx={{ width: '100%', minHeight: '300px' }}>
+              <Box
+                key={location.pathname}
+                sx={{ width: '100%', minWidth: 0, maxWidth: '100%', minHeight: '300px' }}
+              >
                 <Outlet />
               </Box>
             </Suspense>
@@ -129,7 +139,7 @@ export default function Layout() {
               maxWidth: 1700,
               mx: 'auto',
               width: '100%',
-              px: { xs: 0.6, md: 0.2 },
+              px: { xs: 1.25, sm: 1.5, md: 2 },
               pt: 0.4,
               borderTop: '1px solid rgba(6, 42, 91, 0.12)',
             }}

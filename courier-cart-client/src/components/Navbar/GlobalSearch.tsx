@@ -151,9 +151,10 @@ const GlobalSearch = ({ compact = false }: GlobalSearchProps) => {
     <Box
       sx={{
         position: 'relative',
+        minWidth: 0,
         width: compact
           ? {
-              xs: 150,
+              xs: 108,
               sm: 180,
               md: 230,
             }
@@ -165,7 +166,7 @@ const GlobalSearch = ({ compact = false }: GlobalSearchProps) => {
 
         maxWidth: compact
           ? {
-              xs: '48vw',
+              xs: '34vw',
               md: 230,
             }
           : {
@@ -315,6 +316,7 @@ const GlobalSearch = ({ compact = false }: GlobalSearchProps) => {
                 ) : !searchQuery ? (
                   <Box
                     sx={{
+                      display: { xs: 'none', sm: 'block' },
                       px: 0.8,
                       py: 0.35,
                       borderRadius: '8px',
@@ -366,7 +368,12 @@ const GlobalSearch = ({ compact = false }: GlobalSearchProps) => {
                   <Paper
                     elevation={0}
                     sx={{
-                      width: anchorRef.current?.offsetWidth ?? 430,
+                      width: {
+                        xs: 'min(340px, calc(100vw - 24px))',
+                        sm: anchorRef.current?.offsetWidth ?? 430,
+                      },
+
+                      maxWidth: 'calc(100vw - 24px)',
 
                       maxHeight: 420,
 
