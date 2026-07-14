@@ -609,6 +609,82 @@ const stackRows = [
   ["Manual", "Pickup manifest", "Ready"],
 ];
 
+const operationsModes = [
+  {
+    id: "allocation",
+    label: "Courier allocation",
+    icon: "route",
+    kicker: "Dispatch rules active",
+    title: "Best-fit courier selected before the label prints.",
+    description:
+      "Serviceability, promised delivery date, cost, and RTO history are checked in one decision view.",
+    metrics: [
+      ["Orders ready", "184"],
+      ["Auto assigned", "171"],
+      ["Manual review", "13"],
+      ["Avg. decision", "0.8 sec"],
+    ],
+    rows: [
+      ["EM-28491", "Surat to Mumbai", "Delhivery Air", "Ready"],
+      ["EM-28490", "Delhi to Jaipur", "XpressBees", "Ready"],
+      ["EM-28489", "Pune to Bengaluru", "Blue Dart", "Review"],
+    ],
+    decision: ["Delivery promise", "Tomorrow by 9 PM"],
+    signal: "92% lane reliability",
+  },
+  {
+    id: "tracking",
+    label: "Live tracking",
+    icon: "mapPin",
+    kicker: "Network view online",
+    title: "Every shipment milestone in one live operating view.",
+    description:
+      "Courier scans are normalized into a single timeline, with delayed movement highlighted for the team.",
+    metrics: [
+      ["In transit", "1,082"],
+      ["Out for delivery", "246"],
+      ["Delivered today", "934"],
+      ["Scan coverage", "98.6%"],
+    ],
+    rows: [
+      ["EM-28476", "Mumbai hub", "Out for delivery", "Live"],
+      ["EM-28462", "Jaipur gateway", "Linehaul received", "Live"],
+      ["EM-28431", "Bengaluru hub", "Scan delayed", "Review"],
+    ],
+    decision: ["Next milestone", "Delivery attempt"],
+    signal: "Updated 38 seconds ago",
+  },
+  {
+    id: "exceptions",
+    label: "Exception desk",
+    icon: "shield",
+    kicker: "Recovery queue prioritized",
+    title: "NDR and delivery risks reach the right operator faster.",
+    description:
+      "Failed attempts, address issues, and stuck shipments are grouped by urgency with the next action visible.",
+    metrics: [
+      ["Open cases", "41"],
+      ["Due today", "18"],
+      ["Recovered", "73%"],
+      ["Avg. response", "12 min"],
+    ],
+    rows: [
+      ["EM-28398", "Buyer unavailable", "Call customer", "Urgent"],
+      ["EM-28372", "Address incomplete", "Verify address", "Review"],
+      ["EM-28344", "Hub delay", "Courier follow-up", "Open"],
+    ],
+    decision: ["Recommended action", "Verify by phone"],
+    signal: "18 cases due before 4 PM",
+  },
+];
+
+const operatingFlow = [
+  ["01", "Order sync", "Stores and marketplaces"],
+  ["02", "Courier decision", "Rate, SLA, and risk"],
+  ["03", "Dispatch", "AWB, label, and manifest"],
+  ["04", "Delivery control", "Tracking and recovery"],
+];
+
 function ActionAnchor({ href, children, className, style }) {
   return (
     <a className={className} href={href} style={style}>
@@ -892,6 +968,214 @@ function PlatformsSection() {
             </MotionDiv>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function OperationsDeckSection() {
+  const [activeModeId, setActiveModeId] = useState(operationsModes[0].id);
+  const activeMode =
+    operationsModes.find((mode) => mode.id === activeModeId) || operationsModes[0];
+
+  return (
+    <section id="operations-deck" className="section-transition overflow-hidden bg-[#041A38] text-white">
+      <div className="mx-auto max-w-[1518px] px-5 py-14 sm:px-8 sm:py-18 lg:px-16 lg:py-24">
+        <div className="mx-auto max-w-[1360px]">
+          <div className="grid gap-8 lg:grid-cols-[0.46fr_0.54fr] lg:items-end">
+            <Reveal>
+              <div>
+                <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#FF5A61]">
+                  Inside Express Magic
+                </p>
+                <h2 className="mt-4 max-w-[42rem] font-display text-[2.15rem] font-extrabold leading-[1.12] text-white sm:text-[3rem]">
+                  One operating deck for every shipping decision.
+                </h2>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="max-w-[39rem] text-sm font-medium leading-7 text-white/70 sm:text-base sm:leading-8 lg:ml-auto">
+                Built around the work dispatch and support teams do every day. Choose a view to
+                see how orders move from allocation to delivery recovery without changing tools.
+              </p>
+            </Reveal>
+          </div>
+
+          <div
+            className="mt-9 grid gap-2 rounded-lg border border-white/12 bg-white/[0.06] p-2 sm:grid-cols-3"
+            role="tablist"
+            aria-label="Operations workspace views"
+          >
+            {operationsModes.map((mode) => {
+              const isActive = mode.id === activeMode.id;
+              return (
+                <button
+                  key={mode.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="operations-workspace"
+                  onClick={() => setActiveModeId(mode.id)}
+                  className={`inline-flex min-h-12 items-center justify-center gap-3 rounded-md px-4 py-3 text-sm font-bold transition ${
+                    isActive
+                      ? "bg-white text-[#041A38] shadow-[0_12px_28px_rgba(0,0,0,0.2)]"
+                      : "text-white/68 hover:bg-white/[0.08] hover:text-white"
+                  }`}
+                >
+                  <Icon name={mode.icon} className="h-5 w-5" />
+                  <span>{mode.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <Reveal delay={0.12}>
+            <div className="operations-depth-stage mt-8">
+              <MotionDiv
+                id="operations-workspace"
+                role="tabpanel"
+                key={activeMode.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                className="operations-workspace overflow-hidden border border-white/18 bg-[#F8FAFD] text-[#061A33]"
+              >
+                <div className="flex min-w-0 items-center justify-between gap-3 border-b border-[#D9E3EF] bg-white px-4 py-3 sm:px-5">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <img
+                      src="/express-magic-logo.jpeg"
+                      alt="Express Magic"
+                      className="h-9 w-auto shrink-0 object-contain"
+                    />
+                    <span className="hidden h-5 w-px bg-[#D9E3EF] sm:block" />
+                    <p className="truncate text-xs font-extrabold uppercase tracking-[0.1em] text-[#526277] sm:block">
+                      Operations control
+                    </p>
+                  </div>
+                  <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#E8F8F1] px-3 py-1.5 text-[0.68rem] font-extrabold text-[#087A55]">
+                    <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+                    Live
+                  </span>
+                </div>
+
+                <div className="grid min-w-0 lg:grid-cols-[4.25rem_1fr]">
+                  <aside className="hidden border-r border-[#D9E3EF] bg-[#062A5B] py-5 lg:flex lg:flex-col lg:items-center lg:gap-3">
+                    {["barChart", "package", "truck", "shield", "gear"].map((icon, index) => (
+                      <span
+                        key={icon}
+                        title={["Overview", "Orders", "Couriers", "Exceptions", "Settings"][index]}
+                        className={`grid h-10 w-10 place-items-center rounded-md ${
+                          index === 0 ? "bg-white text-[#062A5B]" : "text-white/58"
+                        }`}
+                      >
+                        <Icon name={icon} className="h-5 w-5" />
+                      </span>
+                    ))}
+                  </aside>
+
+                  <div className="min-w-0 p-4 sm:p-6 lg:p-7">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
+                          {activeMode.kicker}
+                        </p>
+                        <h3 className="mt-2 max-w-[42rem] text-xl font-extrabold leading-snug text-[#061A33] sm:text-2xl">
+                          {activeMode.title}
+                        </h3>
+                        <p className="mt-2 max-w-[46rem] text-sm leading-6 text-[#526277]">
+                          {activeMode.description}
+                        </p>
+                      </div>
+                      <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-md border border-[#D6E1EF] bg-white px-3 py-2 text-xs font-bold text-[#062A5B]">
+                        <Icon name="refresh" className="h-4 w-4" />
+                        Synced now
+                      </span>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3 xl:grid-cols-4">
+                      {activeMode.metrics.map(([label, value]) => (
+                        <div key={label} className="min-w-0 border-l-2 border-[#D9E6F7] bg-white px-3 py-3 sm:px-4">
+                          <p className="text-lg font-extrabold text-[#061A33] sm:text-xl">{value}</p>
+                          <p className="mt-1 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.06em] text-[#64748B]">
+                            {label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-5 grid min-w-0 gap-4 xl:grid-cols-[1fr_17rem]">
+                      <div className="min-w-0 overflow-hidden border border-[#D9E3EF] bg-white">
+                        <div className="grid grid-cols-[0.75fr_1.2fr] gap-3 border-b border-[#D9E3EF] bg-[#EEF4FB] px-3 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.08em] text-[#526277] sm:grid-cols-[0.7fr_1.15fr_1fr_0.55fr] sm:px-4">
+                          <span>Order</span>
+                          <span>Lane</span>
+                          <span className="hidden sm:block">Update</span>
+                          <span className="hidden text-right sm:block">State</span>
+                        </div>
+                        {activeMode.rows.map(([order, lane, update, state]) => (
+                          <div
+                            key={order}
+                            className="grid min-w-0 grid-cols-[0.75fr_1.2fr] gap-3 border-b border-[#E8EEF5] px-3 py-3 last:border-b-0 sm:grid-cols-[0.7fr_1.15fr_1fr_0.55fr] sm:items-center sm:px-4"
+                          >
+                            <span className="truncate text-xs font-extrabold text-[#061A33] sm:text-sm">{order}</span>
+                            <span className="min-w-0 text-xs font-medium leading-5 text-[#526277] sm:text-sm">{lane}</span>
+                            <span className="col-span-2 text-xs font-semibold text-[#183153] sm:col-span-1 sm:text-sm">{update}</span>
+                            <span className={`w-fit rounded-full px-2.5 py-1 text-[0.66rem] font-extrabold sm:ml-auto ${
+                              state === "Ready" || state === "Live"
+                                ? "bg-[#E8F8F1] text-[#087A55]"
+                                : state === "Urgent"
+                                  ? "bg-[#FDE7EA] text-[#C9171E]"
+                                  : "bg-[#FFF2DE] text-[#A85608]"
+                            }`}>
+                              {state}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="relative overflow-hidden bg-[#062A5B] p-5 text-white">
+                        <div className="absolute inset-x-0 top-0 h-1 bg-[#ED1C24]" />
+                        <span className="grid h-10 w-10 place-items-center rounded-md bg-white/10 text-white">
+                          <Icon name="checkCircle" className="h-5 w-5" />
+                        </span>
+                        <p className="mt-5 text-[0.68rem] font-extrabold uppercase tracking-[0.1em] text-white/56">
+                          {activeMode.decision[0]}
+                        </p>
+                        <p className="mt-2 text-lg font-extrabold leading-snug text-white">
+                          {activeMode.decision[1]}
+                        </p>
+                        <div className="mt-5 border-t border-white/12 pt-4">
+                          <p className="text-xs font-semibold leading-6 text-white/68">{activeMode.signal}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </MotionDiv>
+
+              <div className="operations-float operations-float--left" aria-hidden="true">
+                <Icon name="package" className="h-5 w-5 text-[#ED1C24]" />
+                <span><strong>184</strong> orders ready</span>
+              </div>
+              <div className="operations-float operations-float--right" aria-hidden="true">
+                <Icon name="truck" className="h-5 w-5 text-[#062A5B]" />
+                <span><strong>27+</strong> carrier services</span>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="mt-8 grid border-y border-white/12 sm:grid-cols-2 lg:grid-cols-4">
+            {operatingFlow.map(([number, title, detail], index) => (
+              <div
+                key={number}
+                className={`min-w-0 px-1 py-5 sm:px-5 ${index > 0 ? "sm:border-l sm:border-white/12" : ""}`}
+              >
+                <p className="text-xs font-extrabold text-[#FF5A61]">{number}</p>
+                <p className="mt-2 text-sm font-extrabold text-white">{title}</p>
+                <p className="mt-1 text-xs leading-5 text-white/56">{detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1194,7 +1478,7 @@ function FeaturesShowcaseSection() {
 
   return (
     <section className="section-transition bg-[#062A5B] pt-0">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-10 sm:px-8 sm:pb-12 sm:pt-12 lg:px-16">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-10 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-12 lg:px-16">
         <FeatureMapBackdrop />
 
         <Reveal className="relative z-10">
@@ -1424,7 +1708,7 @@ function TestimonialsSection() {
 
   return (
     <section className="section-transition bg-[#062A5B]">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <TestimonialMapBackdrop />
 
         <Reveal className="relative z-10">
@@ -1719,7 +2003,7 @@ function FaqSection() {
 
   return (
     <section className="section-transition bg-[#062A5B]">
-      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[4.6rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
+      <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
           <Reveal>
             <div className="relative z-10">
@@ -2402,15 +2686,12 @@ function FeatherLandingPage() {
     <main id="home" className="modern-landing overflow-hidden bg-[#f7f9fb]">
       <HeroSection />
       <PlatformsSection />
-      <WhyChooseSection />
+      <OperationsDeckSection />
       <FeaturesShowcaseSection />
-      <TestimonialsSection />
-      <FaqSection />
-      <WhatYouGetSection />
-      <InsightsSection />
       <EcommerceSection />
       <RateConfidenceSection />
-      <ShippingStackSection />
+      <TestimonialsSection />
+      <FaqSection />
       <LaunchSupportSection />
     </main>
   );

@@ -227,7 +227,7 @@ export function SiteFooter() {
   return (
     <footer id="site-footer" className="overflow-hidden bg-[#041A38] text-white">
       <div className="px-0 pt-0">
-        <div className="mx-auto max-w-[1518px] rounded-t-[4.6rem] rounded-b-[2.6rem] bg-[#F5F8FC] px-5 py-10 text-[#061A33] shadow-[0_18px_60px_rgba(0,24,30,0.18)] sm:px-8 lg:px-16 lg:py-14">
+        <div className="mx-auto max-w-[1518px] rounded-t-[2rem] rounded-b-[1.5rem] bg-[#F5F8FC] px-5 py-10 text-[#061A33] shadow-[0_18px_60px_rgba(0,24,30,0.18)] sm:rounded-t-[4.6rem] sm:rounded-b-[2.6rem] sm:px-8 lg:px-16 lg:py-14">
           <div className="grid gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
             <MotionDiv
               initial={{ opacity: 0, y: 22 }}
@@ -239,7 +239,7 @@ export function SiteFooter() {
               <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
                 Ready to ship smarter?
               </p>
-              <h2 className="mt-5 font-display text-[2.45rem] font-extrabold leading-[1.08] text-[#061A33] sm:text-[3.25rem]">
+              <h2 className="mt-5 font-display text-[2.1rem] font-extrabold leading-[1.12] text-[#061A33] sm:text-[3.25rem] sm:leading-[1.08]">
                 One Platform.
                 <br />
                 <span className="text-[#062A5B]">Endless Possibilities.</span>
