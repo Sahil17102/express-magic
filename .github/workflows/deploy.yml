@@ -8,39 +8,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  preflight:
-    name: Check deploy configuration
-    runs-on: ubuntu-latest
-    outputs:
-      deploy_enabled: ${{ steps.credentials.outputs.deploy_enabled }}
-    steps:
-      - name: Check VPS credentials
-        id: credentials
-        env:
-          DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
-          DEPLOY_USER: ${{ secrets.FGSHIP_USER || secrets.FEATHERS_GLOBAL_USER }}
-          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY || secrets.FEATHERS_GLOBAL_SSH_PRIVATE_KEY }}
-          DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD || secrets.FEATHERS_GLOBAL_PASSWORD }}
-        run: |
-          if [ -n "${DEPLOY_HOST}" ] && [ -n "${DEPLOY_USER}" ] && \
-             { [ -n "${DEPLOY_SSH_PRIVATE_KEY}" ] || [ -n "${DEPLOY_PASSWORD}" ]; }; then
-            echo "deploy_enabled=true" >> "${GITHUB_OUTPUT}"
-            echo "VPS deployment credentials are configured."
-            exit 0
-          fi
-
-          echo "deploy_enabled=false" >> "${GITHUB_OUTPUT}"
-          echo "::warning::VPS deployment skipped because FGSHIP/FEATHERS_GLOBAL host, user, and authentication secrets are not configured. Railway deployments are unaffected."
-
   deploy:
-    needs: preflight
     runs-on: ubuntu-latest
     env:
-      DEPLOY_ENABLED: ${{ needs.preflight.outputs.deploy_enabled }}
-      DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
-      DEPLOY_USER: ${{ secrets.FGSHIP_USER || secrets.FEATHERS_GLOBAL_USER }}
-      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY || secrets.FEATHERS_GLOBAL_SSH_PRIVATE_KEY }}
-      DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD || secrets.FEATHERS_GLOBAL_PASSWORD }}
+      DEPLOY_HOST: ${{ secrets.FGSHIP_HOST }}
+      DEPLOY_USER: ${{ secrets.FGSHIP_USER }}
+      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY }}
+      DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD }}
       DEPLOY_APP_ROOT: /srv/feathers-global/current
       DEPLOY_PUBLIC_API_URL: https://api.fgship.in/api
       DEPLOY_PUBLIC_SOCKET_URL: https://api.fgship.in
@@ -53,16 +27,11 @@ jobs:
 
       - name: Validate deploy secrets
         run: |
-          if [ "${DEPLOY_ENABLED}" != "true" ]; then
-            echo "VPS deployment is not configured; SSH deployment steps will be skipped."
-            exit 0
-          fi
-
           missing=()
-          [ -n "${DEPLOY_HOST}" ] || missing+=("FGSHIP_HOST or FEATHERS_GLOBAL_HOST")
-          [ -n "${DEPLOY_USER}" ] || missing+=("FGSHIP_USER or FEATHERS_GLOBAL_USER")
+          [ -n "${DEPLOY_HOST}" ] || missing+=("FGSHIP_HOST")
+          [ -n "${DEPLOY_USER}" ] || missing+=("FGSHIP_USER")
           if [ -z "${DEPLOY_SSH_PRIVATE_KEY}" ] && [ -z "${DEPLOY_PASSWORD}" ]; then
-            missing+=("FGSHIP_SSH_PRIVATE_KEY / FEATHERS_GLOBAL_SSH_PRIVATE_KEY or FGSHIP_PASSWORD / FEATHERS_GLOBAL_PASSWORD")
+            missing+=("FGSHIP_SSH_PRIVATE_KEY or FGSHIP_PASSWORD")
           fi
 
           if [ "${#missing[@]}" -gt 0 ]; then
@@ -72,13 +41,11 @@ jobs:
           fi
 
       - name: Install SSH tooling
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y sshpass
 
       - name: Configure deploy SSH
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           mkdir -p ~/.ssh "${RUNNER_TEMP}/bin"
           chmod 700 ~/.ssh
@@ -159,7 +126,6 @@ jobs:
           echo "DEPLOY_AUTH_MODE=${auth_mode}" >> "${GITHUB_ENV}"
 
       - name: Prepare server deploy directory
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' bash -s" <<'SH'
           set -euo pipefail
@@ -184,7 +150,6 @@ jobs:
           SH
 
       - name: Sync project to server
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-rsync -az --delete \
             --no-owner \
@@ -206,7 +171,6 @@ jobs:
             ./ "deploy-target:${DEPLOY_APP_ROOT}/"
 
       - name: Sync backend Amazon env
-        if: env.DEPLOY_ENABLED == 'true'
         env:
           AMAZON_SHIPPING_REFRESH_TOKEN: ${{ secrets.AMAZON_SHIPPING_REFRESH_TOKEN }}
           AMAZON_SHIPPING_LWA_CLIENT_ID: ${{ secrets.AMAZON_SHIPPING_LWA_CLIENT_ID }}
@@ -270,11 +234,10 @@ jobs:
           PY
 
       - name: Sync backend Shopify OAuth env
-        if: env.DEPLOY_ENABLED == 'true'
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
           SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
-          SHOPIFY_SCOPES: ${{ secrets.SHOPIFY_SCOPES }}
+          SHOPIFY_SCOPES: ${{ vars.SHOPIFY_SCOPES }}
           SHOPIFY_SEND_OAUTH_SCOPE: ${{ vars.SHOPIFY_SEND_OAUTH_SCOPE }}
           DEPLOY_PUBLIC_API_URL: ${{ env.DEPLOY_PUBLIC_API_URL }}
           DEPLOY_SHOPIFY_OAUTH_SUCCESS_URL: ${{ env.DEPLOY_SHOPIFY_OAUTH_SUCCESS_URL }}
@@ -354,7 +317,6 @@ jobs:
           PY
 
       - name: Sync backend Razorpay env
-        if: env.DEPLOY_ENABLED == 'true'
         env:
           RAZORPAY_KEY_ID_PROD: ${{ secrets.RAZORPAY_KEY_ID_PROD }}
           RAZORPAY_KEY_SECRET_PROD: ${{ secrets.RAZORPAY_KEY_SECRET_PROD }}
@@ -417,7 +379,6 @@ jobs:
           PY
 
       - name: Verify Shopify OAuth env
-        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
@@ -432,7 +393,6 @@ jobs:
             "cd ${DEPLOY_APP_ROOT}/backend && NODE_ENV=production npm run check:shopify-oauth -- --require-public --shop=fgship-oauth-smoke.myshopify.com"
 
       - name: Backfill Amazon LWA env from DB
-        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         run: |
           cat <<'NODE' | dep-ssh "cd ${DEPLOY_APP_ROOT}/backend && node -"
@@ -536,7 +496,6 @@ jobs:
           NODE
 
       - name: Verify Amazon LWA env
-        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         run: |
           cat <<'PY' | dep-ssh "cd ${DEPLOY_APP_ROOT}/backend && python3 -"
@@ -615,7 +574,6 @@ jobs:
           PY
 
       - name: Deploy on server
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_PUBLIC_API_URL='${DEPLOY_PUBLIC_API_URL}' DEPLOY_PUBLIC_SOCKET_URL='${DEPLOY_PUBLIC_SOCKET_URL}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' bash -s" <<'SH'
           set -euo pipefail
@@ -646,7 +604,6 @@ jobs:
           SH
 
       - name: Mark deployed commit
-        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' DEPLOY_SHA='${{ github.sha }}' bash -s" <<'SH'
           set -euo pipefail

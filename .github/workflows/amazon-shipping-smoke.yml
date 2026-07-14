@@ -20,20 +20,20 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
-      DEPLOY_USER: ${{ secrets.FGSHIP_USER || secrets.FEATHERS_GLOBAL_USER }}
-      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY || secrets.FEATHERS_GLOBAL_SSH_PRIVATE_KEY }}
-      DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD || secrets.FEATHERS_GLOBAL_PASSWORD }}
+      DEPLOY_HOST: ${{ secrets.FGSHIP_HOST }}
+      DEPLOY_USER: ${{ secrets.FGSHIP_USER }}
+      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY }}
+      DEPLOY_PASSWORD: ${{ secrets.FGSHIP_PASSWORD }}
       DEPLOY_APP_ROOT: /srv/feathers-global/current
 
     steps:
       - name: Validate smoke-test secrets
         run: |
           missing=()
-          [ -n "${DEPLOY_HOST}" ] || missing+=("FGSHIP_HOST or FEATHERS_GLOBAL_HOST")
-          [ -n "${DEPLOY_USER}" ] || missing+=("FGSHIP_USER or FEATHERS_GLOBAL_USER")
+          [ -n "${DEPLOY_HOST}" ] || missing+=("FGSHIP_HOST")
+          [ -n "${DEPLOY_USER}" ] || missing+=("FGSHIP_USER")
           if [ -z "${DEPLOY_SSH_PRIVATE_KEY}" ] && [ -z "${DEPLOY_PASSWORD}" ]; then
-            missing+=("FGSHIP_SSH_PRIVATE_KEY / FEATHERS_GLOBAL_SSH_PRIVATE_KEY or FGSHIP_PASSWORD / FEATHERS_GLOBAL_PASSWORD")
+            missing+=("FGSHIP_SSH_PRIVATE_KEY or FGSHIP_PASSWORD")
           fi
 
           if [ "${#missing[@]}" -gt 0 ]; then
