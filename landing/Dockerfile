@@ -8,15 +8,33 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:22-alpine AS runtime
+FROM node:22-bookworm-slim AS backend-build
 
-WORKDIR /app
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates git \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG RENDER_GIT_COMMIT=main
+RUN git init /source \
+    && cd /source \
+    && git remote add origin https://github.com/Sahil17102/express-magic.git \
+    && git fetch --depth 1 origin "${RENDER_GIT_COMMIT}" \
+    && git checkout --detach FETCH_HEAD
+
+WORKDIR /source/backend
+RUN npm ci --include=dev
+RUN npm run build
+
+FROM node:22-bookworm-slim AS runtime
+
+WORKDIR /app/landing
 ENV NODE_ENV=production
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/package.json ./package.json
+COPY --from=backend-build /source/backend /app/backend
 
-EXPOSE 4173
+EXPOSE 10000
 
-CMD ["npm", "run", "start"]
+CMD ["node", "scripts/service-entrypoint.mjs"]
