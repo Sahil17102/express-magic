@@ -115,9 +115,6 @@ export default function PhoneForm() {
       sendOtpRequest(normalizedEmail, {
         onSuccess: (data: OtpResponseLike) => {
           const otpFromResponse = extractScreenOtp(data)
-          if (otpFromResponse) {
-            console.log('[AUTH OTP]', { email: normalizedEmail, otp: otpFromResponse })
-          }
           setDebugOtp(otpFromResponse)
           sessionStorage.setItem('preferredMethod', 'email_otp')
           setOtpStep(1)
@@ -210,7 +207,7 @@ export default function PhoneForm() {
         }}
       >
         <FiShield size={18} />
-        Secure email verification enabled
+        Same-screen OTP login enabled
       </Box>
 
       <Box

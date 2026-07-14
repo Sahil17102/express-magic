@@ -146,9 +146,6 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
     resendOtp(email.toLowerCase().trim(), {
       onSuccess: (data: OtpResponseLike) => {
         const nextOtp = extractScreenOtp(data)
-        if (nextOtp) {
-          console.log('[AUTH OTP]', { email: email.toLowerCase().trim(), otp: nextOtp })
-        }
         onDebugOtpChange?.(nextOtp)
         setOtpDigits(Array(OTP_LENGTH).fill(''))
         setError('')
@@ -213,6 +210,8 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
 
       {debugOtp && (
         <Box
+          role="status"
+          aria-live="polite"
           sx={{
             p: 1.35,
             borderRadius: 1.25,
@@ -222,10 +221,13 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
           }}
         >
           <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_TEAL, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            Sign-in code
+            Your same-screen OTP
           </Typography>
           <Typography sx={{ mt: 0.4, fontSize: '1.5rem', fontWeight: 800, color: BRAND_DARK, letterSpacing: '0.18em' }}>
             {debugOtp}
+          </Typography>
+          <Typography sx={{ mt: 0.35, fontSize: '0.72rem', fontWeight: 650, color: '#5F5A57' }}>
+            The code is filled below automatically.
           </Typography>
         </Box>
       )}
@@ -294,7 +296,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
       )}
 
       <Typography variant="caption" color="#6E6763" textAlign="center" sx={{ userSelect: 'none' }}>
-        Enter the code shown above to continue to the merchant shipping workspace.
+        Review the code, then continue to the merchant shipping workspace.
       </Typography>
 
       <CustomIconLoadingButton

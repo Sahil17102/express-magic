@@ -36,7 +36,10 @@ const normalizeClientAuthUrl = (url) => {
   const normalized = stripTrailingSlash(url);
   if (
     /^https:\/\/express-magic-client\.onrender\.com(?:\/login)?$/i.test(normalized) ||
-    /^https:\/\/express-magic\.onrender\.com\/login$/i.test(normalized)
+    /^https:\/\/express-magic\.onrender\.com\/login$/i.test(normalized) ||
+    normalized.toLowerCase() === UNIFIED_RENDER_CLIENT_URL.toLowerCase() ||
+    /^https:\/\/express-magic\.onrender\.com\/app\/login$/i.test(normalized) ||
+    /^https:\/\/express-magic\.onrender\.com\/app\/#(?:\/login)?$/i.test(normalized)
   ) {
     return `${UNIFIED_RENDER_CLIENT_URL}/#/login`;
   }
