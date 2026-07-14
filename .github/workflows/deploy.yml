@@ -37,9 +37,9 @@ jobs:
 
   deploy:
     needs: preflight
-    if: needs.preflight.outputs.deploy_enabled == 'true'
     runs-on: ubuntu-latest
     env:
+      DEPLOY_ENABLED: ${{ needs.preflight.outputs.deploy_enabled }}
       DEPLOY_HOST: ${{ secrets.FGSHIP_HOST || secrets.FEATHERS_GLOBAL_HOST }}
       DEPLOY_USER: ${{ secrets.FGSHIP_USER || secrets.FEATHERS_GLOBAL_USER }}
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.FGSHIP_SSH_PRIVATE_KEY || secrets.FEATHERS_GLOBAL_SSH_PRIVATE_KEY }}
@@ -56,6 +56,11 @@ jobs:
 
       - name: Validate deploy secrets
         run: |
+          if [ "${DEPLOY_ENABLED}" != "true" ]; then
+            echo "VPS deployment is not configured; SSH deployment steps will be skipped."
+            exit 0
+          fi
+
           missing=()
           [ -n "${DEPLOY_HOST}" ] || missing+=("FGSHIP_HOST or FEATHERS_GLOBAL_HOST")
           [ -n "${DEPLOY_USER}" ] || missing+=("FGSHIP_USER or FEATHERS_GLOBAL_USER")
@@ -70,11 +75,13 @@ jobs:
           fi
 
       - name: Install SSH tooling
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y sshpass
 
       - name: Configure deploy SSH
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           mkdir -p ~/.ssh "${RUNNER_TEMP}/bin"
           chmod 700 ~/.ssh
@@ -155,6 +162,7 @@ jobs:
           echo "DEPLOY_AUTH_MODE=${auth_mode}" >> "${GITHUB_ENV}"
 
       - name: Prepare server deploy directory
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' bash -s" <<'SH'
           set -euo pipefail
@@ -179,6 +187,7 @@ jobs:
           SH
 
       - name: Sync project to server
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-rsync -az --delete \
             --no-owner \
@@ -200,6 +209,7 @@ jobs:
             ./ "deploy-target:${DEPLOY_APP_ROOT}/"
 
       - name: Sync backend Amazon env
+        if: env.DEPLOY_ENABLED == 'true'
         env:
           AMAZON_SHIPPING_REFRESH_TOKEN: ${{ secrets.AMAZON_SHIPPING_REFRESH_TOKEN }}
           AMAZON_SHIPPING_LWA_CLIENT_ID: ${{ secrets.AMAZON_SHIPPING_LWA_CLIENT_ID }}
@@ -263,6 +273,7 @@ jobs:
           PY
 
       - name: Sync backend Shopify OAuth env
+        if: env.DEPLOY_ENABLED == 'true'
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
           SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
@@ -346,6 +357,7 @@ jobs:
           PY
 
       - name: Sync backend Razorpay env
+        if: env.DEPLOY_ENABLED == 'true'
         env:
           RAZORPAY_KEY_ID_PROD: ${{ secrets.RAZORPAY_KEY_ID_PROD }}
           RAZORPAY_KEY_SECRET_PROD: ${{ secrets.RAZORPAY_KEY_SECRET_PROD }}
@@ -408,6 +420,7 @@ jobs:
           PY
 
       - name: Verify Shopify OAuth env
+        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
@@ -422,6 +435,7 @@ jobs:
             "cd ${DEPLOY_APP_ROOT}/backend && NODE_ENV=production npm run check:shopify-oauth -- --require-public --shop=fgship-oauth-smoke.myshopify.com"
 
       - name: Backfill Amazon LWA env from DB
+        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         run: |
           cat <<'NODE' | dep-ssh "cd ${DEPLOY_APP_ROOT}/backend && node -"
@@ -525,6 +539,7 @@ jobs:
           NODE
 
       - name: Verify Amazon LWA env
+        if: env.DEPLOY_ENABLED == 'true'
         continue-on-error: true
         run: |
           cat <<'PY' | dep-ssh "cd ${DEPLOY_APP_ROOT}/backend && python3 -"
@@ -603,6 +618,7 @@ jobs:
           PY
 
       - name: Deploy on server
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_PUBLIC_API_URL='${DEPLOY_PUBLIC_API_URL}' DEPLOY_PUBLIC_SOCKET_URL='${DEPLOY_PUBLIC_SOCKET_URL}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' bash -s" <<'SH'
           set -euo pipefail
@@ -633,6 +649,7 @@ jobs:
           SH
 
       - name: Mark deployed commit
+        if: env.DEPLOY_ENABLED == 'true'
         run: |
           dep-ssh "DEPLOY_APP_ROOT='${DEPLOY_APP_ROOT}' DEPLOY_RUNTIME_USER='${DEPLOY_RUNTIME_USER}' DEPLOY_LOGIN_USER='${DEPLOY_USER}' DEPLOY_SHA='${{ github.sha }}' bash -s" <<'SH'
           set -euo pipefail
