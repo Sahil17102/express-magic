@@ -1,28 +1,42 @@
 # Express Magic deployment
 
-Express Magic has three independent deployment paths:
-
-1. Railway deploys the connected Railway services from GitHub.
-2. Render deploys the client, admin, and backend services from GitHub.
-3. The manual GitHub Actions workflows connect to a Linux VPS over SSH.
-
-Railway deployments do not require the VPS secrets documented below. Do not add guessed values just to make a workflow green.
+Express Magic uses Render as its primary deployment platform. The repository-level
+`render.yaml` Blueprint manages the landing site, merchant client, admin panel, and
+backend API from the same GitHub repository. The manual GitHub Actions workflows
+remain available only for the separate Linux VPS deployment path.
 
 ## Render deployment
 
-The current Render services are:
+The Render Blueprint defines these services:
 
 | Component | URL | Root directory | Type |
 | --- | --- | --- | --- |
-| Client panel | `https://express-magic.onrender.com` | `courier-cart-client` | Static Site |
+| Landing site | `https://express-magic.onrender.com` | `landing` | Static Site |
+| Client panel | `https://express-magic-client.onrender.com` | `courier-cart-client` | Static Site |
 | Admin panel | `https://express-magic-admin.onrender.com` | `admin-dashboard` | Static Site |
-| Backend API | `https://express-magic-backend.onrender.com` | `backend` | Node Web Service |
+| Backend API | `https://express-magic-backend.onrender.com` | `backend` | Docker Web Service |
+
+Create or sync a Render Blueprint using `render.yaml` from the repository root.
+The existing services with matching names are updated in place, and the missing
+`express-magic-client` service is created. The Blueprint also applies the required
+React Router rewrites so `/login` and `/auth/signin` do not return 404.
+
+During the first Blueprint setup, provide the variables marked `sync: false`.
+For an existing backend, Render preserves its current secret values. Do not replace
+the current database URL or encryption keys with placeholders.
+
+### Landing site settings
+
+The Blueprint builds `landing`, keeps `https://express-magic.onrender.com` as the
+public site, and compiles all login/admin links to their Render services. No legacy
+deployment URL is used.
 
 ### Client panel settings
 
 - Build command: `npm ci && npm run build`
 - Publish directory: `dist`
-- Add a rewrite from `/*` to `/index.html` for React Router.
+- URL: `https://express-magic-client.onrender.com`
+- The Blueprint adds a rewrite from `/*` to `/index.html` for React Router.
 
 Set these build-time environment variables:
 
@@ -37,9 +51,7 @@ VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 
 - Build command: `npm install --legacy-peer-deps && npm run build`
 - Publish directory: `dist`
-- Add a rewrite from `/*` to `/index.html` for React Router.
-
-For an existing Docker Web Service, set Root Directory to `admin-dashboard`, Dockerfile Path to `./Dockerfile`, and Health Check Path to `/health`. The included Nginx configuration serves the production admin build and handles SPA routes.
+- The Blueprint adds a rewrite from `/*` to `/index.html` for React Router.
 
 Set these build-time environment variables:
 
@@ -51,13 +63,13 @@ REACT_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 ### Backend settings
 
 - Root directory: `backend`
-- Runtime: `Node`
-- Build command: `npm ci && npm run build`
-- Start command: `npm start`
+- Runtime: `Docker`
+- Dockerfile path: `./Dockerfile` relative to the `backend` root directory
 - Health check path: `/health`
 - Region: the same region as the Render Postgres database
 
-If the existing service was created with the `Docker` runtime, keep it as Docker, set Root Directory to `backend`, and set Dockerfile Path to `./Dockerfile`. Render then uses `backend/Dockerfile`; leave native Node build/start fields unused. The backend URL is misconfigured if `/` or `/api` returns the landing page HTML. A correct deployment returns `{"status":"ok"}` from `/health`.
+The backend URL is misconfigured if `/` or `/api` returns landing page HTML. A
+correct deployment returns `{"status":"ok"}` from `/health`.
 
 Set these environment variables in the backend service:
 
@@ -66,8 +78,8 @@ Set these environment variables in the backend service:
 | `NODE_ENV` | `production` |
 | `DATABASE_URL` | The **new Internal Database URL** copied from the Render Postgres **Connect** menu after rotating the exposed database password. Do not use a URL committed to Git. |
 | `API_URL` | `https://express-magic-backend.onrender.com` (no `/api`) |
-| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-admin.onrender.com` |
-| `FRONTEND_URL` | `https://express-magic.onrender.com` |
+| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-client.onrender.com,https://express-magic-admin.onrender.com` |
+| `FRONTEND_URL` | `https://express-magic-client.onrender.com` |
 | `ACCESS_TOKEN_SECRET` | A unique random secret of at least 32 bytes. Generate it locally with `openssl rand -base64 48`. |
 | `REFRESH_TOKEN_SECRET` | A different unique random secret of at least 32 bytes. |
 | `COURIER_SECRET_KEY` | A third unique random secret used to encrypt stored courier credentials. Keep this stable after production data exists. |
@@ -101,7 +113,7 @@ All SSH workflows are manual-only:
 - `Server Debug` inspects the running VPS and PM2 logs.
 - `Amazon Shipping Smoke` runs an Amazon Shipping check from the VPS.
 
-Normal pushes are deployed by Railway and do not run the VPS workflow. A manually started VPS workflow intentionally fails when required SSH secrets are absent, because reporting a successful deployment without contacting the server would be misleading.
+Normal pushes are deployed by the connected Render Blueprint and do not run the VPS workflow. A manually started VPS workflow intentionally fails when required SSH secrets are absent, because reporting a successful deployment without contacting the server would be misleading.
 
 ## Required GitHub Secrets
 
@@ -202,7 +214,7 @@ Variables are configured separately from secrets because they are not credential
 6. Add only the integration secrets for providers that are actually enabled in production.
 7. Under **Variables**, add optional `DEPLOY_RUNTIME_USER`, `SHOPIFY_SCOPES`, or `SHOPIFY_SEND_OAUTH_SCOPE` when needed.
 
-The current workflows read repository-level Actions secrets. Adding similarly named values only in Railway does not make them available to GitHub Actions.
+The current workflows read repository-level Actions secrets. Adding similarly named values only in Render does not make them available to GitHub Actions.
 
 ## Run and verify
 

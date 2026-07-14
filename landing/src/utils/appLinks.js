@@ -13,8 +13,8 @@ const inferLocalHostUrl = (port) => {
 };
 
 const defaultClientAppUrl = import.meta.env.DEV
-  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || "https://express-magic.onrender.com"
-  : "https://express-magic.onrender.com";
+  ? inferLocalHostUrl(import.meta.env.VITE_CLIENT_APP_PORT || "8089") || "https://express-magic-client.onrender.com"
+  : "https://express-magic-client.onrender.com";
 
 const defaultAdminAppUrl = import.meta.env.DEV
   ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || "https://express-magic-admin.onrender.com"

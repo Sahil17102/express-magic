@@ -153,9 +153,8 @@ const allowedOrigins = new Set([
   'https://www.fgship.in',
   'https://client.fgship.in',
   'https://admin.fgship.in',
-  'https://express-magic-production-608b.up.railway.app',
-  'https://express-magic-production.up.railway.app',
   'https://express-magic.onrender.com',
+  'https://express-magic-client.onrender.com',
   'https://express-magic-admin.onrender.com',
   ...configuredAllowedOrigins,
 ])
