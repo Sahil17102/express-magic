@@ -13,8 +13,10 @@ async function createDummyAdmin() {
   try {
     console.log('🚀 Creating dummy admin user...')
 
-    const email = 'admin@shiplifi.local'
-    const password = 'Admin@12345'
+    const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 'admin@shiplifi.com')
+      .trim()
+      .toLowerCase()
+    const password = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD || 'Admin@12345!'
     const hashedPassword = await bcryptjs.hash(password, 10)
 
     // Check if user already exists
@@ -66,10 +68,10 @@ async function createDummyAdmin() {
             state: 'Delhi',
             city: 'New Delhi',
             contactNumber: '+919876543210',
-            contactEmail: 'admin@shiplifi.local',
+            contactEmail: email,
             companyContactNumber: '+919876543210',
             brandName: 'Test Brand',
-            companyEmail: 'admin@shiplifi.local',
+            companyEmail: email,
             website: 'https://shiplifi.local',
           },
           businessType: ['b2c'],
@@ -84,8 +86,8 @@ async function createDummyAdmin() {
     }
 
     console.log('\n✅ Dummy admin setup complete!')
-    console.log('📧 Email: admin@shiplifi.local')
-    console.log('🔐 Password: Admin@12345')
+    console.log(`📧 Email: ${email}`)
+    console.log(`🔐 Password: ${password}`)
     console.log('\nYou can now login to the admin panel with these credentials.')
 
     process.exit(0)

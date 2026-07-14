@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { FiFileText, FiLock, FiMail, FiSend, FiShield } from 'react-icons/fi'
 import { BRAND } from '../../config/brand'
 import { useRequestOtp } from '../../hooks/useOTP'
+import { extractScreenOtp, type OtpResponseLike } from '../../utils/authOtp'
 import { TERMS_AND_CONDITIONS } from '../../utils/constants'
 import CustomCheckbox from '../UI/inputs/CustomCheckbox'
 import CustomModal from '../UI/modal/CustomModal'
@@ -23,11 +24,6 @@ import OtpForm from './OtpForm'
 import PasswordLoginForm from './PasswordLoginForm'
 
 const { teal, tealDark, orange, ink, paper, tealSoft } = BRAND.colors
-
-type RequestOtpResponse = {
-  devOtp?: string
-  otp?: string
-}
 
 type AuthMode = 'otp' | 'password'
 
@@ -117,8 +113,8 @@ export default function PhoneForm() {
       const normalizedEmail = email.toLowerCase().trim()
 
       sendOtpRequest(normalizedEmail, {
-        onSuccess: (data: RequestOtpResponse) => {
-          const otpFromResponse = data?.devOtp ?? data?.otp ?? ''
+        onSuccess: (data: OtpResponseLike) => {
+          const otpFromResponse = extractScreenOtp(data)
           if (otpFromResponse) {
             console.log('[AUTH OTP]', { email: normalizedEmail, otp: otpFromResponse })
           }

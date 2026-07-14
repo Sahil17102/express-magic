@@ -4,6 +4,7 @@ import { FiEdit2, FiRefreshCcw } from 'react-icons/fi'
 import { BRAND } from '../../config/brand'
 import { useAuth } from '../../context/auth/AuthContext'
 import { useRequestOtp, useVerifyOtp } from '../../hooks/useOTP'
+import { extractScreenOtp, type OtpResponseLike } from '../../utils/authOtp'
 import CustomIconLoadingButton from '../UI/button/CustomLoadingButton'
 import { toast } from '../UI/Toast'
 
@@ -79,6 +80,13 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
     }
   }, [email])
 
+  useEffect(() => {
+    if (/^\d{6}$/.test(debugOtp || '')) {
+      setOtpDigits(debugOtp!.split(''))
+      setError('')
+    }
+  }, [debugOtp])
+
   const handleChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return
 
@@ -136,8 +144,8 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
     if (!resendEnabled || resending) return
 
     resendOtp(email.toLowerCase().trim(), {
-      onSuccess: (data: { devOtp?: string; otp?: string }) => {
-        const nextOtp = data?.devOtp ?? data?.otp ?? ''
+      onSuccess: (data: OtpResponseLike) => {
+        const nextOtp = extractScreenOtp(data)
         if (nextOtp) {
           console.log('[AUTH OTP]', { email: email.toLowerCase().trim(), otp: nextOtp })
         }
