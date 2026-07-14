@@ -155,6 +155,8 @@ const allowedOrigins = new Set([
   'https://admin.fgship.in',
   'https://express-magic-production-608b.up.railway.app',
   'https://express-magic-production.up.railway.app',
+  'https://express-magic.onrender.com',
+  'https://express-magic-admin.onrender.com',
   ...configuredAllowedOrigins,
 ])
 
@@ -181,6 +183,10 @@ app.use(
     credentials: true,
   }),
 )
+
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' })
+})
 
 // Shopify webhooks require raw body for HMAC verification
 app.post('/api/webhooks/shopify/order-created', express.raw({ type: 'application/json' }), shopifyOrderWebhookController)

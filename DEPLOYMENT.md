@@ -1,11 +1,79 @@
 # Express Magic deployment
 
-Express Magic has two independent deployment paths:
+Express Magic has three independent deployment paths:
 
 1. Railway deploys the connected Railway services from GitHub.
-2. The manual GitHub Actions workflows connect to a Linux VPS over SSH.
+2. Render deploys the client, admin, and backend services from GitHub.
+3. The manual GitHub Actions workflows connect to a Linux VPS over SSH.
 
 Railway deployments do not require the VPS secrets documented below. Do not add guessed values just to make a workflow green.
+
+## Render deployment
+
+The current Render services are:
+
+| Component | URL | Root directory | Type |
+| --- | --- | --- | --- |
+| Client panel | `https://express-magic.onrender.com` | `courier-cart-client` | Static Site |
+| Admin panel | `https://express-magic-admin.onrender.com` | `admin-dashboard` | Static Site |
+| Backend API | `https://express-magic-backend.onrender.com` | `backend` | Node Web Service |
+
+### Client panel settings
+
+- Build command: `npm ci && npm run build`
+- Publish directory: `dist`
+- Add a rewrite from `/*` to `/index.html` for React Router.
+
+Set these build-time environment variables:
+
+```env
+VITE_API_URL=https://express-magic-backend.onrender.com/api
+VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
+```
+
+`VITE_GOOGLE_OAUTH_CLIENT_ID` and `VITE_PUBLIC_GEOAPIFY_KEY` are optional and must contain the real provider values only when those features are enabled.
+
+### Admin panel settings
+
+- Build command: `npm install --legacy-peer-deps && npm run build`
+- Publish directory: `build`
+- Add a rewrite from `/*` to `/index.html` for React Router.
+
+Set these build-time environment variables:
+
+```env
+REACT_APP_API_BASE_URL=https://express-magic-backend.onrender.com/api
+REACT_APP_SOCKET_URL=https://express-magic-backend.onrender.com
+```
+
+### Backend settings
+
+- Runtime: `Node`
+- Build command: `npm ci && npm run build`
+- Start command: `npm start`
+- Health check path: `/health`
+- Region: the same region as the Render Postgres database
+
+Set these environment variables in the backend service:
+
+| Variable | Value to provide manually |
+| --- | --- |
+| `NODE_ENV` | `production` |
+| `DATABASE_URL` | The **new Internal Database URL** copied from the Render Postgres **Connect** menu after rotating the exposed database password. Do not use a URL committed to Git. |
+| `API_URL` | `https://express-magic-backend.onrender.com` (no `/api`) |
+| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-admin.onrender.com` |
+| `FRONTEND_URL` | `https://express-magic.onrender.com` |
+| `ACCESS_TOKEN_SECRET` | A unique random secret of at least 32 bytes. Generate it locally with `openssl rand -base64 48`. |
+| `REFRESH_TOKEN_SECRET` | A different unique random secret of at least 32 bytes. |
+| `COURIER_SECRET_KEY` | A third unique random secret used to encrypt stored courier credentials. Keep this stable after production data exists. |
+| `ADMIN_SEED_EMAIL` | The real production administrator email address. |
+| `ADMIN_SEED_PASSWORD` | A unique strong initial administrator password. Change it after first login and keep it out of Git. |
+| `AUTH_OTP_DELIVERY` | `email` when production SMTP is configured; use `screen` only for temporary testing. |
+| `AUTO_MIGRATE_ON_START` | `true` for the first deployment or automatic schema bootstrap; set `false` only after migrations are managed separately. |
+
+Render supplies `PORT`; do not hardcode it. Courier, payment, email, storage, Shopify, and Google variables are feature-specific and should be added only with real values from those providers.
+
+After editing environment variables, choose **Save, rebuild, and deploy**. A push to the connected `main` branch also triggers an automatic deploy when Auto-Deploy is enabled.
 
 ## Production layout
 

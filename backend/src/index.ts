@@ -31,7 +31,7 @@ async function startServer() {
   server.listen(PORT, () => {
     const url =
       env === 'production'
-        ? process.env.API_PUBLIC_URL || 'https://api.fgship.in/api'
+        ? process.env.API_URL || process.env.API_PUBLIC_URL || 'https://api.fgship.in'
         : `http://localhost:${PORT}`
     console.log(`🚀 Server running on port ${PORT} in ${env} mode at ${url}`)
   })

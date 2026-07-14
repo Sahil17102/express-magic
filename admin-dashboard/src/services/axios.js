@@ -8,7 +8,7 @@ const getDefaultApiBaseUrl = () => {
     }
   }
 
-  return 'https://cheerful-fulfillment-production-07ac.up.railway.app/api'
+  return 'https://express-magic-backend.onrender.com/api'
 }
 
 const apiBaseURL = (process.env.REACT_APP_API_BASE_URL || getDefaultApiBaseUrl()).replace(/\/+$/, '')
