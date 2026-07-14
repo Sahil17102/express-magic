@@ -14,6 +14,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates git \
     && rm -rf /var/lib/apt/lists/*
 
+# Key the backend source layer to Render's commit so backend seed/config
+# changes always invalidate this compatibility image.
 ARG RENDER_GIT_COMMIT=main
 RUN git init /source \
     && cd /source \

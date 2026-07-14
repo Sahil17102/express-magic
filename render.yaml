@@ -72,7 +72,7 @@ services:
       - key: COURIER_SECRET_KEY
         sync: false
       - key: ADMIN_SEED_EMAIL
-        sync: false
+        value: admin@expressmagic.com
       - key: ADMIN_SEED_PASSWORD
         sync: false
       - key: ADMIN_FORCE_PASSWORD_RESET
