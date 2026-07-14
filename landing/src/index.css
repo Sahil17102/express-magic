@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
   background: #f7f9fb;
   color: var(--color-ink);
-  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 body::before {
@@ -93,6 +93,26 @@ svg {
     linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
     linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
   background-size: 64px 64px, 64px 64px, auto;
+}
+
+.hero-cinematic {
+  min-height: min(960px, calc(100svh - 69px));
+}
+
+.hero-cinematic canvas {
+  pointer-events: none;
+  touch-action: pan-y;
+}
+
+.hero-command-dashboard {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .hero-command-dashboard {
+    transform: rotateX(1.5deg) rotateY(-2deg);
+  }
 }
 
 .hero-visual-frame::after {

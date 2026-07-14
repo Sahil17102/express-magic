@@ -1,15 +1,26 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import heroWarehouseVisual from "../../assets/express-magic-warehouse-hero.png";
+import { lazy, Suspense, useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  MotionConfig,
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import trackingDashboardImage from "../../assets/tracking-dashboard-image-hd.webp";
+import volumetricCalculatorImage from "../../assets/volumetric-calculator-hd.webp";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
 import { companyProfile } from "./siteData";
 import { Reveal } from "./primitives";
 
 const MotionArticle = motion.article;
+const MotionAnchor = motion.a;
 const MotionButton = motion.button;
 const MotionDiv = motion.div;
 const MotionSpan = motion.span;
+const LogisticsNetworkScene = lazy(() => import("./LogisticsNetworkScene"));
 
 const primaryButtonClass =
   "inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto";
@@ -44,6 +55,37 @@ const heroFeatureCards = [
     description: "See courier, cost, and delivery performance at a glance.",
     icon: "barChart",
     shell: "bg-[#F1E7FF] text-[#7C3AED]",
+  },
+];
+
+const shippingTools = [
+  {
+    label: "01 / TRACK",
+    title: "Shipment tracking",
+    description: "See live courier scans, delivery milestones, and exceptions from one clean timeline.",
+    href: "/tracking",
+    action: "Track a shipment",
+    icon: "mapPin",
+    image: trackingDashboardImage,
+    imageAlt: "Express Magic live shipment tracking dashboard",
+  },
+  {
+    label: "02 / MEASURE",
+    title: "Weight calculator",
+    description: "Calculate volumetric weight before booking and prevent avoidable billing adjustments.",
+    href: "/volumetric-weight-calculator",
+    action: "Calculate weight",
+    icon: "calculator",
+    image: volumetricCalculatorImage,
+    imageAlt: "Express Magic volumetric weight calculator",
+  },
+  {
+    label: "03 / COMPARE",
+    title: "Shipping rate calculator",
+    description: "Compare price, service mode, and delivery confidence before every dispatch.",
+    href: "/rate-calculator",
+    action: "Compare rates",
+    icon: "wallet",
   },
 ];
 
@@ -693,63 +735,135 @@ function ActionAnchor({ href, children, className, style }) {
   );
 }
 
-function HeroRouteOverlay() {
+function MagneticLink({ href, children, className, style }) {
+  const offsetX = useMotionValue(0);
+  const offsetY = useMotionValue(0);
+  const x = useSpring(offsetX, { stiffness: 260, damping: 22, mass: 0.35 });
+  const y = useSpring(offsetY, { stiffness: 260, damping: 22, mass: 0.35 });
+
+  const handlePointerMove = (event) => {
+    if (event.pointerType === "touch") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    offsetX.set((event.clientX - bounds.left - bounds.width / 2) * 0.12);
+    offsetY.set((event.clientY - bounds.top - bounds.height / 2) * 0.16);
+  };
+
+  const resetPosition = () => {
+    offsetX.set(0);
+    offsetY.set(0);
+  };
+
   return (
-    <div className="hero-route-overlay" aria-hidden="true">
-      <svg className="hero-route-overlay__line" viewBox="0 0 640 360" fill="none">
-        <motion.path
-          d="M64 230 C150 150 238 170 316 108 C418 28 510 76 590 28"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth="2"
-          strokeDasharray="10 12"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        />
-      </svg>
-      {[
-        { label: "SUR", className: "left-[9%] top-[58%]", delay: 0.75 },
-        { label: "DXB", className: "left-[47%] top-[25%]", delay: 0.95 },
-        { label: "LHR", className: "right-[7%] top-[8%]", delay: 1.15 },
-      ].map((pin) => (
-        <MotionSpan
-          key={pin.label}
-          initial={{ opacity: 0, y: 12, scale: 0.92 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.55, delay: pin.delay, ease: [0.22, 1, 0.36, 1] }}
-          className={`hero-route-overlay__pin ${pin.className}`}
-        >
-          {pin.label}
-        </MotionSpan>
-      ))}
-    </div>
+    <MotionAnchor
+      href={href}
+      className={className}
+      style={{ ...style, x, y }}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPosition}
+      onPointerCancel={resetPosition}
+    >
+      {children}
+    </MotionAnchor>
   );
 }
 
-function HeroProofStrip() {
+function HeroCommandDashboard() {
+  const timeline = ["Booked", "In transit", "Out for delivery", "Delivered"];
+
   return (
-    <div className="hero-proof-strip">
-      {heroProofItems.map((item, index) => (
-        <div
-          key={item.label}
-          className="hero-proof-strip__item"
-          style={{ animationDelay: `${0.36 + index * 0.08}s` }}
-        >
-          <span className="hero-proof-strip__icon">
-            <Icon name={item.icon} className="h-4 w-4" />
+    <MotionDiv
+      initial={{ opacity: 0, y: 34, rotateX: 5 }}
+      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+      transition={{ duration: 0.85, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+      className="hero-command-dashboard relative mx-auto w-full max-w-[42rem] overflow-hidden rounded-lg border border-white/15 bg-[#081a34]/78 text-white shadow-[0_36px_100px_rgba(0,0,0,0.34)] backdrop-blur-2xl"
+    >
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-4 sm:px-6">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/10 text-[#82B8FF]">
+            <Icon name="route" className="h-5 w-5" />
           </span>
-          <span>
-            <span className="block text-[0.66rem] font-extrabold uppercase tracking-[0.14em] text-[#ED1C24]">
-              {item.label}
-            </span>
-            <span className="mt-1 block text-sm font-semibold leading-snug text-[#061A33]">
-              {item.value}
-            </span>
-          </span>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">Network command</p>
+            <p className="mt-1 text-xs text-white/48">Tuesday, 14 July</p>
+          </div>
         </div>
-      ))}
-    </div>
+        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-[0.68rem] font-semibold text-emerald-200">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,0.9)]" />
+          Live
+        </span>
+      </div>
+
+      <div className="grid grid-cols-3 border-b border-white/10">
+        {[
+          ["2,458", "Shipments", "+12.5%"],
+          ["98.6%", "On-time", "+3.8%"],
+          ["41", "Exceptions", "-18%"],
+        ].map(([value, label, change], index) => (
+          <div key={label} className={`min-w-0 px-3 py-4 sm:px-5 sm:py-5 ${index ? "border-l border-white/10" : ""}`}>
+            <p className="text-lg font-semibold sm:text-2xl">{value}</p>
+            <div className="mt-1 flex flex-col gap-1 text-[0.64rem] sm:flex-row sm:items-center sm:justify-between sm:text-xs">
+              <span className="truncate text-white/46">{label}</span>
+              <span className={change.startsWith("-") ? "text-emerald-300" : "text-[#82B8FF]"}>{change}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="px-4 py-5 sm:px-6 sm:py-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/42">AWB 7842 0913 6741</p>
+            <h2 className="mt-2 text-base font-semibold sm:text-lg">Surat to Bengaluru</h2>
+          </div>
+          <span className="shrink-0 rounded-lg bg-[#ED1C24] px-3 py-2 text-[0.68rem] font-semibold text-white">Out for delivery</span>
+        </div>
+
+        <div className="relative mt-7 grid grid-cols-4 gap-2">
+          <span className="absolute left-[7%] right-[7%] top-2 h-px bg-white/12" />
+          <MotionSpan
+            className="absolute left-[7%] top-2 h-px origin-left bg-[linear-gradient(90deg,#6eaaff,#ed1c24)]"
+            initial={{ width: 0 }}
+            animate={{ width: "62%" }}
+            transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
+          {timeline.map((item, index) => (
+            <div key={item} className="relative min-w-0 pt-6 text-center">
+              <span className={`absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] border-[#0a1c35] ${index < 3 ? "bg-[#7DAFFF]" : "bg-white/18"}`} />
+              <p className={`text-[0.6rem] leading-4 sm:text-[0.68rem] ${index < 3 ? "text-white/78" : "text-white/32"}`}>{item}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 hidden border-t border-white/10 pt-5 sm:block">
+          {[
+            ["EM-28476", "Mumbai Hub", "Moving", "2 min ago"],
+            ["EM-28462", "Jaipur Gateway", "Sorted", "8 min ago"],
+            ["EM-28431", "Bengaluru Hub", "Review", "12 min ago"],
+          ].map((row, index) => (
+            <div key={row[0]} className={`grid grid-cols-[0.8fr_1fr_0.65fr_0.75fr] gap-3 py-3 text-xs ${index ? "border-t border-white/[0.07]" : ""}`}>
+              <span className="font-semibold text-white/86">{row[0]}</span>
+              <span className="text-white/48">{row[1]}</span>
+              <span className={row[2] === "Review" ? "text-amber-300" : "text-emerald-300"}>{row[2]}</span>
+              <span className="text-right text-white/36">{row[3]}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <MotionDiv
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 4.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+        className="absolute bottom-4 right-4 hidden items-center gap-3 rounded-lg border border-white/12 bg-white/10 px-3 py-2 backdrop-blur-xl md:flex"
+      >
+        <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-[#062A5B]">
+          <Icon name="package" className="h-4 w-4" />
+        </span>
+        <span>
+          <span className="block text-[0.62rem] text-white/44">Next milestone</span>
+          <span className="mt-0.5 block text-xs font-semibold">Delivery attempt</span>
+        </span>
+      </MotionDiv>
+    </MotionDiv>
   );
 }
 
@@ -789,84 +903,86 @@ function AlignedSectionHeading({ eyebrow, title, description, className = "" }) 
 
 function HeroSection() {
   const { scrollYProgress } = useScroll();
-  const visualY = useTransform(scrollYProgress, [0, 0.24], [0, -42]);
-  const visualScale = useTransform(scrollYProgress, [0, 0.24], [1, 1.035]);
+  const visualY = useTransform(scrollYProgress, [0, 0.2], [0, -28]);
 
   return (
-    <section className="hero-section section-transition relative overflow-hidden bg-[#f7fbff] pt-6 sm:pt-8">
-      <MotionDiv
-        className="absolute inset-0 z-0"
-        style={{ y: visualY, scale: visualScale }}
-        aria-hidden="true"
-      >
-        <img
-          src={heroWarehouseVisual}
-          alt=""
-          className="h-full w-full object-cover object-[64%_center]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_30%,rgba(255,255,255,0.62)_52%,rgba(255,255,255,0.08)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,rgba(247,251,255,0),#f7fbff_82%)]" />
+    <section className="hero-cinematic section-transition relative isolate overflow-hidden bg-[#06152d] text-white">
+      <MotionDiv className="absolute inset-0 z-0" style={{ y: visualY }} aria-hidden="true">
+        <Suspense fallback={<div className="absolute inset-0 bg-[#06152d]" />}>
+          <LogisticsNetworkScene />
+        </Suspense>
       </MotionDiv>
+      <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(4,15,33,0.98)_0%,rgba(4,15,33,0.88)_42%,rgba(4,15,33,0.38)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-52 bg-[linear-gradient(180deg,rgba(6,21,45,0),#06152d_86%)]" />
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-5 pb-0 pt-10 sm:px-8 sm:pt-14 lg:px-16 lg:pt-16">
-        <Reveal className="max-w-[43rem]" delay={0.04}>
-          <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-white/82 px-4 py-2 text-[0.68rem] font-extrabold uppercase leading-5 tracking-[0.1em] text-[#1F5C9E] shadow-[0_12px_28px_rgba(6,42,91,0.08)] ring-1 ring-[#D9E6F7] sm:text-[0.76rem] sm:tracking-[0.14em]">
-            <Icon name="spark" className="h-4 w-4 text-[#2563EB]" />
-            <span className="min-w-0">Mission Control for Modern Commerce</span>
-          </span>
+      <div className="relative z-10 mx-auto max-w-[1440px] px-5 pb-12 pt-14 sm:px-8 sm:pb-14 sm:pt-18 lg:px-16 lg:pb-16 lg:pt-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
+          <Reveal className="max-w-[42rem]" delay={0.02}>
+            <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-4 py-2 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.12em] text-[#9CC5FF] backdrop-blur-xl sm:text-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#ED1C24] shadow-[0_0_16px_rgba(237,28,36,0.9)]" />
+              Logistics infrastructure for modern commerce
+            </span>
 
-          <h1 className="mt-7 max-w-[40rem] font-display text-[3rem] font-extrabold leading-[1.05] text-[#061A33] sm:text-[4.55rem] lg:text-[5rem]">
-            <span className="block">From</span>
-            <span className="block">warehouse.</span>
-            <span className="block text-[#ED1C24]">To every</span>
-            <span className="block text-[#ED1C24]">doorstep.</span>
-          </h1>
+            <h1 className="mt-7 max-w-[42rem] font-display text-[2.9rem] font-extrabold leading-[1.04] text-white sm:text-[4.25rem] lg:text-[4.8rem]">
+              Every shipment,
+              <span className="block text-[#8EBBFA]">under control.</span>
+            </h1>
 
-          <p className="mt-7 max-w-[34rem] text-base font-medium leading-[1.85] text-[#334155] sm:text-lg">
-            One intelligent logistics network for rates, dispatch, tracking, exceptions, and
-            delivery performance across every carrier.
-          </p>
+            <p className="mt-6 max-w-[37rem] text-base font-medium leading-8 text-white/68 sm:text-lg sm:leading-9">
+              Compare couriers, automate dispatch, track every milestone, and recover delivery
+              exceptions from one intelligent operating layer.
+            </p>
 
-          <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <ActionAnchor
-              href={AUTH_APP_URL}
-              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-7 py-4 text-sm font-extrabold text-white shadow-[0_18px_36px_rgba(237,28,36,0.24)] transition hover:-translate-y-0.5 hover:bg-[#c9171e] sm:w-auto"
-              style={{ color: "#ffffff" }}
-            >
-              <span>Launch your shipments</span>
-              <Icon name="arrowUpRight" className="h-5 w-5" />
-            </ActionAnchor>
-            <a
-              href="/tracking"
-              className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-[#C7D6EA] bg-white/86 px-7 py-4 text-sm font-extrabold text-[#061A33] shadow-[0_14px_30px_rgba(6,42,91,0.08)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
-            >
-              <Icon name="package" className="h-5 w-5" />
-              <span>Track a package</span>
-            </a>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <MagneticLink
+                href={AUTH_APP_URL}
+                className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-7 py-4 text-sm font-bold text-white shadow-[0_18px_38px_rgba(237,28,36,0.28)] transition-colors hover:bg-[#d31820] sm:w-auto"
+                style={{ color: "#ffffff" }}
+              >
+                <span>Start shipping</span>
+                <Icon name="arrowUpRight" className="h-5 w-5" />
+              </MagneticLink>
+              <MagneticLink
+                href="/tracking"
+                className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-white/18 bg-white/[0.07] px-7 py-4 text-sm font-bold text-white backdrop-blur-xl transition-colors hover:bg-white/[0.12] sm:w-auto"
+              >
+                <Icon name="package" className="h-5 w-5" />
+                <span>Track a package</span>
+              </MagneticLink>
+            </div>
+
+            <div className="mt-8 grid max-w-[36rem] grid-cols-3 gap-3 border-t border-white/10 pt-6">
+              {heroProofItems.map((item) => (
+                <div key={item.label} className="min-w-0">
+                  <p className="text-xs font-semibold text-white/38">{item.label}</p>
+                  <p className="mt-1 text-xs font-semibold leading-5 text-white/82 sm:text-sm">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="relative min-w-0 lg:perspective-[1400px]">
+            <HeroCommandDashboard />
           </div>
+        </div>
 
-          <div className="hidden sm:block">
-            <HeroProofStrip />
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.18}>
-          <div className="relative z-20 mt-14 grid overflow-hidden rounded-xl border border-white/80 bg-white/92 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-md sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
-            {heroFeatureCards.map((card, index) => (
+        <Reveal delay={0.28}>
+          <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 backdrop-blur-xl lg:mt-16 lg:grid-cols-4">
+            {heroFeatureCards.map((card) => (
               <MotionArticle
                 key={card.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -5 }}
-                className={`min-h-[12.5rem] px-6 py-7 ${index < heroFeatureCards.length - 1 ? "border-b border-[#E7EEF7] sm:border-r lg:border-b-0" : ""} ${index === 1 ? "sm:border-r-0 lg:border-r" : ""}`}
+                whileHover={{ backgroundColor: "rgba(255,255,255,0.09)" }}
+                className="bg-[#071931]/94 px-4 py-5 sm:min-h-[9rem] sm:px-6"
               >
-                <span className={`grid h-16 w-16 place-items-center rounded-xl ${card.shell}`}>
-                  <Icon name={card.icon} className="h-8 w-8" />
-                </span>
-                <h3 className="mt-5 text-base font-extrabold text-[#061A33]">{card.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#475569]">{card.description}</p>
+                <div className="flex items-start gap-4">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/10 text-[#8EBBFA]">
+                    <Icon name={card.icon} className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">{card.title}</h3>
+                    <p className="mt-2 hidden text-xs leading-6 text-white/48 sm:block">{card.description}</p>
+                  </div>
+                </div>
               </MotionArticle>
             ))}
           </div>
@@ -968,6 +1084,91 @@ function PlatformsSection() {
             </MotionDiv>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ShippingToolsSection() {
+  return (
+    <section id="shipping-tools" className="section-transition bg-white">
+      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 sm:py-20 lg:px-16 lg:py-24">
+        <div className="grid gap-8 lg:grid-cols-[0.72fr_0.28fr] lg:items-end">
+          <Reveal>
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.12em] text-[#ED1C24]">Shipping toolkit</p>
+              <h2 className="mt-4 max-w-[48rem] font-display text-[2.15rem] font-extrabold leading-[1.12] text-[#061A33] sm:text-[3.25rem]">
+                Answers before dispatch. Visibility after it.
+              </h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <p className="max-w-[30rem] text-sm font-medium leading-7 text-[#526277] sm:text-base sm:leading-8 lg:ml-auto">
+              Three focused tools give teams a faster path from package planning to final delivery.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {shippingTools.map((tool, index) => (
+            <Reveal key={tool.title} delay={index * 0.06}>
+              <MotionArticle
+                whileHover={{ y: -7 }}
+                transition={{ duration: 0.28 }}
+                className="group flex h-full min-w-0 flex-col overflow-hidden rounded-lg border border-[#DCE6F1] bg-[#F8FAFD] shadow-[0_18px_48px_rgba(6,26,51,0.07)]"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden border-b border-[#DCE6F1] bg-[#EAF1FA]">
+                  {tool.image ? (
+                    <img
+                      src={tool.image}
+                      alt={tool.imageAlt}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]"
+                    />
+                  ) : (
+                    <div className="flex h-full flex-col justify-between bg-[#081A34] p-5 text-white sm:p-6">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-white/48">Rate intelligence</span>
+                        <span className="rounded-full bg-emerald-300/10 px-3 py-1 text-[0.65rem] font-semibold text-emerald-200">3 options</span>
+                      </div>
+                      <div className="grid gap-1">
+                        {[
+                          ["Express Air", "1-2 days", "Rs 184"],
+                          ["Surface Pro", "3-4 days", "Rs 126"],
+                          ["Economy", "5-6 days", "Rs 98"],
+                        ].map((rate, rateIndex) => (
+                          <div key={rate[0]} className={`grid grid-cols-[1fr_0.8fr_auto] items-center gap-2 py-3 text-xs ${rateIndex ? "border-t border-white/10" : ""}`}>
+                            <span className="font-semibold">{rate[0]}</span>
+                            <span className="text-white/42">{rate[1]}</span>
+                            <span className={rateIndex === 1 ? "text-[#8EBBFA]" : "text-white/72"}>{rate[2]}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#6A7A90]">{tool.label}</p>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#E8F1FC] text-[#062A5B]">
+                      <Icon name={tool.icon} className="h-5 w-5" />
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-xl font-extrabold text-[#061A33]">{tool.title}</h3>
+                  <p className="mt-3 flex-1 text-sm font-medium leading-7 text-[#526277]">{tool.description}</p>
+                  <a
+                    href={tool.href}
+                    className="mt-6 inline-flex min-h-11 items-center justify-between border-t border-[#DCE6F1] pt-4 text-sm font-bold text-[#062A5B] transition group-hover:text-[#ED1C24]"
+                  >
+                    <span>{tool.action}</span>
+                    <Icon name="arrowUpRight" className="h-5 w-5" />
+                  </a>
+                </div>
+              </MotionArticle>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1205,7 +1406,7 @@ function ConnectorDot({ className = "" }) {
 
 function WhyChooseSection() {
   return (
-    <section className="section-transition bg-[#062A5B]">
+    <section id="services" className="section-transition bg-[#062A5B]">
       <div className="mx-auto max-w-[1518px] rounded-t-[5.5rem] bg-[#F5F8FC] px-5 pb-9 pt-11 sm:px-8 sm:pb-12 sm:pt-12 lg:px-24">
         <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr] lg:items-start">
           <Reveal>
@@ -1477,7 +1678,7 @@ function FeaturesShowcaseSection() {
   const activeFeature = featureShowcaseItems[activeIndex];
 
   return (
-    <section className="section-transition bg-[#062A5B] pt-0">
+    <section id="platform-features" className="section-transition bg-[#062A5B] pt-0">
       <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-10 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-12 lg:px-16">
         <FeatureMapBackdrop />
 
@@ -1707,7 +1908,7 @@ function TestimonialsSection() {
   };
 
   return (
-    <section className="section-transition bg-[#062A5B]">
+    <section id="testimonials" className="section-transition bg-[#062A5B]">
       <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <TestimonialMapBackdrop />
 
@@ -2002,7 +2203,7 @@ function FaqSection() {
   const [activeFaq, setActiveFaq] = useState(0);
 
   return (
-    <section className="section-transition bg-[#062A5B]">
+    <section id="faq" className="section-transition bg-[#062A5B]">
       <div className="relative mx-auto max-w-[1518px] overflow-hidden rounded-t-[2rem] bg-[#F5F8FC] px-5 pb-10 pt-12 sm:rounded-t-[4.6rem] sm:px-8 sm:pb-12 sm:pt-14 lg:px-16">
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
           <Reveal>
@@ -2683,17 +2884,21 @@ function LaunchSupportSection() {
 
 function FeatherLandingPage() {
   return (
-    <main id="home" className="modern-landing overflow-hidden bg-[#f7f9fb]">
-      <HeroSection />
-      <PlatformsSection />
-      <OperationsDeckSection />
-      <FeaturesShowcaseSection />
-      <EcommerceSection />
-      <RateConfidenceSection />
-      <TestimonialsSection />
-      <FaqSection />
-      <LaunchSupportSection />
-    </main>
+    <MotionConfig reducedMotion="user">
+      <main id="home" className="modern-landing overflow-hidden bg-[#f7f9fb]">
+        <HeroSection />
+        <PlatformsSection />
+        <ShippingToolsSection />
+        <WhyChooseSection />
+        <OperationsDeckSection />
+        <FeaturesShowcaseSection />
+        <EcommerceSection />
+        <RateConfidenceSection />
+        <TestimonialsSection />
+        <FaqSection />
+        <LaunchSupportSection />
+      </main>
+    </MotionConfig>
   );
 }
 
