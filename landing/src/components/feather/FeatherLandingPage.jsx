@@ -2913,7 +2913,6 @@ function FeatherLandingPage() {
         <HeroSection />
         <PlatformsSection />
         <ShippingToolsSection />
-        <OperationsDeckSection />
         <EcommerceSection />
         <RateConfidenceSection />
         <InsightsSection />
