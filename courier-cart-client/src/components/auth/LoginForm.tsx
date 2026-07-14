@@ -623,7 +623,7 @@ export default function LoginForm() {
             pb: { md: 0.4, lg: 0.8 },
           }}
         >
-          <Box>
+          <Box sx={{ position: 'relative', zIndex: 6 }}>
             <Typography
               sx={{
                 color: orange,
@@ -657,8 +657,9 @@ export default function LoginForm() {
 
             <Typography
               sx={{
-                color: text,
+                color: ink,
                 fontSize: { md: 18, lg: 20 },
+                fontWeight: 500,
                 lineHeight: 1.55,
                 maxWidth: 550,
               }}
