@@ -409,7 +409,7 @@ function ShipmentScene() {
           position: 'absolute',
           left: { md: -86, lg: -112 },
           right: { md: -86, lg: -112 },
-          bottom: { md: -30, lg: -34 },
+          bottom: { md: 4, lg: 8 },
           width: { md: 'calc(100% + 172px)', lg: 'calc(100% + 224px)' },
           height: { md: 338, lg: 370 },
           objectFit: 'cover',
@@ -682,6 +682,9 @@ export default function LoginForm() {
               boxShadow: '0 18px 42px rgba(6, 26, 51, 0.09)',
               backdropFilter: 'blur(14px)',
               overflow: 'hidden',
+              transform: { md: 'translateY(54px)', lg: 'translateY(62px)' },
+              position: 'relative',
+              zIndex: 2,
             }}
           >
             <FeatureTile
