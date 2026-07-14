@@ -13,19 +13,19 @@ function ActionButton({ action, primary = false }) {
   }
 
   const className = primary
-    ? "inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(135deg,#8FD8FF_0%,#FFD9A6_100%)] px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-[0_16px_34px_rgba(130,194,255,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(130,194,255,0.32)] sm:w-auto"
-    : "inline-flex w-full items-center justify-center rounded-full border border-sky-200 bg-white/85 px-6 py-3.5 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-sky-300 hover:bg-white sm:w-auto";
+    ? "inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-[#ED1C24] px-6 py-3.5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(237,28,36,0.2)] transition hover:-translate-y-0.5 hover:bg-[#B80F1A] sm:w-auto"
+    : "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[#062A5B] bg-white px-6 py-3.5 text-sm font-extrabold text-[#062A5B] transition hover:-translate-y-0.5 hover:bg-[#EEF4FB] sm:w-auto";
 
   if (action.href) {
     return (
-      <a className={className} href={action.href}>
+      <a className={className} href={action.href} style={primary ? { color: "#ffffff" } : undefined}>
         {action.label}
       </a>
     );
   }
 
   return (
-    <Link className={className} to={action.to}>
+    <Link className={className} to={action.to} style={primary ? { color: "#ffffff" } : undefined}>
       {action.label}
     </Link>
   );
@@ -33,42 +33,42 @@ function ActionButton({ action, primary = false }) {
 
 function DefaultHeroVisual({ visualTitle }) {
   return (
-    <div className="relative rounded-[2rem] border border-white/75 bg-white/[0.84] p-5 shadow-sm">
+    <div className="relative rounded-lg border border-[#D6E1EF] bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-700">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ED1C24]">
             Express Magic
           </p>
           <h2 className="mt-2 font-display text-2xl text-slate-900">{visualTitle}</h2>
         </div>
-        <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-700">
+        <span className="rounded-lg bg-[#EEF4FB] px-3 py-1 text-xs font-semibold text-[#062A5B]">
           Ready to extend
         </span>
       </div>
       <div className="mt-6 grid gap-4">
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[1.5rem] bg-sky-100 p-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-sky-700">View</p>
+          <div className="rounded-lg bg-[#EEF4FB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#062A5B]">View</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">Structured</p>
           </div>
-          <div className="rounded-[1.5rem] bg-white p-4 shadow-sm">
+          <div className="rounded-lg bg-white p-4 shadow-sm">
             <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Pages</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">Multi-route</p>
           </div>
-          <div className="rounded-[1.5rem] bg-amber-100 p-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-amber-700">Motion</p>
+          <div className="rounded-lg bg-[#FDE7EA] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#B80F1A]">Motion</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">Framer-powered</p>
           </div>
         </div>
-        <div className="rounded-[1.75rem] border border-slate-100 bg-[linear-gradient(180deg,rgba(217,230,247,0.45),rgba(255,255,255,0.95))] p-4">
+        <div className="rounded-lg border border-[#D6E1EF] bg-[linear-gradient(180deg,rgba(217,230,247,0.45),rgba(255,255,255,0.95))] p-4">
           <div className="flex items-center justify-between text-sm text-slate-500">
             <span>Page canvas</span>
             <span>Placeholder visual</span>
           </div>
           <div className="mt-4 grid gap-3">
             {["Overview block", "Insight module", "Action panel"].map((item, index) => (
-              <div key={item} className="flex items-center gap-3 rounded-2xl bg-white/85 px-4 py-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
+              <div key={item} className="flex items-center gap-3 rounded-lg bg-white/85 px-4 py-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EEF4FB] text-[#062A5B]">
                   <Icon name={index === 0 ? "layers" : index === 1 ? "chart" : "spark"} />
                 </span>
                 <div>
@@ -90,7 +90,7 @@ function HeroMediaVisual({ visualAnimationData, visualImage, visualAlt, visualTi
   }
 
   return (
-    <div className="relative flex min-h-[18rem] items-center justify-center overflow-hidden rounded-[1.6rem] border border-white/75 bg-white/[0.58] p-4 shadow-sm sm:min-h-[26rem] sm:rounded-[2rem] sm:p-5 lg:min-h-[30rem]">
+    <div className="relative flex min-h-[18rem] items-center justify-center overflow-hidden rounded-lg border border-[#D6E1EF] bg-white/[0.72] p-4 shadow-sm sm:min-h-[26rem] sm:p-5 lg:min-h-[30rem]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(253,231,234,0.42),transparent_26%),radial-gradient(circle_at_78%_22%,rgba(217,230,247,0.48),transparent_24%)]" />
       {visualAnimationData ? (
         <Lottie
@@ -131,7 +131,15 @@ export function PageHero({
       <div className="mx-auto grid min-w-0 max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:items-center lg:px-8">
         <Reveal className="min-w-0" delay={0.04}>
           <div className="min-w-0 max-w-2xl">
-            <span className="inline-flex items-center rounded-full border border-sky-200/80 bg-white/85 px-4 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-sky-700 shadow-sm">
+            <Link
+              to="/"
+              className="mb-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#062A5B] transition hover:text-[#ED1C24]"
+            >
+              <Icon name="chevronLeft" className="h-4 w-4" />
+              Back to home
+            </Link>
+            <br />
+            <span className="inline-flex items-center rounded-lg border border-[#D6E1EF] bg-white px-4 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#ED1C24] shadow-sm">
               {eyebrow}
             </span>
             <h1 className="mt-6 break-words font-display text-3xl leading-[1.08] text-slate-900 sm:text-5xl lg:text-[4rem]">
@@ -151,7 +159,7 @@ export function PageHero({
                     key={stat.label}
                     whileHover={{ y: -6, scale: 1.01 }}
                     transition={{ duration: 0.25 }}
-                    className="surface-card rounded-[1.75rem] p-5"
+                    className="surface-card rounded-lg p-5"
                   >
                     <p className="font-display text-2xl font-semibold text-slate-900">{stat.value}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">{stat.label}</p>
@@ -163,9 +171,9 @@ export function PageHero({
         </Reveal>
 
         <Reveal className="min-w-0" delay={0.12}>
-          <div className="hero-visual relative min-w-0 overflow-hidden rounded-[1.6rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.88),rgba(217,230,247,0.5),rgba(253,231,234,0.38))] p-3 shadow-[0_26px_70px_rgba(15,23,42,0.08)] sm:rounded-[2.5rem] sm:p-6 lg:p-7">
+          <div className="hero-visual relative min-w-0 overflow-hidden rounded-lg border border-[#D6E1EF] bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(217,230,247,0.55),rgba(253,231,234,0.42))] p-3 shadow-[0_26px_70px_rgba(6,42,91,0.1)] sm:p-6 lg:p-7">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:24px_24px]" />
-            <div className="absolute right-4 top-4 rounded-full border border-white/80 bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-500 sm:right-6 sm:top-6 sm:px-4 sm:text-xs">
+            <div className="absolute right-4 top-4 rounded-lg border border-[#D6E1EF] bg-white/90 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#062A5B] sm:right-6 sm:top-6 sm:px-4 sm:text-xs">
               {visualLabel}
             </div>
             <HeroMediaVisual
@@ -200,8 +208,8 @@ export function StatGrid({ items, dark = false }) {
             transition={{ duration: 0.25 }}
             className={
               dark
-                ? "rounded-[1.9rem] border border-white/10 bg-white/[0.08] p-6 backdrop-blur-sm"
-                : "surface-card rounded-[1.9rem] p-6"
+                ? "rounded-lg border border-white/10 bg-white/[0.08] p-6 backdrop-blur-sm"
+                : "surface-card rounded-lg p-6"
             }
           >
             <p className={`font-display text-4xl ${dark ? "text-white" : "text-slate-900"}`}>{item.value}</p>

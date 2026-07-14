@@ -1,50 +1,17 @@
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import { AUTH_APP_URL } from "../../utils/appLinks";
-import footerLogisticsVisual from "../../assets/feather-hero-logistics-visual-hd.webp";
 import Icon from "./Icons";
 import { companyProfile, siteNavigation } from "./siteData";
 
 const MotionNav = motion.nav;
 const MotionDiv = motion.div;
-const MotionImg = motion.img;
 const logoImage = "/express-magic-logo.jpeg";
 
 const productLinks = [
   { label: "Shipment Tracking", to: "/tracking", icon: "mapPin" },
   { label: "Weight Calculator", to: "/volumetric-weight-calculator", icon: "calculator" },
   { label: "Rate Calculator", to: "/rate-calculator", icon: "wallet" },
-];
-
-const supportHighlights = [
-  "Order Verification",
-  "Next Day Delivery",
-  "Dedicated Shipping Advisors",
-  "Multi-Carrier Access",
-  "RTO Reduction",
-  "Shipment Security",
-];
-
-const legalItems = [
-  {
-    title: "Refund & Cancellation Policy",
-    description: "Understand our refund and cancellation process clearly.",
-  },
-  {
-    title: "Privacy Policy",
-    description: "Learn how we handle and protect your personal data.",
-  },
-  {
-    title: "Terms of Service",
-    description: "Read the rules, guidelines, and acceptable usage.",
-  },
-];
-
-const socialLinks = [
-  { label: "LinkedIn", href: "https://www.linkedin.com", icon: "linkedin" },
-  { label: "Twitter", href: "https://twitter.com", icon: "twitter" },
-  { label: "Facebook", href: "https://www.facebook.com", icon: "facebook" },
-  { label: "YouTube", href: "https://www.youtube.com", icon: "youtube" },
 ];
 
 function DesktopNavLink({ item }) {
@@ -106,48 +73,6 @@ function MobileNavLink({ item, onClose }) {
     >
       {item.label}
     </NavLink>
-  );
-}
-
-function FooterCtaShowcase() {
-  return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.35 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative min-h-[15rem] overflow-hidden lg:min-h-[21rem]"
-    >
-      <div className="absolute inset-x-2 top-4 h-36 opacity-35 [clip-path:polygon(0_18%,18%_6%,38%_14%,55%_4%,82%_16%,100%_34%,88%_62%,70%_58%,54%_76%,34%_66%,18%_82%,4%_58%)] [background-image:radial-gradient(circle,#80c5ce_1.3px,transparent_1.55px)] [background-size:8px_8px]" />
-      <svg className="absolute right-[12%] top-10 hidden h-24 w-[23rem] text-[#062A5B] opacity-75 sm:block" viewBox="0 0 360 96" fill="none" aria-hidden="true">
-        <path d="M60 50 C132 8 230 14 306 38" stroke="currentColor" strokeWidth="1.7" />
-        <path d="M60 33v33" stroke="#062A5B" strokeWidth="8" strokeLinecap="round" />
-        <circle cx="60" cy="33" r="12" fill="#062A5B" />
-        <circle cx="60" cy="33" r="4" fill="white" />
-        <path d="M306 22v33" stroke="#ED1C24" strokeWidth="8" strokeLinecap="round" />
-        <circle cx="306" cy="22" r="12" fill="#ED1C24" />
-        <circle cx="306" cy="22" r="4" fill="white" />
-      </svg>
-      <MotionImg
-        src={footerLogisticsVisual}
-        alt="Express Magic shipping network"
-        animate={{ y: [0, -7, 0] }}
-        transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        className="absolute inset-x-0 bottom-0 z-10 h-full w-full object-contain object-bottom mix-blend-multiply lg:object-right-bottom"
-      />
-    </MotionDiv>
-  );
-}
-
-function FooterBrandLogo() {
-  return (
-    <div className="flex items-center gap-4" role="img" aria-label={companyProfile.name}>
-      <img
-        src={logoImage}
-        alt={companyProfile.name}
-        className="h-20 w-auto rounded-lg bg-white object-contain p-1 shadow-[0_12px_28px_rgba(0,0,0,0.16)]"
-      />
-    </div>
   );
 }
 
@@ -227,136 +152,75 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
 
 export function SiteFooter() {
   return (
-    <footer id="site-footer" className="overflow-hidden bg-[#041A38] text-white">
-      <div className="px-0 pt-0">
-        <div className="mx-auto max-w-[1518px] rounded-t-[2rem] rounded-b-[1.5rem] bg-[#F5F8FC] px-5 py-10 text-[#061A33] shadow-[0_18px_60px_rgba(0,24,30,0.18)] sm:rounded-t-[4.6rem] sm:rounded-b-[2.6rem] sm:px-8 lg:px-16 lg:py-14">
-          <div className="grid gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
-            <MotionDiv
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10"
-            >
-              <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#ED1C24]">
-                Ready to ship smarter?
-              </p>
-              <h2 className="mt-5 font-display text-[2.1rem] font-extrabold leading-[1.12] text-[#061A33] sm:text-[3.25rem] sm:leading-[1.08]">
-                One Platform.
-                <br />
-                <span className="text-[#062A5B]">Endless Possibilities.</span>
-              </h2>
-              <p className="mt-5 max-w-[32rem] text-base font-medium leading-[1.85] text-[#183153]">
-                Get started today and transform your delivery experience with cleaner logistics,
-                better visibility, and faster shipping decisions.
-              </p>
-              <div className="mt-8">
-                <a
-                  href={AUTH_APP_URL}
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-4 rounded-lg bg-[#062A5B] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(6,42,91,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:w-auto"
-                  style={{ color: "#ffffff" }}
-                >
-                  <span>Get Started</span>
-                  <Icon name="chevronRight" className="h-5 w-5" />
-                </a>
-              </div>
-              <div className="mt-7 flex flex-wrap gap-x-8 gap-y-3 text-sm font-medium text-[#183153]">
-                {["Cleaner logistics", "Better visibility", "Faster decisions"].map((item) => (
-                  <span key={item} className="inline-flex items-center gap-3">
-                    <span className="grid h-5 w-5 place-items-center rounded-full bg-[#062A5B] text-white">
-                      <Icon name="checkCircle" className="h-3.5 w-3.5" />
-                    </span>
-                    <span>{item}</span>
-                  </span>
-                ))}
-              </div>
-            </MotionDiv>
-
-            <FooterCtaShowcase />
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-[1518px] px-5 py-12 sm:px-8 lg:px-16">
-        <div className="grid gap-10 border-b border-white/8 pb-10 lg:grid-cols-[1.35fr_0.8fr_1fr_1.05fr_1.1fr]">
-          <div>
-            <FooterBrandLogo />
-            <p className="mt-5 max-w-sm text-base leading-7 text-white/82">
-              Your trusted partner in reliable, fast, and affordable delivery solutions. Seamless
-              logistics to power your business growth.
+    <footer id="site-footer" className="border-t-4 border-[#ED1C24] bg-[#041A38] text-white">
+      <div className="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-16 lg:py-16">
+        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+          <MotionDiv
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img
+              src={logoImage}
+              alt={companyProfile.name}
+              className="h-16 w-auto rounded-lg bg-white object-contain p-1"
+            />
+            <p className="mt-6 text-xs font-extrabold uppercase tracking-[0.16em] text-[#F36673]">
+              Your shipping control centre
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={item.label}
-                  className="grid h-11 w-11 place-items-center rounded-full bg-[#061A33] text-white/82 shadow-[0_10px_28px_rgba(0,0,0,0.16)] transition hover:-translate-y-0.5 hover:bg-[#123763] hover:text-white"
+            <h2 className="mt-3 max-w-xl font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+              Track, calculate, and ship from one reliable platform.
+            </h2>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 sm:text-base">
+              Use Express Magic tools before dispatch, then enter the platform when you are ready to manage live shipments.
+            </p>
+            <a
+              href={AUTH_APP_URL}
+              className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg bg-[#ED1C24] px-6 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#B80F1A] sm:w-auto"
+              style={{ color: "#ffffff" }}
+            >
+              Enter platform
+              <Icon name="chevronRight" className="h-5 w-5" />
+            </a>
+          </MotionDiv>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {productLinks.map((item, index) => (
+              <MotionDiv
+                key={item.to}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.45, delay: index * 0.06 }}
+              >
+                <NavLink
+                  to={item.to}
+                  className="group flex min-h-44 h-full flex-col justify-between rounded-lg border border-white/12 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:border-[#F36673]/70 hover:bg-white/[0.1]"
                 >
-                  <Icon name={item.icon} className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-white/10 lg:border-l lg:pl-8">
-            <h3 className="text-base font-extrabold text-white">Product</h3>
-            <div className="mt-5 grid gap-3.5">
-              {productLinks.map((item) => (
-                <NavLink key={item.to} className="text-sm font-medium text-white/76 transition hover:text-white" to={item.to}>
-                  {item.label}
+                  <span className="grid h-11 w-11 place-items-center rounded-lg bg-white text-[#062A5B]">
+                    <Icon name={item.icon} className="h-5 w-5" />
+                  </span>
+                  <span className="mt-8 flex items-end justify-between gap-3">
+                    <span className="text-base font-extrabold text-white">{item.label}</span>
+                    <Icon name="chevronRight" className="h-5 w-5 shrink-0 text-[#F36673] transition group-hover:translate-x-1" />
+                  </span>
                 </NavLink>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-white/10 lg:border-l lg:pl-8">
-            <h3 className="text-base font-extrabold text-white">Features</h3>
-            <ul className="mt-5 grid gap-3.5">
-              {supportHighlights.map((item) => (
-                <li key={item} className="text-sm font-medium text-white/76">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="border-white/10 lg:border-l lg:pl-8">
-            <h3 className="text-base font-extrabold text-white">Legal</h3>
-            <div className="mt-5 grid gap-4">
-              {legalItems.map((item) => (
-                <div key={item.title} className="text-sm">
-                  <p className="font-semibold text-white/88">{item.title}</p>
-                  <p className="mt-1 leading-6 text-white/56">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-white/10 lg:border-l lg:pl-8">
-            <h3 className="text-base font-extrabold text-white">Contact</h3>
-            <div className="mt-5 grid gap-3.5 text-sm font-medium text-white/76">
-              <a href={`mailto:${companyProfile.email}`} className="transition hover:text-white">
-                Email: {companyProfile.email}
-              </a>
-              <a href={`tel:${companyProfile.mobile}`} className="transition hover:text-white">
-                Mobile: {companyProfile.mobile}
-              </a>
-              <a href={`tel:${companyProfile.phone.replace(/-/g, "")}`} className="transition hover:text-white">
-                Phone: {companyProfile.phone}
-              </a>
-              <p className="leading-6">{companyProfile.address}</p>
-            </div>
+              </MotionDiv>
+            ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 pt-7 text-sm text-white/62 sm:flex-row sm:items-center sm:justify-between">
-          <p>(c) 2026 {companyProfile.name}. Seamless logistics to power smarter shipping operations.</p>
-          <a href={AUTH_APP_URL} className="font-semibold text-white/76 transition hover:text-white">
-            Get Started
-          </a>
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/62 md:flex-row md:items-center md:justify-between">
+          <p>(c) 2026 {companyProfile.name}. Smart shipping for smarter sellers.</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+            <a href={`mailto:${companyProfile.email}`} className="transition hover:text-white">
+              {companyProfile.email}
+            </a>
+            <a href={`tel:${companyProfile.mobile}`} className="transition hover:text-white">
+              {companyProfile.phone}
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -66,8 +66,8 @@ const colors = {
     500: '#16A34A',
   },
   warning: {
-    50: '#FFFBEB',
-    500: '#D97706',
+    50: BRAND.colors.amberSoft,
+    500: BRAND.colors.orange,
   },
   error: {
     50: '#FEF2F2',

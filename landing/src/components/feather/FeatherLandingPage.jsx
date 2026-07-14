@@ -2375,8 +2375,8 @@ function AnalyticsDashboard() {
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-lg bg-[#eef8ff] px-4 py-3 text-sm text-slate-600">Delivery performance trends</div>
-          <div className="rounded-lg bg-[#fff8ef] px-4 py-3 text-sm text-slate-600">COD and cost movement</div>
-          <div className="rounded-lg bg-[#effcff] px-4 py-3 text-sm text-slate-600">Customer experience signals</div>
+          <div className="rounded-lg bg-[#FDE7EA] px-4 py-3 text-sm text-slate-600">COD and cost movement</div>
+          <div className="rounded-lg bg-[#F5F8FC] px-4 py-3 text-sm text-slate-600">Customer experience signals</div>
         </div>
       </div>
     </div>
@@ -2454,7 +2454,7 @@ function CommercePanel() {
                   />
                   <span>{label}</span>
                 </span>
-                <span className="rounded-full bg-[#D4F6FF] px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                <span className="rounded-full bg-[#EEF4FB] px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-700">
                   Synced
                 </span>
               </MotionDiv>
@@ -2462,7 +2462,7 @@ function CommercePanel() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#e7f0f2] bg-[#fff8ef] p-5">
+        <div className="rounded-xl border border-[#e7f0f2] bg-[#FDE7EA] p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
             Shipment updates
           </p>
@@ -2500,7 +2500,7 @@ function CommercePanel() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-lg bg-[#effcff] px-4 py-4 shadow-sm"
+              className="rounded-lg bg-[#F5F8FC] px-4 py-4 shadow-sm"
             >
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                 Step 0{index + 1}
@@ -2531,7 +2531,7 @@ function EcommerceSection() {
                 <Reveal key={item.title} delay={0.05 * index}>
                   <div className="rounded-xl border border-[#e5f1f3] bg-white p-5 shadow-[0_16px_40px_rgba(7,25,35,0.04)]">
                     <div className="flex items-start gap-3 sm:gap-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#fff1df] text-[#ED1C24]">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#FDE7EA] text-[#ED1C24]">
                         <Icon name={item.icon} />
                       </span>
                       <div>
@@ -2652,7 +2652,7 @@ function RateConfidenceSection() {
                           <h3 className="font-display text-[1.35rem] font-extrabold leading-tight text-[#061A33]">
                             {card.title}
                           </h3>
-                          <span className="rounded-full bg-[#fff1df] px-3 py-1 text-xs font-extrabold text-[#ED1C24]">
+                          <span className="rounded-full bg-[#FDE7EA] px-3 py-1 text-xs font-extrabold text-[#ED1C24]">
                             {card.metric} {card.label}
                           </span>
                         </div>
@@ -2721,7 +2721,7 @@ function StackPreviewPanel() {
                   <p className="mt-1 text-xs font-semibold text-[#66747e]">{action}</p>
                 </div>
               </div>
-              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#0f7f86] shadow-sm">
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#062A5B] shadow-sm">
                 {status}
               </span>
             </div>
@@ -2762,7 +2762,7 @@ function ShippingStackSection() {
                     whileHover={{ y: -5, scale: 1.01 }}
                     className="h-full rounded-xl border border-[#D6E1EF] bg-white p-5 shadow-[0_18px_42px_rgba(7,25,35,0.05)]"
                   >
-                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[#fff1df] text-[#ED1C24]">
+                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[#FDE7EA] text-[#ED1C24]">
                       <Icon name={card.icon} />
                     </span>
                     <h3 className="mt-4 font-display text-[1.18rem] font-extrabold leading-tight text-[#061A33]">
@@ -2913,14 +2913,11 @@ function FeatherLandingPage() {
         <HeroSection />
         <PlatformsSection />
         <ShippingToolsSection />
-        <WhyChooseSection />
         <OperationsDeckSection />
-        <FeaturesShowcaseSection />
         <EcommerceSection />
         <RateConfidenceSection />
-        <TestimonialsSection />
-        <FaqSection />
-        <LaunchSupportSection />
+        <InsightsSection />
+        <ShippingStackSection />
       </main>
     </MotionConfig>
   );
