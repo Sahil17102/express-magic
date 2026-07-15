@@ -6,7 +6,7 @@ import Footer from 'components/Footer/Footer.js'
 import AdminNavbar from 'components/Navbars/AdminNavbar.js'
 import Sidebar from 'components/Sidebar'
 import { useEffect, useState } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import routes from 'routes.js'
 import { BRAND } from '../constants/brand'
 // Custom Chakra theme
@@ -23,6 +23,7 @@ const SIDEBAR_DEFAULT_WIDTH = 284
 
 export default function Dashboard(props) {
   const { ...rest } = props
+  const location = useLocation()
   // states and functions
   const [sidebarVariant, setSidebarVariant] = useState('opaque')
   const [fixed, setFixed] = useState(false)
@@ -65,7 +66,7 @@ export default function Dashboard(props) {
   }, [])
 
   const getRoute = () => {
-    return window.location.pathname !== '/admin/full-screen-maps'
+    return location.pathname !== '/admin/full-screen-maps'
   }
   const getActiveRoute = (routes) => {
     let activeRoute = 'Default Brand Text'
@@ -81,7 +82,7 @@ export default function Dashboard(props) {
           return categoryActiveRoute
         }
       } else {
-        if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
+        if (location.pathname.startsWith(routes[i].layout + routes[i].path.split('/:')[0])) {
           return routes[i].name
         }
       }
@@ -98,7 +99,7 @@ export default function Dashboard(props) {
           return categoryActiveNavbar
         }
       } else {
-        if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
+        if (location.pathname.startsWith(routes[i].layout + routes[i].path.split('/:')[0])) {
           if (routes[i].secondaryNavbar) {
             return routes[i].secondaryNavbar
           }

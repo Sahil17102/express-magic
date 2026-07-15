@@ -8,23 +8,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
 import { BRAND } from '../../constants/brand'
 import BrandMark from '../Brand/BrandMark'
 import AdminNavbarLinks from './AdminNavbarLinks'
 
 export default function AdminNavbar(props) {
-  const [scrolled, setScrolled] = useState(false)
   const { variant, children, fixed, secondary, brandText, onOpen, sidebarWidth = 275, ...rest } = props
 
-  let mainText = useColorModeValue('gray.800', 'gray.100')
-  let secondaryText = useColorModeValue('gray.500', 'gray.400')
-  let navbarPosition = 'absolute'
-  let navbarShadow = 'none'
-  let navbarBg = 'none'
-  let navbarBorder = 'transparent'
-  let secondaryMargin = '0px'
-  let paddingX = '18px'
+  const mainText = useColorModeValue('gray.800', 'gray.100')
+  const secondaryText = useColorModeValue('gray.500', 'gray.400')
+  const paddingX = '18px'
 
   const fixedNavbarShadow = useColorModeValue(
     '0 16px 38px rgba(7, 25, 35, 0.08)',
@@ -36,44 +29,14 @@ export default function AdminNavbar(props) {
   )
   const fixedNavbarBorder = useColorModeValue(BRAND.colors.border, 'rgba(134, 168, 211, 0.18)')
 
-  if (!secondary) {
-    navbarShadow = fixedNavbarShadow
-    navbarBg = fixedNavbarBg
-    navbarBorder = fixedNavbarBorder
-  }
-
-  if (fixed === true && scrolled === true) {
-    navbarPosition = 'fixed'
-    navbarShadow = fixedNavbarShadow
-    navbarBg = fixedNavbarBg
-    navbarBorder = fixedNavbarBorder
-  }
-
-  if (secondary) {
-    navbarPosition = 'absolute'
-    mainText = 'white'
-    secondaryText = 'whiteAlpha.700'
-    secondaryMargin = '22px'
-    paddingX = '30px'
-  }
-
-  useEffect(() => {
-    const changeNavbar = () => {
-      setScrolled(window.scrollY > 4)
-    }
-    window.addEventListener('scroll', changeNavbar)
-    return () => {
-      window.removeEventListener('scroll', changeNavbar)
-    }
-  }, [])
-
   return (
     <Flex
-      position={navbarPosition}
-      boxShadow={navbarShadow}
-      bg={navbarBg}
-      borderColor={navbarBorder}
-      backdropFilter={navbarBg === 'none' ? 'none' : 'blur(18px)'}
+      position="fixed"
+      zIndex="1250"
+      boxShadow={fixedNavbarShadow}
+      bg={fixedNavbarBg}
+      borderColor={fixedNavbarBorder}
+      backdropFilter="blur(18px)"
       borderWidth="1px"
       borderStyle="solid"
       transition="all 0.3s ease"
@@ -83,7 +46,7 @@ export default function AdminNavbar(props) {
       minH="88px"
       justifyContent={{ xl: 'center' }}
       mx="auto"
-      mt={secondaryMargin}
+      mt="0"
       left={document.documentElement.dir === 'rtl' ? '20px' : ''}
       right={document.documentElement.dir === 'rtl' ? '' : '16px'}
       px={{ sm: paddingX, md: '24px' }}
@@ -132,7 +95,7 @@ export default function AdminNavbar(props) {
         </Box>
 
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
-          <AdminNavbarLinks onOpen={onOpen} logoText={props.logoText} secondary={secondary} fixed={fixed} />
+          <AdminNavbarLinks onOpen={onOpen} logoText={props.logoText} secondary={false} fixed={true} />
         </Box>
       </Flex>
     </Flex>
