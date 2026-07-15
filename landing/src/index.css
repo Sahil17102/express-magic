@@ -74,6 +74,12 @@ section[id] {
   }
 }
 
+/* Filled CTA labels must retain accessible contrast even when link/button resets are re-ordered. */
+a.text-white,
+button.text-white {
+  color: #ffffff !important;
+}
+
 img,
 svg {
   display: block;
