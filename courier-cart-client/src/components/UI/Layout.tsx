@@ -26,10 +26,8 @@ export default function Layout() {
 
   // Close mobile drawer on route change
   useEffect(() => {
-    if (isMobile && mobileOpen) {
-      setMobileOpen(false)
-    }
-  }, [location.pathname, isMobile, mobileOpen])
+    setMobileOpen(false)
+  }, [location.pathname, isMobile])
 
   return (
     <Box
@@ -53,15 +51,15 @@ export default function Layout() {
           ModalProps={{ keepMounted: true }}
           sx={{
             '& .MuiDrawer-paper': {
-              width: 'min(88vw, 300px)',
-              maxWidth: '100vw',
+              width: SIDEBAR_EXPANDED_WIDTH,
+              maxWidth: '88vw',
               border: 0,
               background: '#FFFFFF',
               boxShadow: '0 18px 48px rgba(7, 25, 35, 0.14)',
             },
           }}
         >
-          <Box sx={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ width: '100%', height: '100dvh', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ flex: 1, overflowY: 'auto' }}>
               <Sidebar role={isAdminWorkspace ? 'admin' : 'customer'} pinned />
             </Box>

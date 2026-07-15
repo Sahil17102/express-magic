@@ -1,7 +1,6 @@
 import { alpha, Box, IconButton, Stack, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import { FaBolt, FaWallet } from 'react-icons/fa'
-import { MdClose, MdPushPin } from 'react-icons/md'
-import { TbLayoutSidebarRightCollapseFilled } from 'react-icons/tb'
+import { MdClose, MdMenu, MdPushPin } from 'react-icons/md'
 import { BRAND } from '../../config/brand'
 import { useAuth } from '../../context/auth/AuthContext'
 import { useUserProfile } from '../../hooks/User/useUserProfile'
@@ -62,7 +61,8 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
           {isMobile && (
             <IconButton
               onClick={handleDrawerToggle}
-              title="Open menu"
+              title="Open navigation menu"
+              aria-label="Open navigation menu"
               sx={{
                 width: { xs: 32, sm: 34, md: 36, lg: 40 },
                 height: { xs: 32, sm: 34, md: 36, lg: 40 },
@@ -84,7 +84,7 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
                 },
               }}
             >
-              <TbLayoutSidebarRightCollapseFilled size={16} />
+              <MdMenu size={21} />
             </IconButton>
           )}
 
