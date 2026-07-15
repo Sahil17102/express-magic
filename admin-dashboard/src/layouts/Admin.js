@@ -1,11 +1,11 @@
 // Chakra imports
-import { Box, ChakraProvider, Portal, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, ChakraProvider, Flex, Portal, Spinner, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import Configurator from 'components/Configurator/Configurator'
 import Footer from 'components/Footer/Footer.js'
 // Layout components
 import AdminNavbar from 'components/Navbars/AdminNavbar.js'
 import Sidebar from 'components/Sidebar'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import routes from 'routes.js'
 import { BRAND } from '../constants/brand'
@@ -138,6 +138,17 @@ export default function Dashboard(props) {
         {...rest}
       />
 
+      {/* Keep the global header mounted while lazy admin pages change. */}
+      <AdminNavbar
+        onOpen={onOpen}
+        logoText={BRAND.name}
+        brandText={getActiveRoute(routes)}
+        secondary={false}
+        fixed
+        sidebarWidth={sidebarWidth}
+        {...rest}
+      />
+
       {/* Main Panel adjusts with sidebar width */}
       <MainPanel
         minH="100vh"
@@ -151,24 +162,24 @@ export default function Dashboard(props) {
         }}
         ml={{ xl: `${sidebarWidth}px` }}
       >
-        <Portal>
-          <AdminNavbar
-            onOpen={onOpen}
-            logoText={BRAND.name}
-            brandText={getActiveRoute(routes)}
-            secondary={getActiveNavbar(routes)}
-            fixed={fixed}
-            sidebarWidth={sidebarWidth}
-            {...rest}
-          />
-        </Portal>
         {getRoute() ? (
           <PanelContent>
             <PanelContainer>
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/admin" to="/admin/dashboard" />
-              </Switch>
+              <Suspense
+                fallback={
+                  <Flex minH="65vh" align="center" justify="center" direction="column" gap={3}>
+                    <Spinner size="lg" color="brand.500" thickness="3px" />
+                    <Text color="gray.500" fontSize="sm" fontWeight="600">
+                      Loading admin workspace...
+                    </Text>
+                  </Flex>
+                }
+              >
+                <Switch>
+                  {getRoutes(routes)}
+                  <Redirect from="/admin" to="/admin/dashboard" />
+                </Switch>
+              </Suspense>
             </PanelContainer>
           </PanelContent>
         ) : null}
