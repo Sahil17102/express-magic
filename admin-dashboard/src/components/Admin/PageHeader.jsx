@@ -1,5 +1,6 @@
 import { Badge, Box, Flex, HStack, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { BRAND } from '../../constants/brand'
+import BrandMark from '../Brand/BrandMark'
 
 export default function PageHeader({
   eyebrow = `${BRAND.name} Admin`,
@@ -16,6 +17,8 @@ export default function PageHeader({
 
   return (
     <Box
+      position="relative"
+      overflow="hidden"
       bg={panelBg}
       borderWidth="1px"
       borderColor={borderColor}
@@ -24,8 +27,29 @@ export default function PageHeader({
       py={{ base: 5, md: 6 }}
       boxShadow={useColorModeValue('0 18px 50px rgba(6, 42, 91, 0.09)', '0 22px 60px rgba(2, 6, 23, 0.42)')}
       backdropFilter="blur(14px)"
+      _before={{
+        content: '""',
+        position: 'absolute',
+        inset: '0 0 auto 0',
+        h: '4px',
+        bg: `linear-gradient(90deg, ${BRAND.colors.tealDark}, ${BRAND.colors.teal} 68%, ${BRAND.colors.orange})`,
+      }}
     >
+      <Box
+        as="img"
+        src={BRAND.mark}
+        alt=""
+        aria-hidden="true"
+        position="absolute"
+        right={{ base: '-28px', md: '22px' }}
+        bottom="-34px"
+        w={{ base: '130px', md: '170px' }}
+        opacity={useColorModeValue(0.035, 0.055)}
+        pointerEvents="none"
+      />
       <Flex
+        position="relative"
+        zIndex="1"
         justify="space-between"
         align={{ base: 'flex-start', xl: 'center' }}
         direction={{ base: 'column', xl: 'row' }}
@@ -43,7 +67,10 @@ export default function PageHeader({
             bg="accent.50"
             color="accent.600"
           >
-            {eyebrow}
+            <HStack spacing={2}>
+              <BrandMark markOnly size={18} />
+              <Text as="span">{eyebrow}</Text>
+            </HStack>
           </Badge>
           <Stack spacing={1.5}>
             <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="800" letterSpacing="-0.03em" color={titleColor}>

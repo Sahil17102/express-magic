@@ -117,14 +117,19 @@ function SidebarResponsive(props) {
 
   return (
     <Flex display={{ sm: 'flex', xl: 'none' }} ref={mainPanel} alignItems="center">
-      <HamburgerIcon
-        color={hamburgerColor}
-        w="20px"
-        h="20px"
+      <Button
         ref={btnRef}
-        cursor="pointer"
         onClick={onOpen}
-      />
+        variant="ghost"
+        leftIcon={<HamburgerIcon color={hamburgerColor} w="20px" h="20px" />}
+        color={hamburgerColor}
+        h="38px"
+        px={{ base: 2, md: 3 }}
+        borderRadius="10px"
+        fontWeight="700"
+      >
+        <Text display={{ base: 'none', md: 'block' }}>Menu</Text>
+      </Button>
       <Drawer
         isOpen={isOpen}
         onClose={onClose}

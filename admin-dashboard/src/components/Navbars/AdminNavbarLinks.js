@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Flex,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -48,11 +47,11 @@ export default function HeaderLinks({ variant, children, fixed, secondary, onOpe
   }
 
   return (
-    <Flex pe={{ sm: '0px', md: '8px' }} w={{ sm: '100%', md: 'auto' }} align="center" gap="2">
+    <Flex pe={{ sm: '0px', md: '4px' }} w={{ sm: '100%', md: 'auto' }} align="center" gap="2">
       <InputGroup
         bg={styles.inputBg}
         borderRadius="10px"
-        w={{ sm: '150px', md: '260px' }}
+        w={{ sm: '150px', md: '230px', '2xl': '280px' }}
         me={{ sm: 'auto', md: '8px' }}
         borderWidth="1px"
         borderColor={styles.inputBorder}
@@ -154,18 +153,20 @@ export default function HeaderLinks({ variant, children, fixed, secondary, onOpe
 
       <SidebarResponsive logoText={rest.logoText || BRAND.name} secondary={secondary} routes={routes} {...rest} />
 
-      <IconButton
-        aria-label="Settings"
-        icon={<SettingsIcon w="18px" h="18px" />}
+      <Button
+        aria-label="Open settings"
+        leftIcon={<SettingsIcon w="18px" h="18px" />}
         variant="ghost"
         ms={{ base: '6px', xl: '0px' }}
-        me="6px"
+        px={{ base: 2, md: 3 }}
+        me="2px"
         ref={settingsRef}
         onClick={onOpen}
         color={styles.navbarIcon}
         borderRadius="10px"
-        w="38px"
         h="38px"
+        fontSize="sm"
+        fontWeight="700"
         borderWidth="1px"
         borderColor="transparent"
         _hover={{
@@ -173,7 +174,9 @@ export default function HeaderLinks({ variant, children, fixed, secondary, onOpe
           color: styles.accent,
           borderColor: 'rgba(6, 42, 91, 0.16)',
         }}
-      />
+      >
+        <Text display={{ base: 'none', lg: 'block' }}>Settings</Text>
+      </Button>
 
       <NotificationMenu themeStyles={styles} />
     </Flex>

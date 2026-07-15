@@ -1,4 +1,5 @@
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import { BRAND } from '../../constants/brand'
 
 export default function MetricTile({
   icon,
@@ -18,14 +19,15 @@ export default function MetricTile({
 
   return (
     <Flex
+      position="relative"
+      overflow="hidden"
       direction="column"
-      justify="space-between"
+      justify="flex-start"
       w="100%"
       minW={0}
-      minH={{ base: '164px', md: '172px' }}
-      h="100%"
-      p={{ base: 4, md: 4.5 }}
-      borderRadius="22px"
+      minH={{ base: '142px', md: '148px' }}
+      p={{ base: 4, md: 4 }}
+      borderRadius="18px"
       borderWidth="1px"
       borderColor={borderColor}
       bg={bg}
@@ -42,8 +44,27 @@ export default function MetricTile({
           : undefined
       }
       onClick={onClick}
+      _before={{
+        content: '""',
+        position: 'absolute',
+        inset: '0 0 auto 0',
+        h: '3px',
+        bg: `linear-gradient(90deg, ${BRAND.colors.teal}, ${BRAND.colors.orange})`,
+      }}
     >
-      <Flex align="flex-start" justify="space-between" gap={3} mb={4} minW={0}>
+      <Box
+        as="img"
+        src={BRAND.mark}
+        alt=""
+        aria-hidden="true"
+        position="absolute"
+        right="-12px"
+        bottom="-18px"
+        w="86px"
+        opacity={useColorModeValue(0.025, 0.045)}
+        pointerEvents="none"
+      />
+      <Flex position="relative" zIndex="1" align="flex-start" justify="space-between" gap={3} mb={2.5} minW={0}>
         <Text
           minW={0}
           pt={1}
@@ -70,7 +91,7 @@ export default function MetricTile({
           {icon}
         </Flex>
       </Flex>
-      <Box minW={0}>
+      <Box position="relative" zIndex="1" minW={0} mt="auto">
         <Text
           fontSize={{ base: '2xl', md: '3xl' }}
           fontWeight="800"

@@ -36,6 +36,12 @@ export default function AdminNavbar(props) {
   )
   const fixedNavbarBorder = useColorModeValue(BRAND.colors.border, 'rgba(134, 168, 211, 0.18)')
 
+  if (!secondary) {
+    navbarShadow = fixedNavbarShadow
+    navbarBg = fixedNavbarBg
+    navbarBorder = fixedNavbarBorder
+  }
+
   if (fixed === true && scrolled === true) {
     navbarPosition = 'fixed'
     navbarShadow = fixedNavbarShadow
@@ -72,27 +78,26 @@ export default function AdminNavbar(props) {
       borderStyle="solid"
       transition="all 0.3s ease"
       alignItems={{ xl: 'center' }}
-      borderRadius="14px"
+      borderRadius="18px"
       display="flex"
-      minH="76px"
+      minH="88px"
       justifyContent={{ xl: 'center' }}
       mx="auto"
       mt={secondaryMargin}
       left={document.documentElement.dir === 'rtl' ? '20px' : ''}
-      right={document.documentElement.dir === 'rtl' ? '' : '20px'}
-      px={{ sm: paddingX, md: '26px' }}
-      pt="12px"
-      pb="12px"
-      top="18px"
+      right={document.documentElement.dir === 'rtl' ? '' : '16px'}
+      px={{ sm: paddingX, md: '24px' }}
+      py="14px"
+      top="14px"
       w={{
         sm: 'calc(100vw - 20px)',
-        xl: `calc(100vw - ${sidebarWidth + 56}px)`,
+        xl: `calc(100vw - ${sidebarWidth + 32}px)`,
       }}
     >
       <Flex w="100%" flexDirection={{ sm: 'column', md: 'row' }} alignItems={{ xl: 'center' }} gap={{ sm: 2, md: 0 }}>
         <Box mb={{ sm: '4px', md: '0px' }} display="flex" alignItems="center" gap="14px">
           <Box display={{ base: 'none', md: 'block' }}>
-            <BrandMark compact size={34} />
+            <BrandMark compact showTagline align="start" size={40} />
           </Box>
 
           <Box>

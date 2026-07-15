@@ -69,18 +69,27 @@ export default function NotificationMenu({ themeStyles }) {
   return (
     <Menu>
       <MenuButton
+        as={Button}
         position="relative"
-        p={2}
-        borderRadius="full"
+        leftIcon={<BellIcon color={themeStyles.navbarIcon} w="18px" h="18px" />}
+        px={{ base: 2, md: 3 }}
+        h="38px"
+        color={themeStyles.navbarIcon}
+        variant="ghost"
+        borderRadius="10px"
+        borderWidth="1px"
+        borderColor="transparent"
+        fontSize="sm"
+        fontWeight="700"
         _hover={{ bg: menuHoverBg }}
       >
-        <BellIcon color={themeStyles.navbarIcon} w="22px" h="22px" />
+        <Text display={{ base: 'none', lg: 'block' }}>Alerts</Text>
 
         {unreadCount > 0 && (
           <Flex
             position="absolute"
-            top="0px"
-            right="0px"
+            top="-5px"
+            right="-5px"
             bg="red.500"
             color="white"
             fontSize="xs"

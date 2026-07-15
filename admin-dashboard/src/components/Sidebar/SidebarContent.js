@@ -50,9 +50,9 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
     })
   }, [location.pathname, routes])
 
-  const collapsed = sidebarWidth <= 160
-  const compact = sidebarWidth > 160 && sidebarWidth < 220
-  const textSize = compact ? 'sm' : 'sm'
+  const collapsed = sidebarWidth < 220
+  const compact = sidebarWidth >= 220 && sidebarWidth < 270
+  const textSize = compact ? '13px' : 'sm'
   const showText = !collapsed
 
   const renderLinkButton = (prop, isActive) => (
@@ -68,7 +68,7 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
       px={collapsed ? '2' : '3'}
       py={collapsed ? '5px' : '7px'}
       h="auto"
-      minH={collapsed ? '42px' : '46px'}
+      minH={collapsed ? '44px' : '50px'}
       border="1px solid"
       borderColor={isActive ? activeBorder : 'transparent'}
       _hover={{
@@ -83,13 +83,13 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
         {prop.icon && (
           <Box
             className="sidebar-nav-icon"
-            p={collapsed ? '4px' : '6px'}
+            p={collapsed ? '4px' : '7px'}
             borderRadius="8px"
             bg={isActive ? iconActiveBg : iconBg}
             color={isActive ? '#FFFFFF' : iconColor}
             fontSize="18px"
-            minW={collapsed ? '30px' : 'auto'}
-            minH={collapsed ? '30px' : 'auto'}
+            minW={collapsed ? '30px' : '34px'}
+            minH={collapsed ? '30px' : '34px'}
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -132,7 +132,7 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
                 px={collapsed ? '2' : '3'}
                 py={collapsed ? '5px' : '7px'}
                 h="auto"
-                minH={collapsed ? '42px' : '46px'}
+                minH={collapsed ? '44px' : '50px'}
                 border="1px solid"
                 borderColor={isChildActive ? activeBorder : 'transparent'}
                 _hover={{
@@ -145,13 +145,13 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
                 <Flex align="center" justify={collapsed ? 'center' : 'flex-start'} gap={collapsed ? '0' : '10px'} w="100%">
                   <Box
                     className="sidebar-nav-icon"
-                    p={collapsed ? '4px' : '6px'}
+                    p={collapsed ? '4px' : '7px'}
                     borderRadius="8px"
                     bg={isChildActive ? iconActiveBg : iconBg}
                     color={isChildActive ? '#FFFFFF' : iconColor}
                     fontSize="18px"
-                    minW={collapsed ? '30px' : 'auto'}
-                    minH={collapsed ? '30px' : 'auto'}
+                    minW={collapsed ? '30px' : '34px'}
+                    minH={collapsed ? '30px' : '34px'}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
@@ -199,7 +199,7 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
 
   return (
     <Box
-      pt={collapsed ? '8px' : '14px'}
+      pt={collapsed ? '8px' : '16px'}
       pb={collapsed ? '8px' : '14px'}
       h="100dvh"
       maxH="100dvh"
@@ -241,20 +241,20 @@ const SidebarContent = ({ logoText, routes, sidebarWidth }) => {
         },
       }}
     >
-      <Box mb={collapsed ? '7px' : '12px'} px={collapsed ? '8px' : '14px'} textAlign="center" transition="all 0.3s ease">
+      <Box mb={collapsed ? '7px' : '14px'} px={collapsed ? '8px' : '12px'} textAlign="center" transition="all 0.3s ease">
         {showText ? (
           <Flex
             align="center"
-            justify="center"
+            justify="flex-start"
             gap="10px"
             px="12px"
-            py="10px"
+            py="12px"
             borderRadius="14px"
             bg={brandCardBg}
             border="1px solid"
             borderColor={brandCardBorder}
           >
-            <BrandMark compact showTagline size={34} />
+            <BrandMark compact showTagline align="start" size={42} />
           </Flex>
         ) : (
           <Box mx="auto" p="2px" borderRadius="10px" bg={collapsedLogoBg}>

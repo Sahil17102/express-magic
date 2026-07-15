@@ -17,9 +17,9 @@ import MainPanel from '../components/Layout/MainPanel'
 import PanelContainer from '../components/Layout/PanelContainer'
 import PanelContent from '../components/Layout/PanelContent'
 
-const SIDEBAR_MIN_WIDTH = 88
-const SIDEBAR_MAX_WIDTH = 400
-const SIDEBAR_DEFAULT_WIDTH = 96
+const SIDEBAR_MIN_WIDTH = 248
+const SIDEBAR_MAX_WIDTH = 360
+const SIDEBAR_DEFAULT_WIDTH = 284
 
 export default function Dashboard(props) {
   const { ...rest } = props
@@ -31,7 +31,7 @@ export default function Dashboard(props) {
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const savedValue = window.localStorage.getItem('adminSidebarWidth')
     const savedWidth = Number(savedValue)
-    return savedValue && Number.isFinite(savedWidth)
+    return savedValue && Number.isFinite(savedWidth) && savedWidth >= SIDEBAR_MIN_WIDTH
       ? Math.min(Math.max(savedWidth, SIDEBAR_MIN_WIDTH), SIDEBAR_MAX_WIDTH)
       : SIDEBAR_DEFAULT_WIDTH
   })
@@ -139,6 +139,11 @@ export default function Dashboard(props) {
 
       {/* Main Panel adjusts with sidebar width */}
       <MainPanel
+        minH="100vh"
+        bg={useColorModeValue(
+          'linear-gradient(180deg, #F5F8FC 0%, #FFFFFF 42%, #F7FAFD 100%)',
+          'linear-gradient(180deg, #020D1F 0%, #041A38 48%, #020D1F 100%)',
+        )}
         w={{
           base: '100%',
           xl: `calc(100% - ${sidebarWidth}px)`,
