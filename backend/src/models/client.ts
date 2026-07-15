@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import * as path from 'path' // ✅ use this instead of `import path from 'path'`
 import { Pool } from 'pg'
+import { resolveDatabaseUrl } from '../config/databaseUrl'
 import * as schema from '../schema/schema'
 
 // Load environment file based on NODE_ENV
@@ -12,12 +13,10 @@ const envFilePath = path.resolve(__dirname, `../../.env.${env}`)
 console.log(`🔍 Loading env file: ${envFilePath}`)
 dotenv.config({ path: envFilePath })
 
-if (!process.env.DATABASE_URL) {
-  throw new Error('❌ DATABASE_URL is missing')
-}
+const databaseUrl = resolveDatabaseUrl()
 
 const poolConfig = {
-  connectionString: process.env.DATABASE_URL,
+  connectionString: databaseUrl,
   ssl: env === 'production' ? { rejectUnauthorized: false } : false,
   max: Number(process.env.PG_POOL_MAX || 10),
   idleTimeoutMillis: Number(process.env.PG_IDLE_TIMEOUT_MS || 30000),

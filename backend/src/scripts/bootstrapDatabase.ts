@@ -2,12 +2,13 @@ import * as dotenv from 'dotenv'
 import path from 'path'
 import { spawnSync } from 'child_process'
 import { Pool } from 'pg'
+import { resolveDatabaseUrl } from '../config/databaseUrl'
 
 const env = process.env.NODE_ENV || 'development'
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${env}`) })
 
 const backendRoot = path.resolve(__dirname, '../..')
-const databaseUrl = process.env.DATABASE_URL
+const databaseUrl = resolveDatabaseUrl()
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm'
 
 const run = (command: string, args: string[]) => {
@@ -23,8 +24,6 @@ const run = (command: string, args: string[]) => {
 }
 
 const usersTableExists = async () => {
-  if (!databaseUrl) throw new Error('DATABASE_URL is missing')
-
   const pool = new Pool({
     connectionString: databaseUrl,
     ssl: env === 'production' ? { rejectUnauthorized: false } : false,

@@ -29,6 +29,9 @@ RUN npm run build
 
 FROM node:22-bookworm-slim AS runtime
 
+ARG RENDER_GIT_COMMIT=main
+LABEL org.opencontainers.image.revision=$RENDER_GIT_COMMIT
+
 WORKDIR /app/landing
 ENV NODE_ENV=production
 
