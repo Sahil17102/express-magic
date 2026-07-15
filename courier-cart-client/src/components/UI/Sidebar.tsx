@@ -57,10 +57,11 @@ interface SidebarProps {
   role?: Role
   pinned?: boolean
   onPinChange?: (pinned: boolean) => void
+  fixed?: boolean
 }
 
-const SIDEBAR_EXPANDED_WIDTH = 260
-const SIDEBAR_COLLAPSED_WIDTH = 84
+export const SIDEBAR_EXPANDED_WIDTH = 260
+export const SIDEBAR_COLLAPSED_WIDTH = 96
 const ICON_SIZE_MD = 20 // Material Design
 const ICON_SIZE_FA = 18 // Font Awesome (slightly smaller to match MD)
 const ICON_SIZE_TB = 20 // Tabler
@@ -258,6 +259,7 @@ const navItems: NavItem[] = [
 export default function Sidebar({
   role = 'customer',
   pinned: initialPinned = false,
+  fixed = false,
   // onPinChange,
 }: SidebarProps) {
   const { pathname } = useLocation()
@@ -315,8 +317,9 @@ export default function Sidebar({
         width: sidebarWidth,
         minWidth: sidebarWidth,
         height: '100dvh',
-        position: 'sticky',
+        position: fixed ? 'fixed' : 'sticky',
         top: 0,
+        left: fixed ? 0 : 'auto',
         display: 'flex',
         flexDirection: 'column',
         background: BRAND_SURFACE,
@@ -336,15 +339,15 @@ export default function Sidebar({
         justifyContent={shouldShowExpanded ? 'space-between' : 'center'}
         sx={{
           px: shouldShowExpanded ? 1.5 : 1,
-          py: 1.5,
+          py: shouldShowExpanded ? 1.5 : 0.75,
           borderBottom: `1px solid ${BRAND_BORDER}`,
           flexShrink: 0,
         }}
       >
         <Box
           sx={{
-            width: 48,
-            height: 48,
+            width: shouldShowExpanded ? 48 : 40,
+            height: shouldShowExpanded ? 48 : 40,
             borderRadius: 1.5,
             display: 'flex',
             alignItems: 'center',
@@ -371,8 +374,8 @@ export default function Sidebar({
       <List
         sx={{
           flex: 1,
-          px: 0.5,
-          py: 1,
+          px: shouldShowExpanded ? 0.5 : 0.35,
+          py: shouldShowExpanded ? 1 : 0.5,
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
@@ -387,6 +390,7 @@ export default function Sidebar({
               <Tooltip title={shouldShowExpanded || hasChildren ? '' : text} placement="right">
                 <ListItemButton
                   {...(!hasChildren && { component: NavLink, to: path })}
+                  aria-label={text}
                   onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
                     if (hasChildren) {
                       if (!shouldShowExpanded) {
@@ -414,11 +418,15 @@ export default function Sidebar({
                     }
                   }}
                   sx={{
-                    minHeight: 56,
-                    px: shouldShowExpanded ? 1.5 : 0.75,
-                    mb: 0.5,
+                    minHeight: shouldShowExpanded ? 56 : 48,
+                    px: shouldShowExpanded ? 1.5 : 0.25,
+                    py: shouldShowExpanded ? 1 : 0.45,
+                    mb: shouldShowExpanded ? 0.5 : 0.25,
                     borderRadius: 1.5,
                     justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
+                    alignItems: 'center',
+                    flexDirection: shouldShowExpanded ? 'row' : 'column',
+                    gap: shouldShowExpanded ? 0 : 0.25,
                     background: isActive_
                       ? `linear-gradient(135deg, ${alpha(BRAND_ORANGE, 0.12)} 0%, ${alpha(BRAND_ACCENT, 0.06)} 100%)`
                       : 'transparent',
@@ -460,7 +468,7 @@ export default function Sidebar({
                   >
                     {icon}
                   </ListItemIcon>
-                  {shouldShowExpanded && (
+                  {shouldShowExpanded ? (
                     <ListItemText
                       primary={text}
                       slotProps={{
@@ -473,6 +481,24 @@ export default function Sidebar({
                         },
                       }}
                     />
+                  ) : (
+                    <Typography
+                      component="span"
+                      sx={{
+                        width: '100%',
+                        color: 'inherit',
+                        fontSize: '0.61rem',
+                        fontWeight: isActive_ ? 700 : 600,
+                        lineHeight: 1.05,
+                        letterSpacing: '-0.01em',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {text}
+                    </Typography>
                   )}
                 </ListItemButton>
               </Tooltip>

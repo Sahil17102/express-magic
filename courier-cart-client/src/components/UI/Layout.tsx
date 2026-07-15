@@ -5,7 +5,7 @@ import { useAuth } from '../../context/auth/AuthContext'
 import Navbar from '../Navbar/Navbar'
 import KeyboardShortcuts from './keyboard/KeyboardShortcuts'
 import FullScreenLoader from './loader/FullScreenLoader'
-import Sidebar from './Sidebar'
+import Sidebar, { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from './Sidebar'
 import { brandGradient } from '../../config/brand'
 import { useEmployeeSocket } from '../../hooks/useEmployeeSocket'
 
@@ -68,7 +68,22 @@ export default function Layout() {
           </Box>
         </Drawer>
       ) : (
-        <Sidebar role={isAdminWorkspace ? 'admin' : 'customer'} pinned={sidebarPinned} onPinChange={setSidebarPinned} />
+        <Box
+          sx={{
+            width: sidebarPinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH,
+            minWidth: sidebarPinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH,
+            flexShrink: 0,
+            transition:
+              'width 300ms cubic-bezier(0.4, 0, 0.2, 1), min-width 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          <Sidebar
+            role={isAdminWorkspace ? 'admin' : 'customer'}
+            pinned={sidebarPinned}
+            onPinChange={setSidebarPinned}
+            fixed
+          />
+        </Box>
       )}
 
       <Stack
