@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
@@ -13,6 +13,32 @@ const productLinks = [
   { label: "Weight Calculator", to: "/volumetric-weight-calculator", icon: "calculator" },
   { label: "Rate Calculator", to: "/rate-calculator", icon: "wallet" },
 ];
+
+function NetworkStatus({ mobile = false }) {
+  return (
+    <div
+      className={[
+        "items-center gap-3 border border-[#CFE0EE] bg-white/90 shadow-[0_10px_24px_rgba(6,42,91,0.08)]",
+        mobile ? "flex rounded-lg px-4 py-3" : "hidden rounded-full px-3.5 py-2 xl:flex",
+      ].join(" ")}
+      aria-label="Express Magic shipping network is live with more than 27 carriers"
+    >
+      <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#16A37A] opacity-35" />
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#16A37A] ring-4 ring-[#DDF7EE]" />
+      </span>
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#EEF4FB] text-[#062A5B]" aria-hidden="true">
+        <Icon name="truck" className="h-4 w-4" />
+      </span>
+      <span className="min-w-0 leading-none">
+        <span className="block text-[0.63rem] font-extrabold uppercase tracking-[0.15em] text-[#16A37A]">
+          Network live
+        </span>
+        <span className="mt-1 block whitespace-nowrap text-xs font-extrabold text-[#061A33]">27+ carriers connected</span>
+      </span>
+    </div>
+  );
+}
 
 function DesktopNavLink({ item }) {
   if (item.href) {
@@ -77,20 +103,8 @@ function MobileNavLink({ item, onClose }) {
 }
 
 export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
-  const { scrollYProgress } = useScroll();
-  const progressScale = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 28,
-    mass: 0.25,
-  });
-
   return (
-    <header className="sticky top-0 z-50 border-b border-white/40 bg-white/68 shadow-[0_10px_30px_rgba(6,26,51,0.06)] backdrop-blur-2xl supports-[backdrop-filter]:bg-white/62">
-      <MotionDiv
-        className="absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-[linear-gradient(90deg,#062A5B,#ED1C24)]"
-        style={{ scaleX: progressScale }}
-        aria-hidden="true"
-      />
+    <header className="sticky top-0 z-50 border-b border-[#D6E1EF]/80 bg-white/68 shadow-[0_10px_30px_rgba(6,26,51,0.06)] backdrop-blur-2xl supports-[backdrop-filter]:bg-white/62">
       <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-5 py-2.5 sm:gap-6 sm:px-8 lg:px-16">
         <Link to="/" className="shrink-0">
           <img src={logoImage} alt={companyProfile.name} className="h-12 w-auto object-contain sm:h-14" />
@@ -103,6 +117,7 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
+          <NetworkStatus />
           <a
             href={AUTH_APP_URL}
             className="hidden min-h-11 items-center gap-3 rounded-lg bg-[#061A33] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_14px_28px_rgba(6,26,51,0.18)] transition hover:-translate-y-0.5 hover:bg-[#123763] sm:inline-flex"
@@ -132,6 +147,7 @@ export function SiteHeader({ menuOpen, onToggleMenu, onCloseMenu }) {
             className="overflow-hidden border-t border-[#D6E1EF] bg-[#F5F8FC]"
           >
             <div className="mx-auto grid max-w-7xl gap-3 px-4 py-4 sm:px-6">
+              <NetworkStatus mobile />
               {siteNavigation.map((item) => (
                 <MobileNavLink key={item.to || item.href} item={item} onClose={onCloseMenu} />
               ))}
