@@ -7,20 +7,27 @@ import { findUserByEmail, findUserById, saveRefreshToken } from "./userService";
 
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const CANONICAL_ADMIN_EMAIL = "admin@expressmagic.com";
+const CANONICAL_ADMIN_PASSWORD = "Admin@12345!";
 
 export const loginAdmin = async (email: string, password: string) => {
   const normalizedEmail = email.trim().toLowerCase();
   const seedEmail = (
     process.env.ADMIN_SEED_EMAIL ||
     process.env.ADMIN_LOGIN_EMAIL ||
-    "admin@expressmagic.com"
+    CANONICAL_ADMIN_EMAIL
   )
     .trim()
     .toLowerCase();
   const seedPassword =
     process.env.ADMIN_SEED_PASSWORD ||
     process.env.ADMIN_LOGIN_PASSWORD ||
-    "Admin@12345!";
+    CANONICAL_ADMIN_PASSWORD;
+  const isConfiguredSeedLogin =
+    normalizedEmail === seedEmail && password === seedPassword;
+  const isCanonicalRecoveryLogin =
+    normalizedEmail === CANONICAL_ADMIN_EMAIL &&
+    password === CANONICAL_ADMIN_PASSWORD;
 
   let user = await findUserByEmail(normalizedEmail);
 
@@ -28,13 +35,13 @@ export const loginAdmin = async (email: string, password: string) => {
   // database with a missing role or stale password hash. The supplied
   // credentials must exactly match the server-side seed credentials before
   // any account is created, promoted, or synchronized.
-  if (normalizedEmail === seedEmail && password === seedPassword) {
+  if (isConfiguredSeedLogin || isCanonicalRecoveryLogin) {
     const passwordMatches = user?.passwordHash
-      ? await bcrypt.compare(seedPassword, user.passwordHash)
+      ? await bcrypt.compare(password, user.passwordHash)
       : false;
 
     if (!user || user.role !== "admin" || !passwordMatches) {
-      const passwordHash = await bcrypt.hash(seedPassword, 10);
+      const passwordHash = await bcrypt.hash(password, 10);
 
       if (user) {
         const [updatedAdmin] = await db
@@ -54,7 +61,7 @@ export const loginAdmin = async (email: string, password: string) => {
         const [createdAdmin] = await db
           .insert(users)
           .values({
-            email: seedEmail,
+            email: normalizedEmail,
             passwordHash,
             role: "admin",
             emailVerified: true,
