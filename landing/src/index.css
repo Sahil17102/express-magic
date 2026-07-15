@@ -46,30 +46,32 @@ section[id] {
   scroll-margin-top: 112px;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
+@layer base {
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.font-display {
-  font-weight: 700;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
+    font-weight: 700;
+  }
 }
 
 img,
