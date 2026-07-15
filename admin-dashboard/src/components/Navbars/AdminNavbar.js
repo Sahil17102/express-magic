@@ -31,8 +31,8 @@ export default function AdminNavbar(props) {
 
   return (
     <Flex
-      position="fixed"
-      zIndex="1250"
+      position="relative"
+      zIndex="20"
       boxShadow={fixedNavbarShadow}
       bg={fixedNavbarBg}
       borderColor={fixedNavbarBorder}
@@ -45,16 +45,13 @@ export default function AdminNavbar(props) {
       display="flex"
       minH="88px"
       justifyContent={{ xl: 'center' }}
-      mx="auto"
-      mt="0"
-      left={document.documentElement.dir === 'rtl' ? '20px' : ''}
-      right={document.documentElement.dir === 'rtl' ? '' : '16px'}
+      mx={{ base: '10px', xl: '16px' }}
+      mt="14px"
       px={{ sm: paddingX, md: '24px' }}
       py="14px"
-      top="14px"
       w={{
-        sm: 'calc(100vw - 20px)',
-        xl: `calc(100vw - ${sidebarWidth + 32}px)`,
+        base: 'calc(100% - 20px)',
+        xl: 'calc(100% - 32px)',
       }}
     >
       <Flex w="100%" flexDirection={{ sm: 'column', md: 'row' }} alignItems={{ xl: 'center' }} gap={{ sm: 2, md: 0 }}>

@@ -138,17 +138,6 @@ export default function Dashboard(props) {
         {...rest}
       />
 
-      {/* Keep the global header mounted while lazy admin pages change. */}
-      <AdminNavbar
-        onOpen={onOpen}
-        logoText={BRAND.name}
-        brandText={getActiveRoute(routes)}
-        secondary={false}
-        fixed
-        sidebarWidth={sidebarWidth}
-        {...rest}
-      />
-
       {/* Main Panel adjusts with sidebar width */}
       <MainPanel
         minH="100vh"
@@ -162,6 +151,17 @@ export default function Dashboard(props) {
         }}
         ml={{ xl: `${sidebarWidth}px` }}
       >
+        {/* Keep the global header mounted in normal page flow while lazy admin pages change. */}
+        <AdminNavbar
+          onOpen={onOpen}
+          logoText={BRAND.name}
+          brandText={getActiveRoute(routes)}
+          secondary={false}
+          fixed={false}
+          sidebarWidth={sidebarWidth}
+          {...rest}
+        />
+
         {getRoute() ? (
           <PanelContent>
             <PanelContainer>
