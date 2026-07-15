@@ -74,6 +74,6 @@ services:
       - key: ADMIN_SEED_EMAIL
         value: admin@expressmagic.com
       - key: ADMIN_SEED_PASSWORD
-        sync: false
+        value: Admin@12345!
       - key: ADMIN_FORCE_PASSWORD_RESET
         value: "false"
