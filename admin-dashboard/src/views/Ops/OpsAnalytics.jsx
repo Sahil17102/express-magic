@@ -227,7 +227,7 @@ export default function OpsAnalytics({ embedded = false } = {}) {
         <TableFilters filters={tableFilters} values={filters} onApply={setFilters} cardStyle />
       </Box>
 
-      <SimpleGrid columns={{ base: 1, sm: 2, xl: 4 }} spacing={4} mb={6}>
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} spacing={4} mb={6}>
         <MetricTile
           label="Orders"
           value={Number(summary.totalOrders || 0).toLocaleString()}
@@ -351,7 +351,7 @@ export default function OpsAnalytics({ embedded = false } = {}) {
     </Box>
   ) : (
     <Box minH="100vh" bg={pageBg} pb={8}>
-      <Container maxW="full" pt={{ base: '120px', md: '75px' }} px={{ base: 4, md: 6 }}>
+      <Container maxW="full" pt={0} px={{ base: 0, md: 6 }}>
         {content}
 
         <Grid templateColumns={{ base: '1fr', xl: '0.95fr 1.05fr' }} gap={6} mb={6}>

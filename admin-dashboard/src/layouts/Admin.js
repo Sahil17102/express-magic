@@ -200,6 +200,7 @@ export default function Dashboard(props) {
 
       {/* 🖱️ Resize Handle */}
       <Box
+        display={{ base: 'none', xl: 'block' }}
         position="fixed"
         left={`${sidebarWidth - 3}px`}
         top="0"

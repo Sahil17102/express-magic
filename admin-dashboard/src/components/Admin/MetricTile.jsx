@@ -73,7 +73,9 @@ export default function MetricTile({
           lineHeight="1.35"
           textTransform="uppercase"
           letterSpacing="0.08em"
-          overflowWrap="anywhere"
+          whiteSpace="normal"
+          wordBreak="normal"
+          overflowWrap="break-word"
           color={titleColor}
         >
           {label}
@@ -97,7 +99,9 @@ export default function MetricTile({
           fontWeight="800"
           lineHeight="1.15"
           letterSpacing="0"
-          overflowWrap="anywhere"
+          whiteSpace="normal"
+          wordBreak="normal"
+          overflowWrap="break-word"
           color={valueColor}
         >
           {value}
@@ -107,7 +111,9 @@ export default function MetricTile({
             mt={1.5}
             fontSize="sm"
             lineHeight="1.45"
-            overflowWrap="anywhere"
+            whiteSpace="normal"
+            wordBreak="normal"
+            overflowWrap="break-word"
             color={titleColor}
           >
             {muted}

@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, HStack, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Badge, Box, Flex, HStack, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { BRAND } from '../../constants/brand'
 import BrandMark from '../Brand/BrandMark'
 
@@ -23,7 +23,7 @@ export default function PageHeader({
       borderWidth="1px"
       borderColor={borderColor}
       borderRadius="14px"
-      px={{ base: 5, md: 6 }}
+      px={{ base: 4, md: 6 }}
       py={{ base: 5, md: 6 }}
       boxShadow={useColorModeValue('0 18px 50px rgba(6, 42, 91, 0.09)', '0 22px 60px rgba(2, 6, 23, 0.42)')}
       backdropFilter="blur(14px)"
@@ -83,7 +83,7 @@ export default function PageHeader({
             ) : null}
           </Stack>
           {meta.length > 0 ? (
-            <HStack spacing={3} flexWrap="wrap">
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={3} w="100%">
               {meta.map((item) => (
                 <Box
                   key={item.label}
@@ -93,7 +93,7 @@ export default function PageHeader({
                   bg={metaBg}
                   borderWidth="1px"
                   borderColor={borderColor}
-                  minW={{ base: '100%', md: '180px' }}
+                  minW={0}
                 >
                   <Text fontSize="xs" textTransform="uppercase" letterSpacing="0.08em" color={textColor} mb={1}>
                     {item.label}
@@ -103,7 +103,7 @@ export default function PageHeader({
                   </Text>
                 </Box>
               ))}
-            </HStack>
+            </SimpleGrid>
           ) : null}
         </Stack>
         {actions ? <Box w={{ base: '100%', xl: 'auto' }}>{actions}</Box> : null}

@@ -333,7 +333,7 @@ export default function Dashboard() {
 
   return (
     <Box minH="100vh" pb={8} bg={pageBg}>
-      <Container maxW="full" pt={{ base: '120px', md: '75px' }} px={{ base: 4, md: 6 }}>
+      <Container maxW="full" pt={0} px={{ base: 0, md: 6 }}>
         <Box mb={6}>
           <PageHeader
             eyebrow={`${BRAND.name} Admin`}
@@ -345,7 +345,7 @@ export default function Dashboard() {
               { label: 'Net revenue', value: formatCurrency(financial.totalRevenue) },
             ]}
             actions={
-              <HStack spacing={3} justify={{ base: 'stretch', xl: 'flex-end' }} flexWrap="wrap">
+              <Stack direction={{ base: 'column', md: 'row' }} spacing={3} w="100%" justify={{ xl: 'flex-end' }}>
                 <Button
                   size="sm"
                   leftIcon={isRefetching ? <Spinner size="sm" /> : <IconRefresh size={16} />}
@@ -355,6 +355,7 @@ export default function Dashboard() {
                   color="white"
                   borderRadius="14px"
                   px={5}
+                  w={{ base: '100%', md: 'auto' }}
                   _hover={{ bg: 'brand.600' }}
                 >
                   Refresh data
@@ -364,16 +365,17 @@ export default function Dashboard() {
                   variant="outline"
                   borderColor={borderColor}
                   borderRadius="14px"
+                  w={{ base: '100%', md: 'auto' }}
                   onClick={() => history.push('/admin/orders')}
                 >
                   View orders
                 </Button>
-              </HStack>
+              </Stack>
             }
           />
         </Box>
 
-        <SimpleGrid columns={{ base: 1, sm: 2, xl: 4 }} spacing={4} mb={6}>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} spacing={4} mb={6}>
           <MetricTile
             label="Today orders"
             value={toNum(todayOps.orders).toLocaleString()}
