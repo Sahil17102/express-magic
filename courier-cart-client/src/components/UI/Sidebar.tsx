@@ -14,23 +14,34 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { BiInfoCircle, BiListPlus } from 'react-icons/bi'
 import { CgTrack } from 'react-icons/cg'
-import { FaBalanceScaleLeft, FaBox } from 'react-icons/fa'
-import { FaClipboardList as FaFileAlt, FaMoneyBill, FaToolbox, FaUser } from 'react-icons/fa6'
-import { HiDocumentReport } from 'react-icons/hi'
+import { FaBalanceScaleLeft } from 'react-icons/fa'
+import { FaClipboardList as FaFileAlt, FaUser } from 'react-icons/fa6'
 import {
-  MdDashboard,
   MdOutlineAccountBalanceWallet,
   MdOutlineAddBusiness,
-  MdOutlineErrorOutline,
-  MdOutlineHelp,
-  MdOutlineHome,
   MdOutlineKeyboardReturn,
   MdOutlineRateReview,
   MdStorefront,
   MdOutlineWarningAmber,
 } from 'react-icons/md'
 import { RiSettings2Line } from 'react-icons/ri'
-import { TbInvoice, TbReportAnalytics, TbTicket, TbTransactionRupee } from 'react-icons/tb'
+import {
+  TbAlertCircle,
+  TbBuildingStore,
+  TbChartBar,
+  TbHelpCircle,
+  TbHome,
+  TbInvoice,
+  TbLayoutDashboard,
+  TbPackage,
+  TbReportAnalytics,
+  TbScale,
+  TbSettings,
+  TbTicket,
+  TbTools,
+  TbTransactionRupee,
+  TbWallet,
+} from 'react-icons/tb'
 import { NavLink, useLocation } from 'react-router-dom'
 import { BRAND } from '../../config/brand'
 import useEmployeePermissions from '../../hooks/User/useEmployeePermissions'
@@ -67,7 +78,6 @@ const ICON_SIZE_FA = 18 // Font Awesome (slightly smaller to match MD)
 const ICON_SIZE_TB = 20 // Tabler
 const ICON_SIZE_BI = 20 // Bootstrap Icons
 const ICON_SIZE_CG = 20 // css.gg
-const ICON_SIZE_HI = 20 // Heroicons
 const ICON_SIZE_RI = 18 // Remix Icon
 const BRAND_ORANGE = BRAND.colors.teal
 const BRAND_ACCENT = BRAND.colors.orange
@@ -79,21 +89,21 @@ const LOGO_SRC = BRAND.mark
 const navItems: NavItem[] = [
   {
     text: 'Overview',
-    icon: <MdOutlineHome size={ICON_SIZE_MD} />,
+    icon: <TbHome size={ICON_SIZE_TB} />,
     path: '/home',
     section: 'Overview',
     roles: ['customer', 'admin'],
   },
   {
     text: 'Dashboard',
-    icon: <MdDashboard size={ICON_SIZE_MD} />,
+    icon: <TbLayoutDashboard size={ICON_SIZE_TB} />,
     path: '/dashboard',
     section: 'Overview',
     roles: ['customer', 'admin'],
   },
   {
     text: 'Shipments',
-    icon: <FaBox size={ICON_SIZE_FA} />,
+    icon: <TbPackage size={ICON_SIZE_TB} />,
     path: '/orders',
     section: 'Execution',
     roles: ['customer', 'admin'],
@@ -122,7 +132,7 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Exceptions',
-    icon: <MdOutlineErrorOutline size={ICON_SIZE_MD} />,
+    icon: <TbAlertCircle size={ICON_SIZE_TB} />,
     path: '/ops',
     section: 'Execution',
     roles: ['customer', 'admin'],
@@ -137,7 +147,7 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Finance',
-    icon: <FaMoneyBill size={ICON_SIZE_FA} />,
+    icon: <TbWallet size={ICON_SIZE_TB} />,
     path: '/billing',
     section: 'Finance',
     roles: ['customer', 'admin'],
@@ -161,7 +171,7 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Audits',
-    icon: <FaBalanceScaleLeft size={ICON_SIZE_FA} />,
+    icon: <TbScale size={ICON_SIZE_TB} />,
     path: '/reconciliation',
     section: 'Finance',
     roles: ['customer', 'admin'],
@@ -180,7 +190,7 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Utilities',
-    icon: <FaToolbox size={ICON_SIZE_FA} />,
+    icon: <TbTools size={ICON_SIZE_TB} />,
     path: '/tools',
     section: 'Toolkit',
     roles: ['customer', 'admin'],
@@ -204,14 +214,14 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Insights',
-    icon: <HiDocumentReport size={ICON_SIZE_HI} />,
+    icon: <TbChartBar size={ICON_SIZE_TB} />,
     path: '/reports',
     section: 'Toolkit',
     roles: ['customer', 'admin'],
   },
   {
     text: 'Channels',
-    icon: <MdStorefront size={ICON_SIZE_MD} />,
+    icon: <TbBuildingStore size={ICON_SIZE_TB} />,
     path: '/channels',
     section: 'System',
     roles: ['customer', 'admin'],
@@ -230,14 +240,14 @@ const navItems: NavItem[] = [
   },
   {
     text: 'Workspace',
-    icon: <RiSettings2Line size={ICON_SIZE_RI} />,
+    icon: <TbSettings size={ICON_SIZE_TB} />,
     path: '/settings',
     section: 'System',
     roles: ['customer', 'admin'],
   },
   {
     text: 'Support',
-    icon: <MdOutlineHelp size={ICON_SIZE_MD} />,
+    icon: <TbHelpCircle size={ICON_SIZE_TB} />,
     path: '/support',
     section: 'System',
     roles: ['customer', 'admin'],
@@ -264,7 +274,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const { pathname } = useLocation()
   const [pinned, setPinned] = useState(initialPinned)
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [hoveredItemText, setHoveredItemText] = useState<string | null>(null)
   const [expandedItemText, setExpandedItemText] = useState<string | null>(null)
   const { canViewWallet, canUseRateCalculator } = useEmployeePermissions()
@@ -301,7 +311,7 @@ export default function Sidebar({
       .filter((item): item is NavItem => Boolean(item))
   }, [canUseRateCalculator, canViewWallet, role])
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>, itemText: string) => {
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>, itemText: string) => {
     setAnchorEl(event.currentTarget)
     setHoveredItemText(itemText)
   }
@@ -395,7 +405,7 @@ export default function Sidebar({
                     if (hasChildren) {
                       if (!shouldShowExpanded) {
                         // When collapsed, show popover
-                        handlePopoverOpen(e as any, text)
+                        handlePopoverOpen(e, text)
                       } else {
                         // When expanded, toggle the expanded item
                         setExpandedItemText(expandedItemText === text ? null : text)
@@ -418,52 +428,52 @@ export default function Sidebar({
                     }
                   }}
                   sx={{
-                    minHeight: shouldShowExpanded ? 56 : 48,
+                    minHeight: shouldShowExpanded ? 54 : 52,
                     px: shouldShowExpanded ? 1.5 : 0.25,
-                    py: shouldShowExpanded ? 1 : 0.45,
+                    py: shouldShowExpanded ? 0.75 : 0.5,
                     mb: shouldShowExpanded ? 0.5 : 0.25,
-                    borderRadius: 1.5,
+                    borderRadius: 1.25,
                     justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
                     alignItems: 'center',
                     flexDirection: shouldShowExpanded ? 'row' : 'column',
-                    gap: shouldShowExpanded ? 0 : 0.25,
+                    gap: shouldShowExpanded ? 0 : 0.4,
                     background: isActive_
-                      ? `linear-gradient(135deg, ${alpha(BRAND_ORANGE, 0.12)} 0%, ${alpha(BRAND_ACCENT, 0.06)} 100%)`
+                      ? `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND.colors.tealDark} 100%)`
                       : 'transparent',
-                    border: `1px solid ${isActive_ ? alpha(BRAND_ORANGE, 0.3) : alpha(BRAND_INK, 0.08)}`,
-                    color: isActive_ ? BRAND_ORANGE : '#64748B',
+                    border: `1px solid ${isActive_ ? BRAND_ORANGE : 'transparent'}`,
+                    color: isActive_ ? '#FFFFFF' : BRAND.colors.text,
+                    boxShadow: isActive_ ? `0 8px 18px ${alpha(BRAND_ORANGE, 0.2)}` : 'none',
                     transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
                     overflow: 'hidden',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      inset: 0,
-                      background: isActive_
-                        ? `linear-gradient(135deg, ${alpha(BRAND_ORANGE, 0.08)} 0%, ${alpha(BRAND_ACCENT, 0.04)} 100%)`
-                        : 'transparent',
-                      opacity: 0,
-                      transition: 'opacity 200ms ease',
-                    },
                     '&:hover': {
-                      background: isActive_ ? alpha(BRAND_ORANGE, 0.15) : alpha(BRAND_ORANGE, 0.05),
-                      borderColor: isActive_ ? alpha(BRAND_ORANGE, 0.4) : alpha(BRAND_INK, 0.15),
-                      color: isActive_ ? BRAND_ORANGE : BRAND_INK,
-                      transform: 'translateY(-1px)',
-                      boxShadow: `0 4px 12px ${alpha(BRAND_INK, 0.08)}`,
-                      '&::before': {
-                        opacity: 1,
-                      },
+                      background: isActive_
+                        ? `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND.colors.tealDark} 100%)`
+                        : alpha(BRAND_ORANGE, 0.055),
+                      borderColor: isActive_ ? BRAND_ORANGE : alpha(BRAND_INK, 0.12),
+                      color: isActive_ ? '#FFFFFF' : BRAND_INK,
+                      transform: 'translateX(2px)',
+                      boxShadow: isActive_
+                        ? `0 8px 18px ${alpha(BRAND_ORANGE, 0.24)}`
+                        : `0 4px 12px ${alpha(BRAND_INK, 0.07)}`,
                     },
                   }}
                 >
                   <ListItemIcon
                     sx={{
-                      minWidth: shouldShowExpanded ? 40 : 0,
+                      width: shouldShowExpanded ? 34 : 30,
+                      height: shouldShowExpanded ? 34 : 30,
+                      minWidth: shouldShowExpanded ? 34 : 30,
+                      mr: shouldShowExpanded ? 1.25 : 0,
                       display: 'flex',
+                      alignItems: 'center',
                       justifyContent: 'center',
-                      color: isActive_ ? BRAND_ORANGE : BRAND_INK,
-                      fontSize: '1.5rem',
+                      borderRadius: 1,
+                      background: isActive_ ? BRAND_ACCENT : alpha(BRAND_ORANGE, 0.08),
+                      color: isActive_ ? '#FFFFFF' : BRAND.colors.muted,
+                      boxShadow: isActive_ ? `0 5px 12px ${alpha(BRAND_ACCENT, 0.28)}` : 'none',
+                      flexShrink: 0,
+                      transition: 'all 200ms ease',
                     }}
                   >
                     {icon}
@@ -474,8 +484,8 @@ export default function Sidebar({
                       slotProps={{
                         primary: {
                           sx: {
-                            fontSize: '0.875rem',
-                            fontWeight: isActive_ ? 600 : 500,
+                            fontSize: '0.86rem',
+                            fontWeight: isActive_ ? 700 : 600,
                             color: 'inherit',
                           },
                         },
@@ -487,10 +497,11 @@ export default function Sidebar({
                       sx={{
                         width: '100%',
                         color: 'inherit',
-                        fontSize: '0.61rem',
-                        fontWeight: isActive_ ? 700 : 600,
-                        lineHeight: 1.05,
-                        letterSpacing: '-0.01em',
+                        fontFamily: '"Inter", "Segoe UI", sans-serif',
+                        fontSize: '0.67rem',
+                        fontWeight: isActive_ ? 800 : 650,
+                        lineHeight: 1.1,
+                        letterSpacing: '-0.015em',
                         textAlign: 'center',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
