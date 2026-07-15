@@ -50,7 +50,13 @@ async function bootstrapDatabase() {
     }
   }
 
-  run(process.execPath, [path.join(backendRoot, 'dist/scripts/ensureAdmin.js')])
+  try {
+    run(process.execPath, [path.join(backendRoot, 'dist/scripts/ensureAdmin.js')])
+  } catch (error) {
+    // Do not keep the API offline because optional admin profile seeding
+    // failed. Admin login can repair the configured seed account on demand.
+    console.warn('Admin seed failed during startup; continuing with API startup.', error)
+  }
 }
 
 bootstrapDatabase()
