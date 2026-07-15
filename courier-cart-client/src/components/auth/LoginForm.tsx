@@ -596,9 +596,9 @@ export default function LoginForm() {
         boxSizing: 'border-box',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: { xs: 'flex-start', md: 'center' },
-        px: { xs: 0, sm: 2.5, md: 4.5, lg: 6 },
-        py: { xs: 2, md: 4.5 },
+        justifyContent: 'center',
+        px: { xs: 1.25, sm: 2.5, md: 4.5, lg: 6 },
+        py: { xs: 1.25, sm: 2, md: 4.5 },
         background:
           `linear-gradient(90deg, ${alpha(teal, 0.052)} 1px, transparent 1px) 0 0 / 52px 52px, ` +
           `linear-gradient(${alpha(teal, 0.046)} 1px, transparent 1px) 0 0 / 52px 52px, ` +
@@ -609,11 +609,12 @@ export default function LoginForm() {
       <Box
         sx={{
           width: {
-            xs: 'min(342px, calc(100vw - 48px))',
-            sm: 'min(430px, calc(100vw - 56px))',
+            xs: '100%',
+            sm: 'min(430px, 100%)',
             md: '100%',
           },
           maxWidth: 1320,
+          mx: 'auto',
           height: { xs: 'auto', md: 'calc(100dvh - 72px)' },
           maxHeight: { md: 760, lg: 792 },
           display: 'grid',
@@ -713,15 +714,16 @@ export default function LoginForm() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '100%',
             minWidth: 0,
-            minHeight: { xs: '100dvh', md: 0 },
+            minHeight: { xs: 'auto', md: 0 },
           }}
         >
           <Box
             sx={{
               width: '100%',
               boxSizing: 'border-box',
-              maxWidth: { xs: 342, sm: 430, md: 560 },
+              maxWidth: { xs: '100%', sm: 430, md: 560 },
               height: 'auto',
               maxHeight: 'none',
               minHeight: { xs: 'auto', md: 0 },

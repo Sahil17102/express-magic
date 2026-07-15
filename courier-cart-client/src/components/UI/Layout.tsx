@@ -37,7 +37,7 @@ export default function Layout() {
         display: 'flex',
         minHeight: '100vh',
         width: '100%',
-        maxWidth: '100%',
+        maxWidth: '100dvw',
         overflowX: 'hidden',
         background: brandGradient,
         scrollbarGutter: 'stable',
@@ -89,6 +89,7 @@ export default function Layout() {
       <Stack
         sx={{
           flex: 1,
+          width: { xs: '100%', md: 'auto' },
           minWidth: 0,
           maxWidth: '100%',
           minHeight: '100vh',
@@ -104,6 +105,7 @@ export default function Layout() {
           sx={{
             flex: 1,
             minHeight: 0,
+            width: '100%',
             overflowY: 'auto',
             overflowX: 'hidden',
             p: 0,
@@ -116,6 +118,7 @@ export default function Layout() {
               mx: 'auto',
               width: '100%',
               minWidth: 0,
+              boxSizing: 'border-box',
               px: isOrderCreatePage ? { xs: 0, sm: 0.25, md: 0.4, lg: 0.5 } : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
               py: isOrderCreatePage ? 0 : { xs: 0.6, sm: 1, md: 1.5 },
             }}
