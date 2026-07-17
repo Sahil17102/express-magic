@@ -1,11 +1,12 @@
 import { Box, Drawer, Stack, useMediaQuery, useTheme } from '@mui/material'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/auth/AuthContext'
 import Navbar from '../Navbar/Navbar'
 import KeyboardShortcuts from './keyboard/KeyboardShortcuts'
 import FullScreenLoader from './loader/FullScreenLoader'
 import Sidebar, { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from './Sidebar'
+import ClientFooter from './ClientFooter'
 import { brandGradient } from '../../config/brand'
 import { useEmployeeSocket } from '../../hooks/useEmployeeSocket'
 
@@ -16,6 +17,7 @@ export default function Layout() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [sidebarPinned, setSidebarPinned] = useState(false)
+  const mainRef = useRef<HTMLDivElement | null>(null)
   const { user } = useAuth()
   const isAdminWorkspace = user.role === 'admin' || user.role === 'employee' || Boolean(user.employeeId)
   const isOrderCreatePage = location.pathname === '/orders/create'
@@ -27,6 +29,7 @@ export default function Layout() {
   // Close mobile drawer on route change
   useEffect(() => {
     setMobileOpen(false)
+    mainRef.current?.scrollTo({ top: 0, behavior: 'auto' })
   }, [location.pathname, isMobile])
 
   return (
@@ -100,6 +103,7 @@ export default function Layout() {
 
         <Box
           component="main"
+          ref={mainRef}
           sx={{
             flex: 1,
             minHeight: 0,
@@ -107,6 +111,8 @@ export default function Layout() {
             overflowY: 'auto',
             overflowX: 'hidden',
             p: 0,
+            display: 'flex',
+            flexDirection: 'column',
             backgroundColor: 'rgba(255, 255, 255, 0.72)',
           }}
         >
@@ -141,55 +147,8 @@ export default function Layout() {
               </Box>
             </Suspense>
           </Box>
+          <ClientFooter />
         </Box>
-
-        {!isOrderCreatePage && (
-          <Box
-            sx={{
-              maxWidth: 1700,
-              mx: 'auto',
-              width: '100%',
-              px: { xs: 1.25, sm: 1.5, md: 2 },
-              pt: 0.4,
-              borderTop: '1px solid rgba(6, 42, 91, 0.12)',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: { xs: 'center', md: 'space-between' },
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: 1,
-                py: 1.5,
-                color: 'text.secondary',
-                fontSize: '0.72rem',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}
-            >
-              <Box
-                component="a"
-                href="https://searchcraftdigital.com/"
-                target="_blank"
-                rel="noreferrer"
-                sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '6px',
-                  fontStyle: 'italic',
-                  transition: 'color 180ms ease',
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                }}
-              >
-                Crafted by SearchCraft Digital
-              </Box>
-            </Box>
-          </Box>
-        )}
       </Stack>
     </Box>
   )

@@ -216,6 +216,7 @@ export default function AppRoutes() {
               }
             />
             <Route path="/tools/order_tracking" element={<OrderTrackingForm />} />
+            <Route path="/tools/weight_calculator" element={<WeightCalculator />} />
             <Route path="/support/tickets" element={<SupportTicketsPage />} />
             <Route path="/support/tickets/:id" element={<TicketDetailsPage />} />
             <Route path="/home" element={<Home />} />
