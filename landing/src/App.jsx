@@ -9,6 +9,7 @@ const LandingPage = lazy(() => import("./pages/LandingPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const RateCalculatorPage = lazy(() => import("./pages/RateCalculatorPage"));
 const TrackingPage = lazy(() => import("./pages/TrackingPage"));
+const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage"));
 const VolumetricCalculatorPage = lazy(() => import("./pages/VolumetricCalculatorPage"));
 const MotionDiv = motion.div;
 const MotionImg = motion.img;
@@ -131,6 +132,14 @@ function App() {
               element={
                 <Suspense fallback={<RouteFallback />}>
                   <TrackingPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/terms-and-conditions"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <TermsAndConditionsPage />
                 </Suspense>
               }
             />

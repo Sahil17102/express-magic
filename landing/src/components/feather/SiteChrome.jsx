@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { AUTH_APP_URL } from "../../utils/appLinks";
 import Icon from "./Icons";
 import { companyProfile, siteNavigation } from "./siteData";
+import { shippingTermsColumns } from "../../utils/shippingTerms";
 
 const MotionNav = motion.nav;
 const MotionDiv = motion.div;
@@ -226,6 +227,51 @@ export function SiteFooter() {
             ))}
           </div>
         </div>
+
+        <MotionDiv
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 overflow-hidden rounded-xl border border-white/12 bg-white/[0.055] shadow-[0_24px_60px_rgba(0,0,0,0.12)]"
+        >
+          <div className="h-1 bg-[linear-gradient(90deg,#ED1C24,#F36673,#ED1C24)]" />
+          <div className="p-5 sm:p-7 lg:p-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex items-start gap-4">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#ED1C24] text-white shadow-[0_12px_28px_rgba(237,28,36,0.2)]">
+                  <Icon name="shield" className="h-6 w-6" />
+                </span>
+                <div>
+                  <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-[#F36673]">Before you ship</p>
+                  <h2 className="mt-1 font-display text-xl font-extrabold text-white sm:text-2xl">Shipping &amp; Courier Terms &amp; Conditions</h2>
+                </div>
+              </div>
+              <Link
+                to="/terms-and-conditions"
+                className="group inline-flex min-h-11 w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white px-5 py-3 text-sm font-extrabold text-[#062A5B] transition hover:-translate-y-0.5 hover:border-white sm:w-auto"
+              >
+                Read Full Terms &amp; Conditions
+                <Icon name="chevronRight" className="h-4 w-4 text-[#ED1C24] transition group-hover:translate-x-1" />
+              </Link>
+            </div>
+
+            <div className="mt-7 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              {shippingTermsColumns.map((column) => (
+                <div key={column[0]} className="grid content-start gap-3">
+                  {column.map((term) => (
+                    <div key={term} className="flex items-start gap-3">
+                      <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#ED1C24]/15 text-[#F36673]">
+                        <Icon name="checkCircle" className="h-3.5 w-3.5" />
+                      </span>
+                      <p className="text-xs font-medium leading-6 text-white/72 sm:text-sm">{term}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </MotionDiv>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/62 md:flex-row md:items-center md:justify-between">
           <p>(c) 2026 {companyProfile.name}. Smart shipping for smarter sellers.</p>
