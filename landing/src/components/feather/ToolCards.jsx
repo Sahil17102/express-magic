@@ -16,6 +16,13 @@ const rateBucketKeys = ["rates", "localRates", "regionalRates", "metroRates", "n
 const VOLUMETRIC_STORAGE_KEY = "feather-volumetric-calculator";
 const RATE_STORAGE_KEY = "feather-rate-calculator";
 const RATE_RESULT_STORAGE_KEY = "feather-rate-calculator-result";
+const DEFAULT_RATE_TERMS = `<ul>
+  <li>Rates are exclusive of GST and other applicable statutory charges.</li>
+  <li>Final billing uses actual or volumetric weight, whichever is higher.</li>
+  <li>Courier rates and serviceability may change based on partner updates.</li>
+  <li>COD, RTO, address correction, and other applicable charges are additional.</li>
+  <li>Prohibited items must not be shipped. Packaging and declared weight remain the shipper's responsibility.</li>
+</ul>`;
 
 function parseNumber(value) {
   const number = Number(value);
@@ -219,6 +226,26 @@ export function RateCalculatorCard({
   const [calculating, setCalculating] = useState(false);
   const [calculatorError, setCalculatorError] = useState("");
   const [showEstimate, setShowEstimate] = usePersistentState(`${RATE_RESULT_STORAGE_KEY}-show`, false);
+  const [termsContent, setTermsContent] = useState(DEFAULT_RATE_TERMS);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch(`${API_BASE_URL}/static-pages/rate_calculator_terms_b2c`)
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error("Terms are not configured"))))
+      .then((payload) => {
+        if (active && payload?.data?.content) {
+          setTermsContent(payload.data.content);
+        }
+      })
+      .catch(() => {
+        // Keep the built-in terms when the public content endpoint is unavailable.
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const estimate = useMemo(
     () =>
@@ -645,6 +672,16 @@ export function RateCalculatorCard({
           >
             Get Full Rate Card
           </button>
+        </div>
+      ) : null}
+
+      {showEstimate && estimate.chargeableWeightKg > 0 ? (
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+          <h4 className="font-display text-lg text-slate-900">Terms &amp; Conditions</h4>
+          <div
+            className="mt-3 text-sm leading-7 text-slate-600 [&_a]:text-sky-700 [&_a]:underline [&_li]:mb-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
+            dangerouslySetInnerHTML={{ __html: termsContent }}
+          />
         </div>
       ) : null}
     </MotionArticle>

@@ -15,6 +15,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { BiRupee } from 'react-icons/bi'
 import { FiBarChart2, FiCheckCircle, FiMapPin, FiPackage, FiShield, FiZap } from 'react-icons/fi'
 import { useLocation } from 'react-router-dom'
+import { getStaticPage } from '../../api/staticPages.service'
 import CourierRateCards from '../../components/CourierRateCard'
 import B2BRateCalculator from '../../components/tools/B2BRateCalculator'
 import B2CRateCalculator from '../../components/tools/B2CRateCalculator'
@@ -32,36 +33,33 @@ import { defaultLogo } from '../../utils/constants'
 type ShipmentType = 'b2b' | 'b2c'
 const { teal, tealDark, orange, muted, border } = BRAND.colors
 
-const termsAndConditions = {
-  b2c: [
-    'Above Shared Commercials are Exclusive GST.',
-    'Above pricing subject to change based on courier company updation or change in any commercials.',
-    'Freight Weight is Picked - Volumetric or Dead weight whichever is higher will be charged.',
-    "Return charges as same as Forward for currier's where special RTO pricing is not shared.",
-    'Fixed COD charge or COD % of the order value whichever is higher.',
-    'Other charges like address correction charges if applicable shall be charged extra.',
-    'Prohibited item not to be ship, if any penalty will charge to seller.',
-    'No Claim would be entertained for Glassware, Fragile products, Concealed damages and improper packaging.',
-    'Any weight dispute due to incorrect weight declaration cannot be claimed.',
-    'Chargeable weight would be volumetric or actual weight, whichever is higher (LxBxH/5000).',
-    'Delhivery 2 KG, 5 KG & 10 KG accounts have 4000 volumetric divisor.',
-    'Liability of Reverse QC check - maximum limit INR 2000 or product value whichever is lower.',
-  ],
-  b2b: [
-    'Above Shared Commercials are Exclusive GST.',
-    'Above pricing subject to change based on courier company updation or change in any commercials.',
-    'Freight Weight is Picked - Volumetric or Dead weight whichever is higher will be charged.',
-    'Other charges like address correction charges if applicable shall be charged extra.',
-    'Prohibited item not to be ship, if any penalty will charge to seller.',
-    'No Claim would be entertained for Glassware, Fragile products, Concealed damages and improper packaging.',
-    'Any weight dispute due to incorrect weight declaration cannot be claimed.',
-    'Chargeable weight would be volumetric or actual weight, whichever is higher.',
-    'Delhivery: (LxBxH/27000)*CFT',
-    {
-      text: 'The Transporter Id are as Follows',
-      sub: ['Delhivery B2B is 06AAPCS9575E1ZR'],
-    },
-  ],
+const defaultTermsContent: Record<ShipmentType, string> = {
+  b2c: `<ul>
+    <li>Above shared commercials are exclusive of GST.</li>
+    <li>Pricing is subject to change when a courier company updates its commercials.</li>
+    <li>Volumetric or dead weight, whichever is higher, will be charged.</li>
+    <li>Return charges are the same as forward charges where special RTO pricing is not shared.</li>
+    <li>Fixed COD charge or COD percentage of the order value, whichever is higher, will apply.</li>
+    <li>Other applicable charges, including address correction charges, will be charged extra.</li>
+    <li>Prohibited items must not be shipped. Any resulting penalty will be charged to the seller.</li>
+    <li>No claim will be entertained for glassware, fragile products, concealed damage, or improper packaging.</li>
+    <li>A weight dispute caused by an incorrect weight declaration cannot be claimed.</li>
+    <li>Chargeable weight is volumetric or actual weight, whichever is higher (L x B x H / 5000).</li>
+    <li>Delhivery 2 kg, 5 kg, and 10 kg accounts use a 4000 volumetric divisor.</li>
+    <li>Reverse QC liability is limited to INR 2,000 or the product value, whichever is lower.</li>
+  </ul>`,
+  b2b: `<ul>
+    <li>Above shared commercials are exclusive of GST.</li>
+    <li>Pricing is subject to change when a courier company updates its commercials.</li>
+    <li>Volumetric or dead weight, whichever is higher, will be charged.</li>
+    <li>Other applicable charges, including address correction charges, will be charged extra.</li>
+    <li>Prohibited items must not be shipped. Any resulting penalty will be charged to the seller.</li>
+    <li>No claim will be entertained for glassware, fragile products, concealed damage, or improper packaging.</li>
+    <li>A weight dispute caused by an incorrect weight declaration cannot be claimed.</li>
+    <li>Chargeable weight is volumetric or actual weight, whichever is higher.</li>
+    <li>Delhivery volumetric calculation: (L x B x H / 27000) x CFT.</li>
+    <li>Delhivery B2B transporter ID: 06AAPCS9575E1ZR.</li>
+  </ul>`,
 }
 
 export const cardStyles = {
@@ -83,6 +81,33 @@ export function RateCalculator() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [availableCouriers, setAvailableCouriers] = useState<any[]>([])
   const { data: paymentOptions } = usePaymentOptions()
+  const [termsContent, setTermsContent] = useState<Record<ShipmentType, string>>(defaultTermsContent)
+
+  useEffect(() => {
+    let active = true
+
+    Promise.allSettled([
+      getStaticPage('rate_calculator_terms_b2c'),
+      getStaticPage('rate_calculator_terms_b2b'),
+    ]).then(([b2cResult, b2bResult]) => {
+      if (!active) return
+
+      setTermsContent({
+        b2c:
+          b2cResult.status === 'fulfilled' && b2cResult.value.content
+            ? b2cResult.value.content
+            : defaultTermsContent.b2c,
+        b2b:
+          b2bResult.status === 'fulfilled' && b2bResult.value.content
+            ? b2bResult.value.content
+            : defaultTermsContent.b2b,
+      })
+    })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const methods = useForm({
     mode: 'onBlur',
@@ -649,49 +674,18 @@ export function RateCalculator() {
             Terms & Conditions ({shipmentType.toUpperCase()})
           </Typography>
 
-          <Stack spacing={1}>
-            {termsAndConditions[shipmentType].map((term, idx) => {
-              if (typeof term === 'string') {
-                return (
-                  <Typography key={idx} variant="body2" sx={{ color: muted, fontSize: '0.85rem', lineHeight: 1.6 }}>
-                    - {term}
-                  </Typography>
-                )
-              }
-
-              // If it's an object with sub-items
-              return (
-                <Stack key={idx} spacing={0.5}>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: orange,
-                      fontSize: '0.85rem',
-                      lineHeight: 1.6,
-                      fontWeight: 600,
-                    }}
-                  >
-                    - {term.text}
-                  </Typography>
-                  <Stack pl={3} spacing={0.3}>
-                    {term.sub.map((subItem, subIdx) => (
-                      <Typography
-                        key={subIdx}
-                        variant="body2"
-                        sx={{
-                          color: muted,
-                          fontSize: '0.8rem',
-                          lineHeight: 1.5,
-                        }}
-                      >
-                        - {subItem}
-                      </Typography>
-                    ))}
-                  </Stack>
-                </Stack>
-              )
-            })}
-          </Stack>
+          <Box
+            sx={{
+              color: muted,
+              fontSize: '0.85rem',
+              lineHeight: 1.6,
+              '& p': { mb: 1 },
+              '& ul, & ol': { mt: 0, mb: 0, pl: 2.5 },
+              '& li': { mb: 1 },
+              '& a': { color: orange, textDecoration: 'underline' },
+            }}
+            dangerouslySetInnerHTML={{ __html: termsContent[shipmentType] }}
+          />
         </CardContent>
         {isPublicRoute && (
           <Box sx={{ order: 1 }}>

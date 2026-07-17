@@ -48,6 +48,7 @@ const ServiceabilityPage = lazy(() => import('views/Serviceability/Serviceabilit
 const PaymentOptionsSettings = lazy(() => import('views/Settings/PaymentOptionsSettings'))
 const AdminChangePassword = lazy(() => import('views/Settings/AdminChangePassword'))
 const AboutUsEditor = lazy(() => import('views/Support/AboutUsEditor'))
+const RateCalculatorTermsEditor = lazy(() => import('views/Support/RateCalculatorTermsEditor'))
 const AdminTicketDashboard = lazy(() => import('views/Support/AdminTicketsDashboard'))
 const OrderTrackingPage = lazy(() => import('views/Tools/OrderTrackingPage'))
 const RateCalculatorPage = lazy(() => import('views/Tools/RateCalculatorPage'))
@@ -378,6 +379,17 @@ const dashRoutes = [
         component: () => (
           <AdminRoute>
             <RateCalculatorPage />
+          </AdminRoute>
+        ),
+        layout: '/admin',
+      },
+      {
+        path: '/rate-calculator-terms',
+        name: 'Rate Calculator Terms',
+        icon: <IconInfoCircle />,
+        component: () => (
+          <AdminRoute>
+            <RateCalculatorTermsEditor />
           </AdminRoute>
         ),
         layout: '/admin',
