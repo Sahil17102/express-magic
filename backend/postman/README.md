@@ -26,3 +26,20 @@ For end-to-end purchase flow:
 
 Per Amazon Shipping docs, `Access Points` is configured with
 `AmazonShipping_UK`; `NDR Feedback` is configured with `AmazonShipping_IN`.
+
+## Delhivery B2B (LTL)
+
+Import:
+
+- `delhivery-b2b.postman_collection.json`
+- `delhivery-b2b.local.postman_environment.json`
+
+Save the production or UAT credentials from **Admin > Courier Credentials >
+Delhivery B2B (LTL)**, then set `adminToken` to an Express Magic admin access
+token. The proxy intentionally does not expose Delhivery's JWT.
+
+The collection contains state-changing requests. Run password reset, warehouse
+creation/update, manifestation, shipment update/cancellation, appointment, and
+pickup creation/cancellation individually and only against the intended account.
+For a read-only smoke test, run Login, Pincode Serviceability, Expected TAT, and
+tracking with an existing LRN.

@@ -6,7 +6,9 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   Spinner,
+  Switch,
   Text,
   useToast,
   VStack,
@@ -14,7 +16,9 @@ import {
 import { useEffect, useState } from 'react'
 import {
   useCourierCredentials,
+  useTestDelhiveryB2BCredentials,
   useUpdateDelhiveryCredentials,
+  useUpdateDelhiveryB2BCredentials,
   useUpdateEkartCredentials,
   useUpdateShadowfaxCredentials,
   useTestXpressbeesCredentials,
@@ -25,6 +29,8 @@ const CourierCredentials = () => {
   const toast = useToast()
   const { data, isLoading, error } = useCourierCredentials()
   const updateDelhivery = useUpdateDelhiveryCredentials()
+  const updateDelhiveryB2B = useUpdateDelhiveryB2BCredentials()
+  const testDelhiveryB2B = useTestDelhiveryB2BCredentials()
   const updateEkart = useUpdateEkartCredentials()
   const updateShadowfax = useUpdateShadowfaxCredentials()
   const updateXpressbees = useUpdateXpressbeesCredentials()
@@ -41,6 +47,15 @@ const CourierCredentials = () => {
     username: '',
     password: '',
     webhookSecret: '',
+  })
+  const [delhiveryB2BForm, setDelhiveryB2BForm] = useState({
+    apiBase: '',
+    username: '',
+    password: '',
+    clientId: '',
+    warehouseId: '',
+    freightMode: 'fop',
+    fmPickup: true,
   })
   const [xpressbeesForm, setXpressbeesForm] = useState({
     email: '',
@@ -68,6 +83,17 @@ const CourierCredentials = () => {
         username: data.ekart.username || '',
         password: '',
         webhookSecret: '',
+      })
+    }
+    if (data?.delhiveryB2B) {
+      setDelhiveryB2BForm({
+        apiBase: data.delhiveryB2B.apiBase || '',
+        username: data.delhiveryB2B.username || '',
+        password: '',
+        clientId: data.delhiveryB2B.clientId || '',
+        warehouseId: data.delhiveryB2B.warehouseId || '',
+        freightMode: data.delhiveryB2B.freightMode || 'fop',
+        fmPickup: data.delhiveryB2B.fmPickup !== false,
       })
     }
     if (data?.xpressbees) {
@@ -135,6 +161,52 @@ const CourierCredentials = () => {
         },
       },
     )
+  }
+
+  const handleSaveDelhiveryB2B = () => {
+    updateDelhiveryB2B.mutate(
+      {
+        apiBase: delhiveryB2BForm.apiBase,
+        username: delhiveryB2BForm.username,
+        clientId: delhiveryB2BForm.clientId,
+        warehouseId: delhiveryB2BForm.warehouseId,
+        freightMode: delhiveryB2BForm.freightMode,
+        fmPickup: delhiveryB2BForm.fmPickup,
+        ...(delhiveryB2BForm.password ? { password: delhiveryB2BForm.password } : {}),
+      },
+      {
+        onSuccess: () => {
+          toast({ title: 'Delhivery B2B credentials updated', status: 'success' })
+          setDelhiveryB2BForm((prev) => ({ ...prev, password: '' }))
+        },
+        onError: (err) => {
+          toast({
+            title: 'Failed to update Delhivery B2B credentials',
+            description: err?.message,
+            status: 'error',
+          })
+        },
+      },
+    )
+  }
+
+  const handleTestDelhiveryB2B = () => {
+    testDelhiveryB2B.mutate(undefined, {
+      onSuccess: (result) => {
+        toast({
+          title: 'Delhivery B2B connection passed',
+          description: `Token valid until ${new Date(result.expiresAt).toLocaleString()}`,
+          status: 'success',
+        })
+      },
+      onError: (err) => {
+        toast({
+          title: 'Delhivery B2B connection failed',
+          description: err?.message,
+          status: 'error',
+        })
+      },
+    })
   }
 
   const handleSaveXpressbees = () => {
@@ -294,6 +366,121 @@ const CourierCredentials = () => {
             >
               Save Delhivery Credentials
             </Button>
+          </VStack>
+        </Box>
+
+        <Box borderWidth="1px" borderRadius="lg" p={5} minW="320px" flex="1" maxW="520px">
+          <VStack spacing={4} align="stretch">
+            <Flex justify="space-between" align="center">
+              <Text fontWeight="semibold">Delhivery B2B (LTL)</Text>
+              <Badge colorScheme={data?.delhiveryB2B?.hasPassword ? 'green' : 'orange'}>
+                {data?.delhiveryB2B?.hasPassword ? 'Credentials set' : 'Missing password'}
+              </Badge>
+            </Flex>
+
+            <FormControl>
+              <FormLabel>API Base URL</FormLabel>
+              <Input
+                value={delhiveryB2BForm.apiBase}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, apiBase: e.target.value }))
+                }
+                placeholder="https://ltl-clients-api.delhivery.com"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Username</FormLabel>
+              <Input
+                value={delhiveryB2BForm.username}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, username: e.target.value }))
+                }
+                placeholder="Registered Delhivery account username"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                value={delhiveryB2BForm.password}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, password: e.target.value }))
+                }
+                placeholder="Leave blank to keep the saved password"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Client ID</FormLabel>
+              <Input
+                value={delhiveryB2BForm.clientId}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, clientId: e.target.value }))
+                }
+                placeholder="Delhivery B2B client ID"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Warehouse ID</FormLabel>
+              <Input
+                value={delhiveryB2BForm.warehouseId}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, warehouseId: e.target.value }))
+                }
+                placeholder="Default Delhivery warehouse ID"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Freight Mode</FormLabel>
+              <Select
+                value={delhiveryB2BForm.freightMode}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, freightMode: e.target.value }))
+                }
+              >
+                <option value="fop">FOP</option>
+                <option value="fod">FOD</option>
+              </Select>
+            </FormControl>
+
+            <FormControl display="flex" alignItems="center">
+              <Switch
+                isChecked={delhiveryB2BForm.fmPickup}
+                onChange={(e) =>
+                  setDelhiveryB2BForm((prev) => ({ ...prev, fmPickup: e.target.checked }))
+                }
+                mr={3}
+              />
+              <FormLabel mb="0">Request first-mile pickup by default</FormLabel>
+            </FormControl>
+
+            <Text fontSize="xs" color="gray.500">
+              JWT login is cached for its 24-hour lifetime. Leave password blank to keep the
+              existing secret.
+            </Text>
+
+            <Flex gap={3} flexWrap="wrap">
+              <Button
+                colorScheme="blue"
+                onClick={handleSaveDelhiveryB2B}
+                isLoading={updateDelhiveryB2B.isPending}
+              >
+                Save Delhivery B2B Credentials
+              </Button>
+              <Button
+                colorScheme="blue"
+                variant="outline"
+                onClick={handleTestDelhiveryB2B}
+                isLoading={testDelhiveryB2B.isPending}
+                isDisabled={!data?.delhiveryB2B?.hasPassword}
+              >
+                Test Connection
+              </Button>
+            </Flex>
           </VStack>
         </Box>
 

@@ -24,6 +24,11 @@ import { getAllZones } from '../../models/services/zone.service'
 import { EkartService } from '../../models/services/couriers/ekart.service'
 import { XpressbeesService } from '../../models/services/couriers/xpressbees.service'
 import { ShadowfaxService } from '../../models/services/couriers/shadowfax.service'
+import { DelhiveryB2BService } from '../../models/services/couriers/delhiveryB2B.service'
+import {
+  DEFAULT_DELHIVERY_B2B_API_BASE,
+  DELHIVERY_B2B_PROVIDER,
+} from '../../models/services/delhiveryB2BCredentials.service'
 import {
   XPRESSBEES_WEBHOOK_PATH,
   XPRESSBEES_WEBHOOK_SIGNATURE_HEADER,
@@ -561,6 +566,7 @@ export const getCourierCredentialsController = async (req: Request, res: Respons
       .where(
         inArray(courier_credentials.provider, [
           'delhivery',
+          'delhivery_b2b',
           'ekart',
           'xpressbees',
           'shadowfax',
@@ -576,6 +582,16 @@ export const getCourierCredentialsController = async (req: Request, res: Respons
         hasApiKey: false,
         apiKeyMasked: '',
         webhookConfig: buildDelhiveryWebhookConfig(),
+      },
+      delhiveryB2B: {
+        provider: 'delhivery_b2b',
+        apiBase: 'https://ltl-clients-api.delhivery.com',
+        username: '',
+        clientId: '',
+        warehouseId: '',
+        freightMode: 'fop',
+        fmPickup: true,
+        hasPassword: false,
       },
       ekart: {
         provider: 'ekart',
@@ -618,6 +634,18 @@ export const getCourierCredentialsController = async (req: Request, res: Respons
             ? `${apiKey.slice(0, 4)}${'*'.repeat(Math.max(apiKey.length - 8, 0))}${apiKey.slice(-4)}`
             : '',
           webhookConfig: buildDelhiveryWebhookConfig(),
+        }
+      } else if (provider === 'delhivery_b2b') {
+        const metadata = row.metadata || {}
+        acc.delhiveryB2B = {
+          provider: 'delhivery_b2b',
+          apiBase: row.apiBase || 'https://ltl-clients-api.delhivery.com',
+          username: row.username || '',
+          clientId: row.clientId || '',
+          warehouseId: String(metadata.warehouse_id || ''),
+          freightMode: metadata.freight_mode === 'fod' ? 'fod' : 'fop',
+          fmPickup: metadata.fm_pickup !== false,
+          hasPassword: Boolean((row.password || '').trim()),
         }
       } else if (provider === 'ekart') {
         const hasPassword = Boolean((row.password || '').trim())
@@ -758,6 +786,116 @@ export const updateDelhiveryCredentialsController = async (req: Request, res: Re
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false, message: 'Failed to update Delhivery credentials' })
+  }
+}
+
+export const updateDelhiveryB2BCredentialsController = async (req: Request, res: Response) => {
+  const { apiBase, username, password, clientId, warehouseId, freightMode, fmPickup } =
+    req.body || {}
+
+  try {
+    const nextApiBase = typeof apiBase === 'string' ? apiBase.trim() : undefined
+    const nextUsername = typeof username === 'string' ? username.trim() : undefined
+    const nextPassword = typeof password === 'string' ? password.trim() : undefined
+    const nextClientId = typeof clientId === 'string' ? clientId.trim() : undefined
+    const nextWarehouseId = typeof warehouseId === 'string' ? warehouseId.trim() : undefined
+    const hasNewPassword = Boolean(nextPassword)
+
+    const [existing] = await db
+      .select()
+      .from(courier_credentials)
+      .where(eq(courier_credentials.provider, DELHIVERY_B2B_PROVIDER))
+      .limit(1)
+
+    const storedFreightMode =
+      String(existing?.metadata?.freight_mode || '').toLowerCase() === 'fod' ? 'fod' : 'fop'
+    const nextFreightMode =
+      freightMode === undefined
+        ? storedFreightMode
+        : String(freightMode).toLowerCase() === 'fod'
+          ? 'fod'
+          : 'fop'
+    const nextFmPickup =
+      fmPickup === undefined ? existing?.metadata?.fm_pickup !== false : fmPickup !== false
+
+    const metadata = {
+      ...(existing?.metadata || {}),
+      ...(nextWarehouseId !== undefined ? { warehouse_id: nextWarehouseId } : {}),
+      freight_mode: nextFreightMode,
+      fm_pickup: nextFmPickup,
+    }
+
+    if (existing) {
+      const updatePayload: Record<string, any> = { metadata, updatedAt: new Date() }
+      if (nextApiBase !== undefined) {
+        updatePayload.apiBase = nextApiBase || DEFAULT_DELHIVERY_B2B_API_BASE
+      }
+      if (nextUsername !== undefined) updatePayload.username = nextUsername
+      if (nextClientId !== undefined) updatePayload.clientId = nextClientId
+      if (hasNewPassword) updatePayload.password = nextPassword
+
+      await db
+        .update(courier_credentials)
+        .set(updatePayload)
+        .where(eq(courier_credentials.provider, DELHIVERY_B2B_PROVIDER))
+    } else {
+      await db.insert(courier_credentials).values({
+        provider: DELHIVERY_B2B_PROVIDER,
+        apiBase: nextApiBase || DEFAULT_DELHIVERY_B2B_API_BASE,
+        username: nextUsername || '',
+        password: hasNewPassword ? nextPassword! : '',
+        clientId: nextClientId || '',
+        metadata,
+      })
+    }
+
+    DelhiveryB2BService.clearTokenCache()
+
+    const [saved] = await db
+      .select()
+      .from(courier_credentials)
+      .where(eq(courier_credentials.provider, DELHIVERY_B2B_PROVIDER))
+      .limit(1)
+
+    res.json({
+      success: true,
+      message: 'Delhivery B2B credentials updated successfully',
+      data: {
+        provider: DELHIVERY_B2B_PROVIDER,
+        apiBase: saved?.apiBase || DEFAULT_DELHIVERY_B2B_API_BASE,
+        username: saved?.username || '',
+        clientId: saved?.clientId || '',
+        warehouseId: String(saved?.metadata?.warehouse_id || ''),
+        freightMode: saved?.metadata?.freight_mode === 'fod' ? 'fod' : 'fop',
+        fmPickup: saved?.metadata?.fm_pickup !== false,
+        hasPassword: Boolean((saved?.password || '').trim()),
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update Delhivery B2B credentials',
+    })
+  }
+}
+
+export const testDelhiveryB2BCredentialsController = async (_req: Request, res: Response) => {
+  try {
+    const login = await new DelhiveryB2BService().login(true)
+    return res.json({
+      success: true,
+      data: {
+        authenticated: true,
+        expiresAt: new Date(login.expiresAt).toISOString(),
+      },
+    })
+  } catch (error: any) {
+    const statusCode = Number(error?.statusCode || 500)
+    return res.status(statusCode >= 400 && statusCode < 600 ? statusCode : 500).json({
+      success: false,
+      message: error?.message || 'Delhivery B2B credential test failed',
+    })
   }
 }
 

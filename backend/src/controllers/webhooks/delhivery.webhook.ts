@@ -25,12 +25,20 @@ const resolveDelhiveryWebhookAwb = (payload: any) => {
     shipment?.waybill,
     shipment?.wbn,
     shipment?.awb_number,
+    shipment?.LRN,
+    shipment?.lrn,
+    shipment?.lrnum,
+    shipment?.lr_number,
     payload?.AWB,
     payload?.Waybill,
     payload?.awb,
     payload?.waybill,
     payload?.wbn,
     payload?.awb_number,
+    payload?.LRN,
+    payload?.lrn,
+    payload?.lrnum,
+    payload?.lr_number,
   )
 }
 

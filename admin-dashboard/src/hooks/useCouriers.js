@@ -10,8 +10,10 @@ import {
   fetchAvailableCouriers,
   fetchServiceProviders,
   fetchShippingRates,
+  testDelhiveryB2BCredentials,
   testXpressbeesCredentials,
   updateDelhiveryCredentials,
+  updateDelhiveryB2BCredentials,
   updateEkartCredentials,
   updateShadowfaxCredentials,
   updateXpressbeesAwbRange,
@@ -126,6 +128,23 @@ export const useUpdateDelhiveryCredentials = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['courierCredentials'])
     },
+  })
+}
+
+export const useUpdateDelhiveryB2BCredentials = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: updateDelhiveryB2BCredentials,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['courierCredentials'])
+    },
+  })
+}
+
+export const useTestDelhiveryB2BCredentials = () => {
+  return useMutation({
+    mutationFn: testDelhiveryB2BCredentials,
   })
 }
 

@@ -776,6 +776,156 @@ export async function processEkartWebhookV2(payload: any, tx = db) {
   return { success: true }
 }
 
+const mapDelhiveryB2BStatus = (type: string, status: string) => {
+  const normalizedType = String(type || '').trim().toUpperCase()
+  const normalized = String(status || '')
+    .trim()
+    .toUpperCase()
+    .replace(/[\s-]+/g, '_')
+
+  if (['CANCELLED', 'CANCELED'].includes(normalized) || normalizedType === 'CN') {
+    return 'cancelled'
+  }
+  if (normalized === 'LOST' || normalizedType === 'LT') return 'lost'
+  if (normalized === 'DELIVERED') return 'delivered'
+  if (['RTO', 'RETURN_DELIVERED'].includes(normalized)) return 'rto_delivered'
+  if (['RETURNED_INTRANSIT', 'RETURN_OFD'].includes(normalized)) return 'rto_in_transit'
+  if (normalized === 'RECEIVED_AT_RETURN_CENTER') return 'rto'
+  if (['OFD', 'DISPATCHED', 'OUT_FOR_DELIVERY'].includes(normalized)) {
+    return normalizedType === 'RT' ? 'rto_in_transit' : 'out_for_delivery'
+  }
+  if (['UNDEL_REATTEMPT', 'PART_DEL'].includes(normalized)) return 'ndr'
+  if (normalized === 'NOT_PICKED') return 'pickup_initiated'
+  if (normalized === 'MANIFESTED') return 'shipment_created'
+  if (normalized === 'PICKED_UP') return 'pickup_initiated'
+  if (['LEFT_ORIGIN', 'REACH_DESTINATION', 'IN_TRANSIT', 'PENDING'].includes(normalized)) {
+    return normalizedType === 'RT' ? 'rto_in_transit' : 'in_transit'
+  }
+
+  return 'in_transit'
+}
+
+const delhiveryWebhookEventForStatus = (status: string) => {
+  if (status === 'delivered') return 'order.delivered'
+  if (status === 'cancelled') return 'order.cancelled'
+  if (['ndr', 'lost'].includes(status)) return 'order.failed'
+  if (status.startsWith('rto')) return 'order.rto'
+  if (['pickup_initiated', 'in_transit', 'out_for_delivery'].includes(status)) {
+    return 'order.shipped'
+  }
+  return 'order.updated'
+}
+
+const processDelhiveryB2BWebhook = async (params: {
+  payload: any
+  tx: any
+  trackingReference: string
+  orderReference: string | null
+  status: string
+  statusType: string
+  statusCode: string
+  location: string
+  instructions: string
+}) => {
+  const identifiers = [params.trackingReference, params.orderReference]
+    .map((value) => String(value || '').trim())
+    .filter(Boolean)
+
+  let order: any
+  for (const identifier of identifiers) {
+    ;[order] = await params.tx
+      .select()
+      .from(b2b_orders)
+      .where(
+        or(
+          eq(b2b_orders.awb_number, identifier),
+          eq(b2b_orders.provider_reference, identifier),
+          eq(b2b_orders.provider_request_id, identifier),
+          eq(b2b_orders.shipment_id, identifier),
+          eq(b2b_orders.order_number, identifier),
+          eq(b2b_orders.order_id, identifier),
+        )!,
+      )
+      .limit(1)
+    if (order) break
+  }
+
+  if (!order) return null
+
+  const internalStatus = mapDelhiveryB2BStatus(params.statusType, params.status)
+  const previousStatus = String(order.order_status || '').trim().toLowerCase()
+  const updateData: any = {
+    order_status: internalStatus,
+    delivery_location: params.location || null,
+    delivery_message: params.instructions || null,
+    provider_last_status: params.status || internalStatus,
+    provider_meta: params.payload,
+    updated_at: new Date(),
+  }
+  if (!order.awb_number && params.trackingReference) {
+    updateData.awb_number = params.trackingReference
+  }
+
+  await params.tx.update(b2b_orders).set(updateData).where(eq(b2b_orders.id, order.id))
+
+  await notifyOrderStatusEmail({
+    order,
+    nextStatus: internalStatus,
+    previousStatus,
+    rawStatus: params.status,
+    location: params.location,
+    remarks: params.instructions,
+    source: 'delhivery_b2b_webhook',
+  })
+
+  const webhookData = {
+    order_id: order.id,
+    order_number: order.order_number,
+    awb_number: order.awb_number || params.trackingReference,
+    status: internalStatus,
+    raw_status: params.status,
+    status_type: params.statusType,
+    status_code: params.statusCode,
+    courier_partner: order.courier_partner || 'Delhivery B2B',
+    provider_reference: order.provider_reference || params.trackingReference,
+    location: params.location || null,
+    remarks: params.instructions || null,
+    order_type: 'b2b',
+  }
+
+  await sendWebhookEvent(order.user_id, 'tracking.updated', webhookData).catch((error) => {
+    console.error('Failed to send Delhivery B2B tracking.updated webhook:', error)
+  })
+  if (internalStatus !== previousStatus) {
+    await sendWebhookEvent(
+      order.user_id,
+      delhiveryWebhookEventForStatus(internalStatus) as any,
+      webhookData,
+    ).catch((error) => {
+      console.error('Failed to send Delhivery B2B status webhook:', error)
+    })
+  }
+
+  if (internalStatus === 'delivered' && order.order_type === 'cod') {
+    await createCodRemittance({
+      orderId: order.id,
+      orderType: 'b2b',
+      userId: order.user_id,
+      orderNumber: order.order_number,
+      awbNumber: order.awb_number || params.trackingReference || undefined,
+      courierPartner: order.courier_partner || 'Delhivery B2B',
+      codAmount: Number(order.order_amount || 0),
+      codCharges: Number(order.cod_charges || 0),
+      freightCharges: Number(order.freight_charges ?? order.shipping_charges ?? 0),
+      collectedAt: new Date(),
+    }).catch((error) => {
+      console.error('Failed to create Delhivery B2B COD remittance:', error)
+    })
+  }
+
+  return { success: true, orderType: 'b2b' as const, reason: undefined }
+}
+
 export async function processDelhiveryWebhook(payload: any, tx = db) {
   const shipment = payload?.Shipment || payload?.shipment || payload || {}
   const statusInfo =
@@ -794,12 +944,20 @@ export async function processDelhiveryWebhook(payload: any, tx = db) {
     shipment?.waybill,
     shipment?.wbn,
     shipment?.awb_number,
+    shipment?.LRN,
+    shipment?.lrn,
+    shipment?.lrnum,
+    shipment?.lr_number,
     payload?.AWB,
     payload?.Waybill,
     payload?.awb,
     payload?.waybill,
     payload?.wbn,
     payload?.awb_number,
+    payload?.LRN,
+    payload?.lrn,
+    payload?.lrnum,
+    payload?.lr_number,
   )
   const referenceNo =
     pickWebhookText(
@@ -875,6 +1033,20 @@ export async function processDelhiveryWebhook(payload: any, tx = db) {
       .select()
       .from(b2c_orders)
       .where(eq(b2c_orders.order_number, String(referenceNo)))
+  }
+  if (!order) {
+    const b2bResult = await processDelhiveryB2BWebhook({
+      payload,
+      tx,
+      trackingReference: waybill,
+      orderReference: referenceNo,
+      status,
+      statusType: status_type,
+      statusCode,
+      location,
+      instructions,
+    })
+    if (b2bResult) return b2bResult
   }
   if (!order) {
     console.warn(`⚠️ No local order found for AWB ${waybill}`)
@@ -1345,19 +1517,44 @@ export async function processDelhiveryDocumentWebhook(
     shipment?.waybill,
     shipment?.wbn,
     shipment?.awb_number,
+    shipment?.LRN,
+    shipment?.lrn,
+    shipment?.lrnum,
+    shipment?.lr_number,
     payload?.AWB,
     payload?.Waybill,
     payload?.awb,
     payload?.waybill,
     payload?.wbn,
     payload?.awb_number,
+    payload?.LRN,
+    payload?.lrn,
+    payload?.lrnum,
+    payload?.lr_number,
   )
 
   if (!waybill) {
     return { success: false, reason: 'missing_awb' }
   }
 
-  const [order] = await tx.select().from(b2c_orders).where(eq(b2c_orders.awb_number, waybill))
+  let orderType: 'b2c' | 'b2b' = 'b2c'
+  let order: any
+  ;[order] = await tx.select().from(b2c_orders).where(eq(b2c_orders.awb_number, waybill))
+  if (!order) {
+    ;[order] = await tx
+      .select()
+      .from(b2b_orders)
+      .where(
+        or(
+          eq(b2b_orders.awb_number, waybill),
+          eq(b2b_orders.provider_reference, waybill),
+          eq(b2b_orders.shipment_id, waybill),
+          eq(b2b_orders.order_id, waybill),
+        )!,
+      )
+      .limit(1)
+    if (order) orderType = 'b2b'
+  }
   if (!order) {
     console.warn(`⚠️ No local order found for AWB ${waybill} (document webhook)`)
     return { success: false, reason: 'order_not_found' }
@@ -1421,6 +1618,16 @@ export async function processDelhiveryDocumentWebhook(
         updated_at: new Date(),
       }
 
+      if (orderType === 'b2b') {
+        updateData.provider_meta = {
+          ...(order.provider_meta || {}),
+          documents: {
+            ...((order.provider_meta as any)?.documents || {}),
+            [documentType || 'document']: documentUrl,
+          },
+        }
+      }
+
       // Store in delivery_message if it's POD, otherwise append to existing message
       if (docType === 'pod' || docType === 'poddocument') {
         const existingMessage = order.delivery_message || ''
@@ -1430,22 +1637,25 @@ export async function processDelhiveryDocumentWebhook(
       }
 
       // Log the document for tracking
-      await logTrackingEvent({
-        orderId: order.id,
-        userId: order.user_id,
-        awbNumber: order.awb_number,
-        courier: 'Delhivery',
-        statusCode: 'document_received',
-        statusText: `${documentType || 'Document'} received`,
-        location: null,
-        raw: {
-          documentType,
-          documentUrl,
-          payload,
-        },
-      })
-
-      await innerTx.update(b2c_orders).set(updateData).where(eq(b2c_orders.id, order.id))
+      if (orderType === 'b2c') {
+        await logTrackingEvent({
+          orderId: order.id,
+          userId: order.user_id,
+          awbNumber: order.awb_number,
+          courier: 'Delhivery',
+          statusCode: 'document_received',
+          statusText: `${documentType || 'Document'} received`,
+          location: null,
+          raw: {
+            documentType,
+            documentUrl,
+            payload,
+          },
+        })
+        await innerTx.update(b2c_orders).set(updateData).where(eq(b2c_orders.id, order.id))
+      } else {
+        await innerTx.update(b2b_orders).set(updateData).where(eq(b2b_orders.id, order.id))
+      }
 
       // Create notification for document received
       await createNotificationService({

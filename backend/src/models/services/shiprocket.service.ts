@@ -105,6 +105,7 @@ import {
   type XpressbeesConfig,
 } from './courierCredentials.service'
 import { DelhiveryService } from './couriers/delhivery.service'
+import { DelhiveryB2BService } from './couriers/delhiveryB2B.service'
 import { EkartService } from './couriers/ekart.service'
 import { ShadowfaxService } from './couriers/shadowfax.service'
 import { XpressbeesService } from './couriers/xpressbees.service'
@@ -5711,6 +5712,9 @@ export interface ShipmentParams {
   height?: number
   isReverse?: boolean
   transport_speed?: string
+  freight_mode?: 'fop' | 'fod' | string
+  billing_address?: Record<string, unknown>
+  callback?: Record<string, unknown>
   address_type?: string
   ewbn?: string
   ewb?: string
@@ -5777,6 +5781,10 @@ export interface ShipmentParams {
     invoiceDate?: string
     invoiceValue?: number
     invoiceFileUrl?: string
+    ewaybill?: string
+    eway_bill?: string
+    invQrCode?: string
+    inv_qr_code?: string
   }[]
   order_items?: {
     name: string
@@ -9343,6 +9351,85 @@ export const bookExistingB2COrderWithCourierService = async (
 
 //B2B
 
+const findProviderValue = (value: unknown, keys: string[]): unknown => {
+  if (!value || typeof value !== 'object') return undefined
+  if (Array.isArray(value)) {
+    for (const entry of value) {
+      const found = findProviderValue(entry, keys)
+      if (found !== undefined && found !== null && found !== '') return found
+    }
+    return undefined
+  }
+
+  const record = value as Record<string, unknown>
+  for (const key of keys) {
+    if (record[key] !== undefined && record[key] !== null && record[key] !== '') {
+      return record[key]
+    }
+  }
+  for (const nested of Object.values(record)) {
+    const found = findProviderValue(nested, keys)
+    if (found !== undefined && found !== null && found !== '') return found
+  }
+  return undefined
+}
+
+const delhiveryB2BServiceable = (response: any) => {
+  if (response?.success === false) return false
+  const rows =
+    response?.data?.pincode_serviceability_data ||
+    response?.pincode_serviceability_data ||
+    response?.data ||
+    []
+  if (!Array.isArray(rows)) return Boolean(rows)
+  return rows.length > 0
+}
+
+const delhiveryB2BManifestFailed = (response: any) => {
+  if (response?.success === false) return true
+  const status = String(
+    findProviderValue(response, ['status', 'job_status', 'state']) || '',
+  ).toLowerCase()
+  return ['failed', 'failure', 'error', 'rejected', 'cancelled'].includes(status)
+}
+
+const waitForDelhiveryB2BManifest = async (
+  service: DelhiveryB2BService,
+  initialResponse: any,
+) => {
+  let response = initialResponse
+  const jobId = String(
+    findProviderValue(initialResponse, ['job_id', 'jobId', 'request_id', 'requestId']) || '',
+  ).trim()
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const lrn = String(
+      findProviderValue(response, ['lrn', 'lrnum', 'lr_number', 'lr_number_id']) || '',
+    ).trim()
+    if (lrn) return { response, jobId, lrn }
+    if (delhiveryB2BManifestFailed(response)) {
+      throw new HttpError(422, 'Delhivery B2B rejected the shipment manifestation')
+    }
+    if (!jobId) break
+    if (attempt > 0) await new Promise((resolve) => setTimeout(resolve, 1500))
+    response = await service.getManifestStatus(jobId)
+  }
+
+  if (!jobId) {
+    throw new HttpError(
+      502,
+      'Delhivery B2B manifestation did not return an LR number or job ID',
+    )
+  }
+
+  const pendingError = new HttpError(
+    202,
+    `Delhivery B2B manifestation is still processing (job_id: ${jobId})`,
+  ) as HttpError & { providerRequestId: string }
+  pendingError.providerRequestId = jobId
+  throw pendingError
+}
+
 export const createB2BShipmentService = async (
   params: ShipmentParams,
   userId: string,
@@ -9417,6 +9504,8 @@ export const createB2BShipmentService = async (
             invoice?.invoiceDate || invoice?.invoice_date || params.order_date || '',
           ).trim(),
           invoiceValue: Number(invoice?.invoiceValue ?? invoice?.invoice_value ?? 0),
+          ewaybill: String(invoice?.ewaybill || invoice?.eway_bill || '').trim(),
+          qrCode: String(invoice?.invQrCode || invoice?.inv_qr_code || '').trim(),
           invoiceFileUrl:
             String(invoice?.invoiceFileUrl || invoice?.invoice_file_url || '').trim() || undefined,
         }))
@@ -9482,10 +9571,10 @@ export const createB2BShipmentService = async (
       .toLowerCase()
   }
 
-  if (effectiveIntegrationType !== 'shadowfax') {
+  if (!['shadowfax', 'delhivery'].includes(effectiveIntegrationType)) {
     throw new HttpError(
       400,
-      'B2B shipment booking is currently implemented for Shadowfax only. Select Shadowfax to continue.',
+      'B2B shipment booking is supported for Delhivery and Shadowfax only.',
     )
   }
 
@@ -9504,8 +9593,9 @@ export const createB2BShipmentService = async (
     console.error('⚠️ Failed to fetch B2B user plan for ROV:', planErr)
   }
 
+  const insuranceSelected = params.is_insurance === 1 || (params.is_insurance as any) === true
   const rovCharge =
-    params.is_insurance === 1
+    insuranceSelected
       ? await computeRovChargeForOrder({
           invoiceValue,
           isInsurance: true,
@@ -9609,9 +9699,9 @@ export const createB2BShipmentService = async (
           : params?.invoice_amount
             ? String(params.invoice_amount)
             : null,
-      is_insurance: params.is_insurance === 1,
-      declared_value: params.is_insurance === 1 ? invoiceValue : null,
-      rov_charge: params.is_insurance === 1 ? rovCharge : null,
+      is_insurance: insuranceSelected,
+      declared_value: insuranceSelected ? invoiceValue : null,
+      rov_charge: insuranceSelected ? rovCharge : null,
       charges_breakdown: chargesBreakdown,
       shipping_charges: params.shipping_charges ?? 0,
       freight_charges: params.freight_charges ?? 0, // What platform charges seller
@@ -9626,10 +9716,19 @@ export const createB2BShipmentService = async (
       rto_details: rtoDetails,
       is_rto_different: params.is_rto_different === 'yes',
       is_external_api: is_external_api ?? false,
-      provider_mode: resolveShadowfaxOrderMode(params as any, params.shadowfax_forward_mode),
-      provider_service: normalizeShadowfaxServiceModeValue(
-        params.shadowfax_service_mode || params.shipping_mode || params.transport_speed || 'surface',
-      ),
+      provider_mode:
+        effectiveIntegrationType === 'shadowfax'
+          ? resolveShadowfaxOrderMode(params as any, params.shadowfax_forward_mode)
+          : String(params.freight_mode || 'fop').toLowerCase(),
+      provider_service:
+        effectiveIntegrationType === 'shadowfax'
+          ? normalizeShadowfaxServiceModeValue(
+              params.shadowfax_service_mode ||
+                params.shipping_mode ||
+                params.transport_speed ||
+                'surface',
+            )
+          : 'ltl',
       provider_last_status: 'pending',
       created_at: new Date(),
       updated_at: new Date(),
@@ -9664,6 +9763,195 @@ export const createB2BShipmentService = async (
   const package_height = boxes.length
     ? Math.max(...boxes.map((b: any) => Number(b.height ?? 0)))
     : Number(params.package_height ?? params.height ?? 0)
+
+  if (effectiveIntegrationType === 'delhivery') {
+    const delhivery = new DelhiveryB2BService()
+    try {
+      const originPincode = String(params.pickup?.pincode || '').trim()
+      const destinationPincode = String(params.consignee?.pincode || '').trim()
+      const weightGrams = Math.max(1, Math.round(package_weight * 1000))
+      const [originServiceability, destinationServiceability, defaults] = await Promise.all([
+        delhivery.checkServiceability(originPincode, weightGrams),
+        delhivery.checkServiceability(destinationPincode, weightGrams),
+        delhivery.getOperationalDefaults(),
+      ])
+
+      if (!delhiveryB2BServiceable(originServiceability)) {
+        throw new HttpError(400, `Delhivery B2B does not service origin pincode ${originPincode}`)
+      }
+      if (!delhiveryB2BServiceable(destinationServiceability)) {
+        throw new HttpError(
+          400,
+          `Delhivery B2B does not service destination pincode ${destinationPincode}`,
+        )
+      }
+
+      const itemDescription = normalizedOrderItems
+        .map((item: any) => String(item.name || '').trim())
+        .filter(Boolean)
+        .join(', ')
+        .slice(0, 300)
+      const boxCount = Math.max(
+        1,
+        boxes.reduce((sum: number, box: any) => sum + Math.max(1, Number(box.quantity || 1)), 0),
+      )
+      const freightMode =
+        String(params.freight_mode || defaults.freightMode).toLowerCase() === 'fod'
+          ? 'fod'
+          : 'fop'
+      const pickupLocationName = String(params.pickup?.warehouse_name || '').trim()
+      if (!pickupLocationName && !defaults.warehouseId) {
+        throw new HttpError(
+          400,
+          'A Delhivery B2B pickup warehouse name or default warehouse ID is required',
+        )
+      }
+      const manifestPayload: Record<string, unknown> = {
+        pickup_location_name: pickupLocationName || undefined,
+        pickup_location_id: pickupLocationName ? undefined : defaults.warehouseId || undefined,
+        payment_mode: params.payment_type === 'cod' ? 'cod' : 'prepaid',
+        cod_amount: params.payment_type === 'cod' ? Number(params.order_amount || 0) : undefined,
+        weight: weightGrams,
+        dropoff_location: {
+          consignee_name: params.consignee.name,
+          address: params.consignee.address,
+          city: params.consignee.city,
+          state: params.consignee.state,
+          zip: destinationPincode,
+          phone: params.consignee.phone,
+          email: params.consignee.email || '',
+        },
+        return_address:
+          params.is_rto_different === 'yes' && params.rto
+            ? {
+                name: params.rto.name || params.rto.warehouse_name,
+                address: params.rto.address,
+                city: params.rto.city,
+                state: params.rto.state,
+                zip: params.rto.pincode,
+                phone: params.rto.phone,
+              }
+            : undefined,
+        shipment_details: [
+          {
+            order_id: normalizedOrderNumber,
+            box_count: boxCount,
+            description: itemDescription || normalizedOrderNumber,
+            weight: weightGrams,
+            waybills: [],
+            master: true,
+          },
+        ],
+        dimensions: boxes.map((box: any) => ({
+          box_count: Math.max(1, Number(box.quantity || 1)),
+          length: Number(box.length || 0),
+          width: Number(box.breadth || 0),
+          height: Number(box.height || 0),
+        })),
+        rov_insurance: insuranceSelected,
+        invoices: normalizedInvoices.map((invoice: any) => ({
+          ewaybill: invoice.ewaybill || '',
+          inv_num: invoice.invoiceNumber,
+          inv_amt: invoice.invoiceValue,
+          inv_qr_code: invoice.qrCode || '',
+        })),
+        freight_mode: freightMode,
+        fm_pickup:
+          params.request_auto_pickup === 'yes' ? true : Boolean(defaults.fmPickup),
+        billing_address: (params as any).billing_address,
+        callback: (params as any).callback,
+      }
+
+      const initialManifest = await delhivery.manifestShipment(manifestPayload)
+      const manifest = await waitForDelhiveryB2BManifest(delhivery, initialManifest)
+      const waybillValue = findProviderValue(manifest.response, [
+        'waybills',
+        'awb_numbers',
+        'awb_number',
+        'awb',
+      ])
+      const waybills = Array.isArray(waybillValue)
+        ? waybillValue.map((value) => String(value)).filter(Boolean)
+        : String(waybillValue || '')
+            .split(',')
+            .map((value) => value.trim())
+            .filter(Boolean)
+      const primaryAwb = waybills[0] || manifest.lrn
+
+      await db
+        .update(b2b_orders)
+        .set({
+          integration_type: 'delhivery',
+          order_status: 'pickup_initiated',
+          order_id: manifest.lrn,
+          shipment_id: manifest.lrn,
+          awb_number: primaryAwb,
+          courier_partner: 'Delhivery B2B',
+          courier_id: courierId ?? null,
+          weight: package_weight,
+          length: package_length || null,
+          breadth: package_breadth || null,
+          height: package_height || null,
+          volumetric_weight: Number(totalVolumetricWeight || 0) || null,
+          charged_weight: package_weight,
+          provider_reference: manifest.lrn,
+          provider_request_id: manifest.jobId || null,
+          provider_mode: freightMode,
+          provider_service: 'ltl',
+          provider_last_status: 'manifested',
+          provider_meta: {
+            manifest: manifest.response,
+            waybills,
+            origin_serviceability: originServiceability,
+            destination_serviceability: destinationServiceability,
+          },
+          updated_at: new Date(),
+        } as any)
+        .where(eq(b2b_orders.id, pendingOrder.id))
+
+      sendWebhookEvent(userId, 'order.created', {
+        order_id: pendingOrder.id,
+        order_number: normalizedOrderNumber,
+        awb_number: primaryAwb,
+        status: 'pickup_initiated',
+        courier_partner: 'Delhivery B2B',
+        courier_id: courierId ?? null,
+        shipment_id: manifest.lrn,
+        integration_type: 'delhivery',
+        payment_type: params.payment_type,
+        created_at: new Date().toISOString(),
+        order_type: 'b2b',
+      }).catch((err) => console.error('Failed to send B2B order.created webhook:', err))
+
+      return {
+        order: {
+          id: pendingOrder.id,
+          order_number: normalizedOrderNumber,
+          awb_number: primaryAwb,
+          lrn: manifest.lrn,
+          provider_request_id: manifest.jobId || null,
+        },
+        shipment: manifest.response,
+      }
+    } catch (error: any) {
+      await db
+        .update(b2b_orders)
+        .set({
+          integration_type: 'delhivery',
+          order_status: error?.statusCode === 202 ? 'manifest_pending' : 'failed',
+          provider_last_status:
+            error?.statusCode === 202 ? 'manifest_processing' : 'booking_failed',
+          provider_request_id: error?.providerRequestId || null,
+          provider_meta: {
+            error: error?.message || 'Delhivery B2B shipment creation failed',
+            ...(error?.providerRequestId ? { job_id: error.providerRequestId } : {}),
+          },
+          updated_at: new Date(),
+        } as any)
+        .where(eq(b2b_orders.id, pendingOrder.id))
+      throw error
+    }
+  }
 
   const payload: ShipmentParams = {
     ...params,
@@ -14190,6 +14478,68 @@ const mapDelhiveryTracking = (raw: any, order: OrderSummary): ProviderNormalized
   }
 }
 
+const mapDelhiveryB2BTracking = (raw: any, order: OrderSummary): ProviderNormalizedTracking => {
+  const history: TrackingHistoryItem[] = []
+  const payload = raw?.data || raw || {}
+  const eventsValue =
+    findProviderValue(payload, [
+      'history',
+      'tracking_history',
+      'tracking_events',
+      'events',
+      'scans',
+    ]) || []
+  const events = Array.isArray(eventsValue) ? eventsValue : [eventsValue]
+
+  events.forEach((entry: any) => {
+    if (!entry || typeof entry !== 'object') return
+    pushHistoryEvent(history, {
+      statusCode: entry.status_code || entry.status || entry.state || entry.scan_type,
+      message: entry.status_name || entry.status || entry.state || entry.remarks || entry.message,
+      location: entry.location || entry.current_location || entry.scan_location || entry.center,
+      time:
+        entry.status_time ||
+        entry.event_time ||
+        entry.timestamp ||
+        entry.updated_at ||
+        entry.created_at,
+    })
+  })
+
+  const status = sanitizeString(
+    findProviderValue(payload, [
+      'current_status',
+      'latest_status',
+      'status_name',
+      'status',
+      'state',
+    ]),
+    order.order_status || 'In Transit',
+  )
+  if (!history.length) {
+    pushHistoryEvent(history, {
+      statusCode: status,
+      message: status,
+      location: findProviderValue(payload, ['current_location', 'location', 'center']),
+      time: findProviderValue(payload, ['updated_at', 'status_time', 'timestamp']),
+    })
+  }
+
+  sortHistoryDescending(history)
+  return {
+    history,
+    status,
+    edd:
+      sanitizeString(
+        findProviderValue(payload, ['expected_delivery_date', 'estimated_delivery_date', 'edd']),
+      ) || undefined,
+    shipment_info:
+      sanitizeString(findProviderValue(payload, ['remarks', 'message', 'description'])) ||
+      undefined,
+    courier_name: 'Delhivery B2B',
+  }
+}
+
 const mapShadowfaxTracking = (raw: any, order: OrderSummary): ProviderNormalizedTracking => {
   const history: TrackingHistoryItem[] = []
   const payload = raw?.data || raw
@@ -15580,9 +15930,19 @@ export const trackByAwbService = async (awb: string): Promise<TrackingServiceRes
 
   try {
     if (providerKey === 'delhivery') {
-      const delhiveryService = new DelhiveryService()
-      const raw = await delhiveryService.trackShipment(awb)
-      providerData = mapDelhiveryTracking(raw, order)
+      if (order.source_type === 'b2b') {
+        const delhiveryService = new DelhiveryB2BService()
+        const lrn = sanitizeString(
+          order.provider_reference || order.shipment_id || order.order_id || awb,
+          awb,
+        )
+        const raw = await delhiveryService.trackShipment(lrn, true)
+        providerData = mapDelhiveryB2BTracking(raw, order)
+      } else {
+        const delhiveryService = new DelhiveryService()
+        const raw = await delhiveryService.trackShipment(awb)
+        providerData = mapDelhiveryTracking(raw, order)
+      }
     } else if (providerKey === 'shadowfax') {
       const isReverseShadowfax = awb.toUpperCase().startsWith('R')
 

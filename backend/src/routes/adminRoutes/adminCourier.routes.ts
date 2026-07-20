@@ -7,9 +7,11 @@ import {
   getAllCouriersController,
   getShippingRatesController,
   importShippingRatesController,
+  testDelhiveryB2BCredentialsController,
   testXpressbeesCredentialsController,
   updateAmazonCredentialsController,
   updateDelhiveryCredentialsController,
+  updateDelhiveryB2BCredentialsController,
   updateEkartCredentialsController,
   updateShadowfaxCredentialsController,
   updateXpressbeesAwbRangeController,
@@ -45,6 +47,18 @@ router.put(
   requireAuth,
   isAdminMiddleware,
   updateDelhiveryCredentialsController,
+)
+router.put(
+  '/credentials/delhivery-b2b',
+  requireAuth,
+  isAdminMiddleware,
+  updateDelhiveryB2BCredentialsController,
+)
+router.post(
+  '/credentials/delhivery-b2b/test',
+  requireAuth,
+  isAdminMiddleware,
+  testDelhiveryB2BCredentialsController,
 )
 router.put(
   '/credentials/ekart',
