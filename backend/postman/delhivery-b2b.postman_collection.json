@@ -99,7 +99,8 @@
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/warehouses",
-            "body": { "mode": "raw", "raw": "{\n  \"name\": \"{{warehouseName}}\",\n  \"pin_code\": \"{{originPincode}}\",\n  \"city\": \"Gurugram\",\n  \"state\": \"Haryana\",\n  \"country\": \"India\",\n  \"address_details\": {\"address\": \"Test warehouse address\", \"contact_person\": \"Operations\", \"phone_number\": \"9999999999\"}\n}" }
+            "description": "Registers a pickup warehouse before manifestation. The warehouse name is preserved exactly because Delhivery treats its case and spaces as significant. Required address data, schedules, weekday lists, GST format, and boolean options are validated before forwarding.",
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"{{warehouseName}}\",\n  \"pin_code\": \"{{originPincode}}\",\n  \"city\": \"Gurugram\",\n  \"state\": \"Haryana\",\n  \"country\": \"India\",\n  \"address_details\": {\"address\": \"Test warehouse address\", \"contact_person\": \"Operations\", \"phone_number\": \"9999999999\"},\n  \"same_as_fwd_add\": false,\n  \"business_hours\": {\"TUE\": {\"start_time\": \"07:00\", \"close_time\": \"08:30\"}},\n  \"pick_up_hours\": {\"TUE\": {\"start_time\": \"13:00\", \"close_time\": \"16:00\"}},\n  \"pick_up_days\": [\"TUE\"],\n  \"business_days\": [\"TUE\"],\n  \"ret_address\": {\"pin\": \"721657\", \"address\": \"test\"}\n}" }
           }
         },
         {

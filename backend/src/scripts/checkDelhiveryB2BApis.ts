@@ -155,8 +155,47 @@ const run = async () => {
 
   assert.throws(() => service.getFreightCharges(' , , '), /lrns is required/i)
 
-  await service.createWarehouse({ name: 'Test Warehouse', pin_code: '122001' })
-  lastRequest('POST', '/client-warehouse/create/')
+  const warehousePayload = {
+    pin_code: '400059',
+    city: 'Gurgaon',
+    state: 'Haryana',
+    country: 'India',
+    address_details: {
+      address: 'Gurgaon',
+      contact_person: 'contact_person',
+      phone_number: '9186676788',
+    },
+    name: 'Delhivery 142',
+    business_hours: { TUE: { start_time: '07:00', close_time: '08:30' } },
+    pick_up_hours: { TUE: { start_time: '13:00', close_time: '16:00' } },
+    pick_up_days: ['TUE'],
+    business_days: ['TUE'],
+    ret_address: { pin: '721657', address: 'test' },
+    same_as_fwd_add: false,
+    consignee_gst: '22AAAAA0000A1Z5',
+  }
+  await service.createWarehouse(warehousePayload)
+  const createWarehouse = lastRequest('POST', '/client-warehouse/create/')
+  assert.deepEqual(createWarehouse.data, warehousePayload)
+  assert.equal((createWarehouse.data as any).name, 'Delhivery 142')
+  assert.equal(createWarehouse.headers?.['Content-Type'], 'application/json')
+
+  assert.throws(
+    () => service.createWarehouse({ ...warehousePayload, name: '' }),
+    /name.*non-empty string/,
+  )
+  assert.throws(
+    () => service.createWarehouse({ ...warehousePayload, pin_code: '40005' }),
+    /pin_code.*6-digit/,
+  )
+  assert.throws(
+    () => service.createWarehouse({ ...warehousePayload, pick_up_days: ['TUESDAY'] }),
+    /valid weekday/,
+  )
+  assert.throws(
+    () => service.createWarehouse({ ...warehousePayload, consignee_gst: 'invalid' }),
+    /15 alphanumeric/,
+  )
 
   await service.updateWarehouse({ cl_warehouse_name: 'Test Warehouse', update_dict: {} })
   lastRequest('PATCH', '/client-warehouses/update')

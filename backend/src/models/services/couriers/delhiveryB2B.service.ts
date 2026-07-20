@@ -148,6 +148,114 @@ const normalizeFreightDimensions = (value: unknown) => {
   })
 }
 
+const WEEKDAYS = new Set(['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'])
+const WAREHOUSE_BOOLEAN_FIELDS = [
+  'same_as_fwd_add',
+  'is_warehouse',
+  'use_client_state',
+  'active',
+  'qr_enabled',
+] as const
+const WAREHOUSE_TEXT_FIELDS = [
+  'city',
+  'state',
+  'country',
+  'tin_number',
+  'cst_number',
+  'warehouse_type',
+  'accessibility_id',
+  'incoming_center',
+  'rto_center',
+  'store_type',
+  'tag',
+  'qr_data',
+] as const
+
+const ensureObject = (value: unknown, field: string) => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new HttpError(400, `${field} must be an object`)
+  }
+  return value as Record<string, unknown>
+}
+
+const ensureText = (value: unknown, field: string) => {
+  if (typeof value !== 'string' || !value.trim()) {
+    throw new HttpError(400, `${field} must be a non-empty string`)
+  }
+  return value
+}
+
+const normalizeWarehouseDays = (value: unknown, field: string) => {
+  if (!Array.isArray(value)) throw new HttpError(400, `${field} must be an array`)
+  return value.map((day, index) => {
+    const normalized = clean(day).toUpperCase()
+    if (!WEEKDAYS.has(normalized)) {
+      throw new HttpError(400, `${field}[${index}] must be a valid weekday`)
+    }
+    return normalized
+  })
+}
+
+const normalizeWarehouseHours = (value: unknown, field: string) => {
+  const schedule = ensureObject(value, field)
+  const normalized: Record<string, unknown> = {}
+  for (const [day, hours] of Object.entries(schedule)) {
+    const normalizedDay = clean(day).toUpperCase()
+    if (!WEEKDAYS.has(normalizedDay)) {
+      throw new HttpError(400, `${field}.${day} must use a valid weekday key`)
+    }
+    const entry = ensureObject(hours, `${field}.${normalizedDay}`)
+    for (const timeField of ['start_time', 'close_time']) {
+      const time = clean(entry[timeField])
+      if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+        throw new HttpError(400, `${field}.${normalizedDay}.${timeField} must use HH:mm format`)
+      }
+    }
+    normalized[normalizedDay] = { ...entry }
+  }
+  return normalized
+}
+
+const normalizeWarehousePayload = (payload: Record<string, unknown>) => {
+  const name = ensureText(payload.name, 'name')
+  const addressDetails = ensureObject(payload.address_details, 'address_details')
+  for (const field of ['address', 'contact_person', 'phone_number']) {
+    ensureText(addressDetails[field], `address_details.${field}`)
+  }
+
+  const data: Record<string, unknown> = {
+    ...payload,
+    name,
+    pin_code: ensurePincode(payload.pin_code, 'pin_code'),
+    address_details: { ...addressDetails },
+  }
+
+  for (const field of WAREHOUSE_TEXT_FIELDS) {
+    if (payload[field] !== undefined) data[field] = ensureText(payload[field], field)
+  }
+  for (const field of WAREHOUSE_BOOLEAN_FIELDS) {
+    if (payload[field] !== undefined) data[field] = ensureBoolean(payload[field], field)
+  }
+  for (const field of ['ret_address', 'billing_details']) {
+    if (payload[field] !== undefined) data[field] = { ...ensureObject(payload[field], field) }
+  }
+  for (const field of ['business_hours', 'buisness_hours', 'pick_up_hours']) {
+    if (payload[field] !== undefined) data[field] = normalizeWarehouseHours(payload[field], field)
+  }
+  for (const field of ['business_days', 'buisness_days', 'pick_up_days']) {
+    if (payload[field] !== undefined) data[field] = normalizeWarehouseDays(payload[field], field)
+  }
+
+  if (payload.consignee_gst !== undefined) {
+    const gst = ensureText(payload.consignee_gst, 'consignee_gst')
+    if (!/^[A-Za-z0-9]{15}$/.test(gst)) {
+      throw new HttpError(400, 'consignee_gst must be 15 alphanumeric characters')
+    }
+    data.consignee_gst = gst
+  }
+  return data
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -426,7 +534,7 @@ export class DelhiveryB2BService {
     return this.authorizedRequest({
       method: 'POST',
       url: '/client-warehouse/create/',
-      data: payload,
+      data: normalizeWarehousePayload(payload),
     })
   }
 
