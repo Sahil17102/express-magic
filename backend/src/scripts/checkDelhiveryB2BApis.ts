@@ -367,8 +367,24 @@ const run = async () => {
   assert.equal(typeof manifestStatus.headers?.['X-Request-Id'], 'string')
   assert.throws(() => service.getManifestStatus(''), /job_id is required/)
 
-  await service.updateShipment('220110457', {
-    consignee_name: 'Updated Consignee',
+  const shipmentUpdatePayload = {
+    payment_mode: 'cod',
+    cod_amount: '0',
+    consignee_name: 'rahul',
+    consignee_address: 'jammu',
+    consignee_pincode: '844120',
+    consignee_phone: '9999999999',
+    weight_g: '30',
+    invoices: JSON.stringify([
+      { inv_number: 'I22331030453', inv_amount: 59729.67, qr_code: '', ewaybill: '' },
+    ]),
+    callback: JSON.stringify({
+      uri: 'https://btob-api-dev.delhivery.com/docket/upload_callback',
+      method: 'POST',
+      authorization: 'Bearer Token',
+    }),
+    dimensions: JSON.stringify([{ width_cm: 5, height_cm: 4, length_cm: 3, box_count: 1 }]),
+    invoice_files_meta: JSON.stringify([{ invoices: ['I22331030453'] }]),
     invoice_file: [
       {
         buffer: Buffer.from('invoice'),
@@ -376,10 +392,60 @@ const run = async () => {
         originalname: 'updated-invoice.pdf',
       },
     ],
-  })
+  }
+  await service.updateShipment('220110457', shipmentUpdatePayload)
   const update = lastRequest('PUT', '/lrn/update/220110457')
   assert(update.data instanceof FormData)
+  assert.equal((update.data as FormData).get('payment_mode'), 'cod')
+  assert.equal((update.data as FormData).get('cod_amount'), '0')
+  assert.equal((update.data as FormData).get('consignee_pincode'), '844120')
+  assert.equal(
+    JSON.parse(String((update.data as FormData).get('invoices')))[0].inv_number,
+    'I22331030453',
+  )
+  assert.equal(
+    JSON.parse(String((update.data as FormData).get('cb'))).uri,
+    'https://btob-api-dev.delhivery.com/docket/upload_callback',
+  )
   assert.equal(((update.data as FormData).get('invoice_file') as File).name, 'updated-invoice.pdf')
+  assert.equal(update.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(typeof update.headers?.['X-Request-Id'], 'string')
+
+  assert.throws(
+    () => service.updateShipment('220110457', { payment_mode: 'prepaid' }),
+    /not supported for prepaid/,
+  )
+  assert.throws(
+    () => service.updateShipment('220110457', { payment_mode: 'cod' }),
+    /cod_amount/,
+  )
+  assert.throws(
+    () =>
+      service.updateShipment('220110457', {
+        invoice_file: shipmentUpdatePayload.invoice_file,
+        invoice_files_meta: shipmentUpdatePayload.invoice_files_meta,
+      }),
+    /invoices is required/,
+  )
+  assert.throws(
+    () =>
+      service.updateShipment('220110457', {
+        ...shipmentUpdatePayload,
+        invoice_files_meta: JSON.stringify([
+          { invoices: ['I22331030453'] },
+          { invoices: ['I22331030453'] },
+        ]),
+      }),
+    /one entry for each invoice_file/,
+  )
+  assert.throws(
+    () => service.updateShipment('', { consignee_name: 'Consignee' }),
+    /lrn is required/,
+  )
+  assert.throws(
+    () => service.updateShipment('220110457', { invoice_file: [] }),
+    /At least one supported LR update field/,
+  )
 
   await service.getShipmentUpdateStatus('update-job')
   assert.equal(lastRequest('GET', '/lrn/update/status').params?.job_id, 'update-job')

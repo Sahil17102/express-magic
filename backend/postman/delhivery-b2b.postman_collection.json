@@ -176,9 +176,20 @@
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}",
+            "description": "Updates mutable fields for a manifested COD LR before last-mile dispatch. Prepaid LR updates are rejected. Multipart JSON, dimensions, invoices, callback/cb aliases, pincode, invoice metadata sequencing, file formats, the 10-file limit, and the 20-MB aggregate limit are validated before forwarding.",
             "body": { "mode": "formdata", "formdata": [
+              { "key": "payment_mode", "value": "cod", "type": "text" },
+              { "key": "cod_amount", "value": "0", "type": "text" },
               { "key": "consignee_name", "value": "Postman Updated Consignee", "type": "text" },
-              { "key": "consignee_phone", "value": "9999999999", "type": "text" }
+              { "key": "consignee_address", "value": "Updated consignee address", "type": "text" },
+              { "key": "consignee_pincode", "value": "{{destinationPincode}}", "type": "text" },
+              { "key": "consignee_phone", "value": "9999999999", "type": "text" },
+              { "key": "weight_g", "value": "{{weightGrams}}", "type": "text" },
+              { "key": "dimensions", "value": "[{\"width_cm\":5,\"height_cm\":4,\"length_cm\":3,\"box_count\":1}]", "type": "text" },
+              { "key": "invoices", "value": "[{\"inv_number\":\"POSTMAN-INV\",\"inv_amount\":1000,\"qr_code\":\"\",\"ewaybill\":\"\"}]", "type": "text" },
+              { "key": "callback", "value": "{\"uri\":\"{{documentCallbackUrl}}\",\"method\":\"POST\"}", "type": "text" },
+              { "key": "invoice_files_meta", "value": "[{\"invoices\":[\"POSTMAN-INV\"]}]", "type": "text", "disabled": true },
+              { "key": "invoice_file", "type": "file", "src": "", "disabled": true }
             ] }
           }
         },

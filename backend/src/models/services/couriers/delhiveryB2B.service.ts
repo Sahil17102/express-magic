@@ -352,6 +352,26 @@ const normalizeManifestList = (value: unknown, field: string) => {
   return parsed
 }
 
+const normalizeB2BUploads = (value: unknown, field: string) => {
+  const uploads = value ? (Array.isArray(value) ? value : [value]) : []
+  if (uploads.length > 10 || uploads.some((upload) => !isUpload(upload))) {
+    throw new HttpError(400, `${field} must contain at most 10 valid files`)
+  }
+  const allowedExtensions = new Set(['.png', '.jpg', '.jpeg', '.pdf', '.bmp'])
+  let totalBytes = 0
+  for (const upload of uploads as DelhiveryB2BUpload[]) {
+    totalBytes += upload.buffer.length
+    const extension = upload.originalname.toLowerCase().match(/\.[^.]+$/)?.[0] || ''
+    if (!allowedExtensions.has(extension)) {
+      throw new HttpError(400, `Unsupported ${field} format: ${upload.originalname}`)
+    }
+  }
+  if (totalBytes > 20 * 1024 * 1024) {
+    throw new HttpError(400, `${field} aggregate size must not exceed 20 MB`)
+  }
+  return uploads as DelhiveryB2BUpload[]
+}
+
 const normalizeManifestPayload = (payload: Record<string, unknown>) => {
   const pickupName = clean(payload.pickup_location_name)
   const pickupId = clean(payload.pickup_location_id)
@@ -498,26 +518,7 @@ const normalizeManifestPayload = (payload: Record<string, unknown>) => {
     data.billing_address = billing
   }
 
-  const uploads = payload.doc_file
-    ? Array.isArray(payload.doc_file)
-      ? payload.doc_file
-      : [payload.doc_file]
-    : []
-  if (uploads.length > 10 || uploads.some((upload) => !isUpload(upload))) {
-    throw new HttpError(400, 'doc_file must contain at most 10 valid files')
-  }
-  const allowedExtensions = new Set(['.png', '.jpg', '.jpeg', '.pdf', '.bmp'])
-  let totalBytes = 0
-  for (const upload of uploads as DelhiveryB2BUpload[]) {
-    totalBytes += upload.buffer.length
-    const extension = upload.originalname.toLowerCase().match(/\.[^.]+$/)?.[0] || ''
-    if (!allowedExtensions.has(extension)) {
-      throw new HttpError(400, `Unsupported doc_file format: ${upload.originalname}`)
-    }
-  }
-  if (totalBytes > 20 * 1024 * 1024) {
-    throw new HttpError(400, 'doc_file aggregate size must not exceed 20 MB')
-  }
+  const uploads = normalizeB2BUploads(payload.doc_file, 'doc_file')
   if (uploads.length > 0) {
     const documentData = normalizeManifestList(payload.doc_data, 'doc_data').map(
       (entry, index) => {
@@ -534,6 +535,135 @@ const normalizeManifestPayload = (payload: Record<string, unknown>) => {
     data.doc_data = documentData
   } else if (payload.doc_data !== undefined) {
     data.doc_data = normalizeManifestList(payload.doc_data, 'doc_data')
+  }
+
+  return data
+}
+
+const normalizeShipmentUpdatePayload = (payload: Record<string, unknown>) => {
+  const supportedFields = [
+    'payment_mode',
+    'cod_amount',
+    'consignee_name',
+    'consignee_address',
+    'consignee_pincode',
+    'consignee_phone',
+    'weight_g',
+    'dimensions',
+    'callback',
+    'cb',
+    'invoices',
+    'invoice_file',
+    'invoice_files_meta',
+  ]
+  const hasSupportedValue = supportedFields.some((field) => {
+    const value = payload[field]
+    if (value === undefined || value === null || value === '') return false
+    return !Array.isArray(value) || value.length > 0
+  })
+  if (!hasSupportedValue) {
+    throw new HttpError(400, 'At least one supported LR update field is required')
+  }
+
+  const data: Record<string, unknown> = { ...payload }
+  if (payload.payment_mode !== undefined) {
+    const paymentMode = clean(payload.payment_mode).toLowerCase()
+    if (!['cod', 'prepaid'].includes(paymentMode)) {
+      throw new HttpError(400, 'payment_mode must be either cod or prepaid')
+    }
+    if (paymentMode === 'prepaid') {
+      throw new HttpError(400, 'Delhivery B2B LR updates are not supported for prepaid shipments')
+    }
+    data.payment_mode = paymentMode
+    data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+  } else if (payload.cod_amount !== undefined) {
+    data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+  }
+
+  for (const field of [
+    'consignee_name',
+    'consignee_address',
+    'consignee_phone',
+  ]) {
+    if (payload[field] !== undefined) data[field] = ensureText(payload[field], field)
+  }
+  if (payload.consignee_pincode !== undefined) {
+    data.consignee_pincode = ensurePincode(payload.consignee_pincode, 'consignee_pincode')
+  }
+  if (payload.weight_g !== undefined) {
+    data.weight_g = ensureNumber(payload.weight_g, 'weight_g', 0.01)
+  }
+
+  if (payload.dimensions !== undefined) {
+    data.dimensions = normalizeManifestList(payload.dimensions, 'dimensions').map(
+      (dimension, index) => {
+        const entry = ensureObject(dimension, `dimensions[${index}]`)
+        const boxCount = ensureNumber(entry.box_count, `dimensions[${index}].box_count`, 1)
+        if (!Number.isInteger(boxCount)) {
+          throw new HttpError(400, `dimensions[${index}].box_count must be an integer`)
+        }
+        return {
+          ...entry,
+          width_cm: ensureNumber(entry.width_cm, `dimensions[${index}].width_cm`, 0.01),
+          height_cm: ensureNumber(entry.height_cm, `dimensions[${index}].height_cm`, 0.01),
+          length_cm: ensureNumber(entry.length_cm, `dimensions[${index}].length_cm`, 0.01),
+          box_count: boxCount,
+        }
+      },
+    )
+  }
+
+  const callbackValue = payload.cb ?? payload.callback
+  if (callbackValue !== undefined) {
+    const callback = normalizeManifestObject(callbackValue, 'callback')
+    ensureText(callback.uri, 'callback.uri')
+    ensureText(callback.method, 'callback.method')
+    data.cb = callback
+    delete data.callback
+  }
+
+  let invoices: Record<string, unknown>[] | undefined
+  if (payload.invoices !== undefined) {
+    invoices = normalizeManifestList(payload.invoices, 'invoices').map((invoice, index) => {
+      const entry = ensureObject(invoice, `invoices[${index}]`)
+      const qrCode = clean(entry.qr_code)
+      const normalized: Record<string, unknown> = { ...entry }
+      if (!qrCode) {
+        normalized.inv_number = ensureText(entry.inv_number, `invoices[${index}].inv_number`)
+        normalized.inv_amount = ensureNumber(entry.inv_amount, `invoices[${index}].inv_amount`)
+      } else {
+        normalized.qr_code = ensureText(entry.qr_code, `invoices[${index}].qr_code`)
+        if (entry.inv_amount !== undefined) {
+          normalized.inv_amount = ensureNumber(
+            entry.inv_amount,
+            `invoices[${index}].inv_amount`,
+          )
+        }
+      }
+      return normalized
+    })
+    data.invoices = invoices
+  }
+
+  const invoiceFiles = normalizeB2BUploads(payload.invoice_file, 'invoice_file')
+  if (invoiceFiles.length > 0) {
+    if (!invoices) throw new HttpError(400, 'invoices is required with invoice_file')
+    const metadata = normalizeManifestList(payload.invoice_files_meta, 'invoice_files_meta').map(
+      (entry, index) => {
+        const meta = ensureObject(entry, `invoice_files_meta[${index}]`)
+        if (!Array.isArray(meta.invoices) || meta.invoices.length === 0) {
+          throw new HttpError(400, `invoice_files_meta[${index}].invoices must be a non-empty array`)
+        }
+        return { ...meta }
+      },
+    )
+    if (metadata.length !== invoiceFiles.length) {
+      throw new HttpError(400, 'invoice_files_meta must contain one entry for each invoice_file')
+    }
+    data.invoice_file = invoiceFiles
+    data.invoice_files_meta = metadata
+  } else if (payload.invoice_files_meta !== undefined) {
+    throw new HttpError(400, 'invoice_file is required with invoice_files_meta')
   }
 
   return data
@@ -859,7 +989,7 @@ export class DelhiveryB2BService {
     return this.authorizedRequest({
       method: 'PUT',
       url: `/lrn/update/${encodeURIComponent(ensureRequired(lrn, 'lrn'))}`,
-      data: this.toMultipart(payload),
+      data: this.toMultipart(normalizeShipmentUpdatePayload(payload)),
     })
   }
 
