@@ -105,7 +105,10 @@ import {
   type XpressbeesConfig,
 } from './courierCredentials.service'
 import { DelhiveryService } from './couriers/delhivery.service'
-import { DelhiveryB2BService } from './couriers/delhiveryB2B.service'
+import {
+  DelhiveryB2BService,
+  mapDelhiveryB2BTrackingStatus,
+} from './couriers/delhiveryB2B.service'
 import { EkartService } from './couriers/ekart.service'
 import { ShadowfaxService } from './couriers/shadowfax.service'
 import { XpressbeesService } from './couriers/xpressbees.service'
@@ -15248,6 +15251,13 @@ const mapLiveTrackingStatusToInternal = (
         ? 'booked'
         : 'in_transit')
   if (!status) return mapped
+
+  if (provider === 'delhivery') {
+    const delhiveryB2BStatus = mapDelhiveryB2BTrackingStatus(rawStatus)
+    if (delhiveryB2BStatus) {
+      return preserveNonRegressiveTrackingStatus(current, delhiveryB2BStatus)
+    }
+  }
 
   if (
     isReverseEkart &&

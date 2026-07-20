@@ -27,8 +27,43 @@ const lastRequest = (method: string, url: string) => {
 
 const run = async () => {
   process.env.DATABASE_URL ||= 'postgresql://test:test@127.0.0.1:5432/test'
-  const { DelhiveryB2BService } = await import(
+  const { DelhiveryB2BService, mapDelhiveryB2BTrackingStatus } = await import(
     '../models/services/couriers/delhiveryB2B.service'
+  )
+
+  assert.deepEqual(
+    {
+      MANIFESTED: mapDelhiveryB2BTrackingStatus('MANIFESTED'),
+      PICKED_UP: mapDelhiveryB2BTrackingStatus('PICKED_UP'),
+      LEFT_ORIGIN: mapDelhiveryB2BTrackingStatus('LEFT_ORIGIN'),
+      REACH_DESTINATION: mapDelhiveryB2BTrackingStatus('REACH_DESTINATION'),
+      UNDEL_REATTEMPT: mapDelhiveryB2BTrackingStatus('UNDEL_REATTEMPT'),
+      PART_DEL: mapDelhiveryB2BTrackingStatus('PART_DEL'),
+      OFD: mapDelhiveryB2BTrackingStatus('OFD'),
+      DELIVERED: mapDelhiveryB2BTrackingStatus('DELIVERED'),
+      RETURNED_INTRANSIT: mapDelhiveryB2BTrackingStatus('RETURNED_INTRANSIT'),
+      RECEIVED_AT_RETURN_CENTER: mapDelhiveryB2BTrackingStatus('RECEIVED_AT_RETURN_CENTER'),
+      RETURN_OFD: mapDelhiveryB2BTrackingStatus('RETURN_OFD'),
+      RETURN_DELIVERED: mapDelhiveryB2BTrackingStatus('RETURN_DELIVERED'),
+      NOT_PICKED: mapDelhiveryB2BTrackingStatus('NOT_PICKED'),
+      LOST: mapDelhiveryB2BTrackingStatus('LOST'),
+    },
+    {
+      MANIFESTED: 'shipment_created',
+      PICKED_UP: 'pickup_initiated',
+      LEFT_ORIGIN: 'in_transit',
+      REACH_DESTINATION: 'in_transit',
+      UNDEL_REATTEMPT: 'ndr',
+      PART_DEL: 'ndr',
+      OFD: 'out_for_delivery',
+      DELIVERED: 'delivered',
+      RETURNED_INTRANSIT: 'rto_in_transit',
+      RECEIVED_AT_RETURN_CENTER: 'rto',
+      RETURN_OFD: 'rto_in_transit',
+      RETURN_DELIVERED: 'rto_delivered',
+      NOT_PICKED: 'pickup_initiated',
+      LOST: 'lost',
+    },
   )
 
   ;(axios as any).post = async (url: string, data: unknown, config?: CapturedRequest) => {
@@ -463,11 +498,20 @@ const run = async () => {
   assert.equal(typeof cancelShipment.headers?.['X-Request-Id'], 'string')
   assert.throws(() => service.cancelShipment('  '), /lrn is required/)
 
+  await service.trackShipment('220110457')
+  const masterTracking = lastRequest('GET', '/lrn/track')
+  assert.deepEqual(masterTracking.params, { lrnum: '220110457' })
+
   await service.trackShipment('220110457', true)
-  assert.deepEqual(lastRequest('GET', '/lrn/track').params, {
+  const allWaybillTracking = lastRequest('GET', '/lrn/track')
+  assert.deepEqual(allWaybillTracking.params, {
     lrnum: '220110457',
     all_wbns: true,
   })
+  assert.equal(allWaybillTracking.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(allWaybillTracking.headers?.Accept, 'application/json')
+  assert.equal(typeof allWaybillTracking.headers?.['X-Request-Id'], 'string')
+  assert.throws(() => service.trackShipment(''), /lrn is required/)
 
   await service.bookLastMileAppointment({ lrn: '220110457', date: '23/07/2026' })
   lastRequest('POST', '/v2/appointments/lm')

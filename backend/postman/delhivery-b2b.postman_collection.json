@@ -203,7 +203,11 @@
         },
         {
           "name": "Track Shipment",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/tracking?all_wbns=true" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/tracking?all_wbns=true",
+            "description": "Returns Delhivery's latest LR status only; historical scans are not supplied by this API. Set all_wbns=true to request child-waybill statuses or omit it for the master shipment. Express Magic maps all documented B2B statuses into local shipment, NDR, delivered, return, and lost states."
+          }
         },
         {
           "name": "Book Last-Mile Appointment (mutating)",

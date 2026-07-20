@@ -31,6 +31,31 @@ type InFlightLogin = {
   promise: Promise<LoginResult>
 }
 
+const DELHIVERY_B2B_TRACKING_STATUS_MAP: Record<string, string> = {
+  MANIFESTED: 'shipment_created',
+  PICKED_UP: 'pickup_initiated',
+  LEFT_ORIGIN: 'in_transit',
+  REACH_DESTINATION: 'in_transit',
+  UNDEL_REATTEMPT: 'ndr',
+  PART_DEL: 'ndr',
+  OFD: 'out_for_delivery',
+  DELIVERED: 'delivered',
+  RETURNED_INTRANSIT: 'rto_in_transit',
+  RECEIVED_AT_RETURN_CENTER: 'rto',
+  RETURN_OFD: 'rto_in_transit',
+  RETURN_DELIVERED: 'rto_delivered',
+  NOT_PICKED: 'pickup_initiated',
+  LOST: 'lost',
+}
+
+export const mapDelhiveryB2BTrackingStatus = (value: unknown) => {
+  const status = String(value ?? '')
+    .trim()
+    .toUpperCase()
+    .replace(/[\s-]+/g, '_')
+  return DELHIVERY_B2B_TRACKING_STATUS_MAP[status] || null
+}
+
 let cachedToken: CachedToken | null = null
 let loginInFlight: InFlightLogin | null = null
 
@@ -1012,7 +1037,10 @@ export class DelhiveryB2BService {
     return this.authorizedRequest({
       method: 'GET',
       url: '/lrn/track',
-      params: { lrnum: ensureRequired(lrn, 'lrn'), all_wbns: allWaybills },
+      params: {
+        lrnum: ensureRequired(lrn, 'lrn'),
+        ...(allWaybills ? { all_wbns: true } : {}),
+      },
     })
   }
 
