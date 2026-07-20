@@ -99,8 +99,47 @@ const run = async () => {
     /destination_pin.*6-digit/,
   )
 
-  await service.estimateFreight({ source_pin: '400093', consignee_pin: '122001' })
-  lastRequest('POST', '/freight/estimate')
+  await service.estimateFreight({
+    dimensions: [{ length_cm: 11, width_cm: 1.1, height_cm: 11, box_count: 1 }],
+    weight_g: 100000,
+    cheque_payment: false,
+    source_pin: '400069',
+    consignee_pin: '400069',
+    payment_mode: 'prepaid',
+    inv_amount: 123,
+    rov_insurance: true,
+  })
+  const freightEstimate = lastRequest('POST', '/freight/estimate')
+  assert.deepEqual(freightEstimate.data, {
+    dimensions: [{ length_cm: 11, width_cm: 1.1, height_cm: 11, box_count: 1 }],
+    weight_g: 100000,
+    cheque_payment: false,
+    source_pin: '400069',
+    consignee_pin: '400069',
+    payment_mode: 'prepaid',
+    inv_amount: 123,
+    rov_insurance: true,
+    freight_mode: 'fop',
+  })
+  assert.equal(freightEstimate.headers?.['Content-Type'], 'application/json')
+
+  await assert.rejects(
+    () =>
+      service.estimateFreight({
+        dimensions: [{ length_cm: 11, width_cm: 1.1, height_cm: 11, box_count: 1 }],
+        weight_g: 100000,
+        source_pin: '400069',
+        consignee_pin: '400069',
+        payment_mode: 'cod',
+        inv_amount: 123,
+        freight_mode: 'fod',
+      }),
+    /cod_amount/,
+  )
+  await assert.rejects(
+    () => service.estimateFreight({ payment_mode: 'prepaid' }),
+    /dimensions/,
+  )
 
   await service.getFreightCharges(['220029522', '220029147'])
   lastRequest('GET', '/lrn/freight-breakup/lrns=220029522%2C220029147')

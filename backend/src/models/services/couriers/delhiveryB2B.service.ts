@@ -101,6 +101,53 @@ const optionalWeightGrams = (value: unknown) => {
   return weight
 }
 
+const ensureNumber = (value: unknown, field: string, minimum = 0) => {
+  const number = Number(value)
+  if (
+    value === undefined ||
+    value === null ||
+    value === '' ||
+    typeof value === 'boolean' ||
+    typeof value === 'object' ||
+    !Number.isFinite(number)
+  ) {
+    throw new HttpError(400, `${field} must be a number`)
+  }
+  if (number < minimum) {
+    throw new HttpError(400, `${field} must be at least ${minimum}`)
+  }
+  return number
+}
+
+const ensureBoolean = (value: unknown, field: string) => {
+  if (typeof value !== 'boolean') throw new HttpError(400, `${field} must be a boolean`)
+  return value
+}
+
+const normalizeFreightDimensions = (value: unknown) => {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new HttpError(400, 'dimensions must be a non-empty array')
+  }
+
+  return value.map((dimension, index) => {
+    if (!dimension || typeof dimension !== 'object' || Array.isArray(dimension)) {
+      throw new HttpError(400, `dimensions[${index}] must be an object`)
+    }
+    const entry = dimension as Record<string, unknown>
+    const boxCount = ensureNumber(entry.box_count, `dimensions[${index}].box_count`, 1)
+    if (!Number.isInteger(boxCount)) {
+      throw new HttpError(400, `dimensions[${index}].box_count must be an integer`)
+    }
+    return {
+      ...entry,
+      length_cm: ensureNumber(entry.length_cm, `dimensions[${index}].length_cm`, 0.01),
+      width_cm: ensureNumber(entry.width_cm, `dimensions[${index}].width_cm`, 0.01),
+      height_cm: ensureNumber(entry.height_cm, `dimensions[${index}].height_cm`, 0.01),
+      box_count: boxCount,
+    }
+  })
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -323,8 +370,42 @@ export class DelhiveryB2BService {
     })
   }
 
-  estimateFreight(payload: Record<string, unknown>) {
-    return this.authorizedRequest({ method: 'POST', url: '/freight/estimate', data: payload })
+  async estimateFreight(payload: Record<string, unknown>) {
+    const paymentMode = clean(payload.payment_mode).toLowerCase()
+    if (!['cod', 'prepaid'].includes(paymentMode)) {
+      throw new HttpError(400, 'payment_mode must be either cod or prepaid')
+    }
+
+    const requestedFreightMode = clean(payload.freight_mode).toLowerCase()
+    if (requestedFreightMode && !['fop', 'fod'].includes(requestedFreightMode)) {
+      throw new HttpError(400, 'freight_mode must be either fop or fod')
+    }
+    const freightMode = requestedFreightMode || (await this.credentials()).freightMode
+
+    const data: Record<string, unknown> = {
+      ...payload,
+      dimensions: normalizeFreightDimensions(payload.dimensions),
+      weight_g: ensureNumber(payload.weight_g, 'weight_g', 0.01),
+      source_pin: ensurePincode(payload.source_pin, 'source_pin'),
+      consignee_pin: ensurePincode(payload.consignee_pin, 'consignee_pin'),
+      payment_mode: paymentMode,
+      inv_amount: ensureNumber(payload.inv_amount, 'inv_amount'),
+      freight_mode: freightMode,
+    }
+
+    if (payload.cheque_payment !== undefined) {
+      data.cheque_payment = ensureBoolean(payload.cheque_payment, 'cheque_payment')
+    }
+    if (payload.rov_insurance !== undefined) {
+      data.rov_insurance = ensureBoolean(payload.rov_insurance, 'rov_insurance')
+    }
+    if (paymentMode === 'cod') {
+      data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+    } else if (payload.cod_amount !== undefined) {
+      data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+    }
+
+    return this.authorizedRequest({ method: 'POST', url: '/freight/estimate', data })
   }
 
   getFreightCharges(lrns: string[] | string) {

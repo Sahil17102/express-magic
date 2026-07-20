@@ -76,6 +76,7 @@
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/freight/estimate",
+            "description": "Estimates Delhivery B2B freight using centimetre dimensions and shipment weight in grams. Required values are validated before forwarding; cod_amount is required for COD, and the configured B2BR fop/fod mode is used when freight_mode is omitted.",
             "body": { "mode": "raw", "raw": "{\n  \"dimensions\": [{\"length_cm\": 10, \"width_cm\": 10, \"height_cm\": 10, \"box_count\": 1}],\n  \"weight_g\": {{weightGrams}},\n  \"cheque_payment\": false,\n  \"source_pin\": \"{{originPincode}}\",\n  \"consignee_pin\": \"{{destinationPincode}}\",\n  \"payment_mode\": \"prepaid\",\n  \"inv_amount\": 1000,\n  \"freight_mode\": \"fop\",\n  \"rov_insurance\": false\n}" }
           }
         },
