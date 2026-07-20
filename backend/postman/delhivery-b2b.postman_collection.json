@@ -195,7 +195,11 @@
         },
         {
           "name": "Shipment Update Status",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/update/{{updateJobId}}" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/update/{{updateJobId}}",
+            "description": "Fetches the asynchronous Edit LR result using the job/request ID captured from Update Shipment. Delhivery may need processing time before returning a final status; retry this read-only request after a short gap when the job is still pending. Express Magic forwards job_id with the cached UMS bearer token."
+          }
         },
         {
           "name": "Track Shipment",

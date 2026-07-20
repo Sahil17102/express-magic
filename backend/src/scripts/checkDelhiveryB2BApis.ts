@@ -447,8 +447,14 @@ const run = async () => {
     /At least one supported LR update field/,
   )
 
-  await service.getShipmentUpdateStatus('update-job')
-  assert.equal(lastRequest('GET', '/lrn/update/status').params?.job_id, 'update-job')
+  const shipmentUpdateJobId = 'dd036047-560c-4ac8-9f4f-ec554c2431cb'
+  await service.getShipmentUpdateStatus(shipmentUpdateJobId)
+  const shipmentUpdateStatus = lastRequest('GET', '/lrn/update/status')
+  assert.deepEqual(shipmentUpdateStatus.params, { job_id: shipmentUpdateJobId })
+  assert.equal(shipmentUpdateStatus.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(shipmentUpdateStatus.headers?.Accept, 'application/json')
+  assert.equal(typeof shipmentUpdateStatus.headers?.['X-Request-Id'], 'string')
+  assert.throws(() => service.getShipmentUpdateStatus('  '), /job_id is required/)
 
   await service.cancelShipment('220110457')
   lastRequest('DELETE', '/lrn/cancel/220110457')
