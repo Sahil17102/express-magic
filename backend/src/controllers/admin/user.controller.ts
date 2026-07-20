@@ -9,6 +9,7 @@ import {
   updateKycStatus,
 } from '../../models/services/kyc.service'
 import { updateUserBusinessTypeByAdmin } from '../../models/services/userProfile.service'
+import { completeMerchantReadinessByAdmin } from '../../models/services/adminMerchantReadiness.service'
 import { deleteEmployeeService, getEmployeesByAdminService, toggleEmployeeStatusService, createEmployeeService } from '../../models/services/employee.service'
 import { deleteUser, findUserById, getAllUsersWithRoleUser, resetUserPassword, updateUserApprovalStatus } from '../../models/services/userService'
 import { sendKycStatusEmail } from '../../utils/emailSender'
@@ -261,6 +262,31 @@ export async function approveUser(req: any, res: Response) {
   } catch (error) {
     console.error('Error approving user:', error)
     return res.status(500).json({ success: false, message: 'Server error approving user' })
+  }
+}
+
+export async function completeMerchantReadiness(req: any, res: Response) {
+  try {
+    const result = await completeMerchantReadinessByAdmin(
+      req.params.id,
+      req.body ?? {},
+      req.user?.sub,
+    )
+
+    return res.status(200).json({
+      success: true,
+      message: 'Merchant readiness completed successfully',
+      data: result,
+    })
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return res.status(error.statusCode).json({ success: false, message: error.message })
+    }
+
+    console.error('Error completing merchant readiness:', error)
+    return res
+      .status(500)
+      .json({ success: false, message: 'Server error completing merchant readiness' })
   }
 }
 
