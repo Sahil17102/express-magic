@@ -601,8 +601,17 @@ const run = async () => {
   assert.equal(pickupCancellation.data, undefined)
   assert.throws(() => service.cancelPickupRequest('   '), /pickup_id is required/)
 
-  await service.getShippingLabel('220110457', 'a4')
-  lastRequest('GET', '/label/get_urls/a4/220110457')
+  for (const size of ['sm', 'md', 'a4', 'std']) {
+    await service.getShippingLabel('220041149', size)
+    const shippingLabel = lastRequest('GET', `/label/get_urls/${size}/220041149`)
+    assert.equal(shippingLabel.headers?.Accept, 'application/json')
+    assert.equal(shippingLabel.data, undefined)
+  }
+  await service.getShippingLabel('220041149', 'A4')
+  lastRequest('GET', '/label/get_urls/a4/220041149')
+  assert.throws(() => service.getShippingLabel('220041149', ''), /size must be one of/)
+  assert.throws(() => service.getShippingLabel('220041149', 'large'), /size must be one of/)
+  assert.throws(() => service.getShippingLabel('   ', 'std'), /lrn is required/)
 
   await service.getLrCopy('220110457', ['SHIPPER COPY', 'LM POD'])
   assert.equal(

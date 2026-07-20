@@ -282,7 +282,15 @@
       "item": [
         {
           "name": "Shipping Label",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/labels/a4" }
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json();",
+            "pm.test('label payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Generates one shipping-label link per waybill for the LRN. labelSize must be sm (4x2 in), md (4x2.5 in), a4 (11.7x8.3 in), or std (3x2 in). Delhivery's returned links contain Base64 image streams that must be decoded to PNG before printing.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/labels/{{labelSize}}"
+          }
         },
         {
           "name": "LR Copy",

@@ -1198,7 +1198,7 @@ export class DelhiveryB2BService {
     })
   }
 
-  getShippingLabel(lrn: string, size = 'std') {
+  getShippingLabel(lrn: string, size: string) {
     const normalizedSize = clean(size).toLowerCase()
     if (!['sm', 'md', 'a4', 'std'].includes(normalizedSize)) {
       throw new HttpError(400, 'size must be one of sm, md, a4, or std')
