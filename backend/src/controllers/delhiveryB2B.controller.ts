@@ -19,9 +19,6 @@ const sendResult = async (res: Response, action: Promise<unknown>) => {
   }
 }
 
-const documentType = (value: unknown): 'shipping_label' | 'lr_copy' =>
-  String(value || '').toLowerCase() === 'lr_copy' ? 'lr_copy' : 'shipping_label'
-
 const multipartPayload = (req: Request) => {
   const payload: Record<string, unknown> = { ...(req.body || {}) }
   const files = (req.files || {}) as Record<string, Express.Multer.File[]>
@@ -128,12 +125,12 @@ export const lrCopyController = (req: Request, res: Response) =>
   )
 
 export const generateDocumentController = (req: Request, res: Response) =>
-  sendResult(res, service.generateDocument(documentType(req.params.docType), req.body || {}))
+  sendResult(res, service.generateDocument(req.params.docType, req.body || {}))
 
 export const generateDocumentStatusController = (req: Request, res: Response) =>
   sendResult(
     res,
-    service.getGenerateDocumentStatus(documentType(req.params.docType), req.params.jobId),
+    service.getGenerateDocumentStatus(req.params.docType, req.params.jobId),
   )
 
 export const downloadDocumentController = (req: Request, res: Response) =>

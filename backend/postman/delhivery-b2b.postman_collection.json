@@ -307,18 +307,25 @@
         {
           "name": "Generate Shipping Labels (async)",
           "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('documentJobId', id);"
+            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('documentJobId', id);",
+            "pm.test('document job ID is returned', function () { pm.expect(id).to.be.ok; });"
           ] } }],
           "request": {
+            "description": "Asynchronously generates PDF shipping labels for 1-25 LRNs. size is required and must be sm, md, a4, or std. Delhivery POSTs the generated document link to the required HTTP(S) callback URL.",
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/documents/shipping_label",
-            "body": { "mode": "raw", "raw": "{\n  \"lrns\": [\"{{lrn}}\"],\n  \"size\": \"a4\",\n  \"callback\": {\"uri\": \"{{documentCallbackUrl}}\", \"method\": \"POST\"}\n}" }
+            "body": { "mode": "raw", "raw": "{\n  \"lrns\": [\"{{lrn}}\"],\n  \"size\": \"{{labelSize}}\",\n  \"callback\": {\"uri\": \"{{documentCallbackUrl}}\", \"method\": \"POST\"}\n}" }
           }
         },
         {
           "name": "Generate LR Copies (async)",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('documentJobId', id);",
+            "pm.test('document job ID is returned', function () { pm.expect(id).to.be.ok; });"
+          ] } }],
           "request": {
+            "description": "Asynchronously generates PDF LR copies for 1-25 LRNs. lr_copy_type is optional and defaults to all five copy variants. Delhivery POSTs the generated document link to the required HTTP(S) callback URL.",
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/documents/lr_copy",

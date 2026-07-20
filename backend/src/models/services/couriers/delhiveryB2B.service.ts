@@ -806,6 +806,80 @@ const normalizeLrCopyTypes = (value?: string | string[]) => {
   return [...new Set(normalizedTypes)].join(',')
 }
 
+const normalizeDocumentType = (value: unknown): 'shipping_label' | 'lr_copy' => {
+  const docType = clean(value).toLowerCase()
+  if (docType !== 'shipping_label' && docType !== 'lr_copy') {
+    throw new HttpError(400, 'doc_type must be shipping_label or lr_copy')
+  }
+  return docType
+}
+
+const normalizeDocumentCallback = (value: unknown) => {
+  const callback = ensureObject(value, 'callback')
+  const uri = ensureText(callback.uri, 'callback.uri').trim()
+  let parsed: URL
+  try {
+    parsed = new URL(uri)
+  } catch {
+    throw new HttpError(400, 'callback.uri must be a valid HTTP(S) URL')
+  }
+  if (
+    !['http:', 'https:'].includes(parsed.protocol) ||
+    !parsed.hostname.includes('.') ||
+    parsed.username ||
+    parsed.password
+  ) {
+    throw new HttpError(400, 'callback.uri must be a valid HTTP(S) URL with a qualified host')
+  }
+
+  const method = ensureText(callback.method, 'callback.method').trim().toUpperCase()
+  if (method !== 'POST') throw new HttpError(400, 'callback.method must be POST')
+
+  const normalized: Record<string, unknown> = { ...callback, uri, method }
+  if (callback.authorization !== undefined) {
+    normalized.authorization = ensureText(callback.authorization, 'callback.authorization')
+  }
+  return normalized
+}
+
+const normalizeGenerateDocumentPayload = (
+  docTypeValue: unknown,
+  payload: Record<string, unknown>,
+) => {
+  const docType = normalizeDocumentType(docTypeValue)
+  if (!Array.isArray(payload.lrns)) throw new HttpError(400, 'lrns must be an array')
+  if (payload.lrns.length === 0 || payload.lrns.length > 25) {
+    throw new HttpError(400, 'lrns must contain between 1 and 25 values')
+  }
+  const lrns = payload.lrns.map((lrn, index) => ensureText(lrn, `lrns[${index}]`).trim())
+  const data: Record<string, unknown> = {
+    ...payload,
+    lrns,
+    callback: normalizeDocumentCallback(payload.callback),
+  }
+
+  if (docType === 'shipping_label') {
+    const size = ensureText(payload.size, 'size').trim().toLowerCase()
+    if (!['sm', 'md', 'a4', 'std'].includes(size)) {
+      throw new HttpError(400, 'size must be one of sm, md, a4, or std')
+    }
+    data.size = size
+    delete data.lr_copy_type
+  } else {
+    delete data.size
+    if (payload.lr_copy_type !== undefined) {
+      if (!Array.isArray(payload.lr_copy_type)) {
+        throw new HttpError(400, 'lr_copy_type must be an array')
+      }
+      const copyTypes = normalizeLrCopyTypes(payload.lr_copy_type)
+      if (copyTypes) data.lr_copy_type = copyTypes.split(',')
+      else delete data.lr_copy_type
+    }
+  }
+
+  return { docType, data }
+}
+
 const normalizeLastMileAppointmentPayload = (payload: Record<string, unknown>) => {
   const appointmentDate = parseIndianAppointmentDate(payload.date, 'date')
   if (appointmentDate.timestamp < indiaTodayTimestamp()) {
@@ -1241,18 +1315,20 @@ export class DelhiveryB2BService {
     })
   }
 
-  generateDocument(docType: 'shipping_label' | 'lr_copy', payload: Record<string, unknown>) {
+  generateDocument(docType: string, payload: Record<string, unknown>) {
+    const normalized = normalizeGenerateDocumentPayload(docType, payload)
     return this.authorizedRequest({
       method: 'POST',
-      url: `/generate/${docType}`,
-      data: payload,
+      url: `/generate/${normalized.docType}`,
+      data: normalized.data,
     })
   }
 
-  getGenerateDocumentStatus(docType: 'shipping_label' | 'lr_copy', jobId: string) {
+  getGenerateDocumentStatus(docType: string, jobId: string) {
+    const normalizedDocType = normalizeDocumentType(docType)
     return this.authorizedRequest({
       method: 'GET',
-      url: `/generate/${docType}/status/${encodeURIComponent(ensureRequired(jobId, 'job_id'))}`,
+      url: `/generate/${normalizedDocType}/status/${encodeURIComponent(ensureRequired(jobId, 'job_id'))}`,
     })
   }
 

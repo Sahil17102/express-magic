@@ -640,11 +640,95 @@ const run = async () => {
   )
   assert.throws(() => service.getLrCopy('   ', 'SHIPPER COPY'), /lrn is required/)
 
-  await service.generateDocument('shipping_label', { lrns: ['220110457'], size: 'a4' })
-  lastRequest('POST', '/generate/shipping_label')
+  const documentCallback = {
+    uri: 'https://btob-api-dev.delhivery.com/v3/document/generate_label_pdf',
+    method: 'post',
+    authorization: 'Bearer Token',
+  }
+  await service.generateDocument('shipping_label', {
+    lrns: ['220040156', '220040143'],
+    size: 'A4',
+    callback: documentCallback,
+  })
+  const generatedLabels = lastRequest('POST', '/generate/shipping_label')
+  assert.deepEqual(generatedLabels.data, {
+    lrns: ['220040156', '220040143'],
+    size: 'a4',
+    callback: { ...documentCallback, method: 'POST' },
+  })
+  assert.equal(generatedLabels.headers?.['Content-Type'], 'application/json')
 
-  await service.generateDocument('lr_copy', { lrns: ['220110457'] })
-  lastRequest('POST', '/generate/lr_copy')
+  await service.generateDocument('lr_copy', {
+    lrns: ['220040156'],
+    size: 'a4',
+    lr_copy_type: ['shipper copy', 'LM POD', 'SHIPPER COPY'],
+    callback: documentCallback,
+  })
+  const generatedLrCopies = lastRequest('POST', '/generate/lr_copy')
+  assert.deepEqual(generatedLrCopies.data, {
+    lrns: ['220040156'],
+    lr_copy_type: ['SHIPPER COPY', 'LM POD'],
+    callback: { ...documentCallback, method: 'POST' },
+  })
+
+  const validDocumentPayload = {
+    lrns: ['220040156'],
+    size: 'std',
+    callback: documentCallback,
+  }
+  assert.throws(
+    () => service.generateDocument('invoice', validDocumentPayload),
+    /doc_type must be shipping_label or lr_copy/,
+  )
+  assert.throws(
+    () => service.generateDocument('shipping_label', { ...validDocumentPayload, lrns: [] }),
+    /between 1 and 25/,
+  )
+  assert.throws(
+    () =>
+      service.generateDocument('shipping_label', {
+        ...validDocumentPayload,
+        lrns: Array.from({ length: 26 }, (_, index) => String(index + 1)),
+      }),
+    /between 1 and 25/,
+  )
+  assert.throws(
+    () => service.generateDocument('shipping_label', { ...validDocumentPayload, size: '' }),
+    /size must be a non-empty string/,
+  )
+  assert.throws(
+    () => service.generateDocument('shipping_label', { ...validDocumentPayload, size: 'large' }),
+    /size must be one of/,
+  )
+  assert.throws(
+    () => service.generateDocument('shipping_label', { ...validDocumentPayload, callback: undefined }),
+    /callback must be an object/,
+  )
+  assert.throws(
+    () =>
+      service.generateDocument('shipping_label', {
+        ...validDocumentPayload,
+        callback: { ...documentCallback, uri: 'ftp://example.com/callback' },
+      }),
+    /valid HTTP\(S\) URL/,
+  )
+  assert.throws(
+    () =>
+      service.generateDocument('shipping_label', {
+        ...validDocumentPayload,
+        callback: { ...documentCallback, method: 'GET' },
+      }),
+    /callback.method must be POST/,
+  )
+  assert.throws(
+    () =>
+      service.generateDocument('lr_copy', {
+        lrns: ['220040156'],
+        lr_copy_type: ['DRIVER COPY'],
+        callback: documentCallback,
+      }),
+    /unsupported value: DRIVER COPY/,
+  )
 
   await service.getGenerateDocumentStatus('shipping_label', 'document-job')
   lastRequest('GET', '/generate/shipping_label/status/document-job')
