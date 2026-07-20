@@ -595,8 +595,11 @@ const run = async () => {
     /must be at least 1/,
   )
 
-  await service.cancelPickupRequest('pur-id-1')
-  lastRequest('DELETE', '/pickup_requests/pur-id-1')
+  await service.cancelPickupRequest('pur_id_1')
+  const pickupCancellation = lastRequest('DELETE', '/pickup_requests/pur_id_1')
+  assert.equal(pickupCancellation.headers?.Accept, 'application/json')
+  assert.equal(pickupCancellation.data, undefined)
+  assert.throws(() => service.cancelPickupRequest('   '), /pickup_id is required/)
 
   await service.getShippingLabel('220110457', 'a4')
   lastRequest('GET', '/label/get_urls/a4/220110457')

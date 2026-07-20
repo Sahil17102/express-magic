@@ -265,7 +265,15 @@
         },
         {
           "name": "Cancel Pickup (destructive)",
-          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/delhivery/b2b/pickups/{{pickupId}}" }
+          "event": [{ "listen": "prerequest", "script": { "type": "text/javascript", "exec": [
+            "var pickupId = String(pm.environment.get('pickupId') || '').trim();",
+            "if (!pickupId || pickupId === 'replace-with-pickup-id') { throw new Error('Set pickupId to a real Delhivery pickup request ID before cancellation.'); }"
+          ] } }],
+          "request": {
+            "description": "Cancels the Delhivery pickup request identified by pickupId. This is destructive; the pre-request script blocks the default placeholder value. Run Create Pickup first or set pickupId to an existing pickup request ID.",
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/delhivery/b2b/pickups/{{pickupId}}"
+          }
         }
       ]
     },
