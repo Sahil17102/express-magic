@@ -613,11 +613,32 @@ const run = async () => {
   assert.throws(() => service.getShippingLabel('220041149', 'large'), /size must be one of/)
   assert.throws(() => service.getShippingLabel('   ', 'std'), /lrn is required/)
 
-  await service.getLrCopy('220110457', ['SHIPPER COPY', 'LM POD'])
+  const lrCopyTypes = [
+    'SHIPPER COPY',
+    'ORIGIN ACCOUNTS COPY',
+    'REGULATORY COPY',
+    'LM POD',
+    'RECIPIENT COPY',
+  ]
+  await service.getLrCopy('220110457', lrCopyTypes)
+  const allLrCopies = lastRequest('GET', '/lr_copy/print/220110457')
+  assert.equal(allLrCopies.params?.lr_copy_type, lrCopyTypes.join(','))
+  assert.equal(allLrCopies.headers?.Accept, 'application/json')
+  assert.equal(allLrCopies.headers?.['Content-Type'], 'application/json')
+
+  await service.getLrCopy('220110457')
+  assert.equal(lastRequest('GET', '/lr_copy/print/220110457').params, undefined)
+
+  await service.getLrCopy('220110457', 'shipper copy, lm pod,SHIPPER COPY')
   assert.equal(
     lastRequest('GET', '/lr_copy/print/220110457').params?.lr_copy_type,
     'SHIPPER COPY,LM POD',
   )
+  assert.throws(
+    () => service.getLrCopy('220110457', 'DRIVER COPY'),
+    /unsupported value: DRIVER COPY/,
+  )
+  assert.throws(() => service.getLrCopy('   ', 'SHIPPER COPY'), /lrn is required/)
 
   await service.generateDocument('shipping_label', { lrns: ['220110457'], size: 'a4' })
   lastRequest('POST', '/generate/shipping_label')

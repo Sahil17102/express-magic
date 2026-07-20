@@ -294,7 +294,15 @@
         },
         {
           "name": "LR Copy",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/lr-copy?lr_copy_type=SHIPPER%20COPY,LM%20POD" }
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json();",
+            "pm.test('LR copy PDF payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Generates a PDF LR copy for one LRN. lrCopyTypes is a comma-separated selection from SHIPPER COPY, ORIGIN ACCOUNTS COPY, REGULATORY COPY, LM POD, and RECIPIENT COPY. Remove the query parameter to request all copy types.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/lr-copy?lr_copy_type={{lrCopyTypes}}"
+          }
         },
         {
           "name": "Generate Shipping Labels (async)",

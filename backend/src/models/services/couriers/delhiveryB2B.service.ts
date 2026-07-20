@@ -783,6 +783,29 @@ const normalizePickupRequestPayload = (payload: Record<string, unknown>) => {
   }
 }
 
+const LR_COPY_TYPES = new Set([
+  'SHIPPER COPY',
+  'ORIGIN ACCOUNTS COPY',
+  'REGULATORY COPY',
+  'LM POD',
+  'RECIPIENT COPY',
+])
+
+const normalizeLrCopyTypes = (value?: string | string[]) => {
+  if (value === undefined || value === null || value === '') return undefined
+  if (Array.isArray(value) && value.length === 0) return undefined
+
+  const rawTypes = Array.isArray(value) ? value : value.split(',')
+  const normalizedTypes = rawTypes.map((entry) =>
+    ensureText(entry, 'lr_copy_type').trim().toUpperCase(),
+  )
+  const invalidType = normalizedTypes.find((entry) => !LR_COPY_TYPES.has(entry))
+  if (invalidType) {
+    throw new HttpError(400, `lr_copy_type contains unsupported value: ${invalidType}`)
+  }
+  return [...new Set(normalizedTypes)].join(',')
+}
+
 const normalizeLastMileAppointmentPayload = (payload: Record<string, unknown>) => {
   const appointmentDate = parseIndianAppointmentDate(payload.date, 'date')
   if (appointmentDate.timestamp < indiaTodayTimestamp()) {
@@ -1210,12 +1233,11 @@ export class DelhiveryB2BService {
   }
 
   getLrCopy(lrn: string, lrCopyType?: string | string[]) {
+    const normalizedCopyTypes = normalizeLrCopyTypes(lrCopyType)
     return this.authorizedRequest({
       method: 'GET',
       url: `/lr_copy/print/${encodeURIComponent(ensureRequired(lrn, 'lrn'))}`,
-      params: lrCopyType
-        ? { lr_copy_type: Array.isArray(lrCopyType) ? lrCopyType.join(',') : lrCopyType }
-        : undefined,
+      params: normalizedCopyTypes ? { lr_copy_type: normalizedCopyTypes } : undefined,
     })
   }
 
