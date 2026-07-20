@@ -158,6 +158,9 @@ const run = async () => {
 
   await service.logout()
   assert.equal(requests.at(-1)?.url, 'https://ltl-clients-api-dev.delhivery.com/ums/logout')
+  assert.equal(requests.at(-1)?.method, 'GET')
+  assert.equal(requests.at(-1)?.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(requests.at(-1)?.headers?.['Content-Type'], 'application/json')
 
   assert.equal(
     requests.filter((request) => request.url?.endsWith('/ums/login')).length,

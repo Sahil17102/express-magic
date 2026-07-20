@@ -178,7 +178,10 @@ export class DelhiveryB2BService {
     try {
       const response = await axios.get(`${trimBaseUrl(credentials.apiBase)}/ums/logout`, {
         timeout: timeoutMs(),
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
       cachedToken = null
       return response.data

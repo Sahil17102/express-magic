@@ -44,10 +44,6 @@
         {
           "name": "Login / Validate Saved Credentials",
           "request": { "method": "POST", "url": "{{baseUrl}}/api/delhivery/b2b/auth/login" }
-        },
-        {
-          "name": "Logout (run last)",
-          "request": { "method": "POST", "url": "{{baseUrl}}/api/delhivery/b2b/auth/logout" }
         }
       ]
     },
@@ -240,6 +236,19 @@
         {
           "name": "Download POD Document",
           "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/documents?lrn={{lrn}}&doc_type=LM_POD&auto_download=false&version=latest" }
+        }
+      ]
+    },
+    {
+      "name": "Session Cleanup",
+      "item": [
+        {
+          "name": "Logout (optional)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/delhivery/b2b/auth/logout",
+            "description": "Invalidates the cached Delhivery JWT. This API is optional and should run after the other B2B requests."
+          }
         }
       ]
     }
