@@ -20,7 +20,19 @@ type CachedToken = {
   expiresAt: number
 }
 
+type LoginResult = {
+  token: string
+  expiresAt: number
+  cached: boolean
+}
+
+type InFlightLogin = {
+  credentialKey: string
+  promise: Promise<LoginResult>
+}
+
 let cachedToken: CachedToken | null = null
+let loginInFlight: InFlightLogin | null = null
 
 const clean = (value: unknown) => String(value ?? '').trim()
 const timeoutMs = () => {
@@ -91,6 +103,7 @@ export class DelhiveryB2BService {
 
   static clearTokenCache() {
     cachedToken = null
+    loginInFlight = null
   }
 
   async getOperationalDefaults() {
@@ -142,7 +155,7 @@ export class DelhiveryB2BService {
     }
   }
 
-  async login(force = false) {
+  async login(force = false): Promise<LoginResult> {
     const credentials = await this.credentials()
     const username = ensureRequired(credentials.username, 'username')
     const password = ensureRequired(credentials.password, 'password')
@@ -156,19 +169,33 @@ export class DelhiveryB2BService {
       return { token: cachedToken.token, expiresAt: cachedToken.expiresAt, cached: true }
     }
 
+    if (loginInFlight?.credentialKey === credentialKey) {
+      return loginInFlight.promise
+    }
+
+    const promise: Promise<LoginResult> = (async () => {
+      try {
+        const response = await axios.post(
+          `${trimBaseUrl(credentials.apiBase)}/ums/login`,
+          { username, password },
+          { timeout: timeoutMs(), headers: { 'Content-Type': 'application/json' } },
+        )
+        const token = tokenFromResponse(response.data)
+        if (!token) throw new HttpError(502, 'Delhivery B2B login response did not contain a JWT')
+        const expiresAt = parseJwtExpiry(token)
+        cachedToken = { credentialKey, token, expiresAt }
+        return { token, expiresAt, cached: false }
+      } catch (error) {
+        if (error instanceof HttpError) throw error
+        this.providerError(error, 'Delhivery B2B login failed')
+      }
+    })()
+
+    loginInFlight = { credentialKey, promise }
     try {
-      const response = await axios.post(
-        `${trimBaseUrl(credentials.apiBase)}/ums/login`,
-        { username, password },
-        { timeout: timeoutMs(), headers: { 'Content-Type': 'application/json' } },
-      )
-      const token = tokenFromResponse(response.data)
-      if (!token) throw new HttpError(502, 'Delhivery B2B login response did not contain a JWT')
-      cachedToken = { credentialKey, token, expiresAt: parseJwtExpiry(token) }
-      return { token, expiresAt: cachedToken.expiresAt, cached: false }
-    } catch (error) {
-      if (error instanceof HttpError) throw error
-      this.providerError(error, 'Delhivery B2B login failed')
+      return await promise
+    } finally {
+      if (loginInFlight?.promise === promise) loginInFlight = null
     }
   }
 

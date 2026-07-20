@@ -59,8 +59,19 @@ const run = async () => {
   await service.resetPassword('test-account')
   assert.equal(requests.at(-1)?.url, 'https://ltl-clients-api-dev.delhivery.com/forgot-password')
 
-  await service.login(true)
-  assert.equal(requests.at(-1)?.url, 'https://ltl-clients-api-dev.delhivery.com/ums/login')
+  const loginStart = requests.length
+  const loginResults = await Promise.all([service.login(), service.login(), service.login()])
+  const loginRequests = requests
+    .slice(loginStart)
+    .filter((request) => request.url?.endsWith('/ums/login'))
+  assert.equal(loginRequests.length, 1, 'Concurrent API calls must share one login request')
+  assert.equal(loginRequests[0].url, 'https://ltl-clients-api-dev.delhivery.com/ums/login')
+  assert.deepEqual(loginRequests[0].data, {
+    username: 'test-account',
+    password: 'test-password',
+  })
+  assert.equal(loginRequests[0].headers?.['Content-Type'], 'application/json')
+  assert(loginResults.every((result) => result.token === 'test-jwt'))
 
   await service.checkServiceability('122001', 1000)
   assert.equal(lastRequest('GET', '/pincode-service/122001').params?.weight, 1000)

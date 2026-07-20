@@ -43,7 +43,11 @@
         },
         {
           "name": "Login / Validate Saved Credentials",
-          "request": { "method": "POST", "url": "{{baseUrl}}/api/delhivery/b2b/auth/login" }
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/delhivery/b2b/auth/login",
+            "description": "Validates the saved Delhivery username/password. Express Magic caches the returned JWT until shortly before its 24-hour expiry and never exposes it to the browser. Concurrent courier requests share a single login call."
+          }
         }
       ]
     },
