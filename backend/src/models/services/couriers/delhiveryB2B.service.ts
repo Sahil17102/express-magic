@@ -324,6 +324,221 @@ const normalizeWarehouseUpdatePayload = (payload: Record<string, unknown>) => {
   }
 }
 
+const parseStructuredField = (value: unknown, field: string) => {
+  if (typeof value !== 'string') return value
+  try {
+    return JSON.parse(value)
+  } catch {
+    throw new HttpError(400, `${field} must contain valid JSON`)
+  }
+}
+
+const normalizeMultipartBoolean = (value: unknown, field: string) => {
+  if (typeof value === 'boolean') return value
+  const normalized = clean(value).toLowerCase()
+  if (normalized === 'true') return true
+  if (normalized === 'false') return false
+  throw new HttpError(400, `${field} must be a boolean`)
+}
+
+const normalizeManifestObject = (value: unknown, field: string) =>
+  ensureObject(parseStructuredField(value, field), field)
+
+const normalizeManifestList = (value: unknown, field: string) => {
+  const parsed = parseStructuredField(value, field)
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    throw new HttpError(400, `${field} must be a non-empty array`)
+  }
+  return parsed
+}
+
+const normalizeManifestPayload = (payload: Record<string, unknown>) => {
+  const pickupName = clean(payload.pickup_location_name)
+  const pickupId = clean(payload.pickup_location_id)
+  if (!pickupName && !pickupId) {
+    throw new HttpError(400, 'pickup_location_name or pickup_location_id is required')
+  }
+
+  const paymentMode = clean(payload.payment_mode).toLowerCase()
+  if (!['cod', 'prepaid'].includes(paymentMode)) {
+    throw new HttpError(400, 'payment_mode must be either cod or prepaid')
+  }
+
+  const dropoffStoreCode = clean(payload.dropoff_store_code)
+  const dropoffLocation = payload.dropoff_location
+    ? normalizeManifestObject(payload.dropoff_location, 'dropoff_location')
+    : undefined
+  if (!dropoffStoreCode && !dropoffLocation) {
+    throw new HttpError(400, 'dropoff_store_code or dropoff_location is required')
+  }
+  if (dropoffLocation) {
+    for (const field of ['consignee_name', 'address', 'city', 'state', 'phone']) {
+      ensureText(dropoffLocation[field], `dropoff_location.${field}`)
+    }
+    dropoffLocation.zip = ensurePincode(dropoffLocation.zip, 'dropoff_location.zip')
+  }
+
+  const shipmentDetails = normalizeManifestList(payload.shipment_details, 'shipment_details').map(
+    (shipment, index) => {
+      const entry = ensureObject(shipment, `shipment_details[${index}]`)
+      const boxCount = ensureNumber(entry.box_count, `shipment_details[${index}].box_count`, 1)
+      if (!Number.isInteger(boxCount)) {
+        throw new HttpError(400, `shipment_details[${index}].box_count must be an integer`)
+      }
+      const normalized: Record<string, unknown> = {
+        ...entry,
+        order_id: ensureText(entry.order_id, `shipment_details[${index}].order_id`),
+        box_count: boxCount,
+      }
+      if (entry.weight !== undefined) {
+        normalized.weight = ensureNumber(entry.weight, `shipment_details[${index}].weight`, 0.01)
+      }
+      if (entry.master !== undefined) {
+        normalized.master = normalizeMultipartBoolean(
+          entry.master,
+          `shipment_details[${index}].master`,
+        )
+      }
+      if (entry.waybills !== undefined && !Array.isArray(entry.waybills)) {
+        throw new HttpError(400, `shipment_details[${index}].waybills must be an array`)
+      }
+      return normalized
+    },
+  )
+
+  const invoices = normalizeManifestList(payload.invoices, 'invoices').map((invoice, index) => {
+    const entry = ensureObject(invoice, `invoices[${index}]`)
+    const qrCode = clean(entry.inv_qr_code)
+    const normalized: Record<string, unknown> = { ...entry }
+    if (!qrCode) {
+      normalized.inv_num = ensureText(entry.inv_num, `invoices[${index}].inv_num`)
+      normalized.inv_amt = ensureNumber(entry.inv_amt, `invoices[${index}].inv_amt`)
+    } else {
+      normalized.inv_qr_code = qrCode
+      if (entry.inv_amt !== undefined) {
+        normalized.inv_amt = ensureNumber(entry.inv_amt, `invoices[${index}].inv_amt`)
+      }
+    }
+    return normalized
+  })
+
+  const data: Record<string, unknown> = {
+    ...payload,
+    payment_mode: paymentMode,
+    weight: ensureNumber(payload.weight, 'weight', 0.01),
+    shipment_details: shipmentDetails,
+    invoices,
+  }
+  if (pickupName) {
+    data.pickup_location_name = ensureText(payload.pickup_location_name, 'pickup_location_name')
+  }
+  if (pickupId) {
+    data.pickup_location_id = ensureText(payload.pickup_location_id, 'pickup_location_id')
+  }
+  if (dropoffStoreCode) data.dropoff_store_code = dropoffStoreCode
+  if (dropoffLocation) data.dropoff_location = dropoffLocation
+
+  if (paymentMode === 'cod') {
+    data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+  } else if (payload.cod_amount !== undefined) {
+    data.cod_amount = ensureNumber(payload.cod_amount, 'cod_amount')
+  }
+
+  if (payload.lrn !== undefined && clean(payload.lrn)) data.lrn = ensureText(payload.lrn, 'lrn')
+  for (const field of ['rov_insurance', 'enable_paperless_movement', 'fm_pickup']) {
+    if (payload[field] !== undefined) {
+      data[field] = normalizeMultipartBoolean(payload[field], field)
+    }
+  }
+
+  if (payload.freight_mode !== undefined) {
+    const mode = clean(payload.freight_mode).toLowerCase()
+    if (!['fop', 'fod'].includes(mode)) {
+      throw new HttpError(400, 'freight_mode must be either fop or fod')
+    }
+    data.freight_mode = mode
+  }
+
+  if (payload.dimensions !== undefined) {
+    data.dimensions = normalizeManifestList(payload.dimensions, 'dimensions').map(
+      (dimension, index) => {
+        const entry = ensureObject(dimension, `dimensions[${index}]`)
+        const normalized: Record<string, unknown> = { ...entry }
+        const boxCount = ensureNumber(entry.box_count, `dimensions[${index}].box_count`, 1)
+        if (!Number.isInteger(boxCount)) {
+          throw new HttpError(400, `dimensions[${index}].box_count must be an integer`)
+        }
+        normalized.box_count = boxCount
+        for (const candidates of [
+          ['length', 'length_cm'],
+          ['width', 'width_cm'],
+          ['height', 'height_cm'],
+        ]) {
+          const field = candidates.find((candidate) => entry[candidate] !== undefined)
+          if (!field) throw new HttpError(400, `dimensions[${index}].${candidates[0]} is required`)
+          normalized[field] = ensureNumber(entry[field], `dimensions[${index}].${field}`, 0.01)
+        }
+        return normalized
+      },
+    )
+  }
+
+  for (const field of ['return_address', 'callback']) {
+    if (payload[field] !== undefined) data[field] = normalizeManifestObject(payload[field], field)
+  }
+  if (payload.billing_address !== undefined) {
+    const billing = normalizeManifestObject(payload.billing_address, 'billing_address')
+    for (const field of ['name', 'company', 'consignor', 'address', 'city', 'state', 'pin', 'phone']) {
+      ensureText(billing[field], `billing_address.${field}`)
+    }
+    billing.pin = ensurePincode(billing.pin, 'billing_address.pin')
+    if (!clean(billing.pan_number) && !clean(billing.gst_number)) {
+      throw new HttpError(400, 'billing_address requires pan_number or gst_number')
+    }
+    data.billing_address = billing
+  }
+
+  const uploads = payload.doc_file
+    ? Array.isArray(payload.doc_file)
+      ? payload.doc_file
+      : [payload.doc_file]
+    : []
+  if (uploads.length > 10 || uploads.some((upload) => !isUpload(upload))) {
+    throw new HttpError(400, 'doc_file must contain at most 10 valid files')
+  }
+  const allowedExtensions = new Set(['.png', '.jpg', '.jpeg', '.pdf', '.bmp'])
+  let totalBytes = 0
+  for (const upload of uploads as DelhiveryB2BUpload[]) {
+    totalBytes += upload.buffer.length
+    const extension = upload.originalname.toLowerCase().match(/\.[^.]+$/)?.[0] || ''
+    if (!allowedExtensions.has(extension)) {
+      throw new HttpError(400, `Unsupported doc_file format: ${upload.originalname}`)
+    }
+  }
+  if (totalBytes > 20 * 1024 * 1024) {
+    throw new HttpError(400, 'doc_file aggregate size must not exceed 20 MB')
+  }
+  if (uploads.length > 0) {
+    const documentData = normalizeManifestList(payload.doc_data, 'doc_data').map(
+      (entry, index) => {
+        const document = ensureObject(entry, `doc_data[${index}]`)
+        ensureText(document.doc_type, `doc_data[${index}].doc_type`)
+        ensureObject(document.doc_meta, `doc_data[${index}].doc_meta`)
+        return { ...document }
+      },
+    )
+    if (documentData.length !== uploads.length) {
+      throw new HttpError(400, 'doc_data must contain one entry for each doc_file')
+    }
+    data.doc_file = uploads
+    data.doc_data = documentData
+  } else if (payload.doc_data !== undefined) {
+    data.doc_data = normalizeManifestList(payload.doc_data, 'doc_data')
+  }
+
+  return data
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -628,7 +843,7 @@ export class DelhiveryB2BService {
     return this.authorizedRequest({
       method: 'POST',
       url: '/manifest',
-      data: this.toMultipart(payload),
+      data: this.toMultipart(normalizeManifestPayload(payload)),
     })
   }
 

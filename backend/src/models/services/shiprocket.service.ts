@@ -9401,6 +9401,10 @@ const waitForDelhiveryB2BManifest = async (
   const jobId = String(
     findProviderValue(initialResponse, ['job_id', 'jobId', 'request_id', 'requestId']) || '',
   ).trim()
+  const configuredDelay = Number(process.env.DELHIVERY_B2B_MANIFEST_POLL_DELAY_MS || 1500)
+  const pollDelayMs = Number.isFinite(configuredDelay)
+    ? Math.min(30_000, Math.max(1_000, configuredDelay))
+    : 1500
 
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const lrn = String(
@@ -9411,7 +9415,7 @@ const waitForDelhiveryB2BManifest = async (
       throw new HttpError(422, 'Delhivery B2B rejected the shipment manifestation')
     }
     if (!jobId) break
-    if (attempt > 0) await new Promise((resolve) => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, pollDelayMs))
     response = await service.getManifestStatus(jobId)
   }
 

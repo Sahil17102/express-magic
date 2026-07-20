@@ -258,22 +258,114 @@ const run = async () => {
     /valid weekday/,
   )
 
-  await service.manifestShipment({
+  const manifestPayload = {
     pickup_location_name: 'Test Warehouse',
-    shipment_details: [{ order_id: 'ORDER-1', box_count: 1 }],
+    payment_mode: 'prepaid',
+    weight: '1000',
+    dropoff_location: JSON.stringify({
+      consignee_name: 'Utkarsh',
+      address: 'sector 7a',
+      city: 'jajpur',
+      state: 'odisha',
+      zip: '756043',
+      phone: '9876543210',
+      email: '',
+    }),
+    shipment_details: JSON.stringify([
+      {
+        order_id: 'ORDER-1',
+        box_count: 1,
+        description: 'Test description',
+        weight: 1000,
+        waybills: [],
+        master: false,
+      },
+    ]),
+    dimensions: JSON.stringify([{ box_count: 1, length: 10, width: 10, height: 10 }]),
+    invoices: JSON.stringify([
+      { ewaybill: '', inv_num: 'I22331030453', inv_amt: 59729.67, inv_qr_code: '' },
+    ]),
+    rov_insurance: 'true',
+    enable_paperless_movement: 'true',
+    freight_mode: 'fop',
+    fm_pickup: 'false',
+    doc_data: JSON.stringify([
+      { doc_type: 'INVOICE_COPY', doc_meta: { invoice_num: ['I22331030453'] } },
+    ]),
     doc_file: {
       buffer: Buffer.from('invoice'),
       mimetype: 'application/pdf',
       originalname: 'invoice.pdf',
     },
-  })
+  }
+  await service.manifestShipment(manifestPayload)
   const manifest = lastRequest('POST', '/manifest')
   assert(manifest.data instanceof FormData)
   assert.equal((manifest.data as FormData).get('pickup_location_name'), 'Test Warehouse')
+  assert.equal((manifest.data as FormData).get('payment_mode'), 'prepaid')
+  assert.equal((manifest.data as FormData).get('weight'), '1000')
+  assert.equal((manifest.data as FormData).get('rov_insurance'), 'true')
+  assert.equal((manifest.data as FormData).get('fm_pickup'), 'false')
+  assert.equal(
+    JSON.parse(String((manifest.data as FormData).get('shipment_details')))[0].order_id,
+    'ORDER-1',
+  )
+  assert.equal(
+    JSON.parse(String((manifest.data as FormData).get('invoices')))[0].inv_num,
+    'I22331030453',
+  )
   assert.equal(((manifest.data as FormData).get('doc_file') as File).name, 'invoice.pdf')
+  assert.equal(manifest.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(typeof manifest.headers?.['X-Request-Id'], 'string')
+
+  assert.throws(
+    () => service.manifestShipment({ ...manifestPayload, payment_mode: 'cod' }),
+    /cod_amount/,
+  )
+  assert.throws(
+    () =>
+      service.manifestShipment({
+        ...manifestPayload,
+        pickup_location_name: undefined,
+        pickup_location_id: undefined,
+      }),
+    /pickup_location_name or pickup_location_id/,
+  )
+  assert.throws(
+    () => service.manifestShipment({ ...manifestPayload, doc_data: undefined }),
+    /doc_data/,
+  )
+  assert.throws(
+    () =>
+      service.manifestShipment({
+        ...manifestPayload,
+        doc_file: { ...manifestPayload.doc_file, originalname: 'invoice.exe' },
+      }),
+    /Unsupported doc_file format/,
+  )
+  const largeDocumentBuffer = Buffer.alloc(10 * 1024 * 1024 + 1)
+  assert.throws(
+    () =>
+      service.manifestShipment({
+        ...manifestPayload,
+        doc_file: [
+          { ...manifestPayload.doc_file, buffer: largeDocumentBuffer, originalname: 'one.pdf' },
+          { ...manifestPayload.doc_file, buffer: largeDocumentBuffer, originalname: 'two.pdf' },
+        ],
+        doc_data: JSON.stringify([
+          { doc_type: 'INVOICE_COPY', doc_meta: { invoice_num: ['one'] } },
+          { doc_type: 'INVOICE_COPY', doc_meta: { invoice_num: ['two'] } },
+        ]),
+      }),
+    /aggregate size.*20 MB/,
+  )
 
   await service.getManifestStatus('manifest-job')
-  assert.equal(lastRequest('GET', '/manifest').params?.job_id, 'manifest-job')
+  const manifestStatus = lastRequest('GET', '/manifest')
+  assert.equal(manifestStatus.params?.job_id, 'manifest-job')
+  assert.equal(manifestStatus.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(typeof manifestStatus.headers?.['X-Request-Id'], 'string')
+  assert.throws(() => service.getManifestStatus(''), /job_id is required/)
 
   await service.updateShipment('220110457', {
     consignee_name: 'Updated Consignee',

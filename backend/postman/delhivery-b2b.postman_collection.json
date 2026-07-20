@@ -134,6 +134,7 @@
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/delhivery/b2b/shipments/manifest",
+            "description": "Creates a B2B shipment asynchronously and stores the returned job/request ID for Manifest Status. Multipart JSON fields are validated and normalized; pickup and drop-off alternatives, COD rules, invoice rules, dimensions, retail fields, and the 10-file/20-MB aggregate document limits are enforced. Enable doc_data and doc_file together when uploading invoice documents.",
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -145,8 +146,13 @@
                 { "key": "dimensions", "value": "[{\"box_count\":1,\"length\":10,\"width\":10,\"height\":10}]", "type": "text" },
                 { "key": "invoices", "value": "[{\"ewaybill\":\"\",\"inv_num\":\"POSTMAN-INV-{{$timestamp}}\",\"inv_amt\":1000,\"inv_qr_code\":\"\"}]", "type": "text" },
                 { "key": "rov_insurance", "value": "false", "type": "text" },
+                { "key": "enable_paperless_movement", "value": "false", "type": "text" },
                 { "key": "freight_mode", "value": "fop", "type": "text" },
-                { "key": "fm_pickup", "value": "false", "type": "text" }
+                { "key": "fm_pickup", "value": "false", "type": "text" },
+                { "key": "billing_address", "value": "{\"name\":\"Billing Contact\",\"company\":\"Express Magic\",\"consignor\":\"Express Magic\",\"address\":\"Test billing address\",\"city\":\"Gurugram\",\"state\":\"Haryana\",\"pin\":\"{{originPincode}}\",\"phone\":\"9999999999\",\"pan_number\":\"ABCDE1234F\"}", "type": "text" },
+                { "key": "callback", "value": "{\"uri\":\"{{documentCallbackUrl}}\",\"method\":\"POST\"}", "type": "text" },
+                { "key": "doc_data", "value": "[{\"doc_type\":\"INVOICE_COPY\",\"doc_meta\":{\"invoice_num\":[\"POSTMAN-INV\"]}}]", "type": "text", "disabled": true },
+                { "key": "doc_file", "type": "file", "src": "", "disabled": true }
               ]
             }
           }
@@ -156,7 +162,11 @@
           "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
             "var body = pm.response.json(); var data = body.data || {}; var lrn = data.lrn || data.lrnum || (data.data || {}).lrn; if (lrn) pm.environment.set('lrn', lrn);"
           ] } }],
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/manifest/{{manifestJobId}}" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/manifest/{{manifestJobId}}",
+            "description": "Retrieves the LR and box/document AWBs using the asynchronous job_id. The booking workflow waits before its first status poll and retries with a bounded delay while Delhivery processes the manifest."
+          }
         },
         {
           "name": "Update Shipment (mutating)",
