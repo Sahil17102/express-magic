@@ -307,7 +307,7 @@
         {
           "name": "Generate Shipping Labels (async)",
           "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('documentJobId', id);",
+            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('shippingLabelJobId', id);",
             "pm.test('document job ID is returned', function () { pm.expect(id).to.be.ok; });"
           ] } }],
           "request": {
@@ -321,7 +321,7 @@
         {
           "name": "Generate LR Copies (async)",
           "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('documentJobId', id);",
+            "var body = pm.response.json(); var data = body.data || {}; var id = data.job_id || data.request_id || (data.data || {}).job_id; if (id) pm.environment.set('lrCopyJobId', id);",
             "pm.test('document job ID is returned', function () { pm.expect(id).to.be.ok; });"
           ] } }],
           "request": {
@@ -333,8 +333,28 @@
           }
         },
         {
-          "name": "Generate Document Status",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/documents/shipping_label/{{documentJobId}}" }
+          "name": "Generate Shipping Labels Status",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json(); var data = body.data || {}; var nested = data.data || {}; var link = data.s3_url || data.url || data.download_url || data.document_url || nested.s3_url || nested.url || nested.download_url || nested.document_url; if (link) pm.environment.set('shippingLabelDownloadUrl', link);",
+            "pm.test('document status payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Fetches the async shipping-label job status and captures a returned S3/document URL when generation is complete.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/documents/shipping_label/{{shippingLabelJobId}}"
+          }
+        },
+        {
+          "name": "Generate LR Copies Status",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json(); var data = body.data || {}; var nested = data.data || {}; var link = data.s3_url || data.url || data.download_url || data.document_url || nested.s3_url || nested.url || nested.download_url || nested.document_url; if (link) pm.environment.set('lrCopyDownloadUrl', link);",
+            "pm.test('document status payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Fetches the async LR-copy job status and captures a returned S3/document URL when generation is complete.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/documents/lr_copy/{{lrCopyJobId}}"
+          }
         },
         {
           "name": "Download POD Document",

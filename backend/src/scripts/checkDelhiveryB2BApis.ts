@@ -730,8 +730,27 @@ const run = async () => {
     /unsupported value: DRIVER COPY/,
   )
 
-  await service.getGenerateDocumentStatus('shipping_label', 'document-job')
-  lastRequest('GET', '/generate/shipping_label/status/document-job')
+  await service.getGenerateDocumentStatus(
+    'shipping_label',
+    '390927a3-1eaf-4df5-8aa7-87027ac46e48',
+  )
+  const shippingLabelStatus = lastRequest(
+    'GET',
+    '/generate/shipping_label/status/390927a3-1eaf-4df5-8aa7-87027ac46e48',
+  )
+  assert.equal(shippingLabelStatus.headers?.Accept, 'application/json')
+  assert.equal(shippingLabelStatus.data, undefined)
+
+  await service.getGenerateDocumentStatus('LR_COPY', 'lr-copy-document-job')
+  lastRequest('GET', '/generate/lr_copy/status/lr-copy-document-job')
+  assert.throws(
+    () => service.getGenerateDocumentStatus('invoice', 'document-job'),
+    /doc_type must be shipping_label or lr_copy/,
+  )
+  assert.throws(
+    () => service.getGenerateDocumentStatus('shipping_label', '   '),
+    /job_id is required/,
+  )
 
   await service.downloadDocument({ lrn: '220110457', doc_type: 'LM_POD' })
   assert.equal(lastRequest('GET', '/document/download').params?.doc_type, 'LM_POD')
