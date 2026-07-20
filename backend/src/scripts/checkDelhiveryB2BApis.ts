@@ -457,7 +457,11 @@ const run = async () => {
   assert.throws(() => service.getShipmentUpdateStatus('  '), /job_id is required/)
 
   await service.cancelShipment('220110457')
-  lastRequest('DELETE', '/lrn/cancel/220110457')
+  const cancelShipment = lastRequest('DELETE', '/lrn/cancel/220110457')
+  assert.equal(cancelShipment.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(cancelShipment.headers?.Accept, 'application/json')
+  assert.equal(typeof cancelShipment.headers?.['X-Request-Id'], 'string')
+  assert.throws(() => service.cancelShipment('  '), /lrn is required/)
 
   await service.trackShipment('220110457', true)
   assert.deepEqual(lastRequest('GET', '/lrn/track').params, {

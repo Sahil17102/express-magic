@@ -216,7 +216,11 @@
         },
         {
           "name": "Cancel Shipment (destructive)",
-          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}" }
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}",
+            "description": "Cancels the manifested LRN through DELETE /lrn/cancel/{lrn}. Delhivery accepts cancellation only while its shipment is Manifested, In Transit, Pending, Open, or Scheduled and remains authoritative for that provider-side status check. Successful prepaid/COD cancellations transition to Returned in Delhivery."
+          }
         }
       ]
     },
