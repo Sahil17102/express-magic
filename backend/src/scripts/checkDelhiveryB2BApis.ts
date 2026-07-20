@@ -74,7 +74,15 @@ const run = async () => {
   assert(loginResults.every((result) => result.token === 'test-jwt'))
 
   await service.checkServiceability('122001', 1000)
-  assert.equal(lastRequest('GET', '/pincode-service/122001').params?.weight, 1000)
+  const serviceabilityRequest = lastRequest('GET', '/pincode-service/122001')
+  assert.equal(serviceabilityRequest.params?.weight, 1000)
+  assert.equal(serviceabilityRequest.headers?.['Content-Type'], 'application/json')
+
+  await service.checkServiceability('122001')
+  assert.equal(lastRequest('GET', '/pincode-service/122001').params, undefined)
+
+  await assert.rejects(() => service.checkServiceability('12201', 1000), /6-digit/)
+  await assert.rejects(() => service.checkServiceability('122001', Number.NaN), /weight/)
 
   await service.getExpectedTat('400093', '122001')
   assert.deepEqual(lastRequest('GET', '/tat/estimate').params, {

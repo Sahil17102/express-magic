@@ -84,6 +84,23 @@ const ensureRequired = (value: unknown, field: string) => {
   return normalized
 }
 
+const ensurePincode = (value: unknown) => {
+  const pincode = ensureRequired(value, 'pincode')
+  if (!/^\d{6}$/.test(pincode)) {
+    throw new HttpError(400, 'pincode must be a 6-digit Indian postal code')
+  }
+  return pincode
+}
+
+const optionalWeightGrams = (value: unknown) => {
+  if (value === undefined || value === null || value === '') return undefined
+  const weight = Number(value)
+  if (!Number.isFinite(weight) || weight < 0) {
+    throw new HttpError(400, 'weight must be a non-negative number in grams')
+  }
+  return weight
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -223,14 +240,20 @@ export class DelhiveryB2BService {
   ): Promise<T> {
     const baseURL = await this.baseUrl()
     const { token } = await this.login()
+    const defaultHeaders: Record<string, string> = {
+      Accept: 'application/json',
+      'X-Request-Id': randomUUID(),
+    }
+    if (!(config.data instanceof FormData)) {
+      defaultHeaders['Content-Type'] = 'application/json'
+    }
     try {
       const response: AxiosResponse<T> = await axios.request({
         baseURL,
         timeout: timeoutMs(),
         ...config,
         headers: {
-          Accept: 'application/json',
-          'X-Request-Id': randomUUID(),
+          ...defaultHeaders,
           ...config.headers,
           Authorization: `Bearer ${token}`,
         },
@@ -279,12 +302,13 @@ export class DelhiveryB2BService {
     return form
   }
 
-  checkServiceability(pincode: string, weight?: number) {
-    const pin = ensureRequired(pincode, 'pincode')
+  async checkServiceability(pincode: string, weight?: number) {
+    const pin = ensurePincode(pincode)
+    const normalizedWeight = optionalWeightGrams(weight)
     return this.authorizedRequest({
       method: 'GET',
       url: `/pincode-service/${encodeURIComponent(pin)}`,
-      params: weight === undefined ? undefined : { weight },
+      params: normalizedWeight === undefined ? undefined : { weight: normalizedWeight },
     })
   }
 

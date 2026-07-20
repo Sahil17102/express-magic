@@ -56,7 +56,11 @@
       "item": [
         {
           "name": "Pincode Serviceability",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/serviceability/{{destinationPincode}}?weight={{weightGrams}}" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/serviceability/{{destinationPincode}}?weight={{weightGrams}}",
+            "description": "Checks a six-digit pincode before any shipment operation. Weight is optional and expressed in grams. Express Magic checks both origin and consignee pincodes before B2B manifestation."
+          }
         },
         {
           "name": "Expected TAT",
