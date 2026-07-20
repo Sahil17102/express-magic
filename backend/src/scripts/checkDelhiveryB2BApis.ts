@@ -13,6 +13,7 @@ const originalPost = axios.post
 const originalGet = axios.get
 const originalRequest = axios.request
 const requests: CapturedRequest[] = []
+let failLegacyWarehouseUpdateOnce = false
 
 const lastRequest = (method: string, url: string) => {
   const request = requests[requests.length - 1]
@@ -43,6 +44,16 @@ const run = async () => {
   }
   ;(axios as any).request = async (config: CapturedRequest) => {
     requests.push(config)
+    if (
+      failLegacyWarehouseUpdateOnce &&
+      config.method === 'PATCH' &&
+      config.url === '/client-warehouses/update'
+    ) {
+      failLegacyWarehouseUpdateOnce = false
+      const error: any = new Error('Not found')
+      error.response = { status: 404, data: { message: 'Not found' } }
+      throw error
+    }
     return { data: { success: true } }
   }
 
@@ -197,8 +208,55 @@ const run = async () => {
     /15 alphanumeric/,
   )
 
-  await service.updateWarehouse({ cl_warehouse_name: 'Test Warehouse', update_dict: {} })
-  lastRequest('PATCH', '/client-warehouses/update')
+  const warehouseUpdatePayload = {
+    cl_warehouse_name: 'Test Warehouse',
+    update_dict: {
+      city: 'Faridabad',
+      state: 'Maharashtra',
+      country: 'Bharat',
+      address_details: {
+        address: 'testing123',
+        contact_person: 'Shashi',
+        phone_number: '9988000000',
+        email: 'test@gmail.com',
+        company: 'companyname',
+      },
+      ret_address: {
+        address: 'H.No100, Sector-40',
+        city: 'Gurgaon',
+        state: 'Haryana',
+        pin: '122001',
+        country: 'INDIA',
+      },
+      pick_up_days: ['MON', 'TUE'],
+      drop_days: ['WED'],
+      drop_hours: { WED: { start_time: '09:00', close_time: '17:30' } },
+      qr_enabled: true,
+    },
+  }
+  await service.updateWarehouse(warehouseUpdatePayload)
+  const updateWarehouse = lastRequest('PATCH', '/client-warehouses/update')
+  assert.deepEqual(updateWarehouse.data, warehouseUpdatePayload)
+  assert.equal((updateWarehouse.data as any).cl_warehouse_name, 'Test Warehouse')
+  assert.equal(updateWarehouse.headers?.['Content-Type'], 'application/json')
+
+  failLegacyWarehouseUpdateOnce = true
+  await service.updateWarehouse(warehouseUpdatePayload)
+  assert.equal(requests.at(-2)?.url, '/client-warehouses/update')
+  lastRequest('PATCH', '/client-warehouse/update/')
+
+  await assert.rejects(
+    () => service.updateWarehouse({ ...warehouseUpdatePayload, cl_warehouse_name: '' }),
+    /cl_warehouse_name.*non-empty string/,
+  )
+  await assert.rejects(
+    () =>
+      service.updateWarehouse({
+        ...warehouseUpdatePayload,
+        update_dict: { drop_days: ['WEDNESDAY'] },
+      }),
+    /valid weekday/,
+  )
 
   await service.manifestShipment({
     pickup_location_name: 'Test Warehouse',

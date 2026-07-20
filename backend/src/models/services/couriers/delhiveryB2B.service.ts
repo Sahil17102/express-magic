@@ -256,6 +256,74 @@ const normalizeWarehousePayload = (payload: Record<string, unknown>) => {
   return data
 }
 
+const normalizeWarehouseUpdatePayload = (payload: Record<string, unknown>) => {
+  const updateDict =
+    payload.update_dict === undefined ? {} : ensureObject(payload.update_dict, 'update_dict')
+  const normalizedUpdate: Record<string, unknown> = { ...updateDict }
+
+  for (const field of [
+    'city',
+    'state',
+    'country',
+    'tin_number',
+    'cst_number',
+    'appointment_required',
+  ]) {
+    if (updateDict[field] !== undefined) {
+      normalizedUpdate[field] = ensureText(updateDict[field], `update_dict.${field}`)
+    }
+  }
+  if (updateDict.qr_enabled !== undefined) {
+    normalizedUpdate.qr_enabled = ensureBoolean(updateDict.qr_enabled, 'update_dict.qr_enabled')
+  }
+
+  if (updateDict.address_details !== undefined) {
+    const address = ensureObject(updateDict.address_details, 'update_dict.address_details')
+    for (const field of ['address', 'contact_person', 'phone_number', 'email', 'company']) {
+      if (address[field] !== undefined) {
+        ensureText(address[field], `update_dict.address_details.${field}`)
+      }
+    }
+    normalizedUpdate.address_details = { ...address }
+  }
+
+  if (updateDict.ret_address !== undefined) {
+    const returnAddress = ensureObject(updateDict.ret_address, 'update_dict.ret_address')
+    const normalizedReturnAddress: Record<string, unknown> = { ...returnAddress }
+    if (returnAddress.pin !== undefined) {
+      normalizedReturnAddress.pin = ensurePincode(returnAddress.pin, 'update_dict.ret_address.pin')
+    }
+    for (const field of ['address', 'city', 'state', 'country']) {
+      if (returnAddress[field] !== undefined) {
+        ensureText(returnAddress[field], `update_dict.ret_address.${field}`)
+      }
+    }
+    normalizedUpdate.ret_address = normalizedReturnAddress
+  }
+
+  if (updateDict.billing_details !== undefined) {
+    normalizedUpdate.billing_details = {
+      ...ensureObject(updateDict.billing_details, 'update_dict.billing_details'),
+    }
+  }
+  for (const field of ['business_hours', 'buisness_hours', 'drop_hours']) {
+    if (updateDict[field] !== undefined) {
+      normalizedUpdate[field] = normalizeWarehouseHours(updateDict[field], `update_dict.${field}`)
+    }
+  }
+  for (const field of ['pick_up_days', 'drop_days']) {
+    if (updateDict[field] !== undefined) {
+      normalizedUpdate[field] = normalizeWarehouseDays(updateDict[field], `update_dict.${field}`)
+    }
+  }
+
+  return {
+    ...payload,
+    cl_warehouse_name: ensureText(payload.cl_warehouse_name, 'cl_warehouse_name'),
+    update_dict: normalizedUpdate,
+  }
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -538,12 +606,22 @@ export class DelhiveryB2BService {
     })
   }
 
-  updateWarehouse(payload: Record<string, unknown>) {
-    return this.authorizedRequest({
-      method: 'PATCH',
-      url: '/client-warehouses/update',
-      data: payload,
-    })
+  async updateWarehouse(payload: Record<string, unknown>) {
+    const data = normalizeWarehouseUpdatePayload(payload)
+    try {
+      return await this.authorizedRequest({
+        method: 'PATCH',
+        url: '/client-warehouses/update',
+        data,
+      })
+    } catch (error) {
+      if (!(error instanceof HttpError) || ![404, 405].includes(error.statusCode)) throw error
+      return this.authorizedRequest({
+        method: 'PATCH',
+        url: '/client-warehouse/update/',
+        data,
+      })
+    }
   }
 
   manifestShipment(payload: Record<string, unknown>) {

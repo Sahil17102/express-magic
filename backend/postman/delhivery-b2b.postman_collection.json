@@ -109,7 +109,8 @@
             "method": "PATCH",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/warehouses",
-            "body": { "mode": "raw", "raw": "{\n  \"cl_warehouse_name\": \"{{warehouseName}}\",\n  \"update_dict\": {\"address_details\": {\"contact_person\": \"Operations Team\", \"phone_number\": \"9999999999\"}}\n}" }
+            "description": "Updates a warehouse identified by its exact case/space-sensitive name. Nested address, return address, billing, schedule, weekday, QR, and appointment fields are validated. Express Magic uses Delhivery's cURL path first and retries the alternate documented environment path only for 404/405 responses.",
+            "body": { "mode": "raw", "raw": "{\n  \"cl_warehouse_name\": \"{{warehouseName}}\",\n  \"update_dict\": {\n    \"city\": \"Faridabad\",\n    \"state\": \"Maharashtra\",\n    \"country\": \"India\",\n    \"address_details\": {\"address\": \"Updated warehouse address\", \"contact_person\": \"Operations Team\", \"phone_number\": \"9999999999\", \"email\": \"operations@example.com\", \"company\": \"Express Magic\"},\n    \"ret_address\": {\"address\": \"Return address\", \"city\": \"Gurugram\", \"state\": \"Haryana\", \"pin\": \"122001\", \"country\": \"INDIA\"}\n  }\n}" }
           }
         }
       ]
