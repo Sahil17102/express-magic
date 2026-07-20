@@ -245,14 +245,22 @@
       "item": [
         {
           "name": "Create Pickup (mutating)",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "var body = pm.response.json(); var data = body.data || {}; var id = data.pickup_id || data.pur_id || (data.data || {}).pickup_id; if (id) pm.environment.set('pickupId', id);"
-          ] } }],
+          "event": [
+            { "listen": "prerequest", "script": { "type": "text/javascript", "exec": [
+              "var value = new Date(Date.now() + (330 + 1440) * 60000);",
+              "var pickupDate = value.getUTCFullYear() + '-' + String(value.getUTCMonth() + 1).padStart(2, '0') + '-' + String(value.getUTCDate()).padStart(2, '0');",
+              "pm.environment.set('pickupDate', pickupDate);"
+            ] } },
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "var body = pm.response.json(); var data = body.data || {}; var id = data.pickup_id || data.pur_id || (data.data || {}).pickup_id; if (id) pm.environment.set('pickupId', id);"
+            ] } }
+          ],
           "request": {
+            "description": "Creates a pickup request using the exact case- and space-sensitive warehouse name. The pre-request script sets pickupDate to tomorrow in India; start_time must be HH:MM:SS and expected_package_count must be a positive integer.",
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/pickups",
-            "body": { "mode": "raw", "raw": "{\n  \"client_warehouse\": \"{{warehouseName}}\",\n  \"pickup_date\": \"{{pickupDate}}\",\n  \"start_time\": \"10:00:00\",\n  \"expected_package_count\": 1\n}" }
+            "body": { "mode": "raw", "raw": "{\n  \"client_warehouse\": \"{{warehouseName}}\",\n  \"pickup_date\": \"{{pickupDate}}\",\n  \"start_time\": \"05:00:00\",\n  \"expected_package_count\": 1\n}" }
           }
         },
         {

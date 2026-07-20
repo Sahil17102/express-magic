@@ -734,6 +734,55 @@ const indiaTodayTimestamp = () => {
   )
 }
 
+const parseIndianPickupDate = (value: unknown) => {
+  const date = ensureText(value, 'pickup_date')
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date)
+  if (!match) throw new HttpError(400, 'pickup_date must use YYYY-MM-DD format')
+  const [, yearText, monthText, dayText] = match
+  const year = Number(yearText)
+  const month = Number(monthText)
+  const day = Number(dayText)
+  const timestamp = Date.UTC(year, month - 1, day)
+  const parsed = new Date(timestamp)
+  if (
+    parsed.getUTCFullYear() !== year ||
+    parsed.getUTCMonth() !== month - 1 ||
+    parsed.getUTCDate() !== day
+  ) {
+    throw new HttpError(400, 'pickup_date must be a valid calendar date')
+  }
+  return { date, timestamp }
+}
+
+const normalizePickupRequestPayload = (payload: Record<string, unknown>) => {
+  const pickupDate = parseIndianPickupDate(payload.pickup_date)
+  if (pickupDate.timestamp < indiaTodayTimestamp()) {
+    throw new HttpError(400, 'pickup_date must be today or a future date')
+  }
+
+  const startTime = ensureText(payload.start_time, 'start_time')
+  if (!/^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(startTime)) {
+    throw new HttpError(400, 'start_time must use HH:MM:SS format')
+  }
+
+  const expectedPackageCount = ensureNumber(
+    payload.expected_package_count,
+    'expected_package_count',
+    1,
+  )
+  if (!Number.isInteger(expectedPackageCount)) {
+    throw new HttpError(400, 'expected_package_count must be an integer')
+  }
+
+  return {
+    ...payload,
+    client_warehouse: ensureText(payload.client_warehouse, 'client_warehouse'),
+    pickup_date: pickupDate.date,
+    start_time: startTime,
+    expected_package_count: expectedPackageCount,
+  }
+}
+
 const normalizeLastMileAppointmentPayload = (payload: Record<string, unknown>) => {
   const appointmentDate = parseIndianAppointmentDate(payload.date, 'date')
   if (appointmentDate.timestamp < indiaTodayTimestamp()) {
@@ -1135,7 +1184,11 @@ export class DelhiveryB2BService {
   }
 
   createPickupRequest(payload: Record<string, unknown>) {
-    return this.authorizedRequest({ method: 'POST', url: '/pickup_requests', data: payload })
+    return this.authorizedRequest({
+      method: 'POST',
+      url: '/pickup_requests',
+      data: normalizePickupRequestPayload(payload),
+    })
   }
 
   cancelPickupRequest(pickupId: string) {

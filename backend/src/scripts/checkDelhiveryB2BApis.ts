@@ -517,6 +517,10 @@ const run = async () => {
     const value = new Date(Date.now() + (330 + offsetDays * 24 * 60) * 60 * 1000)
     return `${String(value.getUTCDate()).padStart(2, '0')}/${String(value.getUTCMonth() + 1).padStart(2, '0')}/${value.getUTCFullYear()}`
   }
+  const formatIndiaIsoDate = (offsetDays: number) => {
+    const value = new Date(Date.now() + (330 + offsetDays * 24 * 60) * 60 * 1000)
+    return `${value.getUTCFullYear()}-${String(value.getUTCMonth() + 1).padStart(2, '0')}-${String(value.getUTCDate()).padStart(2, '0')}`
+  }
   const appointmentPayload = {
     lrn: '220192589',
     date: formatIndiaDate(1),
@@ -556,8 +560,40 @@ const run = async () => {
     /must not be earlier/,
   )
 
-  await service.createPickupRequest({ client_warehouse: 'Test Warehouse' })
-  lastRequest('POST', '/pickup_requests')
+  const pickupPayload = {
+    client_warehouse: 'Test Warehouse',
+    pickup_date: formatIndiaIsoDate(1),
+    start_time: '05:00:00',
+    expected_package_count: 1,
+  }
+  await service.createPickupRequest(pickupPayload)
+  const pickup = lastRequest('POST', '/pickup_requests')
+  assert.deepEqual(pickup.data, pickupPayload)
+  assert.equal(pickup.headers?.['Content-Type'], 'application/json')
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, client_warehouse: '   ' }),
+    /client_warehouse must be a non-empty string/,
+  )
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, pickup_date: formatIndiaIsoDate(-1) }),
+    /today or a future date/,
+  )
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, pickup_date: '2026-02-30' }),
+    /valid calendar date/,
+  )
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, start_time: '25:00:00' }),
+    /HH:MM:SS format/,
+  )
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, expected_package_count: 1.5 }),
+    /must be an integer/,
+  )
+  assert.throws(
+    () => service.createPickupRequest({ ...pickupPayload, expected_package_count: 0 }),
+    /must be at least 1/,
+  )
 
   await service.cancelPickupRequest('pur-id-1')
   lastRequest('DELETE', '/pickup_requests/pur-id-1')
