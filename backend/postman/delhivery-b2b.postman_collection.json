@@ -64,7 +64,11 @@
         },
         {
           "name": "Expected TAT",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/tat?origin_pin={{originPincode}}&destination_pin={{destinationPincode}}" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/tat?origin_pin={{originPincode}}&destination_pin={{destinationPincode}}",
+            "description": "Returns Delhivery's current network transit estimate in days for two valid six-digit pincodes. Express Magic forwards the request to GET /tat/estimate with the cached UMS bearer token and a unique X-Request-Id."
+          }
         },
         {
           "name": "Freight Estimate",

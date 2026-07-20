@@ -84,10 +84,10 @@ const ensureRequired = (value: unknown, field: string) => {
   return normalized
 }
 
-const ensurePincode = (value: unknown) => {
-  const pincode = ensureRequired(value, 'pincode')
+const ensurePincode = (value: unknown, field = 'pincode') => {
+  const pincode = ensureRequired(value, field)
   if (!/^\d{6}$/.test(pincode)) {
-    throw new HttpError(400, 'pincode must be a 6-digit Indian postal code')
+    throw new HttpError(400, `${field} must be a 6-digit Indian postal code`)
   }
   return pincode
 }
@@ -317,8 +317,8 @@ export class DelhiveryB2BService {
       method: 'GET',
       url: '/tat/estimate',
       params: {
-        origin_pin: ensureRequired(originPin, 'origin_pin'),
-        destination_pin: ensureRequired(destinationPin, 'destination_pin'),
+        origin_pin: ensurePincode(originPin, 'origin_pin'),
+        destination_pin: ensurePincode(destinationPin, 'destination_pin'),
       },
     })
   }

@@ -85,10 +85,19 @@ const run = async () => {
   await assert.rejects(() => service.checkServiceability('122001', Number.NaN), /weight/)
 
   await service.getExpectedTat('400093', '122001')
-  assert.deepEqual(lastRequest('GET', '/tat/estimate').params, {
+  const tatRequest = lastRequest('GET', '/tat/estimate')
+  assert.deepEqual(tatRequest.params, {
     origin_pin: '400093',
     destination_pin: '122001',
   })
+  assert.equal(tatRequest.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(typeof tatRequest.headers?.['X-Request-Id'], 'string')
+
+  assert.throws(() => service.getExpectedTat('40009', '122001'), /origin_pin.*6-digit/)
+  assert.throws(
+    () => service.getExpectedTat('400093', 'destination'),
+    /destination_pin.*6-digit/,
+  )
 
   await service.estimateFreight({ source_pin: '400093', consignee_pin: '122001' })
   lastRequest('POST', '/freight/estimate')
