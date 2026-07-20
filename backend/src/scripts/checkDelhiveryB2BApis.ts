@@ -141,8 +141,19 @@ const run = async () => {
     /dimensions/,
   )
 
-  await service.getFreightCharges(['220029522', '220029147'])
-  lastRequest('GET', '/lrn/freight-breakup/lrns=220029522%2C220029147')
+  await service.getFreightCharges(' 220029522, 220029147 ,220029160 ')
+  const freightCharges = lastRequest(
+    'GET',
+    '/lrn/freight-breakup/lrns=220029522%2C220029147%2C220029160',
+  )
+  assert.equal(freightCharges.headers?.Authorization, 'Bearer test-jwt')
+  assert.equal(typeof freightCharges.headers?.['X-Request-Id'], 'string')
+
+  const maximumLrns = Array.from({ length: 25 }, (_, index) => String(220000000 + index))
+  await service.getFreightCharges(maximumLrns)
+  lastRequest('GET', `/lrn/freight-breakup/lrns=${encodeURIComponent(maximumLrns.join(','))}`)
+
+  assert.throws(() => service.getFreightCharges(' , , '), /lrns is required/i)
 
   await service.createWarehouse({ name: 'Test Warehouse', pin_code: '122001' })
   lastRequest('POST', '/client-warehouse/create/')

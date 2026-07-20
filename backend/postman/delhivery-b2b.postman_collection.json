@@ -82,7 +82,11 @@
         },
         {
           "name": "Freight Charge Breakup",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/freight/charges?lrns={{lrn}}" }
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/freight/charges?lrns={{lrn}}",
+            "description": "Returns the applicable charge breakdown for one or more comma-separated LRNs. Express Magic trims the list, enforces Delhivery's maximum of 25 LRNs, percent-encodes the comma-separated path value, and forwards it with the cached bearer token."
+          }
         }
       ]
     },

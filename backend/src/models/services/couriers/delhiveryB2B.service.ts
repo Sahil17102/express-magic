@@ -409,12 +409,13 @@ export class DelhiveryB2BService {
   }
 
   getFreightCharges(lrns: string[] | string) {
-    const values = (Array.isArray(lrns) ? lrns : clean(lrns).split(','))
+    const values = (Array.isArray(lrns) ? lrns : [lrns])
+      .flatMap((entry) => clean(entry).split(','))
       .map(clean)
       .filter(Boolean)
+    if (values.length === 0) throw new HttpError(400, 'lrns is required for Delhivery B2B')
     if (values.length > 25) throw new HttpError(400, 'A maximum of 25 LRNs is allowed')
     const value = values.join(',')
-    ensureRequired(value, 'lrns')
     return this.authorizedRequest({
       method: 'GET',
       url: `/lrn/freight-breakup/lrns=${encodeURIComponent(value)}`,
