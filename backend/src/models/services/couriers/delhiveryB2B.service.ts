@@ -694,6 +694,88 @@ const normalizeShipmentUpdatePayload = (payload: Record<string, unknown>) => {
   return data
 }
 
+const LAST_MILE_APPOINTMENT_SLOTS = new Set([
+  '03:00 PM-06:00 PM',
+  '06:00 PM-09:00 PM',
+  '07:00 AM-10:00 AM',
+  '09:00 AM-06:00 PM',
+  '09:00 PM-11:59 PM',
+  '09:00 AM-12:00 PM',
+  '12:00 AM-07:00 AM',
+  '12:00 PM-03:00 PM',
+])
+
+const parseIndianAppointmentDate = (value: unknown, field: string) => {
+  const date = ensureText(value, field)
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(date)
+  if (!match) throw new HttpError(400, `${field} must use DD/MM/YYYY format`)
+  const [, dayText, monthText, yearText] = match
+  const day = Number(dayText)
+  const month = Number(monthText)
+  const year = Number(yearText)
+  const timestamp = Date.UTC(year, month - 1, day)
+  const parsed = new Date(timestamp)
+  if (
+    parsed.getUTCFullYear() !== year ||
+    parsed.getUTCMonth() !== month - 1 ||
+    parsed.getUTCDate() !== day
+  ) {
+    throw new HttpError(400, `${field} must be a valid calendar date`)
+  }
+  return { date, timestamp }
+}
+
+const indiaTodayTimestamp = () => {
+  const indiaNow = new Date(Date.now() + 330 * 60 * 1000)
+  return Date.UTC(
+    indiaNow.getUTCFullYear(),
+    indiaNow.getUTCMonth(),
+    indiaNow.getUTCDate(),
+  )
+}
+
+const normalizeLastMileAppointmentPayload = (payload: Record<string, unknown>) => {
+  const appointmentDate = parseIndianAppointmentDate(payload.date, 'date')
+  if (appointmentDate.timestamp < indiaTodayTimestamp()) {
+    throw new HttpError(400, 'date must be today or a future date')
+  }
+
+  const appointmentSlot = ensureText(payload.appointment_slot, 'appointment_slot')
+  if (!LAST_MILE_APPOINTMENT_SLOTS.has(appointmentSlot)) {
+    throw new HttpError(400, 'appointment_slot is not one of the supported Delhivery slots')
+  }
+
+  const poNumbers = (Array.isArray(payload.po_number)
+    ? payload.po_number
+    : clean(payload.po_number).split(','))
+    .map(clean)
+    .filter(Boolean)
+  if (poNumbers.length === 0 || poNumbers.length > 5) {
+    throw new HttpError(400, 'po_number must contain between 1 and 5 values')
+  }
+
+  const expiryDate = parseIndianAppointmentDate(payload.po_expiry_date, 'po_expiry_date')
+  if (expiryDate.timestamp < appointmentDate.timestamp) {
+    throw new HttpError(400, 'po_expiry_date must not be earlier than the appointment date')
+  }
+
+  const data: Record<string, unknown> = {
+    ...payload,
+    lrn: ensureRequired(payload.lrn, 'lrn'),
+    date: appointmentDate.date,
+    appointment_slot: appointmentSlot,
+    po_number: poNumbers,
+    po_expiry_date: expiryDate.date,
+  }
+  if (payload.appointment_id !== undefined) {
+    if (typeof payload.appointment_id !== 'string') {
+      throw new HttpError(400, 'appointment_id must be a string')
+    }
+    data.appointment_id = payload.appointment_id
+  }
+  return data
+}
+
 const formValue = (value: unknown) => {
   if (typeof value === 'string') return value
   if (typeof value === 'boolean' || typeof value === 'number') return String(value)
@@ -1045,7 +1127,11 @@ export class DelhiveryB2BService {
   }
 
   bookLastMileAppointment(payload: Record<string, unknown>) {
-    return this.authorizedRequest({ method: 'POST', url: '/v2/appointments/lm', data: payload })
+    return this.authorizedRequest({
+      method: 'POST',
+      url: '/v2/appointments/lm',
+      data: normalizeLastMileAppointmentPayload(payload),
+    })
   }
 
   createPickupRequest(payload: Record<string, unknown>) {

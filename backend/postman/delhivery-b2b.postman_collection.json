@@ -211,10 +211,22 @@
         },
         {
           "name": "Book Last-Mile Appointment (mutating)",
+          "event": [{
+            "listen": "prerequest",
+            "script": { "type": "text/javascript", "exec": [
+              "function indiaDate(offsetDays) {",
+              "  var value = new Date(Date.now() + (330 + offsetDays * 1440) * 60000);",
+              "  return String(value.getUTCDate()).padStart(2, '0') + '/' + String(value.getUTCMonth() + 1).padStart(2, '0') + '/' + value.getUTCFullYear();",
+              "}",
+              "pm.environment.set('appointmentDate', indiaDate(1));",
+              "pm.environment.set('appointmentExpiryDate', indiaDate(2));"
+            ] }
+          }],
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": "{{baseUrl}}/api/delhivery/b2b/shipments/{{lrn}}/appointments",
+            "description": "Books last-mile delivery after manifestation and before OFD. Dates use DD/MM/YYYY in India time, the appointment must be today or later, expiry cannot precede the appointment, only Delhivery's eight slots are accepted, and 1-5 PO numbers are required. Delhivery validates the promised-delivery-date and provider-stage constraints.",
             "body": { "mode": "raw", "raw": "{\n  \"date\": \"{{appointmentDate}}\",\n  \"appointment_slot\": \"12:00 PM-03:00 PM\",\n  \"po_number\": [\"NotApplicable\"],\n  \"appointment_id\": \"\",\n  \"po_expiry_date\": \"{{appointmentExpiryDate}}\"\n}" }
           }
         },

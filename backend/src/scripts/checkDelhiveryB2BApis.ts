@@ -513,8 +513,48 @@ const run = async () => {
   assert.equal(typeof allWaybillTracking.headers?.['X-Request-Id'], 'string')
   assert.throws(() => service.trackShipment(''), /lrn is required/)
 
-  await service.bookLastMileAppointment({ lrn: '220110457', date: '23/07/2026' })
-  lastRequest('POST', '/v2/appointments/lm')
+  const formatIndiaDate = (offsetDays: number) => {
+    const value = new Date(Date.now() + (330 + offsetDays * 24 * 60) * 60 * 1000)
+    return `${String(value.getUTCDate()).padStart(2, '0')}/${String(value.getUTCMonth() + 1).padStart(2, '0')}/${value.getUTCFullYear()}`
+  }
+  const appointmentPayload = {
+    lrn: '220192589',
+    date: formatIndiaDate(1),
+    appointment_slot: '12:00 PM-03:00 PM',
+    po_number: ['2273410057461'],
+    appointment_id: '',
+    po_expiry_date: formatIndiaDate(2),
+  }
+  await service.bookLastMileAppointment(appointmentPayload)
+  const appointment = lastRequest('POST', '/v2/appointments/lm')
+  assert.deepEqual(appointment.data, appointmentPayload)
+  assert.equal(appointment.headers?.['Content-Type'], 'application/json')
+
+  assert.throws(
+    () => service.bookLastMileAppointment({ ...appointmentPayload, date: formatIndiaDate(-1) }),
+    /today or a future date/,
+  )
+  assert.throws(
+    () => service.bookLastMileAppointment({ ...appointmentPayload, appointment_slot: '10-12' }),
+    /supported Delhivery slots/,
+  )
+  assert.throws(
+    () =>
+      service.bookLastMileAppointment({
+        ...appointmentPayload,
+        po_number: ['1', '2', '3', '4', '5', '6'],
+      }),
+    /between 1 and 5/,
+  )
+  assert.throws(
+    () =>
+      service.bookLastMileAppointment({
+        ...appointmentPayload,
+        date: formatIndiaDate(2),
+        po_expiry_date: formatIndiaDate(1),
+      }),
+    /must not be earlier/,
+  )
 
   await service.createPickupRequest({ client_warehouse: 'Test Warehouse' })
   lastRequest('POST', '/pickup_requests')
