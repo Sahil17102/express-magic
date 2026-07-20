@@ -752,8 +752,47 @@ const run = async () => {
     /job_id is required/,
   )
 
-  await service.downloadDocument({ lrn: '220110457', doc_type: 'LM_POD' })
-  assert.equal(lastRequest('GET', '/document/download').params?.doc_type, 'LM_POD')
+  await service.downloadDocument({
+    lrn: '220079606',
+    doc_type: 'lm_pod',
+    auto_download: false,
+    fields: 'name,url',
+  })
+  const lrnDocument = lastRequest('GET', '/document/download')
+  assert.deepEqual(lrnDocument.params, {
+    lrn: '220079606',
+    doc_type: 'LM_POD',
+    auto_download: 'false',
+    version: 'latest',
+    fields: 'name,url',
+  })
+  assert.equal(lrnDocument.headers?.Accept, 'application/json')
+
+  await service.downloadDocument({
+    mwn: 'MWN123456',
+    doc_type: 'RETURN_DSP_POD',
+    auto_download: 'true',
+    version: 'all',
+  })
+  assert.deepEqual(lastRequest('GET', '/document/download').params, {
+    mwn: 'MWN123456',
+    doc_type: 'RETURN_DSP_POD',
+    auto_download: 'true',
+    version: 'all',
+  })
+  assert.throws(() => service.downloadDocument({}), /either lrn or mwn is required/)
+  assert.throws(
+    () => service.downloadDocument({ lrn: '220079606', auto_download: 'yes' }),
+    /auto_download must be true or false/,
+  )
+  assert.throws(
+    () => service.downloadDocument({ lrn: '220079606', version: 'oldest' }),
+    /version must be all or latest/,
+  )
+  assert.throws(
+    () => service.downloadDocument({ lrn: '220079606', doc_type: 'LM POD' }),
+    /letters, numbers, and underscores/,
+  )
 
   await service.logout()
   assert.equal(requests.at(-1)?.url, 'https://ltl-clients-api-dev.delhivery.com/ums/logout')

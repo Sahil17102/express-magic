@@ -880,6 +880,49 @@ const normalizeGenerateDocumentPayload = (
   return { docType, data }
 }
 
+const normalizeDownloadDocumentParams = (params: Record<string, unknown>) => {
+  const lrn = params.lrn === undefined ? '' : ensureText(params.lrn, 'lrn').trim()
+  const mwn = params.mwn === undefined ? '' : ensureText(params.mwn, 'mwn').trim()
+  if (!lrn && !mwn) throw new HttpError(400, 'either lrn or mwn is required')
+
+  const normalized: Record<string, string> = { version: 'latest' }
+  if (lrn) normalized.lrn = lrn
+  if (mwn) normalized.mwn = mwn
+
+  if (params.doc_type !== undefined) {
+    const docType = ensureText(params.doc_type, 'doc_type').trim().toUpperCase()
+    if (!/^[A-Z0-9_]+$/.test(docType)) {
+      throw new HttpError(400, 'doc_type must contain only letters, numbers, and underscores')
+    }
+    normalized.doc_type = docType
+  }
+
+  if (params.auto_download !== undefined) {
+    const autoDownload =
+      typeof params.auto_download === 'boolean'
+        ? String(params.auto_download)
+        : clean(params.auto_download).toLowerCase()
+    if (autoDownload !== 'true' && autoDownload !== 'false') {
+      throw new HttpError(400, 'auto_download must be true or false')
+    }
+    normalized.auto_download = autoDownload
+  }
+
+  if (params.version !== undefined) {
+    const version = ensureText(params.version, 'version').trim().toLowerCase()
+    if (version !== 'all' && version !== 'latest') {
+      throw new HttpError(400, 'version must be all or latest')
+    }
+    normalized.version = version
+  }
+
+  if (params.fields !== undefined) {
+    normalized.fields = ensureText(params.fields, 'fields').trim()
+  }
+
+  return normalized
+}
+
 const normalizeLastMileAppointmentPayload = (payload: Record<string, unknown>) => {
   const appointmentDate = parseIndianAppointmentDate(payload.date, 'date')
   if (appointmentDate.timestamp < indiaTodayTimestamp()) {
@@ -1333,6 +1376,10 @@ export class DelhiveryB2BService {
   }
 
   downloadDocument(params: Record<string, unknown>) {
-    return this.authorizedRequest({ method: 'GET', url: '/document/download', params })
+    return this.authorizedRequest({
+      method: 'GET',
+      url: '/document/download',
+      params: normalizeDownloadDocumentParams(params),
+    })
   }
 }

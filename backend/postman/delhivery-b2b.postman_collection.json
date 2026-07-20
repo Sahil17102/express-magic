@@ -357,8 +357,28 @@
           }
         },
         {
-          "name": "Download POD Document",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/delhivery/b2b/documents?lrn={{lrn}}&doc_type=LM_POD&auto_download=false&version=latest" }
+          "name": "Download POD Document by LRN",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json();",
+            "pm.test('POD document payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Downloads document metadata or the first matching file for an LRN. Set podDocType to LM_POD, ALTERNATE_LM_POD, RETURN_DSP_POD, or another Delhivery-supported type. auto_download accepts true or false; version accepts latest or all.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/documents?lrn={{lrn}}&doc_type={{podDocType}}&auto_download=false&version=latest&fields={{podFields}}"
+          }
+        },
+        {
+          "name": "Download POD Document by MWN",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "var body = pm.response.json();",
+            "pm.test('POD document payload is returned', function () { pm.expect(body).to.have.property('data'); });"
+          ] } }],
+          "request": {
+            "description": "Downloads document metadata or the first matching file using an MWN instead of an LRN. Remove fields when full metadata is preferred.",
+            "method": "GET",
+            "url": "{{baseUrl}}/api/delhivery/b2b/documents?mwn={{mwn}}&doc_type={{podDocType}}&auto_download=false&version=latest&fields={{podFields}}"
+          }
         }
       ]
     },
