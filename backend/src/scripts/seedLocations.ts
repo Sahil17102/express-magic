@@ -67,10 +67,10 @@ async function insertBatch(rows: Row[]) {
     created_at: new Date(),
   }))
 
-  for (const zone of values) {
-    console.log('inserting:', zone.pincode, 'tags:', JSON.stringify(zone.tags))
-    await db.insert(locations).values(zone) // Drizzle insert
-  }
+  console.log(
+    `inserting batch: ${values[0].pincode}-${values[values.length - 1].pincode}`,
+  )
+  await db.insert(locations).values(values)
 
   console.log(`✅ Inserted ${rows.length} rows`)
 }
