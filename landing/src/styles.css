@@ -432,3 +432,73 @@ footer::after {
   .home-stack-card > .final-cta { min-height:calc(100svh - 66px); }
 }
 
+/* FastShip logo palette override */
+:root {
+  --ink:#061a33;
+  --blue:#062a5b;
+  --coral:#ed1c24;
+  --lime:#fde7ea;
+  --ivory:#f5f8fc;
+  --mint:#eef4fb;
+  --pastel-blue:#d9e6f7;
+  --lilac:#fde7ea;
+  --mist:#e8eef7;
+  --line:rgba(6,42,91,.16);
+}
+
+.site-header { background:rgba(255,255,255,.8); box-shadow:0 16px 38px rgba(6,26,51,.12); }
+.brand-logo-image {
+  width:220px;
+  height:74px;
+  object-fit:contain;
+  object-position:left center;
+  mix-blend-mode:normal;
+  border-radius:0;
+  background:transparent;
+}
+.main-nav a:hover,.main-nav a.active,.eyebrow,.hero-proof svg,h1 em,h2 em,.drawer-list button > span svg,.drawer-list article.open button > svg,.drawer-copy a { color:var(--coral); }
+.button-coral,.mode-switch button.active,.note-symbol,.planner-ad a,.orbit-core,.testimonial-person > span { background:var(--coral); box-shadow:0 10px 22px rgba(237,28,36,.22); }
+.button-coral:hover { background:#b80f1a; }
+.button-dark,.hero-marquee,.quote-band,footer,.tone-ink { color:#fff; background:var(--ink); box-shadow:0 10px 22px rgba(6,26,51,.18); }
+.button-dark:hover { background:#062a5b; }
+.home-stack,.hero,.tone-blue,.page-hero,.contact-page,.testimonials,.visual-gallery { background-color:var(--pastel-blue); }
+.tone-coral,.feature-showcase,.workbench { background-color:var(--lilac); }
+.tone-lime,.planner-ad,.result-box,.drawer-list article.open { background:var(--mint); }
+.hero-backdrop {
+  background-image:
+    linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(238,244,251,.86) 36%,rgba(6,42,91,.16) 100%),
+    url('/assets/fastshipindia-hero-green-navy.jpg');
+  filter:saturate(.98) contrast(1.02);
+}
+.feature-section,.card-section {
+  background-image:radial-gradient(circle,rgba(6,42,91,.1) 1px,transparent 1.5px),linear-gradient(135deg,#d9e6f7,#fde7ea 58%,#eef4fb);
+}
+.feature-showcase,.page-hero {
+  background-image:repeating-linear-gradient(90deg,rgba(6,42,91,.045) 0 1px,transparent 1px 52px),repeating-linear-gradient(0deg,rgba(237,28,36,.04) 0 1px,transparent 1px 52px),linear-gradient(135deg,#fde7ea,#d9e6f7);
+}
+.campaign-section,.tool-page {
+  background-image:repeating-linear-gradient(135deg,rgba(6,42,91,.055) 0 2px,transparent 2px 34px),linear-gradient(120deg,#f5f8fc,#eef4fb 52%,#fde7ea);
+}
+.workbench {
+  background-image:linear-gradient(90deg,rgba(6,42,91,.045) 1px,transparent 1px),linear-gradient(rgba(237,28,36,.04) 1px,transparent 1px),linear-gradient(135deg,#fde7ea,#d9e6f7 55%,#eef4fb);
+}
+.showcase-note::after { border-color:rgba(237,28,36,.22); box-shadow:0 0 0 26px rgba(237,28,36,.07),0 0 0 53px rgba(237,28,36,.04); }
+.testimonial-stars { color:var(--coral); }
+.testimonial-line { background:var(--coral); }
+.mode-switch { background:#d9e6f7; }
+.result-rate { background:#d9e6f7; }
+footer .brand-logo-image { width:220px; height:74px; filter:none; }
+
+@media (max-width:900px) {
+  .site-header,.main-nav { background:rgba(255,255,255,.88); }
+  .hero-backdrop {
+    background-image:
+      linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(238,244,251,.82) 56%,rgba(6,42,91,.14) 100%),
+      url('/assets/fastshipindia-hero-green-navy.jpg');
+  }
+}
+
+@media (max-width:560px) {
+  .brand-logo-image { width:168px; height:56px; }
+}
+

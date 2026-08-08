@@ -16,7 +16,10 @@ function Sidebar(props) {
   let sidebarRadius = '0px'
   let sidebarMargins = '0px'
   if (sidebarVariant === 'opaque') {
-    sidebarBg = useColorModeValue('#111113', '#111113')
+    sidebarBg = useColorModeValue(
+      `linear-gradient(180deg, ${BRAND.colors.tealDark} 0%, ${BRAND.colors.teal} 58%, #020D1F 100%)`,
+      `linear-gradient(180deg, ${BRAND.colors.tealDark} 0%, #020D1F 100%)`,
+    )
     sidebarRadius = '18px'
     sidebarMargins = '16px 0px 16px 16px'
   }

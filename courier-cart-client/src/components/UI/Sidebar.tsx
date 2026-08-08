@@ -348,34 +348,36 @@ export default function Sidebar({
         alignItems="center"
         justifyContent={shouldShowExpanded ? 'space-between' : 'center'}
         sx={{
-          px: shouldShowExpanded ? 1.5 : 1,
-          py: shouldShowExpanded ? 1.5 : 0.75,
+          px: shouldShowExpanded ? 1.5 : 0.75,
+          py: shouldShowExpanded ? 1.25 : 0.75,
           borderBottom: `1px solid ${BRAND_BORDER}`,
+          background: `linear-gradient(135deg, ${alpha(BRAND.colors.tealSoft, 0.86)} 0%, ${alpha(BRAND.colors.amberSoft, 0.5)} 100%)`,
           flexShrink: 0,
         }}
       >
         <Box
           sx={{
-            width: shouldShowExpanded ? 48 : 40,
-            height: shouldShowExpanded ? 48 : 40,
-            borderRadius: 1.5,
+            width: shouldShowExpanded ? 138 : 50,
+            height: shouldShowExpanded ? 56 : 44,
+            borderRadius: 1,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
             flexShrink: 0,
+            overflow: 'hidden',
           }}
         >
           <Box
             component="img"
             src={LOGO_SRC}
             alt={BRAND.name}
-            sx={{ width: '90%', height: '90%', objectFit: 'contain' }}
+            sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left center' }}
           />
         </Box>
         {shouldShowExpanded && (
           <Box sx={{ flex: 1, minWidth: 0, ml: 1 }}>
-            <Typography sx={{ fontSize: '0.9rem', fontWeight: 700, color: BRAND_INK }}>
-              {BRAND.name}
+            <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_ACCENT, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Client Panel
             </Typography>
           </Box>
         )}

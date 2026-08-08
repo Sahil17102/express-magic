@@ -41,7 +41,7 @@ function RouteEffects() {
 }
 
 function Logo({ light = false }) {
-  return <img className="brand-logo brand-logo-image" src="/assets/fastshipindia-logo-green-navy.jpg" alt="Fastship India" decoding="async" />
+  return <img className="brand-logo brand-logo-image" src="/fastship-logo.png" alt="FastShip" decoding="async" />
 }
 
 function Header() {

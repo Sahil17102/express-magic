@@ -9,8 +9,6 @@ export default function BrandMark({
   markOnly = false,
 }) {
   const titleColor = useColorModeValue(BRAND.colors.ink, 'white')
-  const subtitleColor = useColorModeValue(BRAND.colors.muted, 'gray.400')
-  const pillBg = useColorModeValue('rgba(6, 42, 91, 0.08)', 'rgba(255, 255, 255, 0.08)')
 
   if (markOnly) {
     return (
@@ -18,9 +16,10 @@ export default function BrandMark({
         as="img"
         src={BRAND.mark}
         alt={BRAND.name}
-        w={`${size}px`}
+        w={`${Math.round(size * 2.8)}px`}
         h={`${size}px`}
         objectFit="contain"
+        objectPosition="left center"
       />
     )
   }
@@ -31,22 +30,18 @@ export default function BrandMark({
         as="img"
         src={BRAND.logo}
         alt={BRAND.name}
-        w={`${Math.round(size * 1.1)}px`}
-        h={`${Math.round(size * 1.1)}px`}
+        w={`${Math.round(size * 3.2)}px`}
+        h={`${Math.round(size * 1.25)}px`}
         objectFit="contain"
-        borderRadius="14px"
-        bg={pillBg}
-        p="2px"
+        objectPosition="left center"
+        borderRadius="0"
+        bg="transparent"
+        p="0"
       />
       <Stack spacing={0.5} align={align === 'center' ? 'center' : 'start'}>
         <Text fontSize={compact ? 'sm' : 'md'} fontWeight="800" color={titleColor} letterSpacing="-0.02em">
-          {BRAND.name}
+          {showTagline ? 'Admin Console' : BRAND.name}
         </Text>
-        {showTagline ? (
-          <Text fontSize="xs" fontWeight="700" textTransform="uppercase" letterSpacing="0.12em" color={subtitleColor}>
-            Admin Console
-          </Text>
-        ) : null}
       </Stack>
     </Flex>
   )
