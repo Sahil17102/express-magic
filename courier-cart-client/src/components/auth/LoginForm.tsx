@@ -405,7 +405,7 @@ function ShipmentScene() {
     >
       <Box
         component="img"
-        src="/images/express-magic-login-3d.webp"
+        src="/images/fastship-login-3d.webp"
         alt=""
         aria-hidden="true"
         decoding="async"

@@ -295,7 +295,7 @@ export default function OrderTrackingForm() {
                 lineHeight: 1.8,
               }}
             >
-              Search by AWB or order reference and get a clean Express Magic delivery view with courier status, key
+              Search by AWB or order reference and get a clean FastShip delivery view with courier status, key
               milestones, and event history.
             </Typography>
             <Box
@@ -787,7 +787,7 @@ export default function OrderTrackingForm() {
               },
             ]}
             ctaTitle="Know where it is. Ready for the next shipment?"
-            ctaDescription="Sign in to book, manage and track every courier from one Express Magic dashboard."
+            ctaDescription="Sign in to book, manage and track every courier from one FastShip dashboard."
             primaryLabel="Login to dashboard"
             primaryPath="/login"
             secondaryLabel="Calculate shipment rate"

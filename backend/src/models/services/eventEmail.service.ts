@@ -40,7 +40,7 @@ const toStatusLabel = (status: string) =>
     .join(' ')
 
 const resolveDashboardUrl = () =>
-  process.env.FRONTEND_URL || process.env.CLIENT_URL || process.env.APP_URL || 'https://fgship.in'
+  process.env.FRONTEND_URL || process.env.CLIENT_URL || process.env.APP_URL || 'https://fastship.in'
 
 const getMerchantContext = async (userId: string) => {
   const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1)
@@ -118,7 +118,7 @@ export const sendWalletRechargeEventEmail = async (params: {
     subject: `${statusTitle} - ${formatCurrency(params.amount)}`,
     eyebrow: 'Wallet',
     title: statusTitle,
-    intro: `Hello ${escapeHtml(merchant.merchantName)}, your wallet recharge event has been recorded on FGShip.`,
+    intro: `Hello ${escapeHtml(merchant.merchantName)}, your wallet recharge event has been recorded on FastShip.`,
     rows: [
       { label: 'Amount', value: formatCurrency(params.amount) },
       { label: 'Currency', value: compactText(params.currency || 'INR') },
@@ -196,10 +196,10 @@ export const sendAccountActivatedEmail = async (params: {
 
   await sendOperationalEmail({
     to,
-    subject: 'Your FGShip account is active',
+    subject: 'Your FastShip account is active',
     eyebrow: 'Account Activation',
     title: 'Account activated',
-    intro: `Hello ${escapeHtml(merchantName)}, your FGShip account is now active and ready to use.`,
+    intro: `Hello ${escapeHtml(merchantName)}, your FastShip account is now active and ready to use.`,
     rows: [
       { label: 'Account email', value: escapeHtml(to) },
       { label: 'Activated at', value: formatDateTime(new Date()) },

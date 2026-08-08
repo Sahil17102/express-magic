@@ -177,7 +177,7 @@ export const useRechargeWallet = () =>
           key: orderData.key,
           amount: orderData.amount,
           currency: orderData.currency || 'INR',
-          name: orderData.name || 'Express Magic',
+          name: orderData.name || 'FastShip',
           description: orderData.description || 'Wallet Recharge',
           order_id: orderData.orderId,
           prefill: orderData.prefill,

@@ -25,7 +25,7 @@ const CompanyDetails = () => {
       <PageHeading
         title="Contact Us"
         subtitle="  We’re here to help! Whether you have questions about our services, need support with your
-        account, or want to know more about how Express Magic can assist your business, feel free to
+        account, or want to know more about how FastShip can assist your business, feel free to
         reach out to us."
       />
 
@@ -51,7 +51,7 @@ const CompanyDetails = () => {
           }}
         >
           <Typography variant="h6" fontWeight="bold" color="secondary" gutterBottom>
-            Express Magic
+            FastShip
           </Typography>
 
           {/* Address */}
@@ -68,8 +68,8 @@ const CompanyDetails = () => {
             <Chip
               clickable
               component={Link}
-              href="mailto:support@expressmagic.in"
-              label="support@expressmagic.in"
+              href="mailto:support@fastship.in"
+              label="support@fastship.in"
               color="primary"
               variant="filled"
               icon={<FiMail size={16} />}
@@ -82,10 +82,10 @@ const CompanyDetails = () => {
             <Chip
               clickable
               component={Link}
-              href="https://www.expressmagic.in"
+              href="https://www.fastship.in"
               target="_blank"
               rel="noreferrer"
-              label="www.expressmagic.in"
+              label="www.fastship.in"
               color="secondary"
               variant="filled"
               icon={<FiGlobe size={16} />}
@@ -119,7 +119,7 @@ const CompanyDetails = () => {
             width="100%"
             draggable={false}
             zoom={16}
-            popupText="Express Magic"
+            popupText="FastShip"
             currentLocation={false}
           />
         </Paper>

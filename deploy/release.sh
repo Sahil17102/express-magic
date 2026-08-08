@@ -8,10 +8,10 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH
 APP_SLUG="$(basename "$APP_ROOT" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-')"
 BUILD_SWAP_FILE="${BUILD_SWAP_FILE:-/swapfile-${APP_SLUG}-build}"
 BUILD_SWAP_SIZE="${BUILD_SWAP_SIZE:-4G}"
-DEPLOY_PUBLIC_API_URL="${DEPLOY_PUBLIC_API_URL:-https://api.fgship.in/api}"
-DEPLOY_PUBLIC_SOCKET_URL="${DEPLOY_PUBLIC_SOCKET_URL:-https://api.fgship.in}"
+DEPLOY_PUBLIC_API_URL="${DEPLOY_PUBLIC_API_URL:-https://api.fastship.in/api}"
+DEPLOY_PUBLIC_SOCKET_URL="${DEPLOY_PUBLIC_SOCKET_URL:-https://api.fastship.in}"
 PM2_BIN="${PM2_BIN:-$(command -v pm2 || true)}"
-PM2_APP_NAME="${PM2_APP_NAME:-feathers-global-backend}"
+PM2_APP_NAME="${PM2_APP_NAME:-fastship-backend}"
 LEGACY_PM2_APP_NAME="${LEGACY_PM2_APP_NAME:-shiplifi-backend}"
 
 repair_pm2_install() {

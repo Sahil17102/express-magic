@@ -47,7 +47,7 @@ export const createPresignedUrl = async (
         userId: sub,
       });
       const apiBaseUrl = String(
-        process.env.API_URL || process.env.PUBLIC_API_URL || "https://api.fgship.in",
+        process.env.API_URL || process.env.PUBLIC_API_URL || "https://api.fastship.in",
       ).trim().replace(/\/+$/, "");
 
       return res.status(200).json({

@@ -144,7 +144,7 @@
       rgba(255, 255, 255, 0.05) 100%
     ),
     linear-gradient(180deg, rgba(247, 251, 255, 0) 68%, #f7fbff 94%),
-    url('/images/express-magic-warehouse-hero.webp') center right / cover no-repeat;
+    url('/images/fastship-warehouse-hero.webp') center right / cover no-repeat;
 }
 
 .em-hero__content {
@@ -1170,7 +1170,7 @@
         rgba(255, 255, 255, 0.76) 42%,
         rgba(255, 255, 255, 0.62) 100%
       ),
-      url('/images/express-magic-warehouse-hero.webp') 63% center / cover no-repeat;
+      url('/images/fastship-warehouse-hero.webp') 63% center / cover no-repeat;
   }
 
   .em-hero__content {

@@ -10,10 +10,10 @@ export const navigationLinks = [
 ];
 
 export const heroContent = {
-  eyebrow: "Express Magic",
+  eyebrow: "FastShip",
   headline: "Ship Smarter. Move Faster on Every Order.",
   subheading:
-    "Turn the public Express Magic link into a polished front door for merchants, operations teams, and admins. From one landing experience, people can jump into the client app, merchant auth flow, or admin workspace in a clean new tab.",
+    "Turn the public FastShip link into a polished front door for merchants, operations teams, and admins. From one landing experience, people can jump into the client app, merchant auth flow, or admin workspace in a clean new tab.",
   primaryCta: "Open Merchant Login",
   secondaryCta: "Open Client App",
   tertiaryCta: "Open Admin Panel",
@@ -331,8 +331,8 @@ export const footerGroups = [
   {
     title: "Contact",
     links: [
-      { label: "support@expressmagic.in", href: "mailto:support@expressmagic.in" },
-      { label: "hello@expressmagic.in", href: "mailto:hello@expressmagic.in" },
+      { label: "support@fastship.in", href: "mailto:support@fastship.in" },
+      { label: "hello@fastship.in", href: "mailto:hello@fastship.in" },
       { label: "+91 92175 53934", href: "tel:+919217553934" },
       { label: "Mon-Sat, 9:00 AM to 7:00 PM", href: "#top" },
     ],

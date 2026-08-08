@@ -114,7 +114,7 @@ async function resolveWalletOrderCustomerDetails(
     companyInfo.contactPerson,
     companyInfo.companyName,
     email ? email.split('@')[0] : '',
-    'Feather Global Customer',
+    'FastShip Customer',
   )
 
   const missingFields: string[] = []
@@ -208,7 +208,7 @@ export async function createWalletOrder(
     amount: razorpayOrder.amount,
     currency: razorpayOrder.currency,
     key: razorpayCheckoutKeyId,
-    name: 'Feather Global',
+    name: 'FastShip',
     description: 'Wallet Recharge',
     prefill: {
       name: resolvedDetails.name,

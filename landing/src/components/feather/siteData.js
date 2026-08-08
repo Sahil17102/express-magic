@@ -5,13 +5,13 @@ export const siteNavigation = [
 ];
 
 export const companyProfile = {
-  name: "Express Magic",
+  name: "FastShip",
   tagline: "Smart shipping for smarter sellers",
   shortPitch:
-    "A brighter Express Magic shipping experience designed to unify store operations, courier decisions, tracking visibility, and delivery performance.",
+    "A brighter FastShip shipping experience designed to unify store operations, courier decisions, tracking visibility, and delivery performance.",
   mobile: "9217553934",
   phone: "92175 53934",
-  email: "support@expressmagic.in",
+  email: "support@fastship.in",
   address:
     "A-1/4, Khodiyar Nagar Society near takshashila complex, Khodiyar Nagar road, Varachha, Surat - 395006",
 };

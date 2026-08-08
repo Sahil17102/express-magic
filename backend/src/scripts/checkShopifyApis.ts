@@ -194,7 +194,7 @@ const startMockShopifyServer = async () => {
                   node: {
                     id: 'gid://shopify/WebhookSubscription/111',
                     topic: 'ORDERS_CREATE',
-                    uri: 'https://api.fgship.in/api/webhooks/shopify/order-created',
+                    uri: 'https://api.fastship.in/api/webhooks/shopify/order-created',
                   },
                 },
               ],

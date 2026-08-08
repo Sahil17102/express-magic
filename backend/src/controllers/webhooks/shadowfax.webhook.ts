@@ -7,7 +7,7 @@ import { ShadowfaxService } from '../../models/services/couriers/shadowfax.servi
 
 export const SHADOWFAX_WEBHOOK_PATH = '/webhooks/shadowfax'
 export const SHADOWFAX_WEBHOOK_URL =
-  process.env.SHADOWFAX_WEBHOOK_URL || `https://api.fgship.in${SHADOWFAX_WEBHOOK_PATH}`
+  process.env.SHADOWFAX_WEBHOOK_URL || `https://api.fastship.in${SHADOWFAX_WEBHOOK_PATH}`
 
 const SHADOWFAX_REQUIRE_AUTH =
   String(process.env.SHADOWFAX_WEBHOOK_REQUIRE_AUTH || '')

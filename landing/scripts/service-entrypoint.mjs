@@ -15,8 +15,8 @@ const externalHostname = String(process.env.RENDER_EXTERNAL_HOSTNAME || "")
   .toLowerCase();
 
 const shouldRunBackend =
-  serviceName === "express-magic-backend" ||
-  externalHostname === "express-magic-backend.onrender.com";
+  serviceName === "fastship-backend" ||
+  externalHostname === "fastship-backend.onrender.com";
 
 const mode = shouldRunBackend ? "backend" : "landing";
 const cwd = shouldRunBackend ? backendDir : landingDir;

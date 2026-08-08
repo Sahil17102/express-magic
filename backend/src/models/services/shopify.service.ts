@@ -2557,7 +2557,7 @@ const buildTrackingUrl = (trackingNumber: string) => {
     process.env.FRONTEND_URL ||
       process.env.CLIENT_URL ||
       process.env.APP_URL ||
-      'https://client.fgship.in',
+      'https://client.fastship.in',
   )
     .trim()
     .replace(/\/+$/, '')

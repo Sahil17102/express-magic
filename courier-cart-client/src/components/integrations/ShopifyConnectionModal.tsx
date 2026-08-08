@@ -104,7 +104,7 @@ const ShopifyConnectionModal = ({
               Shopify app authorization
             </Typography>
             <Typography variant="body2" color="text.secondary" mb={2}>
-              Connect with Shopify's current OAuth flow. Express Magic redirects you to
+              Connect with Shopify's current OAuth flow. FastShip redirects you to
               Shopify, Shopify asks the merchant to approve the configured scopes, and
               the backend stores the access token securely.
             </Typography>
@@ -115,7 +115,7 @@ const ShopifyConnectionModal = ({
                 tokens or app secrets into this screen.
               </Alert>
               <Typography variant="body2" color="text.secondary">
-                Example: <strong>feather-global-test.myshopify.com</strong>
+                Example: <strong>fastship-test.myshopify.com</strong>
               </Typography>
               <Link
                 href="https://admin.shopify.com/"
@@ -147,7 +147,7 @@ const ShopifyConnectionModal = ({
                 required
                 prefix={<BiLink />}
                 label="Shopify Store URL"
-                placeholder="feather-global-test.myshopify.com"
+                placeholder="fastship-test.myshopify.com"
                 value={shopifyDetails.storeUrl ?? shopifyDetails?.domain}
                 disabled={isEditing && !forOnboarding}
                 onChange={(e) =>
@@ -310,7 +310,7 @@ const ShopifyConnectionModal = ({
                       },
                     }))
                   }
-                  helperText="Automatically update order statuses in Shopify when they change in Express Magic."
+                  helperText="Automatically update order statuses in Shopify when they change in FastShip."
                 />
 
                 {/* Auto cancel orders */}
@@ -326,7 +326,7 @@ const ShopifyConnectionModal = ({
                       },
                     }))
                   }
-                  helperText="Automatically cancel the order in Shopify when it’s marked as cancelled in Express Magic."
+                  helperText="Automatically cancel the order in Shopify when it’s marked as cancelled in FastShip."
                 />
 
                 {/* Mark COD Orders Paid */}

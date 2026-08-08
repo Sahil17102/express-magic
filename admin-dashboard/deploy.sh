@@ -10,7 +10,7 @@
 set +e
 
 # VPS configuration
-VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/feathers-global/current/admin-dashboard/build}"
+VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/fastship/current/admin-dashboard/build}"
 
 # Get VPS connection details from argument or environment variables
 if [ -n "$1" ]; then
@@ -45,8 +45,8 @@ echo "🔨 Running build with production environment variables..."
 
 # Set production API URL
 # React apps need REACT_APP_ prefix for environment variables
-export REACT_APP_API_BASE_URL="${REACT_APP_API_BASE_URL:-https://api.fgship.in/api}"
-export REACT_APP_SOCKET_URL="${REACT_APP_SOCKET_URL:-https://api.fgship.in}"
+export REACT_APP_API_BASE_URL="${REACT_APP_API_BASE_URL:-https://api.fastship.in/api}"
+export REACT_APP_SOCKET_URL="${REACT_APP_SOCKET_URL:-https://api.fastship.in}"
 
 echo "📡 Using production API URL: ${REACT_APP_API_BASE_URL}"
 echo ""

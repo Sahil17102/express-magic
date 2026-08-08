@@ -610,7 +610,7 @@ const CourierCredentials = () => {
                 <Input
                   value={
                     data?.ekart?.webhookConfig?.trackingUrl ||
-                    'https://api.fgship.in/api/webhook/ekart'
+                    'https://api.fastship.in/api/webhook/ekart'
                   }
                   isReadOnly
                 />

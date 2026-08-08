@@ -7,7 +7,7 @@
 
 set +e
 
-VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/feathers-global/current/admin-dashboard}"
+VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/fastship/current/admin-dashboard}"
 
 if [ -n "$1" ]; then
   VPS_CONNECTION="$1"

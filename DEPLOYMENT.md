@@ -1,6 +1,6 @@
-# Express Magic deployment
+# FastShip deployment
 
-Express Magic uses Render as its primary deployment platform. The public landing
+FastShip uses Render as its primary deployment platform. The public landing
 and merchant client are packaged into one free Static Site. The manual GitHub
 Actions workflows remain available only for the separate Linux VPS deployment path.
 
@@ -10,12 +10,12 @@ The Render configuration defines these services:
 
 | Component | URL | Root directory | Type |
 | --- | --- | --- | --- |
-| Landing + client | `https://express-magic.onrender.com` | repository root | Static Site |
-| Admin panel | `https://express-magic-admin.onrender.com` | `admin-dashboard` | Static Site |
-| Backend API | `https://express-magic-backend.onrender.com` | `backend` | Docker Web Service |
+| Landing + client | `https://fastship.onrender.com` | repository root | Static Site |
+| Admin panel | `https://fastship-admin.onrender.com` | `admin-dashboard` | Static Site |
+| Backend API | `https://fastship-backend.onrender.com` | `backend` | Docker Web Service |
 
 No Blueprint or second client service is required. Configure the existing
-`express-magic` Static Site with an empty Root Directory (repository root), Build
+`fastship` Static Site with an empty Root Directory (repository root), Build
 Command `npm run build`, and Publish Directory `combined-dist`. The root build
 packages the Feather landing at `/` and the merchant app at `/app/`.
 
@@ -26,7 +26,7 @@ is an optional configuration reference; Blueprint deployment is not required.
 ### Combined landing and client settings
 
 The merchant login URL is
-`https://express-magic.onrender.com/app/#/login`. Client routing uses the URL hash,
+`https://fastship.onrender.com/app/#/login`. Client routing uses the URL hash,
 so login/dashboard reloads do not require a paid feature or host rewrite.
 
 - Root directory: leave blank
@@ -37,8 +37,8 @@ so login/dashboard reloads do not require a paid feature or host rewrite.
 Set these build-time environment variables:
 
 ```env
-VITE_API_URL=https://express-magic-backend.onrender.com/api
-VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
+VITE_API_URL=https://fastship-backend.onrender.com/api
+VITE_APP_SOCKET_URL=https://fastship-backend.onrender.com
 ```
 
 `VITE_GOOGLE_OAUTH_CLIENT_ID` and `VITE_PUBLIC_GEOAPIFY_KEY` are optional and must contain the real provider values only when those features are enabled.
@@ -52,8 +52,8 @@ VITE_APP_SOCKET_URL=https://express-magic-backend.onrender.com
 Set these build-time environment variables:
 
 ```env
-REACT_APP_API_BASE_URL=https://express-magic-backend.onrender.com/api
-REACT_APP_SOCKET_URL=https://express-magic-backend.onrender.com
+REACT_APP_API_BASE_URL=https://fastship-backend.onrender.com/api
+REACT_APP_SOCKET_URL=https://fastship-backend.onrender.com
 ```
 
 ### Backend settings
@@ -73,9 +73,9 @@ Set these environment variables in the backend service:
 | --- | --- |
 | `NODE_ENV` | `production` |
 | `DATABASE_URL` | The **new Internal Database URL** copied from the Render Postgres **Connect** menu after rotating the exposed database password. Do not use a URL committed to Git. |
-| `API_URL` | `https://express-magic-backend.onrender.com` (no `/api`) |
-| `CORS_ALLOWED_ORIGINS` | `https://express-magic.onrender.com,https://express-magic-admin.onrender.com` |
-| `FRONTEND_URL` | `https://express-magic.onrender.com/app` |
+| `API_URL` | `https://fastship-backend.onrender.com` (no `/api`) |
+| `CORS_ALLOWED_ORIGINS` | `https://fastship.onrender.com,https://fastship-admin.onrender.com` |
+| `FRONTEND_URL` | `https://fastship.onrender.com/app` |
 | `ACCESS_TOKEN_SECRET` | A unique random secret of at least 32 bytes. Generate it locally with `openssl rand -base64 48`. |
 | `REFRESH_TOKEN_SECRET` | A different unique random secret of at least 32 bytes. |
 | `COURIER_SECRET_KEY` | A third unique random secret used to encrypt stored courier credentials. Keep this stable after production data exists. |
@@ -94,12 +94,12 @@ The manual VPS deployment expects this layout:
 
 | Component | VPS path | Public host |
 | --- | --- | --- |
-| Landing site | `/srv/feathers-global/current/landing` | `fgship.in` |
-| Client panel | `/srv/feathers-global/current/courier-cart-client` | `client.fgship.in` |
-| Admin panel | `/srv/feathers-global/current/admin-dashboard` | `admin.fgship.in` |
-| Backend API | `/srv/feathers-global/current/backend` | `api.fgship.in` |
+| Landing site | `/srv/fastship/current/landing` | `fastship.in` |
+| Client panel | `/srv/fastship/current/courier-cart-client` | `client.fastship.in` |
+| Admin panel | `/srv/fastship/current/admin-dashboard` | `admin.fastship.in` |
+| Backend API | `/srv/fastship/current/backend` | `api.fastship.in` |
 
-Nginx configuration is stored in `deploy/nginx/feathers-global.conf`. The backend is managed by PM2 using `backend/ecosystem.config.cjs` and reads `backend/.env.production` on the server. That file must never be committed.
+Nginx configuration is stored in `deploy/nginx/fastship.conf`. The backend is managed by PM2 using `backend/ecosystem.config.cjs` and reads `backend/.env.production` on the server. That file must never be committed.
 
 ## Workflow behavior
 
@@ -113,35 +113,35 @@ Normal pushes are deployed by the connected Render services and do not run the V
 
 ## Required GitHub Secrets
 
-Use these exact canonical names. Legacy `FEATHERS_GLOBAL_*` aliases are not used.
+Use these exact canonical names. Legacy `FASTSHIP_*` aliases are not used.
 
 | Secret | Required value | Where to obtain it |
 | --- | --- | --- |
-| `FGSHIP_HOST` | The VPS public IPv4 address or DNS hostname only, for example `server.example.com`. Do not include `https://`, a path, username, or port. SSH port 22 is assumed. | VPS provider dashboard, server inventory, or the person who provisioned the VPS. |
-| `FGSHIP_USER` | The Linux SSH login username that can access the VPS and run non-interactive `sudo`, such as the provisioned deployment account. This is not a GitHub username unless that is genuinely the Linux account name. | VPS provisioning record or `/etc/passwd` on the server. |
-| `FGSHIP_SSH_PRIVATE_KEY` | Full contents of the unencrypted private key whose public key is installed in `~FGSHIP_USER/.ssh/authorized_keys`. Include the `BEGIN ... PRIVATE KEY` and `END ... PRIVATE KEY` lines and preserve newlines. Do not paste the `.pub` key. | The secure machine or password manager where the deployment key pair was created. Create a dedicated key if none exists. |
-| `FGSHIP_PASSWORD` | The real SSH password for `FGSHIP_USER`. Use only when private-key authentication is unavailable. | VPS provider credentials or the server administrator. |
+| `FASTSHIP_HOST` | The VPS public IPv4 address or DNS hostname only, for example `server.example.com`. Do not include `https://`, a path, username, or port. SSH port 22 is assumed. | VPS provider dashboard, server inventory, or the person who provisioned the VPS. |
+| `FASTSHIP_USER` | The Linux SSH login username that can access the VPS and run non-interactive `sudo`, such as the provisioned deployment account. This is not a GitHub username unless that is genuinely the Linux account name. | VPS provisioning record or `/etc/passwd` on the server. |
+| `FASTSHIP_SSH_PRIVATE_KEY` | Full contents of the unencrypted private key whose public key is installed in `~FASTSHIP_USER/.ssh/authorized_keys`. Include the `BEGIN ... PRIVATE KEY` and `END ... PRIVATE KEY` lines and preserve newlines. Do not paste the `.pub` key. | The secure machine or password manager where the deployment key pair was created. Create a dedicated key if none exists. |
+| `FASTSHIP_PASSWORD` | The real SSH password for `FASTSHIP_USER`. Use only when private-key authentication is unavailable. | VPS provider credentials or the server administrator. |
 
-`FGSHIP_HOST` and `FGSHIP_USER` are always required. For authentication, provide `FGSHIP_SSH_PRIVATE_KEY` or `FGSHIP_PASSWORD`; the private key is preferred. You do not need both.
+`FASTSHIP_HOST` and `FASTSHIP_USER` are always required. For authentication, provide `FASTSHIP_SSH_PRIVATE_KEY` or `FASTSHIP_PASSWORD`; the private key is preferred. You do not need both.
 
 ### Create a dedicated SSH key
 
 Run this on a trusted administrator machine, not in GitHub Actions:
 
 ```bash
-ssh-keygen -t ed25519 -C "express-magic-github-actions" -f express-magic-deploy
+ssh-keygen -t ed25519 -C "fastship-github-actions" -f fastship-deploy
 ```
 
-For unattended GitHub Actions deployment, the key must not require an interactive passphrase. Install `express-magic-deploy.pub` in the deployment user's `~/.ssh/authorized_keys` on the VPS. Store the complete contents of `express-magic-deploy` as `FGSHIP_SSH_PRIVATE_KEY`. Keep the private key out of the repository.
+For unattended GitHub Actions deployment, the key must not require an interactive passphrase. Install `fastship-deploy.pub` in the deployment user's `~/.ssh/authorized_keys` on the VPS. Store the complete contents of `fastship-deploy` as `FASTSHIP_SSH_PRIVATE_KEY`. Keep the private key out of the repository.
 
 Before adding it to GitHub, verify the same credentials manually:
 
 ```bash
-ssh -i express-magic-deploy FGSHIP_USER@FGSHIP_HOST
+ssh -i fastship-deploy FASTSHIP_USER@FASTSHIP_HOST
 sudo -n true
 ```
 
-Replace `FGSHIP_USER` and `FGSHIP_HOST` with the real values. Both commands must succeed. The workflow uses `sudo`, so an account without non-interactive sudo access is insufficient.
+Replace `FASTSHIP_USER` and `FASTSHIP_HOST` with the real values. Both commands must succeed. The workflow uses `sudo`, so an account without non-interactive sudo access is insufficient.
 
 ## Optional integration secrets
 
@@ -168,13 +168,13 @@ Do not substitute AWS access keys, an Amazon password, or sandbox credentials fo
 Configure this exact production redirect URI in Shopify:
 
 ```text
-https://api.fgship.in/api/integrations/shopify/oauth/callback
+https://api.fastship.in/api/integrations/shopify/oauth/callback
 ```
 
 Configure this compliance webhook endpoint in the Shopify app settings:
 
 ```text
-https://api.fgship.in/api/webhooks/shopify/compliance
+https://api.fastship.in/api/webhooks/shopify/compliance
 ```
 
 Shopify scopes are configuration, not credentials. Add them as the optional repository variable `SHOPIFY_SCOPES`, not as a secret. When omitted, the workflow uses the repository's built-in order, customer, product, webhook, and fulfillment scopes.
@@ -205,8 +205,8 @@ Variables are configured separately from secrets because they are not credential
 1. Open the GitHub repository.
 2. Go to **Settings > Secrets and variables > Actions**.
 3. Under **Secrets**, select **New repository secret**.
-4. Add `FGSHIP_HOST` and `FGSHIP_USER` with the real VPS values.
-5. Add either `FGSHIP_SSH_PRIVATE_KEY` or `FGSHIP_PASSWORD`.
+4. Add `FASTSHIP_HOST` and `FASTSHIP_USER` with the real VPS values.
+5. Add either `FASTSHIP_SSH_PRIVATE_KEY` or `FASTSHIP_PASSWORD`.
 6. Add only the integration secrets for providers that are actually enabled in production.
 7. Under **Variables**, add optional `DEPLOY_RUNTIME_USER`, `SHOPIFY_SCOPES`, or `SHOPIFY_SEND_OAUTH_SCOPE` when needed.
 
@@ -219,6 +219,6 @@ The current workflows read repository-level Actions secrets. Adding similarly na
 3. Confirm that **Validate deploy secrets** passes.
 4. Confirm that **Configure deploy SSH** authenticates successfully.
 5. Confirm that the build and deployment steps finish and `.deployed_commit` is updated on the VPS.
-6. Verify `https://fgship.in`, `https://client.fgship.in`, `https://admin.fgship.in`, and `https://api.fgship.in`.
+6. Verify `https://fastship.in`, `https://client.fastship.in`, `https://admin.fastship.in`, and `https://api.fastship.in`.
 
 If validation reports a missing name, create that exact repository secret. If SSH configuration fails, verify the host, Linux username, port 22 connectivity, key pairing, and non-interactive sudo access. Do not commit credentials to solve either error.

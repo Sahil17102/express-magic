@@ -14,20 +14,20 @@ const resolveProductionUrl = (configuredUrl, fallbackUrl) => {
 
 const normalizeAdminAuthUrl = (url) => {
   const normalized = stripTrailingSlash(url);
-  return /^https:\/\/express-magic-admin\.onrender\.com\/auth\/signin$/i.test(normalized)
-    ? "https://express-magic-admin.onrender.com/#/auth/signin"
+  return /^https:\/\/fastship-admin\.onrender\.com\/auth\/signin$/i.test(normalized)
+    ? "https://fastship-admin.onrender.com/#/auth/signin"
     : normalized;
 };
 
-const UNIFIED_RENDER_CLIENT_URL = "https://express-magic.onrender.com/app";
-const UNIFIED_RENDER_ADMIN_URL = "https://express-magic.onrender.com/admin";
+const UNIFIED_RENDER_CLIENT_URL = "https://fastship.onrender.com/app";
+const UNIFIED_RENDER_ADMIN_URL = "https://fastship.onrender.com/admin";
 
 const normalizeClientAppUrl = (url) => {
   const normalized = stripTrailingSlash(url);
-  if (/^https:\/\/express-magic-client\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
+  if (/^https:\/\/fastship-client\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
     return UNIFIED_RENDER_CLIENT_URL;
   }
-  if (/^https:\/\/express-magic\.onrender\.com$/i.test(normalized)) {
+  if (/^https:\/\/fastship\.onrender\.com$/i.test(normalized)) {
     return UNIFIED_RENDER_CLIENT_URL;
   }
   return normalized;
@@ -36,11 +36,11 @@ const normalizeClientAppUrl = (url) => {
 const normalizeClientAuthUrl = (url) => {
   const normalized = stripTrailingSlash(url);
   if (
-    /^https:\/\/express-magic-client\.onrender\.com(?:\/login)?$/i.test(normalized) ||
-    /^https:\/\/express-magic\.onrender\.com\/login$/i.test(normalized) ||
+    /^https:\/\/fastship-client\.onrender\.com(?:\/login)?$/i.test(normalized) ||
+    /^https:\/\/fastship\.onrender\.com\/login$/i.test(normalized) ||
     normalized.toLowerCase() === UNIFIED_RENDER_CLIENT_URL.toLowerCase() ||
-    /^https:\/\/express-magic\.onrender\.com\/app\/login$/i.test(normalized) ||
-    /^https:\/\/express-magic\.onrender\.com\/app\/#(?:\/login)?$/i.test(normalized)
+    /^https:\/\/fastship\.onrender\.com\/app\/login$/i.test(normalized) ||
+    /^https:\/\/fastship\.onrender\.com\/app\/#(?:\/login)?$/i.test(normalized)
   ) {
     return `${UNIFIED_RENDER_CLIENT_URL}/#/login`;
   }
@@ -49,10 +49,10 @@ const normalizeClientAuthUrl = (url) => {
 
 const normalizeAdminAppUrl = (url) => {
   const normalized = stripTrailingSlash(url);
-  if (/^https:\/\/express-magic-admin\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
+  if (/^https:\/\/fastship-admin\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
     return UNIFIED_RENDER_ADMIN_URL;
   }
-  if (/^https:\/\/express-magic\.onrender\.com\/admin(?:\/.*)?$/i.test(normalized)) {
+  if (/^https:\/\/fastship\.onrender\.com\/admin(?:\/.*)?$/i.test(normalized)) {
     return UNIFIED_RENDER_ADMIN_URL;
   }
   return normalized;
@@ -61,9 +61,9 @@ const normalizeAdminAppUrl = (url) => {
 const normalizeAdminSignInUrl = (url) => {
   const normalized = stripTrailingSlash(url);
   if (
-    /^https:\/\/express-magic-admin\.onrender\.com(?:\/#\/auth\/signin|\/auth\/signin)?$/i.test(normalized) ||
+    /^https:\/\/fastship-admin\.onrender\.com(?:\/#\/auth\/signin|\/auth\/signin)?$/i.test(normalized) ||
     normalized.toLowerCase() === UNIFIED_RENDER_ADMIN_URL.toLowerCase() ||
-    /^https:\/\/express-magic\.onrender\.com\/admin\/#\/auth\/signin$/i.test(normalized)
+    /^https:\/\/fastship\.onrender\.com\/admin\/#\/auth\/signin$/i.test(normalized)
   ) {
     return `${UNIFIED_RENDER_ADMIN_URL}/#/auth/signin`;
   }
@@ -91,8 +91,8 @@ const defaultAdminAppUrl = import.meta.env.DEV
   : UNIFIED_RENDER_ADMIN_URL;
 
 const defaultApiBaseUrl = import.meta.env.DEV
-  ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://express-magic-backend.onrender.com"}/api`
-  : "https://express-magic-backend.onrender.com/api";
+  ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://fastship-backend.onrender.com"}/api`
+  : "https://fastship-backend.onrender.com/api";
 
 export const CLIENT_APP_URL = normalizeClientAppUrl(
   resolveProductionUrl(import.meta.env.VITE_CLIENT_APP_URL, defaultClientAppUrl),

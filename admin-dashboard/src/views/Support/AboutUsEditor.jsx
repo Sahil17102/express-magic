@@ -50,8 +50,8 @@ const AboutUsEditor = () => {
 
   const handleLoadTemplate = () => {
     const templateHtml = `
-      <h2>About Express Magic</h2>
-      <p><strong>Express Magic</strong> is a courier aggregator technology platform designed to help entrepreneurs, D2C brands, and logistics businesses run a branded shipping operation with a cleaner and more scalable software stack.</p>
+      <h2>About FastShip</h2>
+      <p><strong>FastShip</strong> is a courier aggregator technology platform designed to help entrepreneurs, D2C brands, and logistics businesses run a branded shipping operation with a cleaner and more scalable software stack.</p>
 
       <h3>What We Do</h3>
       <ul>
@@ -69,8 +69,8 @@ const AboutUsEditor = () => {
 
       <h3>Contact</h3>
       <p><strong>Registered Office:</strong> B-76 Shiv Shakti Nagar, Jagatpura Road, Malviya Nagar, Jaipur, Rajasthan, India 302017</p>
-      <p><strong>Email:</strong> support@expressmagic.in</p>
-      <p><strong>Website:</strong> www.expressmagic.in</p>
+      <p><strong>Email:</strong> support@fastship.in</p>
+      <p><strong>Website:</strong> www.fastship.in</p>
     `
 
     const blocksFromHTML = convertFromHTML(templateHtml)
@@ -129,7 +129,7 @@ const AboutUsEditor = () => {
     if (!validateForm()) return
 
     try {
-      await updatePageMutation.mutateAsync({ title: 'About Us - Express Magic', content })
+      await updatePageMutation.mutateAsync({ title: 'About Us - FastShip', content })
       toast({
         title: 'About Us content saved',
         status: 'success',

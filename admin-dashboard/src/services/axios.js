@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const RENDER_API_BASE_URL = 'https://express-magic-backend.onrender.com/api'
+const RENDER_API_BASE_URL = 'https://fastship-backend.onrender.com/api'
 
 const getDefaultApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
@@ -27,8 +27,8 @@ const normalizeApiBaseUrl = (configuredUrl) => {
 
     if (
       !['http:', 'https:'].includes(url.protocol) ||
-      hostname === 'express-magic.onrender.com' ||
-      hostname === 'express-magic-admin.onrender.com'
+      hostname === 'fastship.onrender.com' ||
+      hostname === 'fastship-admin.onrender.com'
     ) {
       return fallback
     }

@@ -16,7 +16,7 @@ import {
   FiZap,
 } from 'react-icons/fi'
 import { getAppHashHref } from '../../utils/appNavigation'
-import './ExpressMagicLanding.css'
+import './FastShipLanding.css'
 
 const heroFeatures = [
   {
@@ -103,7 +103,7 @@ const parcelLimits: Record<ParcelField, { min: number; max: number; step: number
   actualWeight: { min: 0.1, max: 50, step: 0.1, unit: 'kg' },
 }
 
-export default function ExpressMagicLanding() {
+export default function FastShipLanding() {
   const [navOpen, setNavOpen] = useState(false)
   const appHomeHref = getAppHashHref('/')
   const loginHref = getAppHashHref('/login')
@@ -138,8 +138,8 @@ export default function ExpressMagicLanding() {
   return (
     <main className="em-landing">
       <header className="em-nav">
-        <a className="em-brand" href={appHomeHref} aria-label="Express Magic home">
-          <img src="/express-magic-logo.jpeg" alt="Express Magic" />
+        <a className="em-brand" href={appHomeHref} aria-label="FastShip home">
+          <img src="/fastship-logo.png" alt="FastShip" />
         </a>
 
         <nav className={`em-nav__links${navOpen ? ' is-open' : ''}`} aria-label="Primary navigation">
@@ -193,7 +193,7 @@ export default function ExpressMagicLanding() {
           </div>
         </div>
 
-        <div className="em-feature-strip" aria-label="Express Magic platform features">
+        <div className="em-feature-strip" aria-label="FastShip platform features">
           {heroFeatures.map((feature) => (
             <article key={feature.title}>
               <span className={`em-feature-icon is-${feature.tone}`}>{feature.icon}</span>
@@ -289,7 +289,7 @@ export default function ExpressMagicLanding() {
                 Check chargeable weight here, then move into tracking or live courier pricing without losing your place.
               </p>
             </div>
-            <div className="em-tool-tabs" aria-label="Express Magic tools">
+            <div className="em-tool-tabs" aria-label="FastShip tools">
               <a href={trackingHref}>
                 <FiMapPin /> Tracking
               </a>
@@ -501,11 +501,11 @@ export default function ExpressMagicLanding() {
 
       <footer className="em-footer" id="about">
         <div>
-          <img src="/express-magic-logo.jpeg" alt="Express Magic" loading="lazy" decoding="async" />
+          <img src="/fastship-logo.png" alt="FastShip" loading="lazy" decoding="async" />
           <p>Courier intelligence for modern commerce.</p>
         </div>
         <a className="em-button em-button--primary" href={loginHref}>
-          Launch Express Magic <FiArrowRight />
+          Launch FastShip <FiArrowRight />
         </a>
       </footer>
     </main>

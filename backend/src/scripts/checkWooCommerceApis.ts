@@ -143,7 +143,7 @@ const startMockWooCommerceServer = async () => {
             id: 7,
             name: 'Existing order webhook',
             topic: 'order.created',
-            delivery_url: 'https://api.fgship.in/api/webhook/woocommerce/orders',
+            delivery_url: 'https://api.fastship.in/api/webhook/woocommerce/orders',
             status: 'active',
           },
         ])
@@ -264,7 +264,7 @@ const createAndDeletePermissionWebhook = async ({
     configuredWebhookUrl ||
     (configuredApiUrl
       ? `${configuredApiUrl}/api/webhook/woocommerce/orders`
-      : 'https://example.com/fgship-woocommerce-check')
+      : 'https://example.com/fastship-woocommerce-check')
 
   const created = await wooRequest<any>({
     storeUrl,
@@ -273,7 +273,7 @@ const createAndDeletePermissionWebhook = async ({
     method: 'post',
     path: '/webhooks',
     data: {
-      name: `FGShip permission check ${Date.now()}`,
+      name: `FastShip permission check ${Date.now()}`,
       topic: 'order.updated',
       delivery_url: deliveryUrl,
       secret: crypto.randomBytes(16).toString('hex'),

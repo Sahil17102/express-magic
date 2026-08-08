@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/feather/MainLayout";
 
-const logoImage = "/express-magic-logo.jpeg";
+const logoImage = "/fastship-logo.png";
 
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
@@ -34,7 +34,7 @@ function LoadingScreen() {
       >
         <MotionImg
           src={logoImage}
-          alt="Express Magic"
+          alt="FastShip"
           className="mx-auto h-36 w-auto object-contain sm:h-44"
           animate={{ opacity: [1, 0.72, 1], y: [0, -4, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}

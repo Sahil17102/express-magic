@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_ROOT="${APP_ROOT:-/srv/feathers-global/current}"
+APP_ROOT="${APP_ROOT:-/srv/fastship/current}"
 BACKEND_DIR="$APP_ROOT/backend"
 LANDING_DIR="$APP_ROOT/landing"
 CLIENT_DIR="$APP_ROOT/courier-cart-client"
@@ -32,9 +32,9 @@ $DEPLOY_USER ALL=(ALL) NOPASSWD:ALL
 EOF
 chmod 440 "/etc/sudoers.d/$DEPLOY_USER"
 
-cp "$APP_ROOT/deploy/nginx/feathers-global.conf" /etc/nginx/sites-available/feathers-global
-ln -sf /etc/nginx/sites-available/feathers-global /etc/nginx/sites-enabled/feathers-global
-if [ -f /etc/nginx/sites-available/shiplifi ] && grep -q "/srv/feathers-global/current" /etc/nginx/sites-available/shiplifi; then
+cp "$APP_ROOT/deploy/nginx/fastship.conf" /etc/nginx/sites-available/fastship
+ln -sf /etc/nginx/sites-available/fastship /etc/nginx/sites-enabled/fastship
+if [ -f /etc/nginx/sites-available/shiplifi ] && grep -q "/srv/fastship/current" /etc/nginx/sites-available/shiplifi; then
   rm -f /etc/nginx/sites-enabled/shiplifi /etc/nginx/sites-available/shiplifi
 fi
 rm -f /etc/nginx/sites-enabled/default
@@ -46,4 +46,4 @@ systemctl restart nginx
 sudo -u "$DEPLOY_USER" -H bash -lc "export APP_ROOT='$APP_ROOT' PM2_HOME='/home/$DEPLOY_USER/.pm2'; cd '$APP_ROOT' && chmod +x deploy/release.sh && ./deploy/release.sh"
 
 echo "Initial VPS setup complete."
-echo "Next: run certbot --nginx -d fgship.in -d www.fgship.in -d client.fgship.in -d admin.fgship.in -d api.fgship.in"
+echo "Next: run certbot --nginx -d fastship.in -d www.fastship.in -d client.fastship.in -d admin.fastship.in -d api.fastship.in"

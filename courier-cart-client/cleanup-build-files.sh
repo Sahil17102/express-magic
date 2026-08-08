@@ -7,7 +7,7 @@
 
 set +e
 
-VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/feathers-global/current/courier-cart-client}"
+VPS_TARGET_PATH="${VPS_TARGET_PATH:-/srv/fastship/current/courier-cart-client}"
 
 if [ -n "$1" ]; then
   VPS_CONNECTION="$1"

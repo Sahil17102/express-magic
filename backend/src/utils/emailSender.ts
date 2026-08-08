@@ -82,12 +82,12 @@ export const renderDataTable = (rows: Array<{ label: string; value: string }>) =
 `
 
 export const renderEmailFrame = ({
-  eyebrow = 'FGShip',
+  eyebrow = 'FastShip',
   title,
   intro,
   body,
   outro,
-  footerNote = 'This is an automated message from Feather Global.',
+  footerNote = 'This is an automated message from FastShip.',
 }: EmailFrameOptions) => `
   <div style="margin:0; padding:32px 16px; background:#F3F4F6;">
     <div style="max-width:640px; margin:0 auto; background:#FFFFFF; border:1px solid ${BRAND_BORDER};">
@@ -116,7 +116,7 @@ export const renderEmailFrame = ({
       </div>
       <div style="padding:16px 28px; border-top:1px solid ${BRAND_BORDER}; background:${BRAND_SURFACE};">
         <div style="font-size:12px; color:${BRAND_MUTED};">${footerNote}</div>
-        <div style="font-size:12px; color:#9CA3AF; margin-top:6px;">© ${new Date().getFullYear()} Feather Global</div>
+        <div style="font-size:12px; color:#9CA3AF; margin-top:6px;">© ${new Date().getFullYear()} FastShip</div>
       </div>
     </div>
   </div>
@@ -208,7 +208,7 @@ export const sendVerificationEmail = async (to: string, token: string) => {
     eyebrow: 'Secure Sign-In',
     title: 'Your verification code',
     intro:
-      'A sign-in request was received for your Feather Global merchant account. Use the code below to continue securely.',
+      'A sign-in request was received for your FastShip merchant account. Use the code below to continue securely.',
     body: `
       <div style="margin:22px 0; padding:20px; background:${BRAND_SURFACE}; border:1px solid ${BRAND_BORDER}; text-align:center;">
         <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:${BRAND_MUTED}; font-weight:800; margin-bottom:10px;">
@@ -223,14 +223,14 @@ export const sendVerificationEmail = async (to: string, token: string) => {
     `,
   })
 
-  await sendEmail(to, 'Your FGShip verification code', html)
+  await sendEmail(to, 'Your FastShip verification code', html)
 }
 
 export const sendPhoneVerificationEmail = async (to: string, token: string, phone: string) => {
   const html = renderEmailFrame({
     eyebrow: 'Profile Verification',
     title: 'Confirm your contact number',
-    intro: `A request was made to verify the contact number <strong>${escapeHtml(phone)}</strong> on your Feather Global merchant profile.`,
+    intro: `A request was made to verify the contact number <strong>${escapeHtml(phone)}</strong> on your FastShip merchant profile.`,
     body: `
       <div style="margin:22px 0; padding:20px; background:${BRAND_SURFACE}; border:1px solid ${BRAND_BORDER}; text-align:center;">
         <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:${BRAND_MUTED}; font-weight:800; margin-bottom:10px;">
@@ -245,7 +245,7 @@ export const sendPhoneVerificationEmail = async (to: string, token: string, phon
     `,
   })
 
-  await sendEmail(to, 'Your FGShip phone verification code', html)
+  await sendEmail(to, 'Your FastShip phone verification code', html)
 }
 
 // Employee Credentials Email
@@ -260,7 +260,7 @@ export const sendEmployeeCredentials = async (
     title: 'Your employee account is ready',
     intro: `An account has been created for you by <strong>${escapeHtml(createdBy)}</strong>.`,
     body: `
-      <p style="margin:0 0 14px;">Use the credentials below to access Feather Global.</p>
+      <p style="margin:0 0 14px;">Use the credentials below to access FastShip.</p>
       ${renderDataTable([
         { label: 'Email', value: escapeHtml(email) },
         { label: 'Temporary password', value: escapeHtml(password) },
@@ -270,7 +270,7 @@ export const sendEmployeeCredentials = async (
       'After signing in, update your password if required by your administrator. Contact your account owner if you have trouble accessing shipment or billing functions.',
   })
 
-  await sendEmail(to, 'Your Feather Global employee account', html)
+  await sendEmail(to, 'Your FastShip employee account', html)
 }
 export const escapeHtml = (unsafe: string) =>
   unsafe
@@ -286,7 +286,7 @@ export const sendTempPasswordEmail = async (to: string, tempPassword: string) =>
   const html = renderEmailFrame({
     eyebrow: 'Account Security',
     title: 'Your temporary password',
-    intro: 'Your Feather Global password has been reset.',
+    intro: 'Your FastShip password has been reset.',
     body: `
       <div style="margin:22px 0; padding:20px; background:${BRAND_SURFACE}; border:1px solid ${BRAND_BORDER}; text-align:center;">
         <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:${BRAND_MUTED}; font-weight:800; margin-bottom:10px;">
@@ -302,7 +302,7 @@ export const sendTempPasswordEmail = async (to: string, tempPassword: string) =>
       'If you did not request this change, contact support immediately so your merchant account can be secured.',
   })
 
-  await sendEmail(to, 'Your temporary Feather Global password', html)
+  await sendEmail(to, 'Your temporary FastShip password', html)
 }
 
 export const sendPasswordResetEmail = async (to: string, resetCode: string) => {
@@ -311,7 +311,7 @@ export const sendPasswordResetEmail = async (to: string, resetCode: string) => {
   const html = renderEmailFrame({
     eyebrow: 'Account Security',
     title: 'Reset your password',
-    intro: 'We received a request to change the password on your Feather Global account.',
+    intro: 'We received a request to change the password on your FastShip account.',
     body: `
       <div style="margin:22px 0; padding:20px; background:${BRAND_SURFACE}; border:1px solid ${BRAND_BORDER}; text-align:center;">
         <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:${BRAND_MUTED}; font-weight:800; margin-bottom:10px;">
@@ -328,7 +328,7 @@ export const sendPasswordResetEmail = async (to: string, resetCode: string) => {
       'For security, do not share this code with anyone. Our team will never ask for it over chat or phone.',
   })
 
-  await sendEmail(to, 'Your Feather Global password reset code', html)
+  await sendEmail(to, 'Your FastShip password reset code', html)
 }
 
 export const sendInvoiceReadyEmail = async (opts: {
@@ -433,7 +433,7 @@ export const sendInvoiceReminderEmail = async (opts: {
       }
     `,
     outro:
-      'If payment has already been completed, you can ignore this reminder. For assistance, contact support through your Feather Global account.',
+      'If payment has already been completed, you can ignore this reminder. For assistance, contact support through your FastShip account.',
   })
 
   await sendEmail(to, `Payment Reminder: Invoice ${invoiceNo}`, html)

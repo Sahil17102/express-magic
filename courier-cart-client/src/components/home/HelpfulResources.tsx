@@ -14,7 +14,7 @@ const HelpfulResources = () => {
       title: 'Explore Our Blog',
       description: 'Get insights, product updates, and how-to guides to stay̦ ahead.',
       buttonText: 'Read Blogs',
-      onClick: () => window.open('https://expressmagic.in/blogs', '_blank'),
+      onClick: () => window.open('https://fastship.in/blogs', '_blank'),
     },
     {
       image: '/images/keyboard.webp',

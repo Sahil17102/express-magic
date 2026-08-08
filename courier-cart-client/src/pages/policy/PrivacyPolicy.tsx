@@ -53,7 +53,7 @@ const PrivacyPolicy = () => {
               <>
                 Your Privacy Rights: You may review, update, or correct your details, or withdraw
                 consent by contacting us at{' '}
-                <Link href="mailto:support@expressmagic.in">support@expressmagic.in</Link>.
+                <Link href="mailto:support@fastship.in">support@fastship.in</Link>.
               </>
             }
           />
@@ -73,10 +73,10 @@ const PrivacyPolicy = () => {
               <>
                 Grievance Officer: If you have queries or complaints, reach out to us at{' '}
                 <a
-                  href="mailto:support@expressmagic.in"
+                  href="mailto:support@fastship.in"
                   style={{ color: '#fccf5e', textDecoration: 'none' }}
                 >
-                  support@expressmagic.in
+                  support@fastship.in
                 </a>
                 .
               </>

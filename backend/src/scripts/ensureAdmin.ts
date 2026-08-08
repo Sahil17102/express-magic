@@ -9,7 +9,7 @@ import { userProfiles } from '../models/schema/userProfile'
 const env = process.env.NODE_ENV || 'development'
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${env}`) })
 
-const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 'admin@expressmagic.com')
+const email = (process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_LOGIN_EMAIL || 'admin@fastship.in')
   .trim()
   .toLowerCase()
 const configuredPassword = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_LOGIN_PASSWORD
@@ -81,7 +81,7 @@ async function ensureAdmin() {
   })
 
   const companyInfo = {
-    businessName: 'Express Magic Admin',
+    businessName: 'FastShip Admin',
     contactPerson: 'Admin User',
     POCEmailVerified: true,
     POCPhoneVerified: true,
@@ -92,9 +92,9 @@ async function ensureAdmin() {
     contactNumber: '+919999999999',
     contactEmail: email,
     companyContactNumber: '+919999999999',
-    brandName: 'Express Magic',
+    brandName: 'FastShip',
     companyEmail: email,
-    website: 'https://express-magic-admin.onrender.com',
+    website: 'https://fastship-admin.onrender.com',
   }
 
   if (existingProfile) {

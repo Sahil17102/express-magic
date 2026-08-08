@@ -1,11 +1,11 @@
 export const BRAND = {
-  name: 'Express Magic',
-  shortName: 'Express Magic',
+  name: 'FastShip',
+  shortName: 'FastShip',
   tagline: 'Fast. Safe. Worldwide.',
-  supportEmail: 'support@expressmagic.in',
-  website: 'www.expressmagic.in',
-  logo: '/express-magic-logo.jpeg',
-  mark: '/express-magic-logo.jpeg',
+  supportEmail: 'support@fastship.in',
+  website: 'www.fastship.in',
+  logo: '/fastship-logo.png',
+  mark: '/fastship-logo.png',
   colors: {
     teal: '#062A5B',
     tealDark: '#041A38',

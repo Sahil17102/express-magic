@@ -150,12 +150,12 @@ const allowedOrigins = new Set([
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5176',
-  'https://fgship.in',
-  'https://www.fgship.in',
-  'https://client.fgship.in',
-  'https://admin.fgship.in',
-  'https://express-magic.onrender.com',
-  'https://express-magic-admin.onrender.com',
+  'https://fastship.in',
+  'https://www.fastship.in',
+  'https://client.fastship.in',
+  'https://admin.fastship.in',
+  'https://fastship.onrender.com',
+  'https://fastship-admin.onrender.com',
   ...configuredAllowedOrigins,
 ])
 
@@ -167,7 +167,7 @@ const isAllowedOrigin = (origin: string) => {
   }
 
   // Allow first-party HTTPS subdomains like preview or alternate app hosts.
-  return /^https:\/\/([a-z0-9-]+\.)*fgship\.in$/.test(normalizedOrigin)
+  return /^https:\/\/([a-z0-9-]+\.)*fastship\.in$/.test(normalizedOrigin)
 }
 
 app.use(
@@ -255,12 +255,12 @@ app.use('/api', ndrRoutes)
 app.use('/api', rtoRoutes)
 app.use('/api/v1', externalApiRoutes)
 // Amazon Shipping tracking webhook. The public production URL is:
-// https://api.fgship.in/webhooks/amazon-shipping/tracking
+// https://api.fastship.in/webhooks/amazon-shipping/tracking
 app.get(AMAZON_SHIPPING_WEBHOOK_PATH, amazonShippingTrackingWebhookHealthHandler)
 app.post(AMAZON_SHIPPING_WEBHOOK_PATH, express.json(), amazonShippingTrackingWebhookHandler)
 app.post('/api/webhook/amazon-shipping/tracking', express.json(), amazonShippingTrackingWebhookHandler)
 // Xpressbees tracking webhook. The public production URL is:
-// https://api.fgship.in/webhooks/xpressbees/tracking
+// https://api.fastship.in/webhooks/xpressbees/tracking
 app.get(XPRESSBEES_WEBHOOK_PATH, xpressbeesWebhookHealthHandler)
 app.post(
   XPRESSBEES_WEBHOOK_PATH,
