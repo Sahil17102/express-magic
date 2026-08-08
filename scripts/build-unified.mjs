@@ -9,6 +9,7 @@ const rootDir = path.resolve(
 );
 const landingDir = path.join(rootDir, "landing");
 const clientDir = path.join(rootDir, "courier-cart-client");
+const adminDir = path.join(rootDir, "admin-dashboard");
 const outputDir = path.join(rootDir, "combined-dist");
 const isWindows = process.platform === "win32";
 const npmCommand = isWindows ? "npm.cmd" : "npm";
@@ -39,15 +40,20 @@ const run = (cwd, args) => {
 if (!skipInstall) {
   run(landingDir, ["ci"]);
   run(clientDir, ["ci"]);
+  run(adminDir, [existsSync(path.join(adminDir, "package-lock.json")) ? "ci" : "install", "--legacy-peer-deps"]);
 }
 
 run(landingDir, ["run", "build"]);
 run(clientDir, ["run", "build", "--", "--base=/app/"]);
+run(adminDir, ["run", "build:unified"]);
 
 rmSync(outputDir, { force: true, recursive: true });
 mkdirSync(outputDir, { recursive: true });
 cpSync(path.join(landingDir, "dist"), outputDir, { recursive: true });
 cpSync(path.join(clientDir, "dist"), path.join(outputDir, "app"), {
+  recursive: true,
+});
+cpSync(path.join(adminDir, "dist"), path.join(outputDir, "admin"), {
   recursive: true,
 });
 
@@ -75,7 +81,8 @@ for (const entry of clientPublicEntries) {
 
 if (
   !existsSync(path.join(outputDir, "index.html")) ||
-  !existsSync(path.join(outputDir, "app", "index.html"))
+  !existsSync(path.join(outputDir, "app", "index.html")) ||
+  !existsSync(path.join(outputDir, "admin", "index.html"))
 ) {
   throw new Error("Unified site build is incomplete");
 }

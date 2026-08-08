@@ -11,9 +11,9 @@ services:
       - key: VITE_AUTH_APP_URL
         value: https://express-magic.onrender.com/app/#/login
       - key: VITE_ADMIN_APP_URL
-        value: https://express-magic-admin.onrender.com
+        value: https://express-magic.onrender.com/admin
       - key: VITE_ADMIN_AUTH_URL
-        value: https://express-magic-admin.onrender.com/#/auth/signin
+        value: https://express-magic.onrender.com/admin/#/auth/signin
       - key: VITE_API_URL
         value: https://express-magic-backend.onrender.com/api
       - key: VITE_APP_SOCKET_URL
@@ -31,7 +31,7 @@ services:
     runtime: static
     name: express-magic-admin
     rootDir: admin-dashboard
-    buildCommand: npm ci --legacy-peer-deps && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: ./dist
     autoDeployTrigger: commit
     envVars:

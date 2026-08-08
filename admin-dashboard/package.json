@@ -60,6 +60,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "cross-env BUILD_PATH=dist CI=false DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false PUBLIC_URL=/ react-scripts build && cross-env BUILD_PATH=dist gulp licenses && cross-env BUILD_PATH=dist node scripts/create-latest-asset-aliases.js",
+		"build:unified": "cross-env BUILD_PATH=dist CI=false DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false PUBLIC_URL=/admin react-scripts build && cross-env BUILD_PATH=dist gulp licenses && cross-env BUILD_PATH=dist node scripts/create-latest-asset-aliases.js",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
 		"deploy": "npm run build",

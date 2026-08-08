@@ -20,6 +20,7 @@ const normalizeAdminAuthUrl = (url) => {
 };
 
 const UNIFIED_RENDER_CLIENT_URL = "https://express-magic.onrender.com/app";
+const UNIFIED_RENDER_ADMIN_URL = "https://express-magic.onrender.com/admin";
 
 const normalizeClientAppUrl = (url) => {
   const normalized = stripTrailingSlash(url);
@@ -46,6 +47,29 @@ const normalizeClientAuthUrl = (url) => {
   return normalized;
 };
 
+const normalizeAdminAppUrl = (url) => {
+  const normalized = stripTrailingSlash(url);
+  if (/^https:\/\/express-magic-admin\.onrender\.com(?:\/.*)?$/i.test(normalized)) {
+    return UNIFIED_RENDER_ADMIN_URL;
+  }
+  if (/^https:\/\/express-magic\.onrender\.com\/admin(?:\/.*)?$/i.test(normalized)) {
+    return UNIFIED_RENDER_ADMIN_URL;
+  }
+  return normalized;
+};
+
+const normalizeAdminSignInUrl = (url) => {
+  const normalized = stripTrailingSlash(url);
+  if (
+    /^https:\/\/express-magic-admin\.onrender\.com(?:\/#\/auth\/signin|\/auth\/signin)?$/i.test(normalized) ||
+    normalized.toLowerCase() === UNIFIED_RENDER_ADMIN_URL.toLowerCase() ||
+    /^https:\/\/express-magic\.onrender\.com\/admin\/#\/auth\/signin$/i.test(normalized)
+  ) {
+    return `${UNIFIED_RENDER_ADMIN_URL}/#/auth/signin`;
+  }
+  return normalized;
+};
+
 const inferLocalHostUrl = (port) => {
   if (typeof window === "undefined" || !window.location?.hostname) {
     return "";
@@ -63,8 +87,8 @@ const defaultClientAppUrl = import.meta.env.DEV
   : UNIFIED_RENDER_CLIENT_URL;
 
 const defaultAdminAppUrl = import.meta.env.DEV
-  ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || "https://express-magic-admin.onrender.com"
-  : "https://express-magic-admin.onrender.com";
+  ? inferLocalHostUrl(import.meta.env.VITE_ADMIN_APP_PORT || "8090") || UNIFIED_RENDER_ADMIN_URL
+  : UNIFIED_RENDER_ADMIN_URL;
 
 const defaultApiBaseUrl = import.meta.env.DEV
   ? `${inferLocalHostUrl(import.meta.env.VITE_API_PORT || "8092") || "https://express-magic-backend.onrender.com"}/api`
@@ -81,15 +105,16 @@ export const AUTH_APP_URL = normalizeClientAuthUrl(
   ),
 );
 
-export const ADMIN_APP_URL = resolveProductionUrl(
-  import.meta.env.VITE_ADMIN_APP_URL,
-  defaultAdminAppUrl,
+export const ADMIN_APP_URL = normalizeAdminAppUrl(
+  resolveProductionUrl(import.meta.env.VITE_ADMIN_APP_URL, defaultAdminAppUrl),
 );
 
-export const ADMIN_AUTH_URL = normalizeAdminAuthUrl(
-  resolveProductionUrl(
-    import.meta.env.VITE_ADMIN_AUTH_URL,
-    `${ADMIN_APP_URL}/#/auth/signin`,
+export const ADMIN_AUTH_URL = normalizeAdminSignInUrl(
+  normalizeAdminAuthUrl(
+    resolveProductionUrl(
+      import.meta.env.VITE_ADMIN_AUTH_URL,
+      `${ADMIN_APP_URL}/#/auth/signin`,
+    ),
   ),
 );
 
