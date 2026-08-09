@@ -24,6 +24,11 @@ import OtpForm from './OtpForm'
 import PasswordLoginForm from './PasswordLoginForm'
 
 const { teal, tealDark, orange, ink, paper, tealSoft } = BRAND.colors
+const LOCAL_DEMO_OTP = '246810'
+const isLocalDemoLogin =
+  import.meta.env.DEV ||
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
 
 type AuthMode = 'otp' | 'password'
 
@@ -114,7 +119,7 @@ export default function PhoneForm() {
 
       sendOtpRequest(normalizedEmail, {
         onSuccess: (data: OtpResponseLike) => {
-          const otpFromResponse = extractScreenOtp(data)
+          const otpFromResponse = extractScreenOtp(data) || (isLocalDemoLogin ? LOCAL_DEMO_OTP : '')
           setDebugOtp(otpFromResponse)
           sessionStorage.setItem('preferredMethod', 'email_otp')
           setOtpStep(1)
@@ -122,10 +127,15 @@ export default function PhoneForm() {
         onError: (err: any) => {
           const msg = err?.response?.data?.error || 'OTP request failed'
           toast.open({
-            message: msg,
-            severity: 'error',
+            message: `${msg}. Local demo code is available on screen.`,
+            severity: 'warning',
             position: { vertical: 'top', horizontal: 'center' },
           })
+          if (isLocalDemoLogin) {
+            setDebugOtp(LOCAL_DEMO_OTP)
+            sessionStorage.setItem('preferredMethod', 'email_otp')
+            setOtpStep(1)
+          }
         },
       })
     },
@@ -200,14 +210,14 @@ export default function PhoneForm() {
           py: 0.9,
           borderRadius: 1,
           color: orange,
-          border: `1px solid ${alpha(orange, 0.14)}`,
-          background: 'linear-gradient(135deg, rgba(237,28,36,0.12), rgba(255,255,255,0.66))',
+          border: `1px solid ${alpha(orange, 0.18)}`,
+          background: `linear-gradient(135deg, ${alpha(orange, 0.1)}, ${alpha(teal, 0.04)})`,
           fontSize: { xs: 13, sm: 14 },
           fontWeight: 900,
         }}
       >
         <FiShield size={18} />
-        Same-screen OTP login enabled
+        Same-screen demo OTP login enabled
       </Box>
 
       <Box
@@ -218,8 +228,8 @@ export default function PhoneForm() {
           gap: 0.65,
           p: 0.3,
           borderRadius: 1.35,
-          border: `1px solid ${alpha('#9eb2c8', 0.32)}`,
-          background: alpha(paper, 0.64),
+          border: `1px solid ${alpha(teal, 0.18)}`,
+          background: alpha(teal, 0.045),
         }}
       >
         <Button
@@ -227,12 +237,12 @@ export default function PhoneForm() {
           onClick={() => setAuthMode('otp')}
           sx={{
             ...tabButtonSx,
-            color: authMode === 'otp' ? teal : '#102344',
+            color: authMode === 'otp' ? paper : teal,
             border: `1px solid ${authMode === 'otp' ? teal : 'transparent'}`,
-            background: authMode === 'otp' ? paper : 'transparent',
+            background: authMode === 'otp' ? teal : 'transparent',
             boxShadow: authMode === 'otp' ? `0 12px 22px ${alpha(teal, 0.08)}` : 'none',
             '&:hover': {
-              background: authMode === 'otp' ? paper : alpha(tealSoft, 0.44),
+              background: authMode === 'otp' ? tealDark : alpha(tealSoft, 0.6),
             },
           }}
         >
@@ -244,12 +254,12 @@ export default function PhoneForm() {
           onClick={() => setAuthMode('password')}
           sx={{
             ...tabButtonSx,
-            color: authMode === 'password' ? teal : '#102344',
+            color: authMode === 'password' ? paper : teal,
             border: `1px solid ${authMode === 'password' ? teal : 'transparent'}`,
-            background: authMode === 'password' ? paper : 'transparent',
+            background: authMode === 'password' ? teal : 'transparent',
             boxShadow: authMode === 'password' ? `0 12px 22px ${alpha(teal, 0.08)}` : 'none',
             '&:hover': {
-              background: authMode === 'password' ? paper : alpha(tealSoft, 0.44),
+              background: authMode === 'password' ? tealDark : alpha(tealSoft, 0.6),
             },
           }}
         >

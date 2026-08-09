@@ -1,65 +1,32 @@
-import type { JSX } from '@emotion/react/jsx-runtime'
-import {
-  alpha,
-  Box,
-  Collapse,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
-import { BiInfoCircle, BiListPlus } from 'react-icons/bi'
-import { CgTrack } from 'react-icons/cg'
-import { FaBalanceScaleLeft } from 'react-icons/fa'
-import { FaClipboardList as FaFileAlt, FaUser } from 'react-icons/fa6'
-import {
-  MdOutlineAccountBalanceWallet,
-  MdOutlineAddBusiness,
-  MdOutlineKeyboardReturn,
-  MdOutlineRateReview,
-  MdStorefront,
-  MdOutlineWarningAmber,
-} from 'react-icons/md'
-import { RiSettings2Line } from 'react-icons/ri'
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Stack, Tooltip } from '@mui/material'
+import { useMemo, useState, type JSX } from 'react'
 import {
   TbAlertCircle,
-  TbBuildingStore,
-  TbChartBar,
-  TbHelpCircle,
+  TbBuildingWarehouse,
+  TbChevronDown,
   TbHome,
-  TbInvoice,
-  TbLayoutDashboard,
   TbPackage,
-  TbReportAnalytics,
-  TbScale,
+  TbPlugConnected,
   TbSettings,
-  TbTicket,
-  TbTools,
-  TbTransactionRupee,
+  TbTool,
+  TbTruckDelivery,
   TbWallet,
+  TbReportAnalytics,
+  TbLayoutSidebar,
 } from 'react-icons/tb'
 import { NavLink, useLocation } from 'react-router-dom'
-import { BRAND } from '../../config/brand'
-import useEmployeePermissions from '../../hooks/User/useEmployeePermissions'
-import { isActive } from '../../utils/functions'
 
 export type Role = 'customer' | 'admin'
 
 export interface SubItem {
   text: string
   path: string
-  icon?: JSX.Element
 }
 
 export interface NavItem {
   text: string
   icon: JSX.Element
   path: string
-  section: string
   roles: Role[]
   children?: SubItem[]
 }
@@ -69,257 +36,135 @@ interface SidebarProps {
   pinned?: boolean
   onPinChange?: (pinned: boolean) => void
   fixed?: boolean
+  onMouseEnter?: () => void
+  onMouseLeave?: () => void
 }
 
-export const SIDEBAR_EXPANDED_WIDTH = 260
-export const SIDEBAR_COLLAPSED_WIDTH = 96
-const ICON_SIZE_MD = 20 // Material Design
-const ICON_SIZE_FA = 18 // Font Awesome (slightly smaller to match MD)
-const ICON_SIZE_TB = 20 // Tabler
-const ICON_SIZE_BI = 20 // Bootstrap Icons
-const ICON_SIZE_CG = 20 // css.gg
-const ICON_SIZE_RI = 18 // Remix Icon
-const BRAND_ORANGE = BRAND.colors.teal
-const BRAND_ACCENT = BRAND.colors.orange
-const BRAND_SURFACE = BRAND.colors.paper
-const BRAND_INK = BRAND.colors.ink
-const BRAND_BORDER = BRAND.colors.border
-const LOGO_SRC = BRAND.mark
+export const SIDEBAR_EXPANDED_WIDTH = 244
+export const SIDEBAR_COLLAPSED_WIDTH = 114
+
+const teal = '#0789ad'
+const ink = '#0b1f36'
+const muted = '#334155'
+const border = '#e1e8f0'
 
 const navItems: NavItem[] = [
+  { text: 'Dashboard', icon: <TbHome />, path: '/dashboard', roles: ['customer', 'admin'] },
   {
-    text: 'Overview',
-    icon: <TbHome size={ICON_SIZE_TB} />,
-    path: '/home',
-    section: 'Overview',
-    roles: ['customer', 'admin'],
-  },
-  {
-    text: 'Dashboard',
-    icon: <TbLayoutDashboard size={ICON_SIZE_TB} />,
-    path: '/dashboard',
-    section: 'Overview',
-    roles: ['customer', 'admin'],
-  },
-  {
-    text: 'Shipments',
-    icon: <TbPackage size={ICON_SIZE_TB} />,
-    path: '/orders',
-    section: 'Execution',
+    text: 'Orders',
+    icon: <TbPackage />,
+    path: '/orders/new',
     roles: ['customer', 'admin'],
     children: [
-      {
-        text: 'All Shipments',
-        path: '/orders/list',
-        icon: <FaFileAlt size={ICON_SIZE_FA} />,
-      },
-      {
-        text: 'B2C Orders',
-        path: '/orders/b2c/list',
-        icon: <FaUser size={ICON_SIZE_FA} />,
-      },
-      {
-        text: 'B2B Orders',
-        path: '/orders/b2b/list',
-        icon: <MdOutlineAddBusiness size={ICON_SIZE_MD} />,
-      },
-      {
-        text: 'Create Order',
-        path: '/orders/create',
-        icon: <BiListPlus size={ICON_SIZE_BI} />,
-      },
+      { text: 'New', path: '/orders/new' },
+      { text: 'Courier Assigned', path: '/orders/list?status=courier_assigned' },
+      { text: 'Pickups & Manifests', path: '/orders/list?status=manifest' },
+    ],
+  },
+  { text: 'NDR', icon: <TbTruckDelivery />, path: '/shipments/ndr', roles: ['customer', 'admin'] },
+  {
+    text: 'Billing',
+    icon: <TbWallet />,
+    path: '/billing/passbook',
+    roles: ['customer', 'admin'],
+    children: [
+      { text: 'Passbook', path: '/billing/passbook' },
+      { text: 'COD Remittance', path: '/billing/cod-remittance' },
+      { text: 'Shipping Charges', path: '/billing/shipping-charges' },
+      { text: 'All Recharges', path: '/billing/all-recharges' },
+      { text: 'Invoices', path: '/billing/invoices' },
+      { text: 'Credit Notes', path: '/billing/credit-notes' },
+      { text: 'Debit Notes', path: '/billing/debit-notes' },
+      { text: 'Ledgers', path: '/billing/ledgers' },
+      { text: 'Notification Credit History', path: '/billing/notification-credit-history' },
     ],
   },
   {
-    text: 'Exceptions',
-    icon: <TbAlertCircle size={ICON_SIZE_TB} />,
-    path: '/ops',
-    section: 'Execution',
+    text: 'Tools',
+    icon: <TbTool />,
+    path: '/tools/rate-calculator',
     roles: ['customer', 'admin'],
     children: [
-      { text: 'NDR', path: '/ops/ndr', icon: <MdOutlineWarningAmber size={ICON_SIZE_MD} /> },
-      {
-        text: 'RTO',
-        path: '/ops/rto',
-        icon: <MdOutlineKeyboardReturn size={ICON_SIZE_MD} />,
-      },
+      { text: 'Rate Calculator', path: '/tools/rate-calculator' },
+      { text: 'Shipment Price List', path: '/tools/shipment-price-list' },
+      { text: 'Activity Logs', path: '/tools/activity-logs' },
+      { text: 'Manage Courier', path: '/tools/courier-manage' },
+      { text: 'Reports Download', path: '/tools/reports-download' },
+      { text: 'Track Order', path: '/tools/track-order' },
+      { text: 'Weight Discrepancy', path: '/tools/weight-discrepancy' },
     ],
   },
   {
-    text: 'Finance',
-    icon: <TbWallet size={ICON_SIZE_TB} />,
-    path: '/billing',
-    section: 'Finance',
+    text: 'Reports',
+    icon: <TbReportAnalytics />,
+    path: '/reports/orders',
     roles: ['customer', 'admin'],
     children: [
-      {
-        text: 'Wallet Transactions',
-        path: '/billing/wallet_transactions',
-        icon: <TbTransactionRupee size={ICON_SIZE_TB} />,
-      },
-      {
-        text: 'COD Settlements',
-        path: '/cod-remittance',
-        icon: <MdOutlineAccountBalanceWallet size={ICON_SIZE_MD} />,
-      },
-      {
-        text: 'Invoices',
-        path: '/billing/invoice_management',
-        icon: <TbInvoice size={ICON_SIZE_TB} />,
-      },
+      { text: 'Orders', path: '/reports/orders' },
+      { text: 'Shipment', path: '/reports/shipment' },
+      { text: 'NDR', path: '/reports/ndr' },
+      { text: 'Custom Report', path: '/reports/custom-report' },
     ],
   },
   {
-    text: 'Audits',
-    icon: <TbScale size={ICON_SIZE_TB} />,
-    path: '/reconciliation',
-    section: 'Finance',
+    text: 'Settings',
+    icon: <TbSettings />,
+    path: '/settings/shipping-notification',
     roles: ['customer', 'admin'],
     children: [
-      {
-        text: 'Weight Audit',
-        path: '/reconciliation/weight',
-        icon: <FaBalanceScaleLeft size={ICON_SIZE_FA} />,
-      },
-      {
-        text: 'Audit Rules',
-        path: '/reconciliation/weight/settings',
-        icon: <RiSettings2Line size={ICON_SIZE_RI} />,
-      },
+      { text: 'Shipping Notifications', path: '/settings/shipping-notification' },
+      { text: 'COD Confirmation', path: '/settings/cod-confirmation' },
+      { text: 'Early COD Subscription', path: '/settings/early-cod-subscription' },
+      { text: 'Auto Assign Rules', path: '/settings/auto-assign-rules' },
+      { text: 'Manage Label', path: '/settings/manage-label' },
+      { text: 'Manage Invoice', path: '/settings/manage-invoice' },
+      { text: 'Branded Tracking Page', path: '/settings/branded-tracking-page' },
+    ],
+  },
+  { text: 'Warehouse', icon: <TbBuildingWarehouse />, path: '/warehouse', roles: ['customer', 'admin'] },
+  {
+    text: 'Integrations',
+    icon: <TbPlugConnected />,
+    path: '/integration/channels',
+    roles: ['customer', 'admin'],
+    children: [
+      { text: 'Order Channels', path: '/integration/channels' },
+      { text: 'OMS', path: '/integration/oms' },
+      { text: 'EDD Widget', path: '/integration/edd-widget' },
+      { text: 'API Integration', path: '/settings/api-integration' },
     ],
   },
   {
-    text: 'Utilities',
-    icon: <TbTools size={ICON_SIZE_TB} />,
-    path: '/tools',
-    section: 'Toolkit',
+    text: 'Others',
+    icon: <TbAlertCircle />,
+    path: '/other/products',
     roles: ['customer', 'admin'],
     children: [
-      {
-        text: 'Rate Chart',
-        path: '/tools/rate_card',
-        icon: <MdOutlineRateReview size={ICON_SIZE_MD} />,
-      },
-      {
-        text: 'Rate Calculator',
-        path: '/tools/rate_calculator',
-        icon: <TbReportAnalytics size={ICON_SIZE_TB} />,
-      },
-      {
-        text: 'Track Shipment',
-        path: '/tools/order_tracking',
-        icon: <CgTrack size={ICON_SIZE_CG} />,
-      },
-    ],
-  },
-  {
-    text: 'Insights',
-    icon: <TbChartBar size={ICON_SIZE_TB} />,
-    path: '/reports',
-    section: 'Toolkit',
-    roles: ['customer', 'admin'],
-  },
-  {
-    text: 'Channels',
-    icon: <TbBuildingStore size={ICON_SIZE_TB} />,
-    path: '/channels',
-    section: 'System',
-    roles: ['customer', 'admin'],
-    children: [
-      {
-        text: 'Connected Channels',
-        path: '/channels/connected',
-        icon: <MdStorefront size={ICON_SIZE_MD} />,
-      },
-      {
-        text: 'Connect Store',
-        path: '/channels/channel_list',
-        icon: <MdOutlineAddBusiness size={ICON_SIZE_MD} />,
-      },
-    ],
-  },
-  {
-    text: 'Workspace',
-    icon: <TbSettings size={ICON_SIZE_TB} />,
-    path: '/settings',
-    section: 'System',
-    roles: ['customer', 'admin'],
-  },
-  {
-    text: 'Support',
-    icon: <TbHelpCircle size={ICON_SIZE_TB} />,
-    path: '/support',
-    section: 'System',
-    roles: ['customer', 'admin'],
-    children: [
-      {
-        text: 'Support Tickets',
-        path: '/support/tickets',
-        icon: <TbTicket size={ICON_SIZE_TB} />,
-      },
-      {
-        text: `About ${BRAND.name}`,
-        path: '/support/about_us',
-        icon: <BiInfoCircle size={ICON_SIZE_BI} />,
-      },
+      { text: 'Products', path: '/other/products' },
+      { text: 'Packaging', path: '/other/packaging' },
+      { text: 'Customers', path: '/other/customers' },
+      { text: 'Order Tags', path: '/other/order-tags' },
+      { text: 'Tickets', path: '/support/tickets' },
+      { text: 'Support', path: '/support' },
+      { text: 'User Agreements', path: '/user-agreements' },
     ],
   },
 ]
 
-export default function Sidebar({
-  role = 'customer',
-  pinned: initialPinned = false,
-  fixed = false,
-  // onPinChange,
-}: SidebarProps) {
+function isActivePath(path: string, pathname: string) {
+  const cleanPath = path.split('?')[0]
+  if (cleanPath === '/dashboard') return pathname === '/dashboard' || pathname === '/home' || pathname.startsWith('/dashboard/')
+  if (cleanPath === '/orders/new') return pathname.startsWith('/orders')
+  return pathname === cleanPath || pathname.startsWith(`${cleanPath}/`)
+}
+
+export default function Sidebar({ role = 'customer', pinned = false, fixed = false, onMouseEnter, onMouseLeave }: SidebarProps) {
   const { pathname } = useLocation()
-  const [pinned, setPinned] = useState(initialPinned)
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const [hoveredItemText, setHoveredItemText] = useState<string | null>(null)
-  const [expandedItemText, setExpandedItemText] = useState<string | null>(null)
-  const { canViewWallet, canUseRateCalculator } = useEmployeePermissions()
+  const [expandedItem, setExpandedItem] = useState<string | null>(null)
+  const isExpanded = pinned
+  const sidebarWidth = isExpanded ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH
 
-  useEffect(() => {
-    setPinned(initialPinned)
-  }, [initialPinned])
-
-  // const handlePinToggle = () => {
-  //   const newPinned = !pinned
-  //   setPinned(newPinned)
-  //   onPinChange?.(newPinned)
-  // }
-
-  const sidebarWidth = pinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH
-  const shouldShowExpanded = pinned
-
-  const filteredItems = useMemo(() => {
-    return navItems
-      .filter((item) => item.roles.includes(role))
-      .map((item) => {
-        if (!item.children?.length) return item
-
-        const children = item.children.filter((child) => {
-          if (child.path === '/billing/wallet_transactions') return canViewWallet
-          if (child.path === '/tools/rate_calculator') return canUseRateCalculator
-          return true
-        })
-
-        if (!children.length) return null
-
-        return { ...item, children }
-      })
-      .filter((item): item is NavItem => Boolean(item))
-  }, [canUseRateCalculator, canViewWallet, role])
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>, itemText: string) => {
-    setAnchorEl(event.currentTarget)
-    setHoveredItemText(itemText)
-  }
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null)
-    setHoveredItemText(null)
-  }
+  const filteredItems = useMemo(() => navItems.filter((item) => item.roles.includes(role)), [role])
 
   return (
     <Box
@@ -330,232 +175,122 @@ export default function Sidebar({
         position: fixed ? 'fixed' : 'sticky',
         top: 0,
         left: fixed ? 0 : 'auto',
+        bgcolor: '#fff',
+        borderRight: `1px solid ${border}`,
         display: 'flex',
         flexDirection: 'column',
-        background: BRAND_SURFACE,
-        color: BRAND_INK,
-        borderRight: `1px solid ${BRAND_BORDER}`,
-        boxShadow: '10px 0 30px rgba(6, 26, 51, 0.06)',
         zIndex: 1200,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        transition:
-          'width 300ms cubic-bezier(0.4, 0, 0.2, 1), min-width 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'width 220ms ease, min-width 220ms ease',
+        overflow: 'hidden',
       }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent={shouldShowExpanded ? 'space-between' : 'center'}
-        sx={{
-          px: shouldShowExpanded ? 1.5 : 0.75,
-          py: shouldShowExpanded ? 1.25 : 0.75,
-          borderBottom: `1px solid ${BRAND_BORDER}`,
-          background: `linear-gradient(135deg, ${alpha(BRAND.colors.tealSoft, 0.86)} 0%, ${alpha(BRAND.colors.amberSoft, 0.5)} 100%)`,
-          flexShrink: 0,
-        }}
-      >
+      <Stack alignItems={isExpanded ? 'flex-start' : 'center'} justifyContent="center" sx={{ height: 112, px: isExpanded ? 2 : 0 }}>
         <Box
+          component="img"
+          src="/fastship-logo.png"
+          alt="FastShip"
           sx={{
-            width: shouldShowExpanded ? 138 : 50,
-            height: shouldShowExpanded ? 56 : 44,
-            borderRadius: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
-            flexShrink: 0,
-            overflow: 'hidden',
+            width: isExpanded ? 150 : 78,
+            height: isExpanded ? 64 : 58,
+            objectFit: 'contain',
+            objectPosition: 'center',
           }}
-        >
-          <Box
-            component="img"
-            src={LOGO_SRC}
-            alt={BRAND.name}
-            sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left center' }}
-          />
-        </Box>
-        {shouldShowExpanded && (
-          <Box sx={{ flex: 1, minWidth: 0, ml: 1 }}>
-            <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_ACCENT, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              Client Panel
-            </Typography>
-          </Box>
-        )}
+        />
       </Stack>
 
       <List
         sx={{
           flex: 1,
-          px: shouldShowExpanded ? 0.5 : 0.35,
-          py: shouldShowExpanded ? 1 : 0.5,
+          minHeight: 0,
+          px: isExpanded ? 1 : 0,
+          py: 1.1,
           overflowY: 'auto',
           overflowX: 'hidden',
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#b8c6d5 transparent',
+          '&::-webkit-scrollbar': { width: 6 },
+          '&::-webkit-scrollbar-thumb': { bgcolor: '#b8c6d5', borderRadius: 10 },
         }}
       >
-        {filteredItems.map(({ text, icon, path, children }) => {
-          const hasChildren = Boolean(children?.length)
-          const childActive = children?.some((child) => isActive(child.path, pathname))
-          const isActive_ = isActive(path, pathname) || childActive
+        {filteredItems.map((item) => {
+          const active = isActivePath(item.path, pathname) || item.children?.some((child) => isActivePath(child.path, pathname))
+          const hasChildren = Boolean(item.children?.length)
 
           return (
-            <Box key={text}>
-              <Tooltip title={shouldShowExpanded || hasChildren ? '' : text} placement="right">
+            <Box key={item.text}>
+              <Tooltip title={isExpanded ? '' : item.text} placement="right">
                 <ListItemButton
-                  {...(!hasChildren && { component: NavLink, to: path })}
-                  aria-label={text}
-                  onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-                    if (hasChildren) {
-                      if (!shouldShowExpanded) {
-                        // When collapsed, show popover
-                        handlePopoverOpen(e, text)
-                      } else {
-                        // When expanded, toggle the expanded item
-                        setExpandedItemText(expandedItemText === text ? null : text)
-                      }
-                    } else {
-                      // Close popover when hovering over items without children
-                      handlePopoverClose()
-                      setExpandedItemText(null)
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    // Close popover with delay to allow interaction
-                    if (!shouldShowExpanded && hasChildren) {
-                      setTimeout(() => {
-                        // Only close if we're not hovering over the popover
-                        if (!hoveredItemText) {
-                          handlePopoverClose()
-                        }
-                      }, 200)
-                    }
+                  component={hasChildren ? 'button' : NavLink}
+                  to={hasChildren ? undefined : item.path}
+                  onClick={() => {
+                    if (hasChildren && isExpanded) setExpandedItem(expandedItem === item.text ? null : item.text)
                   }}
                   sx={{
-                    minHeight: shouldShowExpanded ? 54 : 52,
-                    px: shouldShowExpanded ? 1.5 : 0.25,
-                    py: shouldShowExpanded ? 0.75 : 0.5,
-                    mb: shouldShowExpanded ? 0.5 : 0.25,
-                    borderRadius: 1.25,
-                    justifyContent: shouldShowExpanded ? 'flex-start' : 'center',
+                    width: isExpanded ? '100%' : 54,
+                    height: isExpanded ? 56 : 54,
+                    mx: isExpanded ? 0 : 'auto',
+                    mb: 0.72,
+                    borderRadius: isExpanded ? '10px' : '14px',
+                    display: 'flex',
                     alignItems: 'center',
-                    flexDirection: shouldShowExpanded ? 'row' : 'column',
-                    gap: shouldShowExpanded ? 0 : 0.4,
-                    background: isActive_
-                      ? `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND.colors.tealDark} 100%)`
-                      : 'transparent',
-                    border: `1px solid ${isActive_ ? BRAND_ORANGE : 'transparent'}`,
-                    color: isActive_ ? '#FFFFFF' : BRAND.colors.text,
-                    boxShadow: isActive_ ? `0 8px 18px ${alpha(BRAND_ORANGE, 0.2)}` : 'none',
-                    transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative',
-                    overflow: 'hidden',
+                    justifyContent: isExpanded ? 'flex-start' : 'center',
+                    gap: 1.1,
+                    color: active ? '#fff' : muted,
+                    bgcolor: active ? teal : 'transparent',
+                    border: '1px solid transparent',
                     '&:hover': {
-                      background: isActive_
-                        ? `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND.colors.tealDark} 100%)`
-                        : alpha(BRAND_ORANGE, 0.055),
-                      borderColor: isActive_ ? BRAND_ORANGE : alpha(BRAND_INK, 0.12),
-                      color: isActive_ ? '#FFFFFF' : BRAND_INK,
-                      transform: 'translateX(2px)',
-                      boxShadow: isActive_
-                        ? `0 8px 18px ${alpha(BRAND_ORANGE, 0.24)}`
-                        : `0 4px 12px ${alpha(BRAND_INK, 0.07)}`,
+                      bgcolor: active ? teal : '#eff7fb',
                     },
                   }}
                 >
                   <ListItemIcon
                     sx={{
-                      width: shouldShowExpanded ? 34 : 30,
-                      height: shouldShowExpanded ? 34 : 30,
-                      minWidth: shouldShowExpanded ? 34 : 30,
-                      mr: shouldShowExpanded ? 1.25 : 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 1,
-                      background: isActive_ ? BRAND_ACCENT : alpha(BRAND_ORANGE, 0.08),
-                      color: isActive_ ? '#FFFFFF' : BRAND.colors.muted,
-                      boxShadow: isActive_ ? `0 5px 12px ${alpha(BRAND_ACCENT, 0.28)}` : 'none',
-                      flexShrink: 0,
-                      transition: 'all 200ms ease',
+                      minWidth: isExpanded ? 32 : 0,
+                      width: isExpanded ? 32 : 54,
+                      height: isExpanded ? 32 : 54,
+                      color: 'inherit',
+                      display: 'grid',
+                      placeItems: 'center',
+                      fontSize: 25,
                     }}
                   >
-                    {icon}
+                    {item.icon}
                   </ListItemIcon>
-                  {shouldShowExpanded ? (
-                    <ListItemText
-                      primary={text}
-                      slotProps={{
-                        primary: {
-                          sx: {
-                            fontSize: '0.86rem',
-                            fontWeight: isActive_ ? 700 : 600,
-                            color: 'inherit',
-                          },
-                        },
-                      }}
-                    />
-                  ) : (
-                    <Typography
-                      component="span"
-                      sx={{
-                        width: '100%',
-                        color: 'inherit',
-                        fontFamily: '"Inter", "Segoe UI", sans-serif',
-                        fontSize: '0.67rem',
-                        fontWeight: isActive_ ? 800 : 650,
-                        lineHeight: 1.1,
-                        letterSpacing: '-0.015em',
-                        textAlign: 'center',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {text}
-                    </Typography>
+                  {isExpanded && (
+                    <>
+                      <ListItemText
+                        primary={item.text}
+                        slotProps={{
+                          primary: { sx: { color: 'inherit', fontSize: 14, fontWeight: active ? 800 : 600 } },
+                        }}
+                      />
+                      {hasChildren && <TbChevronDown size={17} />}
+                    </>
                   )}
                 </ListItemButton>
               </Tooltip>
-              {hasChildren && shouldShowExpanded && (
-                <Collapse in={expandedItemText === text} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding sx={{ pl: 2 }}>
-                    {children?.map((child) => {
-                      const childIsActive = isActive(child.path, pathname)
+
+              {hasChildren && isExpanded && (
+                <Collapse in={expandedItem === item.text || active} timeout="auto">
+                  <List sx={{ pl: 4.4, py: 0.2 }}>
+                    {item.children?.map((child) => {
+                      const childActive = isActivePath(child.path, pathname)
                       return (
                         <ListItemButton
                           key={child.path}
                           component={NavLink}
                           to={child.path}
                           sx={{
-                            minHeight: 44,
-                            px: 1.5,
-                            mb: 0.25,
+                            minHeight: 36,
                             borderRadius: 1,
-                            color: childIsActive ? BRAND_ORANGE : '#64748B',
-                            background: childIsActive ? alpha(BRAND_ORANGE, 0.08) : 'transparent',
-                            border: `1px solid ${childIsActive ? alpha(BRAND_ORANGE, 0.2) : alpha(BRAND_INK, 0.08)}`,
-                            fontSize: '0.85rem',
-                            fontWeight: childIsActive ? 600 : 500,
-                            '&:hover': {
-                              background: childIsActive
-                                ? alpha(BRAND_ORANGE, 0.12)
-                                : alpha(BRAND_ORANGE, 0.05),
-                              borderColor: childIsActive
-                                ? alpha(BRAND_ORANGE, 0.3)
-                                : alpha(BRAND_INK, 0.12),
-                              color: childIsActive ? BRAND_ORANGE : BRAND_INK,
-                            },
+                            color: childActive ? teal : ink,
+                            bgcolor: childActive ? '#e8f6fb' : 'transparent',
+                            '&:hover': { bgcolor: '#eff7fb' },
                           }}
                         >
-                          <ListItemIcon
-                            sx={{
-                              minWidth: 32,
-                              color: childIsActive ? BRAND_ORANGE : BRAND_INK,
-                              fontSize: '1rem',
-                            }}
-                          >
-                            {child.icon}
-                          </ListItemIcon>
-                          <ListItemText primary={child.text} />
+                          <ListItemText primary={child.text} slotProps={{ primary: { sx: { fontSize: 13, fontWeight: childActive ? 800 : 600 } } }} />
                         </ListItemButton>
                       )
                     })}
@@ -567,100 +302,46 @@ export default function Sidebar({
         })}
       </List>
 
-      {/* Custom Dropdown Menu for collapsed sidebar */}
-      {hoveredItemText && anchorEl && !shouldShowExpanded && (
+      <Stack alignItems="center" spacing={1} sx={{ pb: 3 }}>
         <Box
-          onMouseEnter={() => setHoveredItemText(hoveredItemText)}
-          onMouseLeave={handlePopoverClose}
           sx={{
-            position: 'fixed',
-            zIndex: 1300,
-            left: `${sidebarWidth + 8}px`,
-            top: anchorEl.getBoundingClientRect().top,
-            background: BRAND_SURFACE,
-            border: `1px solid ${BRAND_BORDER}`,
-            borderRadius: 2,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-            minWidth: 220,
-            animation: 'fadeInSlide 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-            '@keyframes fadeInSlide': {
-              from: {
-                opacity: 0,
-                transform: 'translateX(-8px)',
-              },
-              to: {
-                opacity: 1,
-                transform: 'translateX(0)',
-              },
-            },
+            minWidth: isExpanded ? 134 : 84,
+            height: 32,
+            display: 'grid',
+            placeItems: 'center',
+            borderRadius: '6px',
+            bgcolor: '#f2f5f8',
+            color: ink,
+            fontSize: 14,
           }}
         >
-          <List sx={{ py: 1 }}>
-            {filteredItems
-              .find((item) => item.text === hoveredItemText)
-              ?.children?.map((child) => {
-                const active = isActive(child.path, pathname)
-                return (
-                  <ListItemButton
-                    key={child.path}
-                    component={NavLink}
-                    to={child.path}
-                    onClick={handlePopoverClose}
-                    sx={{
-                      px: 1.5,
-                      py: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      background: active ? alpha(BRAND_ORANGE, 0.08) : 'transparent',
-                      color: active ? BRAND_ORANGE : BRAND_INK,
-                      transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-                      borderRadius: 1,
-                      position: 'relative',
-                      overflow: 'hidden',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        left: 0,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        width: active ? '3px' : '0px',
-                        height: active ? '60%' : '0%',
-                        background: BRAND_ORANGE,
-                        borderRadius: '0 2px 2px 0',
-                        transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-                      },
-                      '&:hover': {
-                        background: active ? alpha(BRAND_ORANGE, 0.15) : alpha(BRAND_INK, 0.06),
-                        transform: 'translateX(4px)',
-                        '&::before': {
-                          height: '70%',
-                        },
-                      },
-                    }}
-                  >
-                    {child.icon && (
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'inherit',
-                          fontSize: '1.2rem',
-                        }}
-                      >
-                        {child.icon}
-                      </Box>
-                    )}
-                    <Typography variant="body2" sx={{ fontWeight: active ? 600 : 500 }}>
-                      {child.text}
-                    </Typography>
-                  </ListItemButton>
-                )
-              })}
-          </List>
+          Ctrl+ B
         </Box>
-      )}
+        <Box
+          sx={{
+            width: isExpanded ? '100%' : 112,
+            minHeight: 92,
+            display: 'grid',
+            placeItems: 'center',
+            bgcolor: '#fffef0',
+          }}
+        >
+          <Box
+            sx={{
+              width: 50,
+              height: 50,
+              borderRadius: '50%',
+              display: 'grid',
+              placeItems: 'center',
+              bgcolor: '#49b655',
+              color: '#fff',
+              fontSize: 29,
+            }}
+          >
+            <TbLayoutSidebar />
+          </Box>
+        </Box>
+      </Stack>
     </Box>
   )
 }

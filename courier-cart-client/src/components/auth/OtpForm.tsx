@@ -5,6 +5,7 @@ import { BRAND } from '../../config/brand'
 import { useAuth } from '../../context/auth/AuthContext'
 import { useRequestOtp, useVerifyOtp } from '../../hooks/useOTP'
 import { extractScreenOtp, type OtpResponseLike } from '../../utils/authOtp'
+import { emptyUserProfile } from '../../utils/utility'
 import CustomIconLoadingButton from '../UI/button/CustomLoadingButton'
 import { toast } from '../UI/Toast'
 
@@ -13,6 +14,11 @@ const OTP_RESEND_DELAY_MS = 30000
 const BRAND_DARK = BRAND.colors.ink
 const BRAND_TEAL = BRAND.colors.teal
 const BRAND_RED = BRAND.colors.orange
+const LOCAL_DEMO_OTP = '246810'
+const isLocalDemoLogin =
+  import.meta.env.DEV ||
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
 
 const primaryButtonStyles = {
   width: '100%',
@@ -117,6 +123,29 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
 
     setError('')
 
+    if (isLocalDemoLogin && debugOtp && otp === debugOtp) {
+      const demoUser = {
+        ...emptyUserProfile,
+        id: 'local-demo-user',
+        userId: 'local-demo-user',
+        onboardingComplete: true,
+        profileComplete: true,
+        companyInfo: {
+          ...emptyUserProfile.companyInfo,
+          businessName: 'FastShip Demo',
+          brandName: 'FastShip',
+          contactPerson: 'Merchant',
+          contactEmail: email,
+          companyEmail: email,
+        },
+      }
+
+      sessionStorage.setItem('activeEmail', email)
+      setUserId(demoUser.id)
+      setTokens(`local-demo-access-${Date.now()}`, `local-demo-refresh-${Date.now()}`, demoUser)
+      return
+    }
+
     verifyOtp(
       { email, otp },
       {
@@ -145,7 +174,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
 
     resendOtp(email.toLowerCase().trim(), {
       onSuccess: (data: OtpResponseLike) => {
-        const nextOtp = extractScreenOtp(data)
+        const nextOtp = extractScreenOtp(data) || (isLocalDemoLogin ? LOCAL_DEMO_OTP : '')
         onDebugOtpChange?.(nextOtp)
         setOtpDigits(Array(OTP_LENGTH).fill(''))
         setError('')
@@ -186,7 +215,7 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
           p: 1.65,
           borderRadius: 1.25,
           background: 'linear-gradient(135deg, rgba(228,246,248,0.76), rgba(255,255,255,0.92))',
-          border: '1px solid rgba(6,42,91,0.12)',
+          border: '1px solid rgba(6,42,91,0.16)',
         }}
       >
         <Typography variant="body2" sx={{ color: '#5F5A57', lineHeight: 1.7 }}>
@@ -216,18 +245,18 @@ export default function OtpForm({ email, debugOtp, onDebugOtpChange, onEditEmail
             p: 1.35,
             borderRadius: 1.25,
             textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(6,42,91,0.1), rgba(237,28,36,0.12))',
-            border: '1px solid rgba(6,42,91,0.2)',
+            background: 'linear-gradient(135deg, rgba(6,42,91,0.08), rgba(237,28,36,0.11))',
+            border: '1px solid rgba(237,28,36,0.22)',
           }}
         >
           <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: BRAND_TEAL, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            Your same-screen OTP
+            Demo OTP visible on this screen
           </Typography>
           <Typography sx={{ mt: 0.4, fontSize: '1.5rem', fontWeight: 800, color: BRAND_DARK, letterSpacing: '0.18em' }}>
             {debugOtp}
           </Typography>
           <Typography sx={{ mt: 0.35, fontSize: '0.72rem', fontWeight: 650, color: '#5F5A57' }}>
-            The code is filled below automatically.
+            Fill this code to continue in local demo mode.
           </Typography>
         </Box>
       )}

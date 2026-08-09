@@ -5,4 +5,4 @@ export const isValidAwb = (awb?: string | null) => /^[A-Z0-9-]{6,30}$/.test(norm
 export const getAwbTrackingPath = (awb: string) => `/tracking/${encodeURIComponent(normalizeAwb(awb))}`
 
 export const getClientAwbTrackingPath = (awb: string) =>
-  `/tools/order_tracking?awb=${encodeURIComponent(normalizeAwb(awb))}`
+  `/tools/track-order?awb=${encodeURIComponent(normalizeAwb(awb))}`

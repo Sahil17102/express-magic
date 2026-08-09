@@ -7,7 +7,7 @@ const ShippingRateCard = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleNavigate = () => {
-    window.location.href = getAppHashHref('/tools/rate_calculator')
+    window.location.href = getAppHashHref('/tools/rate-calculator')
   }
 
   return (

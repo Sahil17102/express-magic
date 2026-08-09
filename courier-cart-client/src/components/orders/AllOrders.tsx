@@ -352,7 +352,7 @@ const AllOrders = () => {
       return
     }
 
-    navigate(`/tools/order_tracking?awb=${encodeURIComponent(awb)}`)
+    navigate(`/tools/track-order?awb=${encodeURIComponent(awb)}`)
   }
 
   const requestDelhiveryPickupSchedule = (ordersForPickup: Order[], label: string) =>
@@ -1449,7 +1449,7 @@ const AllOrders = () => {
       render: (value) =>
         value ? (
           <Box
-            onClick={() => navigate(`/tools/order_tracking?awb=${value}`)}
+            onClick={() => navigate(`/tools/track-order?awb=${value}`)}
             sx={{
               cursor: 'pointer',
               color: '#062A5B',

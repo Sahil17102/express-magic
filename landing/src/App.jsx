@@ -1,4 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
+import { useRef } from 'react'
 import {
   ArrowRight, BarChart3, Box, Check, ChevronDown, CircleCheck, Clock3, Code2,
   Globe2, Headphones, Instagram, Linkedin, Mail, MapPin, Menu, PackageCheck,
@@ -100,6 +101,78 @@ function FeatureShowcase() {
   return <section className="feature-showcase home-stack-card"><div className="shell"><div className="section-head showcase-head"><div><Eyebrow icon={Zap}>MORE THAN A LABEL</Eyebrow><h2>Small details.<br /><em>Big distance.</em></h2></div><p>Fastship India gives operators the practical tools and the breathing room to make good decisions quickly.</p></div><div className="showcase-grid"><article className="showcase-photo showcase-wide reveal-on-view"><img src="/assets/shipray-control-tower.jpg" alt="Operations team monitoring shipments" loading="lazy" decoding="async" /><div className="showcase-overlay"><span>01</span><strong>One view of the whole journey</strong><small>Watch handoffs, exceptions and delivery signals move together.</small></div></article><article className="showcase-photo reveal-on-view"><img src="/assets/shipray-rate-studio.jpg" alt="Shipping rates and parcel decisions" loading="lazy" decoding="async" /><div className="showcase-overlay"><span>02</span><strong>Know the number before the promise</strong><small>Build a stronger margin into every route.</small></div></article><article className="showcase-note reveal-on-view"><div className="note-symbol"><Route /></div><span>BUILT FOR THE EVERYDAY</span><h3>Clarity is a competitive advantage.</h3><p>From a packed shelf to a customer's doorstep, every part of the path should feel considered.</p><Link to="/integrations">See the platform <ArrowRight size={16} /></Link></article></div></div></section>
 }
 
+function getMetricConfig(metric) {
+  const configs = {
+    '29K+': { end: 29, suffix: 'K+' },
+    '220+': { end: 220, suffix: '+' },
+    '99.2%': { end: 99.2, suffix: '%', decimals: 1 },
+    '01': { end: 1, pad: 2 },
+    '24/7': { end: 24, suffix: '/7' },
+  }
+  return configs[metric] || null
+}
+
+function formatMetric(value, config) {
+  const next = config.decimals ? value.toFixed(config.decimals) : Math.round(value).toString()
+  return `${config.pad ? next.padStart(config.pad, '0') : next}${config.suffix || ''}`
+}
+
+function AnimatedMetric({ metric }) {
+  const metricRef = useRef(null)
+  const config = getMetricConfig(metric)
+  const [display, setDisplay] = useState(config ? formatMetric(0, config) : metric)
+
+  useEffect(() => {
+    const nextConfig = getMetricConfig(metric)
+    if (!nextConfig) {
+      setDisplay(metric)
+      return undefined
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      setDisplay(formatMetric(nextConfig.end, nextConfig))
+      return undefined
+    }
+
+    const node = metricRef.current
+    let frame = 0
+    let observer
+    const duration = 1300
+
+    const start = () => {
+      const startedAt = performance.now()
+      const tick = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1)
+        const eased = 1 - Math.pow(1 - progress, 3)
+        setDisplay(formatMetric(nextConfig.end * eased, nextConfig))
+        if (progress < 1) frame = window.requestAnimationFrame(tick)
+      }
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    setDisplay(formatMetric(0, nextConfig))
+    if ('IntersectionObserver' in window && node) {
+      observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          observer.disconnect()
+          start()
+        }
+      }, { threshold: 0.35 })
+      observer.observe(node)
+    } else {
+      start()
+    }
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      observer?.disconnect()
+    }
+  }, [metric])
+
+  return <strong ref={metricRef}>{display}</strong>
+}
+
 function CampaignCards() {
   const cards = [
     ['Sell further, sooner', 'Reach new pin codes without adding a new operations headache.', '29K+', 'PIN CODES', 'tone-blue'],
@@ -109,7 +182,7 @@ function CampaignCards() {
     ['From local to legendary', 'Build a delivery experience that feels as thoughtful as the product.', '24/7', 'VISIBILITY', 'tone-blue'],
     ['Keep the promise moving', 'Fastship India helps your team take the next best action, every time.', '\u221e', 'POSSIBILITY', 'tone-coral'],
   ]
-  return <section className="campaign-section home-stack-card"><div className="shell"><div className="section-head campaign-head"><div><Eyebrow icon={Zap}>WHY BRANDS MOVE WITH US</Eyebrow><h2>Make shipping part of<br /><em>the story.</em></h2></div><p>Good logistics is not invisible. It becomes the reason a customer trusts you again.</p></div><div className="campaign-grid">{cards.map(([title, copy, metric, label, tone], index) => <article className={`campaign-card ${tone} reveal-on-view`} key={title}><div className="campaign-number">0{index + 1}</div><strong>{metric}</strong><small>{label}</small><h3>{title}</h3><p>{copy}</p><Link to={index % 2 ? '/tracking' : '/rate-calculator'}>Make a move <ArrowRight size={15} /></Link></article>)}</div></div></section>
+  return <section className="campaign-section home-stack-card"><div className="shell"><div className="section-head campaign-head"><div><Eyebrow icon={Zap}>WHY BRANDS MOVE WITH US</Eyebrow><h2>Make shipping part of<br /><em>the story.</em></h2></div><p>Good logistics is not invisible. It becomes the reason a customer trusts you again.</p></div><div className="campaign-grid">{cards.map(([title, copy, metric, label, tone], index) => <article className={`campaign-card ${tone} reveal-on-view`} key={title}><div className="campaign-number">0{index + 1}</div><AnimatedMetric metric={metric} /><small>{label}</small><h3>{title}</h3><p>{copy}</p><Link to={index % 2 ? '/tracking' : '/rate-calculator'}>Make a move <ArrowRight size={15} /></Link></article>)}</div></div></section>
 }
 
 function VisualGallery() {

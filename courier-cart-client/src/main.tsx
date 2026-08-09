@@ -13,6 +13,24 @@ import ErrorBoundary from "./components/UI/ErrorBoundary.tsx";
 
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 const CHUNK_RELOAD_KEY = "__chunk_reload_attempted__";
+const HASH_ROUTE_PATHS = new Set([
+  "/dashboard",
+  "/orders/new",
+  "/orders/list",
+  "/orders/create",
+  "/orders/b2c/list",
+  "/orders/b2b/list",
+  "/ops/ndr",
+  "/ops/rto",
+]);
+
+if (!window.location.hash && HASH_ROUTE_PATHS.has(window.location.pathname)) {
+  const nextUrl = `${window.location.origin}${window.location.pathname.replace(
+    window.location.pathname,
+    "/",
+  )}#${window.location.pathname}${window.location.search}`;
+  window.history.replaceState(null, "", nextUrl);
+}
 
 const isChunkLoadError = (message?: string) => {
   if (!message) return false;

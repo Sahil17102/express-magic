@@ -8,7 +8,7 @@ export default function Login() {
   const { isAuthenticated, user, loading } = useAuth();
   const location = useLocation();
   const from = (location.state as { from?: Location } | null)?.from;
-  const returnTo = from ? `${from.pathname}${from.search || ''}` : '/home';
+  const returnTo = from ? `${from.pathname}${from.search || ''}` : '/dashboard';
 
   // optional global loader while figuring out status
   if (loading) return <FullScreenLoader />;

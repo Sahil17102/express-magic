@@ -17,8 +17,8 @@ export default function QuickActionsCard() {
   const actions = [
     { label: 'Create Order', icon: <MdAdd size={18} />, path: '/orders/create' },
     { label: 'All Orders', icon: <MdShoppingCart size={18} />, path: '/orders/list' },
-    { label: 'Rate Calculator', icon: <MdCalculate size={18} />, path: '/tools/rate_calculator' },
-    { label: 'Track AWB', icon: <MdTrackChanges size={18} />, path: '/tools/order_tracking' },
+    { label: 'Rate Calculator', icon: <MdCalculate size={18} />, path: '/tools/rate-calculator' },
+    { label: 'Track AWB', icon: <MdTrackChanges size={18} />, path: '/tools/track-order' },
     { label: 'Support', icon: <MdSupport size={18} />, path: '/support/tickets' },
     { label: 'Shipments', icon: <TbTruckDelivery size={18} />, path: '/orders/list' },
   ]

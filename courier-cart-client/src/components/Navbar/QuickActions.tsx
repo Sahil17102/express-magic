@@ -21,8 +21,8 @@ const QuickActions = ({ compact = false, iconOverride }: QuickActionsProps) => {
 
   const actions = [
     { icon: <TbTruckDelivery size={18} />, name: 'New Order', path: '/orders/create' },
-    { icon: <CgCalculator size={18} />, name: 'Rate Calculator', path: '/tools/rate_calculator' },
-    { icon: <CgTrack size={18} />, name: 'Track AWB', path: '/tools/order_tracking' },
+    { icon: <CgCalculator size={18} />, name: 'Rate Calculator', path: '/tools/rate-calculator' },
+    { icon: <CgTrack size={18} />, name: 'Track AWB', path: '/tools/track-order' },
     { icon: <FaTicket size={18} />, name: 'Create Ticket', path: '/support/tickets' },
   ]
 

@@ -1,33 +1,17 @@
-import {
-  alpha,
-  Avatar,
-  Box,
-  Divider,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Popover,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
-import React, { useState } from 'react'
-import { BsKeyboardFill } from 'react-icons/bs'
-import { FaGavel } from 'react-icons/fa6'
-import { MdAccountCircle, MdLogout, MdSettings } from 'react-icons/md'
+import { Avatar, Box, Button, IconButton, Popover, Stack, Typography } from '@mui/material'
+import { useState, type ReactNode } from 'react'
+import { MdLogout, MdOutlineAccountCircle, MdOutlineMail, MdOutlinePhone, MdSupportAgent, MdViewModule } from 'react-icons/md'
+import { TbApiApp } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth/AuthContext'
 import { usePresignedDownloadUrls } from '../../hooks/Uploads/usePresignedDownloadUrls'
-import WalletMenu from './WalletMenu'
 
-const BRAND_PRIMARY = '#062A5B'
-const BRAND_INK = '#17171A'
-const BRAND_MUTED = '#6E6763'
+const SHIPMOZO_BLUE = '#0789ad'
+const INK = '#2f3747'
+const MUTED = '#334155'
 
 export const getInitials = (fullName?: string) => {
-  if (!fullName) return 'U'
+  if (!fullName) return 'M'
 
   const parts = fullName.trim().split(/\s+/)
   const firstInitial = parts[0]?.[0] ?? ''
@@ -38,115 +22,39 @@ export const getInitials = (fullName?: string) => {
 
 const UserMenu = () => {
   const { user, logout } = useAuth()
-  const theme = useTheme()
   const navigate = useNavigate()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
 
   const { data: avatarUrl } = usePresignedDownloadUrls({
     keys: user?.companyInfo?.profilePicture,
     enabled: !!user?.companyInfo?.profilePicture,
   })
 
+  const displayName =
+    user?.companyInfo?.contactPerson ||
+    user?.companyInfo?.businessName ||
+    user?.companyInfo?.brandName ||
+    'SHRAVAN KUMAR MAHTO'
+  const roleLabel = user?.role ? user.role.toUpperCase() : 'ADMIN'
+  const email = user?.companyInfo?.contactEmail || user?.companyInfo?.companyEmail || 'rikaenterprises98@gmail.com'
+  const phone = user?.companyInfo?.contactNumber || user?.companyInfo?.companyContactNumber || '8285681158'
+  const initials = getInitials(displayName)
+
   const handleClose = () => setAnchorEl(null)
 
-  const menuItems: {
-    key: string
-    label?: string
-    icon?: React.ElementType
-    onClick?: () => void
-  }[] = [
-    {
-      key: 'profile',
-      label: 'Profile',
-      icon: MdAccountCircle,
-      onClick: () => {
-        navigate('/profile/user_profile/settings/user')
-        handleClose()
-      },
-    },
-    {
-      key: 'settings',
-      label: 'Settings',
-      icon: MdSettings,
-      onClick: () => {
-        navigate('/settings')
-        handleClose()
-      },
-    },
-
-    {
-      key: 'keyboard-shortcuts',
-      label: 'Keyboard Shortcuts',
-      icon: BsKeyboardFill,
-      onClick: () => {
-        navigate('/help/shortcuts')
-        handleClose()
-      },
-    },
-    {
-      key: 'terms-conditions',
-      label: 'Legal & Policies',
-      icon: FaGavel,
-      onClick: () => {
-        navigate('/policies/refund_cancellation')
-        handleClose()
-      },
-    },
-    { key: 'divider' },
-    {
-      key: 'logout',
-      label: 'Logout',
-      icon: MdLogout,
-      onClick: () => {
-        logout()
-        handleClose()
-      },
-    },
-  ]
+  const goTo = (path: string) => {
+    handleClose()
+    navigate(path)
+  }
 
   return (
     <Box>
-      <IconButton
-        onClick={handleClick}
-        sx={{
-          p: 0.35,
-          borderRadius: 2,
-          border: '1px solid rgba(0, 0, 0, 0.08)',
-          bgcolor: 'rgba(0, 0, 0, 0.02)',
-          transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            bgcolor: `rgba(217, 4, 22, 0.08)`,
-            borderColor: `rgba(217, 4, 22, 0.2)`,
-            boxShadow: `0 4px 12px rgba(217, 4, 22, 0.12)`,
-            transform: 'translateY(-2px)',
-          },
-        }}
-      >
+      <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{ p: 0.2 }}>
         {avatarUrl && !Array.isArray(avatarUrl) ? (
-          <Avatar alt="User" src={avatarUrl} sx={{ width: 32, height: 32 }} />
+          <Avatar alt={displayName} src={avatarUrl} sx={avatarSx} />
         ) : (
-          <Avatar
-            sx={{
-              width: { xs: 32, sm: 40 },
-              height: { xs: 32, sm: 40 },
-              fontSize: 'calc(0.8rem + 0.2vw)',
-              bgcolor: BRAND_PRIMARY,
-              color: '#fff',
-              border: `2px solid ${alpha(BRAND_MUTED, 0.2)}`,
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                borderColor: BRAND_MUTED,
-              },
-            }}
-          >
-            {getInitials(user?.companyInfo?.contactPerson)}
-          </Avatar>
+          <Avatar sx={avatarSx}>{initials}</Avatar>
         )}
       </IconButton>
 
@@ -154,105 +62,133 @@ const UserMenu = () => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        slotProps={{
-          paper: {
-            sx: {
-              mt: 1,
-              width: 240,
-              bgcolor: alpha('#ffffff', 0.98),
-              color: BRAND_INK,
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-              borderRadius: 3.5,
-              overflow: 'hidden',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              position: 'relative',
-              animation: open ? 'popoverFadeIn 250ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
-              '@keyframes popoverFadeIn': {
-                from: { opacity: 0, transform: 'translateY(-8px) scale(0.95)' },
-                to: { opacity: 1, transform: 'translateY(0) scale(1)' },
-              },
-            },
-          },
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        slotProps={{ paper: { sx: profilePaperSx } }}
       >
-        <List dense disablePadding>
-          {isMobile ? (
-            <Box sx={{ px: 0.75, py: 0.75, mb: 0.5 }}>
-              <WalletMenu />
-            </Box>
-          ) : null}
-          {menuItems.map((item, index) =>
-            item.key === 'divider' ? (
-              <Divider key="divider" sx={{ my: 0.5, bgcolor: alpha(BRAND_PRIMARY, 0.08) }} />
+        <Box sx={{ px: 2.6, py: 1.8, borderBottom: '1px solid #e5ebf2' }}>
+          <Typography sx={{ color: INK, fontSize: 18, fontWeight: 900 }}>User Profile</Typography>
+        </Box>
+
+        <Box sx={{ p: 2.4 }}>
+          <Stack direction="row" spacing={1.8} alignItems="center" sx={{ mb: 2.8 }}>
+            {avatarUrl && !Array.isArray(avatarUrl) ? (
+              <Avatar alt={displayName} src={avatarUrl} sx={{ width: 88, height: 88, bgcolor: SHIPMOZO_BLUE, fontSize: 38 }} />
             ) : (
-              <ListItemButton
-                key={item.key}
-                onClick={item.onClick}
-                sx={{
-                  bgcolor: item?.key === 'logout' ? 'transparent' : 'transparent',
-                  color: item?.key === 'logout' ? '#EF4444' : BRAND_INK,
-                  mx: 0.5,
-                  my: 0.3,
-                  borderRadius: 2.5,
-                  transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  border: '1px solid transparent',
-                  animation: open ? `menuItemSlide 250ms cubic-bezier(0.4, 0, 0.2, 1) ${index * 30}ms both` : 'none',
-                  '@keyframes menuItemSlide': {
-                    from: { opacity: 0, transform: 'translateY(-6px) translateX(4px)' },
-                    to: { opacity: 1, transform: 'translateY(0) translateX(0)' },
-                  },
-                  '&:hover': {
-                    bgcolor:
-                      item?.key === 'logout' ? alpha('#EF4444', 0.08) : alpha(BRAND_PRIMARY, 0.06),
-                    color: item?.key === 'logout' ? '#DC2626' : BRAND_INK,
-                    borderColor: item?.key === 'logout' ? alpha('#DC2626', 0.15) : alpha(BRAND_PRIMARY, 0.15),
-                    transform: 'translateX(2px)',
-                    '& .MuiListItemIcon-root': {
-                      color: item?.key === 'logout' ? '#DC2626' : BRAND_PRIMARY,
-                      transform: 'scale(1.05)',
-                    },
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 32,
-                    color: item?.key === 'logout' ? '#EF4444' : alpha(BRAND_PRIMARY, 0.7),
-                    transition: 'all 200ms ease',
-                  }}
-                >
-                  {item.icon && React.createElement(item.icon, { size: 18 })}
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography
-                      fontSize="13px"
-                      fontWeight={600}
-                      sx={{
-                        color: 'inherit',
-                      }}
-                    >
-                      {item.label}
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            ),
-          )}
-        </List>
+              <Avatar sx={{ width: 88, height: 88, bgcolor: SHIPMOZO_BLUE, color: '#fff', fontSize: 38 }}>{initials}</Avatar>
+            )}
+            <Box sx={{ minWidth: 0 }}>
+              <Typography sx={{ color: INK, fontSize: 14, fontWeight: 900, textTransform: 'uppercase' }}>{displayName}</Typography>
+              <Typography sx={{ color: INK, fontSize: 14, fontWeight: 700, mt: 0.5 }}>{roleLabel}</Typography>
+              <Stack direction="row" spacing={0.7} alignItems="center" sx={{ mt: 0.7 }}>
+                <MdOutlineMail size={17} />
+                <Typography sx={{ color: MUTED, fontSize: 14 }}>{email}</Typography>
+              </Stack>
+              <Stack direction="row" spacing={0.7} alignItems="center" sx={{ mt: 0.45 }}>
+                <MdOutlinePhone size={17} />
+                <Typography sx={{ color: MUTED, fontSize: 14 }}>{phone}</Typography>
+              </Stack>
+            </Box>
+          </Stack>
+
+          <Stack spacing={1.45}>
+            <ProfileRow icon={<MdOutlineAccountCircle size={27} />} title="My Profile" subtitle="Account Settings" onClick={() => goTo('/profile')} />
+            <ProfileRow icon={<MdSupportAgent size={27} />} title="Support" subtitle="Contact Support" onClick={() => goTo('/support')} />
+            <ProfileRow icon={<MdViewModule size={27} />} title="Terms & Conditions / SOP" subtitle="Read Our Terms & Conditions" onClick={() => goTo('/user-agreements')} />
+            <ProfileRow icon={<TbApiApp size={27} />} title="API Documentation" subtitle="Check our latest API Documentation" onClick={() => goTo('/settings/api-integration')} />
+          </Stack>
+
+          <Button
+            fullWidth
+            startIcon={<MdLogout size={22} />}
+            onClick={() => {
+              logout()
+              handleClose()
+            }}
+            sx={{
+              mt: 3.4,
+              height: 40,
+              borderRadius: '10px',
+              border: `1px solid ${SHIPMOZO_BLUE}`,
+              color: SHIPMOZO_BLUE,
+              bgcolor: '#fff',
+              textTransform: 'none',
+              fontWeight: 900,
+              '&:hover': { bgcolor: '#eff9fc' },
+            }}
+          >
+            Logout
+          </Button>
+        </Box>
       </Popover>
     </Box>
   )
+}
+
+interface ProfileRowProps {
+  icon: ReactNode
+  title: string
+  subtitle: string
+  onClick: () => void
+}
+
+function ProfileRow({ icon, title, subtitle, onClick }: ProfileRowProps) {
+  return (
+    <Button
+      onClick={onClick}
+      fullWidth
+      sx={{
+        justifyContent: 'flex-start',
+        gap: 1.6,
+        p: 0,
+        color: INK,
+        textAlign: 'left',
+        textTransform: 'none',
+        borderRadius: '10px',
+        '&:hover': { bgcolor: '#f7fafc' },
+      }}
+    >
+      <Box
+        sx={{
+          width: 56,
+          height: 56,
+          borderRadius: '12px',
+          display: 'grid',
+          placeItems: 'center',
+          color: '#7778ff',
+          bgcolor: '#f2f6fb',
+          flexShrink: 0,
+        }}
+      >
+        {icon}
+      </Box>
+      <Box sx={{ minWidth: 0 }}>
+        <Typography sx={{ color: INK, fontSize: 14, fontWeight: 900, lineHeight: 1.2 }}>{title}</Typography>
+        <Typography sx={{ color: MUTED, fontSize: 14, fontWeight: 500, mt: 0.65, lineHeight: 1.25 }}>{subtitle}</Typography>
+      </Box>
+    </Button>
+  )
+}
+
+const avatarSx = {
+  width: { xs: 34, sm: 40 },
+  height: { xs: 34, sm: 40 },
+  bgcolor: SHIPMOZO_BLUE,
+  color: '#fff',
+  border: '2px solid #f1f5f9',
+  boxShadow: '0 0 0 2px #0b1f36',
+  fontSize: 18,
+}
+
+const profilePaperSx = {
+  mt: 1,
+  width: 450,
+  borderRadius: '10px',
+  border: '1px solid #e5ebf2',
+  bgcolor: '#fff',
+  color: INK,
+  boxShadow: '0 20px 42px rgba(15, 23, 42, 0.12)',
+  overflow: 'hidden',
 }
 
 export default UserMenu

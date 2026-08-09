@@ -1,5 +1,5 @@
 // AppRoutes.tsx
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, type ComponentType } from 'react'
 import { HashRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import RequireAuth from '../components/auth/wrapper/RequireAuth'
 import RequireEmployeePermission from '../components/auth/wrapper/RequireEmployeePermission'
@@ -18,10 +18,28 @@ const FastShipLanding = lazy(() => import('../pages/marketing/FastShipLanding'))
 
 // Onboarding & Dashboard
 const UserOnboarding = lazy(() => import('../pages/onboarding/UserOnboarding'))
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
+const Dashboard = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({
+    default: m.ShipmozoDashboardPanel,
+  })),
+)
+const DashboardOrderStatus = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({
+    default: m.ShipmozoDashboardOrderStatusPanel,
+  })),
+)
 
 // Orders
-const Orders = lazy(() => import('../pages/orders/Orders'))
+const Orders = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({
+    default: m.ShipmozoOrdersPanel,
+  })),
+)
+const ShipmozoOrdersPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({
+    default: m.ShipmozoOrdersPanel,
+  })),
+)
 const B2COrdersList = lazy(() => import('../components/orders/b2c/B2COrdersList'))
 const B2bOrders = lazy(() => import('../pages/orders/B2bOrders'))
 
@@ -34,8 +52,71 @@ const UsersManagement = lazy(() => import('../pages/users-management/UsersManage
 const CourierPriorityPage = lazy(() => import('../components/settings/CourierPriority/CourierPriorityPage'))
 
 // Billing
-const WalletTransactions = lazy(() => import('../pages/billings/WalletTransactions'))
-const Invoices = lazy(() => import('../pages/billings/Invoices'))
+const ShipmozoBillingPassbookPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingPassbookPanel })),
+)
+const ShipmozoBillingCodPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingCodPanel })),
+)
+const ShipmozoBillingShippingChargesPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingShippingChargesPanel })),
+)
+const ShipmozoBillingAllRechargesPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingAllRechargesPanel })),
+)
+const ShipmozoBillingInvoicesPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingInvoicesPanel })),
+)
+const ShipmozoBillingCreditNotesPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingCreditNotesPanel })),
+)
+const ShipmozoBillingDebitNotesPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingDebitNotesPanel })),
+)
+const ShipmozoBillingLedgersPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingLedgersPanel })),
+)
+const ShipmozoBillingNotificationCreditPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoBillingNotificationCreditPanel })),
+)
+
+function morePanel(name: keyof typeof import('../pages/shipmozo/ShipmozoMorePanels')) {
+  return lazy(() =>
+    import('../pages/shipmozo/ShipmozoMorePanels').then((m) => ({
+      default: m[name] as ComponentType,
+    })),
+  )
+}
+
+const ShipmozoProductsPanel = morePanel('ShipmozoProductsPanel')
+const ShipmozoPackagingPanel = morePanel('ShipmozoPackagingPanel')
+const ShipmozoCustomersPanel = morePanel('ShipmozoCustomersPanel')
+const ShipmozoOrderTagsPanel = morePanel('ShipmozoOrderTagsPanel')
+const ShipmozoWarehousePanel = morePanel('ShipmozoWarehousePanel')
+const ShipmozoIntegrationChannelsPanel = morePanel('ShipmozoIntegrationChannelsPanel')
+const ShipmozoIntegrationOmsPanel = morePanel('ShipmozoIntegrationOmsPanel')
+const ShipmozoEddWidgetPanel = morePanel('ShipmozoEddWidgetPanel')
+const ShipmozoSettingsShippingNotificationPanel = morePanel('ShipmozoSettingsShippingNotificationPanel')
+const ShipmozoSettingsCodConfirmationPanel = morePanel('ShipmozoSettingsCodConfirmationPanel')
+const ShipmozoSettingsEarlyCodPanel = morePanel('ShipmozoSettingsEarlyCodPanel')
+const ShipmozoSettingsAutoAssignPanel = morePanel('ShipmozoSettingsAutoAssignPanel')
+const ShipmozoSettingsManageLabelPanel = morePanel('ShipmozoSettingsManageLabelPanel')
+const ShipmozoSettingsManageInvoicePanel = morePanel('ShipmozoSettingsManageInvoicePanel')
+const ShipmozoSettingsBrandedTrackingPanel = morePanel('ShipmozoSettingsBrandedTrackingPanel')
+const ShipmozoToolsRateCalculatorPanel = morePanel('ShipmozoToolsRateCalculatorPanel')
+const ShipmozoToolsShipmentPriceListPanel = morePanel('ShipmozoToolsShipmentPriceListPanel')
+const ShipmozoToolsActivityLogsPanel = morePanel('ShipmozoToolsActivityLogsPanel')
+const ShipmozoToolsCourierManagePanel = morePanel('ShipmozoToolsCourierManagePanel')
+const ShipmozoToolsReportsDownloadPanel = morePanel('ShipmozoToolsReportsDownloadPanel')
+const ShipmozoToolsTrackOrderPanel = morePanel('ShipmozoToolsTrackOrderPanel')
+const ShipmozoToolsWeightDiscrepancyPanel = morePanel('ShipmozoToolsWeightDiscrepancyPanel')
+const ShipmozoReportsOrdersPanel = morePanel('ShipmozoReportsOrdersPanel')
+const ShipmozoReportsShipmentPanel = morePanel('ShipmozoReportsShipmentPanel')
+const ShipmozoReportsNdrPanel = morePanel('ShipmozoReportsNdrPanel')
+const ShipmozoReportsCustomPanel = morePanel('ShipmozoReportsCustomPanel')
+const ShipmozoSupportPanel = morePanel('ShipmozoSupportPanel')
+const ShipmozoProfilePanel = morePanel('ShipmozoProfilePanel')
+const ShipmozoUserAgreementsPanel = morePanel('ShipmozoUserAgreementsPanel')
 
 // Channels
 const Channels = lazy(() => import('../pages/channels/Channels'))
@@ -83,9 +164,7 @@ const TicketDetailsPage = lazy(() =>
 )
 
 // Other
-const Home = lazy(() => import('../pages/home/Home'))
 const Couriers = lazy(() => import('../pages/couriers/Couriers'))
-const CodRemittancesList = lazy(() => import('../pages/cod-remittance/CodRemittancesList'))
 const KeyboardShortcutsPage = lazy(() => import('../pages/KeyboardShortcutsPage'))
 const Reports = lazy(() => import('../pages/reports/Reports'))
 
@@ -94,7 +173,9 @@ const WeightReconciliation = lazy(() => import('../pages/weight-reconciliation/W
 const DiscrepancyDetails = lazy(() => import('../pages/weight-reconciliation/DiscrepancyDetails'))
 const WeightReconciliationSettings = lazy(() => import('../pages/weight-reconciliation/WeightReconciliationSettings'))
 // Ops (NDR/RTO)
-const NdrList = lazy(() => import('../pages/ops/NdrList'))
+const ShipmozoNdrPanel = lazy(() =>
+  import('../pages/shipmozo/ShipmozoPanel').then((m) => ({ default: m.ShipmozoNdrPanel })),
+)
 const RtoList = lazy(() => import('../pages/ops/RtoList'))
 // API Integration
 const ApiIntegration = lazy(() => import('../pages/settings/ApiIntegration'))
@@ -116,7 +197,7 @@ function PublicTrackingRoute() {
 
     const query = params.toString()
 
-    return <Navigate to={`/tools/order_tracking${query ? `?${query}` : ''}`} replace />
+    return <Navigate to={`/tools/track-order${query ? `?${query}` : ''}`} replace />
   }
 
   return <OrderTrackingForm />
@@ -153,6 +234,13 @@ export default function AppRoutes() {
             }
           >
             <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/shipping-notification" element={<ShipmozoSettingsShippingNotificationPanel />} />
+            <Route path="/settings/cod-confirmation" element={<ShipmozoSettingsCodConfirmationPanel />} />
+            <Route path="/settings/early-cod-subscription" element={<ShipmozoSettingsEarlyCodPanel />} />
+            <Route path="/settings/auto-assign-rules" element={<ShipmozoSettingsAutoAssignPanel />} />
+            <Route path="/settings/manage-label" element={<ShipmozoSettingsManageLabelPanel />} />
+            <Route path="/settings/manage-invoice" element={<ShipmozoSettingsManageInvoicePanel />} />
+            <Route path="/settings/branded-tracking-page" element={<ShipmozoSettingsBrandedTrackingPanel />} />
             <Route
               path="/settings/manage_pickups"
               element={
@@ -161,16 +249,26 @@ export default function AppRoutes() {
                 </RequireEmployeePermission>
               }
             />
+            <Route path="/billing/wallet_transactions" element={<Navigate to="/billing/passbook" replace />} />
+            <Route path="/billing/invoice_management" element={<Navigate to="/billing/invoices" replace />} />
             <Route
-              path="/billing/wallet_transactions"
+              path="/billing/passbook"
               element={
                 <RequireEmployeePermission permission="wallet.viewWallet">
-                  <WalletTransactions />
+                  <ShipmozoBillingPassbookPanel />
                 </RequireEmployeePermission>
               }
             />
-            <Route path="/billing/invoice_management" element={<Invoices />} />
+            <Route path="/billing/cod-remittance" element={<ShipmozoBillingCodPanel />} />
+            <Route path="/billing/shipping-charges" element={<ShipmozoBillingShippingChargesPanel />} />
+            <Route path="/billing/all-recharges" element={<ShipmozoBillingAllRechargesPanel />} />
+            <Route path="/billing/invoices" element={<ShipmozoBillingInvoicesPanel />} />
+            <Route path="/billing/credit-notes" element={<ShipmozoBillingCreditNotesPanel />} />
+            <Route path="/billing/debit-notes" element={<ShipmozoBillingDebitNotesPanel />} />
+            <Route path="/billing/ledgers" element={<ShipmozoBillingLedgersPanel />} />
+            <Route path="/billing/notification-credit-history" element={<ShipmozoBillingNotificationCreditPanel />} />
             <Route path="/orders/list" element={<Orders />} />
+            <Route path="/orders/new" element={<ShipmozoOrdersPanel />} />
             <Route
               path="/orders/create"
               element={
@@ -187,8 +285,17 @@ export default function AppRoutes() {
             <Route path="/settings/users_management" element={<UsersManagement />} />
             <Route path="/settings/courier_priority" element={<CourierPriorityPage />} />
             <Route path="/settings/api-integration" element={<ApiIntegration />} />
+            <Route path="/warehouse" element={<ShipmozoWarehousePanel />} />
             <Route path="/channels/connected" element={<Channels />} />
             <Route path="/channels/channel_list" element={<ChannelList />} />
+            <Route path="/integration/channels" element={<ShipmozoIntegrationChannelsPanel />} />
+            <Route path="/integration/oms" element={<ShipmozoIntegrationOmsPanel />} />
+            <Route path="/integration/edd-widget" element={<ShipmozoEddWidgetPanel />} />
+            <Route path="/other/products" element={<ShipmozoProductsPanel />} />
+            <Route path="/other/packaging" element={<ShipmozoPackagingPanel />} />
+            <Route path="/other/customers" element={<ShipmozoCustomersPanel />} />
+            <Route path="/other/order-tags" element={<ShipmozoOrderTagsPanel />} />
+            <Route path="/user-agreements" element={<ShipmozoUserAgreementsPanel />} />
             <Route path="/policies/*" element={<PoliciesLayout />}>
               <Route path="refund_cancellation" element={<CancellationPolicy />} />
               <Route path="privacy_policy" element={<PrivacyPolicy />} />
@@ -196,6 +303,7 @@ export default function AppRoutes() {
               <Route path="contact_us" element={<CompanyDetails />} />
             </Route>
             <Route path="/help/shortcuts" element={<KeyboardShortcutsPage />} />
+            <Route path="/profile" element={<ShipmozoProfilePanel />} />
             <Route path="/profile/*" element={<ProfileLayout />}>
               <Route path="user_profile/*" element={<UserProfileSettings />} />
               <Route index element={<Navigate to="user_profile" replace />} />
@@ -206,27 +314,39 @@ export default function AppRoutes() {
               <Route path="kyc_details" element={<KycSection />} />
             </Route>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/order-status" element={<DashboardOrderStatus />} />
             <Route path="/tools/rate_card" element={<RateCard />} />
+            <Route path="/tools/rate-calculator" element={<ShipmozoToolsRateCalculatorPanel />} />
+            <Route path="/tools/shipment-price-list" element={<ShipmozoToolsShipmentPriceListPanel />} />
+            <Route path="/tools/activity-logs" element={<ShipmozoToolsActivityLogsPanel />} />
+            <Route path="/tools/courier-manage" element={<ShipmozoToolsCourierManagePanel />} />
+            <Route path="/tools/reports-download" element={<ShipmozoToolsReportsDownloadPanel />} />
+            <Route path="/tools/track-order" element={<ShipmozoToolsTrackOrderPanel />} />
+            <Route path="/tools/weight-discrepancy" element={<ShipmozoToolsWeightDiscrepancyPanel />} />
             <Route
               path="/tools/rate_calculator"
               element={
-                <RequireEmployeePermission permission="tools.shippingChargeRateCalculator">
-                  <RateCalculator />
-                </RequireEmployeePermission>
+                <Navigate to="/tools/rate-calculator" replace />
               }
             />
-            <Route path="/tools/order_tracking" element={<OrderTrackingForm />} />
+            <Route path="/tools/order_tracking" element={<Navigate to="/tools/track-order" replace />} />
+            <Route path="/support" element={<ShipmozoSupportPanel />} />
             <Route path="/support/tickets" element={<SupportTicketsPage />} />
             <Route path="/support/tickets/:id" element={<TicketDetailsPage />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Navigate to="/dashboard" replace />} />
             <Route path="/couriers/partners" element={<Couriers />} />
-            <Route path="/cod-remittance" element={<CodRemittancesList />} />
+            <Route path="/cod-remittance" element={<Navigate to="/billing/cod-remittance" replace />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/reports/orders" element={<ShipmozoReportsOrdersPanel />} />
+            <Route path="/reports/shipment" element={<ShipmozoReportsShipmentPanel />} />
+            <Route path="/reports/ndr" element={<ShipmozoReportsNdrPanel />} />
+            <Route path="/reports/custom-report" element={<ShipmozoReportsCustomPanel />} />
             <Route path="/reconciliation/weight" element={<WeightReconciliation />} />
             <Route path="/reconciliation/weight/:id" element={<DiscrepancyDetails />} />
             <Route path="/reconciliation/weight/settings" element={<WeightReconciliationSettings />} />
             {/* Ops */}
-            <Route path="/ops/ndr" element={<NdrList />} />
+            <Route path="/ops/ndr" element={<ShipmozoNdrPanel />} />
+            <Route path="/shipments/ndr" element={<ShipmozoNdrPanel />} />
             <Route path="/ops/rto" element={<RtoList />} />
           </Route>
           {/* fallback */}

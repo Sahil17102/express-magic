@@ -6,7 +6,6 @@ import Navbar from '../Navbar/Navbar'
 import KeyboardShortcuts from './keyboard/KeyboardShortcuts'
 import FullScreenLoader from './loader/FullScreenLoader'
 import Sidebar, { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from './Sidebar'
-import { brandGradient } from '../../config/brand'
 import { useEmployeeSocket } from '../../hooks/useEmployeeSocket'
 
 export default function Layout() {
@@ -15,13 +14,38 @@ export default function Layout() {
   const location = useLocation()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [sidebarHovered, setSidebarHovered] = useState(false)
   const [sidebarPinned, setSidebarPinned] = useState(false)
+  const sidebarExpanded = sidebarPinned || sidebarHovered
+  const sidebarSpacerWidth = sidebarPinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH
   const { user } = useAuth()
   const isAdminWorkspace = user.role === 'admin' || user.role === 'employee' || Boolean(user.employeeId)
-  const isOrderCreatePage = location.pathname === '/orders/create'
+  const isDensePanelPage =
+    location.pathname === '/orders/create' ||
+    location.pathname === '/orders/new' ||
+    location.pathname === '/orders/list' ||
+    location.pathname === '/dashboard' ||
+    location.pathname.startsWith('/dashboard/') ||
+    location.pathname.startsWith('/billing/') ||
+    location.pathname.startsWith('/shipments/') ||
+    location.pathname.startsWith('/ops/') ||
+    location.pathname.startsWith('/tools/') ||
+    location.pathname.startsWith('/reports/') ||
+    location.pathname.startsWith('/settings/') ||
+    location.pathname.startsWith('/integration/') ||
+    location.pathname.startsWith('/other/') ||
+    location.pathname === '/support' ||
+    location.pathname === '/profile' ||
+    location.pathname === '/user-agreements' ||
+    location.pathname === '/warehouse'
 
   const handleDrawerToggle = () => {
-    setMobileOpen((prev) => !prev)
+    if (isMobile) {
+      setMobileOpen((prev) => !prev)
+      return
+    }
+
+    setSidebarPinned((prev) => !prev)
   }
 
   // Close mobile drawer on route change
@@ -37,7 +61,7 @@ export default function Layout() {
         width: '100%',
         maxWidth: '100dvw',
         overflowX: 'hidden',
-        background: brandGradient,
+        background: '#f4f7fb',
         scrollbarGutter: 'stable',
       }}
     >
@@ -68,17 +92,17 @@ export default function Layout() {
       ) : (
         <Box
           sx={{
-            width: sidebarPinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH,
-            minWidth: sidebarPinned ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH,
+            width: sidebarSpacerWidth,
+            minWidth: sidebarSpacerWidth,
             flexShrink: 0,
-            transition:
-              'width 300ms cubic-bezier(0.4, 0, 0.2, 1), min-width 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'width 220ms ease, min-width 220ms ease',
           }}
         >
           <Sidebar
             role={isAdminWorkspace ? 'admin' : 'customer'}
-            pinned={sidebarPinned}
-            onPinChange={setSidebarPinned}
+            pinned={sidebarExpanded}
+            onMouseEnter={() => setSidebarHovered(true)}
+            onMouseLeave={() => setSidebarHovered(false)}
             fixed
           />
         </Box>
@@ -112,13 +136,13 @@ export default function Layout() {
         >
           <Box
             sx={{
-              maxWidth: 1700,
+              maxWidth: 'none',
               mx: 'auto',
               width: '100%',
               minWidth: 0,
               boxSizing: 'border-box',
-              px: isOrderCreatePage ? { xs: 0, sm: 0.25, md: 0.4, lg: 0.5 } : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
-              py: isOrderCreatePage ? 0 : { xs: 0.6, sm: 1, md: 1.5 },
+              px: isDensePanelPage ? 0 : { xs: 1.25, sm: 1.5, md: 2, lg: 2.5 },
+              py: isDensePanelPage ? 0 : { xs: 0.6, sm: 1, md: 1.5 },
             }}
           >
             <Suspense
@@ -143,7 +167,7 @@ export default function Layout() {
           </Box>
         </Box>
 
-        {!isOrderCreatePage && (
+        {!isDensePanelPage && (
           <Box
             sx={{
               maxWidth: 1700,
