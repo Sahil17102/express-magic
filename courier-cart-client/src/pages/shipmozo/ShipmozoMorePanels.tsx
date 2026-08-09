@@ -1,5 +1,6 @@
 import { Box, Button, Dialog, IconButton, Stack, Typography, type SxProps, type Theme } from '@mui/material'
 import { useState, type ReactNode } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   TbBox,
   TbCalendar,
@@ -103,11 +104,33 @@ function DateBox() {
 }
 
 function InputBox({ text, icon, w = 250 }: { text: string; icon?: ReactNode; w?: number }) {
+  const [value, setValue] = useState('')
+  const hasMenu = text === 'Active' || text === 'Channels' || text === 'Forward' || text === 'All' || text.startsWith('Status')
+
   return (
-    <Stack direction="row" alignItems="center" sx={{ width: w, height: 52, border: `1px solid ${border}`, borderRadius: '10px', overflow: 'hidden', bgcolor: '#fff' }}>
+    <Stack direction="row" alignItems="center" sx={{ width: w, height: 52, border: `1px solid ${border}`, borderRadius: '10px', overflow: 'hidden', bgcolor: '#fff', '&:focus-within': { borderColor: teal, boxShadow: '0 0 0 3px rgba(7,137,173,.12)' } }}>
       {icon && <Box sx={{ width: 54, height: '100%', display: 'grid', placeItems: 'center', bgcolor: '#eef3f8', color: ink }}>{icon}</Box>}
-      <Box sx={{ px: 1.6, color: text.startsWith('Search') || text.startsWith('Enter') ? '#6b7788' : ink, fontSize: 14 }}>{text}</Box>
-      {(text === 'Active' || text === 'Channels' || text === 'Forward' || text === 'All' || text.startsWith('Status')) && <TbChevronDown style={{ marginLeft: 'auto', marginRight: 14 }} />}
+      <Box
+        component="input"
+        value={value}
+        onChange={(event) => setValue(event.currentTarget.value)}
+        placeholder={text}
+        readOnly={hasMenu}
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          height: '100%',
+          border: 0,
+          outline: 0,
+          px: 1.6,
+          color: ink,
+          bgcolor: '#fff',
+          fontSize: 14,
+          cursor: hasMenu ? 'pointer' : 'text',
+          '&::placeholder': { color: text.startsWith('Search') || text.startsWith('Enter') ? '#6b7788' : ink, opacity: 1 },
+        }}
+      />
+      {hasMenu && <TbChevronDown style={{ marginLeft: 'auto', marginRight: 14 }} />}
     </Stack>
   )
 }
@@ -806,7 +829,42 @@ export function ShipmozoToolsReportsDownloadPanel() {
 }
 
 export function ShipmozoToolsTrackOrderPanel() {
-  return <PanelPage title="Track Order"><Stack alignItems="center" spacing={2}><Stack direction="row"><InputBox text="AWB Number" w={295} /><PrimaryButton>Track</PrimaryButton><GhostButton icon={<TbRefresh />}> </GhostButton></Stack><Typography>Courier: -- &nbsp; | &nbsp; AWB Number: -- &nbsp; | &nbsp; Order ID: -- &nbsp; | &nbsp; Current Status: -- &nbsp; | &nbsp; Estimated Delivery: --</Typography></Stack><Box sx={{ ...cardSx, mt: 2 }}><EmptyState text="No tracking data found!" minHeight={430} /></Box></PanelPage>
+  const [searchParams] = useSearchParams()
+  const [awb, setAwb] = useState(searchParams.get('awb') || '')
+  const hasAwb = Boolean(awb.trim())
+
+  return (
+    <PanelPage title="Track Order">
+      <Stack alignItems="center" spacing={2}>
+        <Stack direction="row">
+          <Box
+            component="input"
+            value={awb}
+            onChange={(event) => setAwb(event.currentTarget.value)}
+            placeholder="AWB Number"
+            sx={{
+              width: 295,
+              height: 50,
+              px: 2,
+              border: `1px solid ${border}`,
+              borderRight: 0,
+              borderRadius: '10px 0 0 10px',
+              outline: 0,
+              color: ink,
+              fontSize: 14,
+              '&:focus': { borderColor: teal, boxShadow: '0 0 0 3px rgba(7,137,173,.12)' },
+            }}
+          />
+          <PrimaryButton>Track</PrimaryButton>
+          <GhostButton icon={<TbRefresh />}> </GhostButton>
+        </Stack>
+        <Typography>
+          Courier: {hasAwb ? 'Delhivery' : '--'} &nbsp; | &nbsp; AWB Number: {hasAwb ? awb : '--'} &nbsp; | &nbsp; Order ID: {hasAwb ? '21750SM7429822881' : '--'} &nbsp; | &nbsp; Current Status: {hasAwb ? 'In Transit' : '--'} &nbsp; | &nbsp; Estimated Delivery: {hasAwb ? '10 Aug 2026' : '--'}
+        </Typography>
+      </Stack>
+      <Box sx={{ ...cardSx, mt: 2 }}><EmptyState text={hasAwb ? 'Tracking timeline will appear here.' : 'No tracking data found!'} minHeight={430} /></Box>
+    </PanelPage>
+  )
 }
 
 export function ShipmozoToolsWeightDiscrepancyPanel() {

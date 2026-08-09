@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { JSX } from 'react'
+import { useState } from 'react'
 import {
   TbCalendar,
   TbChevronDown,
@@ -205,14 +206,7 @@ function OrdersToolbar() {
       }}
     >
       <Stack direction="row" gap={1} flexWrap="wrap" useFlexGap>
-        <Box sx={{ display: 'flex', height: 52, border: `1px solid ${border}`, borderRadius: '12px', overflow: 'hidden' }}>
-          <Box sx={{ width: 56, display: 'grid', placeItems: 'center', bgcolor: '#edf2f7', color: '#4a5568' }}>
-            <TbCalendar size={22} />
-          </Box>
-          <Box sx={{ px: 1.4, display: 'flex', alignItems: 'center', minWidth: 230, fontSize: 14, color: ink }}>
-            10-07-2026 to 10-08-2026
-          </Box>
-        </Box>
+        <DateBox />
         {['Search by reference id', 'Payment type', 'Channels'].map((item, index) => (
           <Box
             key={item}
@@ -573,14 +567,7 @@ export function ShipmozoDashboardPanel() {
     <Box sx={{ bgcolor: page, minHeight: 'calc(100dvh - 68px)', px: { xs: 1, md: 1.5 }, py: 2 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }} flexWrap="wrap" gap={1.5}>
         <DashboardTabs active="analytics" />
-        <Box sx={{ display: 'flex', height: 52, border: `1px solid ${border}`, borderRadius: '12px', overflow: 'hidden', bgcolor: '#fff' }}>
-          <Box sx={{ width: 54, display: 'grid', placeItems: 'center', bgcolor: '#edf2f7', color: '#4a5568' }}>
-            <TbCalendar size={22} />
-          </Box>
-          <Box sx={{ px: 1.4, display: 'flex', alignItems: 'center', minWidth: 230, fontSize: 14, color: ink }}>
-            10-07-2026 to 10-08-2026
-          </Box>
-        </Box>
+        <DateBox />
       </Stack>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(6, 1fr)' }, gap: 2, mb: 2 }}>
@@ -893,16 +880,68 @@ function BillingToolbar({ filters = 'full', print = false }: { filters?: 'full' 
 }
 
 function DateBox() {
+  const [from, setFrom] = useState('2026-07-10')
+  const [to, setTo] = useState('2026-08-10')
+  const [editing, setEditing] = useState(false)
+  const format = (value: string) => {
+    const [year, month, day] = value.split('-')
+    return `${day}-${month}-${year}`
+  }
+
   return (
-    <Box sx={{ display: 'flex', height: 52, border: `1px solid ${border}`, borderRadius: '12px', overflow: 'hidden', bgcolor: '#fff' }}>
+    <Box sx={{ display: 'flex', minHeight: 52, border: `1px solid ${border}`, borderRadius: '12px', overflow: 'hidden', bgcolor: '#fff' }}>
       <Box sx={{ width: 56, display: 'grid', placeItems: 'center', bgcolor: '#edf2f7', color: '#4a5568' }}><TbCalendar size={22} /></Box>
-      <Box sx={{ px: 1.4, display: 'flex', alignItems: 'center', minWidth: 230, fontSize: 14, color: ink }}>10-07-2026 to 10-08-2026</Box>
+      {editing ? (
+        <Stack direction="row" alignItems="center" gap={0.8} sx={{ px: 1, flexWrap: 'wrap' }}>
+          <Box component="input" type="date" value={from} onChange={(event) => setFrom(event.currentTarget.value)} sx={dateInputSx} />
+          <Box component="input" type="date" value={to} onChange={(event) => setTo(event.currentTarget.value)} sx={dateInputSx} />
+          <Button onClick={() => setEditing(false)} sx={{ minWidth: 58, height: 34, borderRadius: '8px', bgcolor: teal, color: '#fff', textTransform: 'none', fontWeight: 900, '&:hover': { bgcolor: '#057798' } }}>
+            Apply
+          </Button>
+        </Stack>
+      ) : (
+        <Button onClick={() => setEditing(true)} sx={{ px: 1.4, minWidth: 230, justifyContent: 'flex-start', color: ink, fontSize: 14, textTransform: 'none', fontWeight: 500 }}>
+          {format(from)} to {format(to)}
+        </Button>
+      )}
     </Box>
   )
 }
 
+const dateInputSx = {
+  width: 142,
+  height: 34,
+  border: `1px solid ${border}`,
+  borderRadius: '8px',
+  px: 1,
+  color: ink,
+  fontSize: 13,
+  outline: 0,
+}
+
 function InputBox({ label }: { label: string }) {
-  return <Box sx={{ height: 52, minWidth: 250, px: 1.7, display: 'flex', alignItems: 'center', color: '#718096', border: `1px solid ${border}`, borderRadius: '12px', bgcolor: '#fff', fontSize: 14 }}>{label}</Box>
+  const [value, setValue] = useState('')
+  return (
+    <Box
+      component="input"
+      value={value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+      placeholder={label}
+      sx={{
+        height: 52,
+        minWidth: 250,
+        px: 1.7,
+        color: ink,
+        border: `1px solid ${border}`,
+        borderRadius: '12px',
+        bgcolor: '#fff',
+        fontSize: 14,
+        outline: 0,
+        '&::placeholder': { color: '#718096', opacity: 1 },
+        '&:focus': { borderColor: teal, boxShadow: '0 0 0 3px rgba(7, 137, 173, 0.12)' },
+      }}
+    />
+  )
 }
 
 const moreFilterSx = {

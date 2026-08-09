@@ -50,6 +50,15 @@ const BRAND_PRIMARY = BRAND.colors.teal
 const SHIPMOZO_BLUE = '#0789ad'
 const SHIPMOZO_NAVY = '#313456'
 
+const searchOptions = [
+  { label: 'AWB ID', placeholder: 'Search Order by AWB ID', compactPlaceholder: 'Search AWB', queryKey: 'awb', path: '/tools/track-order' },
+  { label: 'Order ID', placeholder: 'Search by Order ID', compactPlaceholder: 'Order ID', queryKey: 'orderId', path: '/orders/new' },
+  { label: 'Ref. ID', placeholder: 'Search by Reference ID', compactPlaceholder: 'Ref. ID', queryKey: 'referenceId', path: '/orders/new' },
+  { label: 'Mobile No.', placeholder: 'Search by Mobile No.', compactPlaceholder: 'Mobile', queryKey: 'mobile', path: '/other/customers' },
+  { label: 'Email', placeholder: 'Search by Email', compactPlaceholder: 'Email', queryKey: 'email', path: '/other/customers' },
+  { label: 'Name', placeholder: 'Search by Name', compactPlaceholder: 'Name', queryKey: 'name', path: '/other/customers' },
+]
+
 export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange }: NavbarProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -61,11 +70,22 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
   const [promoCode, setPromoCode] = useState('')
   const [quickAnchor, setQuickAnchor] = useState<HTMLElement | null>(null)
   const [updatesAnchor, setUpdatesAnchor] = useState<HTMLElement | null>(null)
+  const [searchAnchor, setSearchAnchor] = useState<HTMLElement | null>(null)
+  const [searchType, setSearchType] = useState(searchOptions[0])
+  const [searchValue, setSearchValue] = useState('')
   const handlePinToggle = () => {
     onPinChange?.(!pinned)
   }
   const closeQuickActions = () => setQuickAnchor(null)
   const closeUpdates = () => setUpdatesAnchor(null)
+  const closeSearchMenu = () => setSearchAnchor(null)
+
+  const runSearch = () => {
+    const value = searchValue.trim()
+    if (!value) return
+    const params = new URLSearchParams({ [searchType.queryKey]: value, searchBy: searchType.label })
+    navigate(`${searchType.path}?${params.toString()}`)
+  }
 
   const goTo = (path: string) => {
     closeQuickActions()
@@ -142,6 +162,11 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
           )}
 
           <Box
+            component="form"
+            onSubmit={(event) => {
+              event.preventDefault()
+              runSearch()
+            }}
             sx={{
               display: { xs: 'none', sm: 'flex' },
               height: 50,
@@ -154,7 +179,8 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
               ml: { md: 1.5, lg: 3 },
             }}
           >
-            <Box
+            <Button
+              onClick={(event) => setSearchAnchor(event.currentTarget)}
               sx={{
                 width: 106,
                 bgcolor: '#eef3f8',
@@ -166,15 +192,21 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
                 fontSize: 14,
                 fontWeight: 600,
                 flexShrink: 0,
+                borderRadius: 0,
+                textTransform: 'none',
+                whiteSpace: 'nowrap',
+                '&:hover': { bgcolor: '#e7eef6' },
               }}
             >
-              AWB ID <MdKeyboardArrowDown size={18} />
-            </Box>
+              {searchType.label} <MdKeyboardArrowDown size={18} />
+            </Button>
             <Box
               component="input"
-              placeholder={isCompactNavbar ? 'Search AWB' : 'Search Order by AWB ID'}
+              value={searchValue}
+              placeholder={isCompactNavbar ? searchType.compactPlaceholder : searchType.placeholder}
+              onChange={(event) => setSearchValue(event.currentTarget.value)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter') navigate('/orders/new')
+                if (event.key === 'Escape') setSearchValue('')
               }}
               sx={{
                 flex: 1,
@@ -250,6 +282,51 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
         </Stack>
       </Stack>
 
+      <Popover
+        open={Boolean(searchAnchor)}
+        anchorEl={searchAnchor}
+        onClose={closeSearchMenu}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        slotProps={{
+          paper: {
+            sx: {
+              mt: 0.8,
+              width: 110,
+              borderRadius: '0 0 12px 12px',
+              border: '1px solid #dfe6ee',
+              boxShadow: '0 14px 30px rgba(15, 23, 42, 0.12)',
+              overflow: 'hidden',
+            },
+          },
+        }}
+      >
+        <Stack sx={{ py: 0.5 }}>
+          {searchOptions.map((option) => (
+            <Button
+              key={option.label}
+              onClick={() => {
+                setSearchType(option)
+                setSearchValue('')
+                closeSearchMenu()
+              }}
+              sx={{
+                justifyContent: 'flex-start',
+                height: 44,
+                px: 2,
+                borderRadius: 0,
+                bgcolor: option.label === searchType.label ? '#eef7fb' : '#fff',
+                color: '#334155',
+                fontSize: 14,
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#f4f8fb' },
+              }}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </Stack>
+      </Popover>
       <QuickActionsPopover anchorEl={quickAnchor} onClose={closeQuickActions} onNavigate={goTo} />
       <UpdatesPopover anchorEl={updatesAnchor} onClose={closeUpdates} />
       <RechargeWalletDialog
