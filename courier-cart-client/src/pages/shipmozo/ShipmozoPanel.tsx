@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import type { JSX } from 'react'
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   TbCalendar,
   TbChevronDown,
@@ -130,7 +131,17 @@ function SegmentTabs() {
   )
 }
 
-function FilterGroups() {
+function FilterGroups({
+  activeStatus,
+  activeScope,
+  onStatusChange,
+  onScopeChange,
+}: {
+  activeStatus: string
+  activeScope: string
+  onStatusChange: (status: string) => void
+  onScopeChange: (scope: string) => void
+}) {
   return (
     <Stack direction="row" alignItems="flex-end" gap={1.6} flexWrap="wrap" useFlexGap>
       {tabGroups.map((group) => (
@@ -142,6 +153,7 @@ function FilterGroups() {
             {group.tabs.map((tab, index) => (
               <Button
                 key={tab}
+                onClick={() => onStatusChange(tab)}
                 sx={{
                   height: 48,
                   px: 2,
@@ -154,11 +166,11 @@ function FilterGroups() {
                       : index === group.tabs.length - 1
                         ? '0 14px 14px 0'
                         : 0,
-                  color: group.active === index ? '#fff' : ink,
-                  bgcolor: group.active === index ? teal : '#fff',
+                  color: activeStatus === tab ? '#fff' : ink,
+                  bgcolor: activeStatus === tab ? teal : '#fff',
                   textTransform: 'none',
                   fontWeight: 700,
-                  '&:hover': { bgcolor: group.active === index ? teal : '#f7fafc' },
+                  '&:hover': { bgcolor: activeStatus === tab ? teal : '#f7fafc' },
                 }}
               >
                 {tab}
@@ -171,16 +183,18 @@ function FilterGroups() {
         {['All', 'Archive'].map((tab, index) => (
           <Button
             key={tab}
+            onClick={() => onScopeChange(tab)}
             sx={{
               height: 48,
               minWidth: 86,
               border: `1px solid ${border}`,
               borderLeftWidth: index === 0 ? 1 : 0,
               borderRadius: index === 0 ? '14px 0 0 14px' : '0 14px 14px 0',
-              color: ink,
-              bgcolor: '#fff',
+              color: activeScope === tab ? '#fff' : ink,
+              bgcolor: activeScope === tab ? teal : '#fff',
               textTransform: 'none',
               fontWeight: 700,
+              '&:hover': { bgcolor: activeScope === tab ? teal : '#f7fafc' },
             }}
           >
             {tab}
@@ -191,7 +205,7 @@ function FilterGroups() {
   )
 }
 
-function OrdersToolbar() {
+function OrdersToolbar({ activeStatus, activeScope }: { activeStatus: string; activeScope: string }) {
   return (
     <Stack
       direction="row"
@@ -207,6 +221,8 @@ function OrdersToolbar() {
     >
       <Stack direction="row" gap={1} flexWrap="wrap" useFlexGap>
         <DateBox />
+        <FilterReadout label={`Status: ${activeStatus}`} />
+        <FilterReadout label={`View: ${activeScope}`} />
         {['Search by reference id', 'Payment type', 'Channels'].map((item, index) => (
           <Box
             key={item}
@@ -275,10 +291,32 @@ function OrdersToolbar() {
   )
 }
 
-function EmptyOrdersTable() {
+function FilterReadout({ label }: { label: string }) {
+  return (
+    <Box
+      sx={{
+        height: 52,
+        minWidth: 180,
+        px: 1.7,
+        display: 'flex',
+        alignItems: 'center',
+        color: ink,
+        border: `1px solid ${border}`,
+        borderRadius: '12px',
+        bgcolor: '#fff',
+        fontSize: 14,
+        fontWeight: 800,
+      }}
+    >
+      {label}
+    </Box>
+  )
+}
+
+function EmptyOrdersTable({ activeStatus, activeScope }: { activeStatus: string; activeScope: string }) {
   return (
     <Box sx={{ border: `1px solid ${border}`, bgcolor: '#fff', borderRadius: '13px', overflow: 'hidden', minHeight: 540 }}>
-      <OrdersToolbar />
+      <OrdersToolbar activeStatus={activeStatus} activeScope={activeScope} />
       <Box
         sx={{
           display: 'grid',
@@ -353,6 +391,9 @@ function EmptyOrdersTable() {
             <Box sx={{ position: 'absolute', right: 8, bottom: 12, width: 32, height: 10, bgcolor: '#ff6d58', border: '5px solid #0b3b91', borderRadius: 4, transform: 'rotate(46deg)' }} />
           </Box>
           <Typography sx={{ fontSize: 18, fontWeight: 500 }}>No data available for the applied filters.</Typography>
+          <Typography sx={{ mt: 0.5, fontSize: 16, color: '#4a5568' }}>
+            Current filter: {activeStatus} / {activeScope}
+          </Typography>
           <Typography sx={{ mt: 0.5, fontSize: 18 }}>Please adjust the filter and try again.</Typography>
         </Box>
       </Box>
@@ -412,6 +453,19 @@ const actionButtonSx = {
 }
 
 export function ShipmozoOrdersPanel() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const statusParam = searchParams.get('status') ?? 'New'
+  const scopeParam = searchParams.get('view') ?? 'All'
+  const allStatuses = tabGroups.flatMap((group) => group.tabs)
+  const activeStatus = allStatuses.includes(statusParam) ? statusParam : 'New'
+  const activeScope = ['All', 'Archive'].includes(scopeParam) ? scopeParam : 'All'
+
+  const updateOrderFilter = (key: 'status' | 'view', value: string) => {
+    const next = new URLSearchParams(searchParams)
+    next.set(key, value)
+    setSearchParams(next)
+  }
+
   return (
     <Box sx={{ bgcolor: page, minHeight: 'calc(100dvh - 68px)', px: { xs: 1, md: 1.5 }, py: 2 }}>
       <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="space-between" gap={2} sx={{ mb: 2 }}>
@@ -419,9 +473,14 @@ export function ShipmozoOrdersPanel() {
         <OrderActions />
       </Stack>
       <Box sx={{ mb: 2.1 }}>
-        <FilterGroups />
+        <FilterGroups
+          activeStatus={activeStatus}
+          activeScope={activeScope}
+          onStatusChange={(status) => updateOrderFilter('status', status)}
+          onScopeChange={(scope) => updateOrderFilter('view', scope)}
+        />
       </Box>
-      <EmptyOrdersTable />
+      <EmptyOrdersTable activeStatus={activeStatus} activeScope={activeScope} />
     </Box>
   )
 }
