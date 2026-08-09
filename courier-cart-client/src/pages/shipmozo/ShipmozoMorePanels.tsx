@@ -617,6 +617,52 @@ export function ShipmozoSupportPanel() {
   )
 }
 
+export function ShipmozoTicketsPanel() {
+  const [tab, setTab] = useState('Open')
+  const columns = ['Ticket ID', 'Category/Msg.', 'Order Details', 'Status', 'Created At']
+
+  return (
+    <PanelPage>
+      <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+        {[
+          ['Open', '#fff0eb', '#ff775d'],
+          ['Resolved', '#e1fbf4', '#06bfa7'],
+          ['Closed', '#eaf3ff', '#4e8dff'],
+          ['All', '#d6eef6', teal],
+        ].map(([label, bg, color]) => (
+          <Button
+            key={label}
+            onClick={() => setTab(label)}
+            sx={{
+              flex: 1,
+              height: 104,
+              bgcolor: tab === label ? bg : '#fff',
+              color,
+              border: `1px solid ${tab === label ? color : border}`,
+              borderRadius: '10px',
+              textTransform: 'none',
+              fontSize: 18,
+              fontWeight: 900,
+              '&:hover': { bgcolor: bg },
+            }}
+          >
+            {label}
+          </Button>
+        ))}
+      </Stack>
+      <Box sx={cardSx}>
+        <FilterBar right={<><IconTool><TbDownload /></IconTool><IconTool><TbRefresh /></IconTool><IconTool><TbSettings /></IconTool></>}>
+          <DateBox />
+          <InputBox text="Search by order id" w={250} />
+          <InputBox text="Search by awb" w={250} />
+          <GhostButton icon={<TbFilter />}>More Filters</GhostButton>
+        </FilterBar>
+        <TableView columns={columns} emptyText="No data available for the applied filters. Please adjust the filter and try again." minHeight={430} />
+      </Box>
+    </PanelPage>
+  )
+}
+
 function integrationCard(name: string, logo: ReactNode, onClick?: () => void) {
   return (
     <Stack alignItems="center" justifyContent="center" spacing={2.5} sx={{ height: 310, border: `1px solid ${border}`, borderRadius: '10px', bgcolor: '#fff' }}>

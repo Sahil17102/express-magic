@@ -144,8 +144,6 @@ const navItems: NavItem[] = [
       { text: 'Packaging', path: '/other/packaging' },
       { text: 'Customers', path: '/other/customers' },
       { text: 'Order Tags', path: '/other/order-tags' },
-      { text: 'Tickets', path: '/support/tickets' },
-      { text: 'Support', path: '/support' },
       { text: 'User Agreements', path: '/user-agreements' },
     ],
   },

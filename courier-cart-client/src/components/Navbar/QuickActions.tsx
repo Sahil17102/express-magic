@@ -2,7 +2,6 @@ import { Box, ClickAwayListener, Grow, IconButton, Paper, Popper, Typography } f
 import { useRef, useState, type ReactNode } from 'react'
 import { AiTwotoneThunderbolt } from 'react-icons/ai'
 import { CgCalculator, CgTrack } from 'react-icons/cg'
-import { FaTicket } from 'react-icons/fa6'
 import { TbTruckDelivery } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,10 +19,11 @@ const QuickActions = ({ compact = false, iconOverride }: QuickActionsProps) => {
   const navigate = useNavigate()
 
   const actions = [
-    { icon: <TbTruckDelivery size={18} />, name: 'New Order', path: '/orders/create' },
     { icon: <CgCalculator size={18} />, name: 'Rate Calculator', path: '/tools/rate-calculator' },
-    { icon: <CgTrack size={18} />, name: 'Track AWB', path: '/tools/track-order' },
-    { icon: <FaTicket size={18} />, name: 'Create Ticket', path: '/support/tickets' },
+    { icon: <TbTruckDelivery size={18} />, name: 'Shipping Notification', path: '/settings/shipping-notification' },
+    { icon: <TbTruckDelivery size={18} />, name: 'Quick Add Order', path: '/orders/create' },
+    { icon: <TbTruckDelivery size={18} />, name: 'Add Order', path: '/orders/new' },
+    { icon: <CgTrack size={18} />, name: 'Track Order', path: '/tools/track-order' },
   ]
 
   return (

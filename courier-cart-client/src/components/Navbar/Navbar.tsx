@@ -263,7 +263,7 @@ export default function Navbar({ handleDrawerToggle, pinned = false, onPinChange
           >
             Quick Actions
           </Button>
-          <Button onClick={() => navigate('/support/tickets')} sx={{ display: { xs: 'none', lg: 'inline-flex' }, ...navButtonSx, minWidth: 88, bgcolor: SHIPMOZO_NAVY }}>
+          <Button onClick={() => navigate('/tickets')} sx={{ display: { xs: 'none', lg: 'inline-flex' }, ...navButtonSx, minWidth: 88, bgcolor: SHIPMOZO_NAVY }}>
             Tickets
           </Button>
           <Badge badgeContent={4} color="error" sx={{ display: { xs: 'none', sm: 'inline-flex' } }}>

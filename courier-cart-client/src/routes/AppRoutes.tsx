@@ -117,6 +117,7 @@ const ShipmozoReportsCustomPanel = morePanel('ShipmozoReportsCustomPanel')
 const ShipmozoSupportPanel = morePanel('ShipmozoSupportPanel')
 const ShipmozoProfilePanel = morePanel('ShipmozoProfilePanel')
 const ShipmozoUserAgreementsPanel = morePanel('ShipmozoUserAgreementsPanel')
+const ShipmozoTicketsPanel = morePanel('ShipmozoTicketsPanel')
 
 // Channels
 const Channels = lazy(() => import('../pages/channels/Channels'))
@@ -150,18 +151,6 @@ const RateCalculator = lazy(() =>
 )
 const OrderTrackingForm = lazy(() => import('../pages/tools/OrderTrackingForm'))
 const WeightCalculator = lazy(() => import('../pages/tools/WeightCalculator'))
-
-// Support
-const SupportTicketsPage = lazy(() =>
-  import('../pages/support/SupportTicketsPage').then((m) => ({
-    default: m.SupportTicketsPage,
-  }))
-)
-const TicketDetailsPage = lazy(() =>
-  import('../pages/support/TicketDetailsPage').then((m) => ({
-    default: m.TicketDetailsPage,
-  }))
-)
 
 // Other
 const Couriers = lazy(() => import('../pages/couriers/Couriers'))
@@ -331,8 +320,9 @@ export default function AppRoutes() {
             />
             <Route path="/tools/order_tracking" element={<Navigate to="/tools/track-order" replace />} />
             <Route path="/support" element={<ShipmozoSupportPanel />} />
-            <Route path="/support/tickets" element={<SupportTicketsPage />} />
-            <Route path="/support/tickets/:id" element={<TicketDetailsPage />} />
+            <Route path="/tickets" element={<ShipmozoTicketsPanel />} />
+            <Route path="/support/tickets" element={<Navigate to="/tickets" replace />} />
+            <Route path="/support/tickets/:id" element={<Navigate to="/tickets" replace />} />
             <Route path="/home" element={<Navigate to="/dashboard" replace />} />
             <Route path="/couriers/partners" element={<Couriers />} />
             <Route path="/cod-remittance" element={<Navigate to="/billing/cod-remittance" replace />} />
