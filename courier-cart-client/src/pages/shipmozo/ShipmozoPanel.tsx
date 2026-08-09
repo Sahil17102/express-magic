@@ -61,12 +61,12 @@ const columns = [
 ]
 
 const summaryCards = [
-  { label: 'New Orders', value: '0', tone: '#4b88ff', icon: 'open' },
-  { label: 'Courier Assigned', value: '0', tone: '#ff9800', icon: 'box' },
-  { label: 'Scheduled', value: '38', tone: '#00bfa5', icon: 'label' },
-  { label: 'All Orders', value: '44', tone: '#4b88ff', icon: 'stack' },
-  { label: 'Customer Returns', value: '0', tone: '#ff765f', icon: 'return' },
-  { label: 'RTO', value: '0', tone: '#bbd532', icon: 'rto' },
+  { label: 'New Orders', value: '0', tone: '#4b88ff', icon: 'open', status: 'New', view: 'All' },
+  { label: 'Courier Assigned', value: '0', tone: '#ff9800', icon: 'box', status: 'Courier Assigned', view: 'All' },
+  { label: 'Scheduled', value: '38', tone: '#00bfa5', icon: 'label', status: 'Scheduled', view: 'All' },
+  { label: 'All Orders', value: '44', tone: '#4b88ff', icon: 'stack', status: 'All Orders', view: 'All' },
+  { label: 'Customer Returns', value: '0', tone: '#ff765f', icon: 'return', status: 'Customer Returns', view: 'All' },
+  { label: 'RTO', value: '0', tone: '#bbd532', icon: 'rto', status: 'RTO', view: 'All' },
 ]
 
 const transactions = [
@@ -456,7 +456,7 @@ export function ShipmozoOrdersPanel() {
   const [searchParams, setSearchParams] = useSearchParams()
   const statusParam = searchParams.get('status') ?? 'New'
   const scopeParam = searchParams.get('view') ?? 'All'
-  const allStatuses = tabGroups.flatMap((group) => group.tabs)
+  const allStatuses = [...tabGroups.flatMap((group) => group.tabs), ...summaryCards.map((card) => card.status)]
   const activeStatus = allStatuses.includes(statusParam) ? statusParam : 'New'
   const activeScope = ['All', 'Archive'].includes(scopeParam) ? scopeParam : 'All'
 
@@ -633,6 +633,8 @@ export function ShipmozoDashboardPanel() {
         {summaryCards.map((card) => (
           <Box
             key={card.label}
+            component="a"
+            href={`#/orders/new?status=${encodeURIComponent(card.status)}&view=${encodeURIComponent(card.view)}`}
             sx={{
               minHeight: 166,
               p: 2,
@@ -642,6 +644,13 @@ export function ShipmozoDashboardPanel() {
               display: 'grid',
               placeItems: 'center',
               textAlign: 'center',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'transform .16s ease, box-shadow .16s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: `0 14px 30px ${card.tone}24`,
+              },
             }}
           >
             <SummaryIcon type={card.icon} color={card.tone} />
